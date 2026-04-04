@@ -1,0 +1,34 @@
+title: "Techbase – JavaScript"
+description: "A free beginner JavaScript course by Techbase Consultant Services, Ibadan, Nigeria."
+url: "https://techbaseng.github.io"
+baseurl: "/techbase-js"
+
+author:
+  name: "Babatunde Awolaja"
+  url: "https://github.com/techbaseng"
+
+theme: minima
+
+minima:
+  skin: classic
+  social_links:
+    - { platform: github, user_url: "https://github.com/techbaseng" }
+
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  syntax_highlighter: rouge
+  input: GFM
+  hard_wrap: false
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+exclude:
+  - "*.sh"
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
