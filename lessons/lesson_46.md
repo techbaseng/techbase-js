@@ -2168,7 +2168,7 @@ let product = {
 
 let json = JSON.stringify(product);
 console.log(json);
-// '{"name":"Basmati Rice","price":32000,"inStock":true,"tags":["grain","premium","imported"],"supplier":{"name":"Agro Ltd","city":"Kano"}}'
+{% raw %}// '{"name":"Basmati Rice","price":32000,"inStock":true,"tags":["grain","premium","imported"],"supplier":{"name":"Agro Ltd","city":"Kano"}}'{% endraw %}
 
 // Pretty printing: JSON.stringify(value, replacer, spaces)
 let pretty = JSON.stringify(product, null, 2);
@@ -3005,7 +3005,7 @@ try {
 }
 
 // SyntaxError — invalid JavaScript syntax
-// try { eval("{{"); } catch (e) { console.log(e instanceof SyntaxError); } // true
+{% raw %}// try { eval("{{"); } catch (e) { console.log(e instanceof SyntaxError); } // true{% endraw %}
 
 // RangeError — value out of range
 try {

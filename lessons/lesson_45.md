@@ -1104,7 +1104,7 @@ let product = {
 
 let jsonString = JSON.stringify(product);
 console.log(jsonString);
-// '{"name":"Basmati Rice","weight":"50kg","price":32000,"inStock":true,"supplier":{"name":"Agro Foods Ltd","city":"Kano"}}'
+{% raw %}// '{"name":"Basmati Rice","weight":"50kg","price":32000,"inStock":true,"supplier":{"name":"Agro Foods Ltd","city":"Kano"}}'{% endraw %}
 
 // Pretty-printed (for readability)
 let prettyJson = JSON.stringify(product, null, 2);

@@ -1018,7 +1018,7 @@ const transaction = {
 
 // Compact (for network transmission):
 console.log(JSON.stringify(transaction));
-// Output: '{"id":"TXN-001","sender":"Babatunde","recipient":"Chioma","amount":150000,"fees":{"stampDuty":50,"vat":7.5}}'
+{% raw %}// Output: '{"id":"TXN-001","sender":"Babatunde","recipient":"Chioma","amount":150000,"fees":{"stampDuty":50,"vat":7.5}}'{% endraw %}
 
 // Pretty (for readability — 2 spaces):
 console.log(JSON.stringify(transaction, null, 2));
@@ -1629,7 +1629,7 @@ Well-designed JSON APIs return **error details in JSON format too**:
 
 ```javascript
 // Server returns 400 with body:
-// {"error": "Validation failed", "details": {"email": "Invalid format", "phone": "Too short"}}
+{% raw %}// {"error": "Validation failed", "details": {"email": "Invalid format", "phone": "Too short"}}{% endraw %}
 
 async function createAccount(formData) {
   const response = await fetch("/api/accounts", {
