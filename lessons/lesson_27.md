@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript History, Versions & The Foundation: ES3 · ES5 · ES6 · Browser Compatibility"
 nav_order: 27
 ---

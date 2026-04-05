@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Modern Features: ES2016 → ES2026"
 nav_order: 26
 ---

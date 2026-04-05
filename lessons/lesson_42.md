@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript JSON: JSON Intro · Syntax · JSON vs XML · Data Types · JSON.parse() · JSON.stringify() · JSON Objects · JSON Arrays · JSON & Servers · JSON with PHP · JSON to HTML · JSONP"
 nav_order: 42
 ---

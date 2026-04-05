@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript: Scope, Code Blocks, Hoisting & Strict Mode"
 nav_order: 11
 ---

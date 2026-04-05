@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Objects: Definitions · `this` · Iterations · Accessors · Management · Protection · Prototypes · Reference"
 nav_order: 32
 ---

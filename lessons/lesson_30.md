@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Projects: Five Beginner-Friendly Projects: Counter · Event Listener · To-Do List · Modal Popup · Form Validation"
 nav_order: 30
 ---

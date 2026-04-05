@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Conventions, Best Practices, Common Mistakes & Performance"
 nav_order: 24
 ---

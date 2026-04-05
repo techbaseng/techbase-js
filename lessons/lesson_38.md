@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript DOM — Navigation, Nodes, Collections & NodeLists"
 nav_order: 38
 ---

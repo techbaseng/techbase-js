@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Temporal API: The Modern, Precise, and Safe Way to Handle Dates and Times in JavaScript"
 nav_order: 13
 ---

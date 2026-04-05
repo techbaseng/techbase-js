@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Modules: What Modules Are · Exports · Imports · Namespaces · Dynamic Imports"
 nav_order: 35
 ---

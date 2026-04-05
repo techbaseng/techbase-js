@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Web APIs: Web APIs Introduction · Fetch API · Geolocation API · History API · Pointer Events · Web Storage · Constraint Validation API · Web Workers"
 nav_order: 40
 ---

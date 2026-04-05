@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript AJAX: AJAX Intro · XMLHttpRequest · Sending Requests · Handling Responses · XML Files · PHP & ASP Integration · Database Communication · AJAX Applications & Examples"
 nav_order: 41
 ---

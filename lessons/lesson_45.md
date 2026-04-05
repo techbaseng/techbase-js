@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Mastery Capstone: The Complete Examples Library · Practice Arsenal · Interview Prep · Exam Readiness"
 nav_order: 45
 ---

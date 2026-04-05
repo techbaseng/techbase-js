@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Typed Arrays, ArrayBuffers, DataView & Atomics"
 nav_order: 37
 ---

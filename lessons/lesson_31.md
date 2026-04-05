@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Functions: Function Definitions · Advanced Patterns · Callbacks · `this` · call · apply · bind · IIFE · Closures · Reference"
 nav_order: 31
 ---

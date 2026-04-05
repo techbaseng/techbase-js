@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Variables, `let`, `const` & Data Types"
 nav_order: 3
 ---

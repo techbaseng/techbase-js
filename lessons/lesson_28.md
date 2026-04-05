@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript HTML DOM: Introduction to the DOM · DOM Methods · Finding Elements · Changing HTML · Changing CSS · Form Validation · Animations · The Document Object · Element Reference"
 nav_order: 28
 ---

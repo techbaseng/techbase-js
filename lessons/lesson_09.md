@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Functions: JS Functions · Function Intro · Invocation · Parameters · Return · Arguments · Expressions · Arrow Functions · Function Quiz"
 nav_order: 9
 ---

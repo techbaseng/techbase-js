@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Regular Expressions: Patterns · Flags · Characters · Meta Characters · Assertions · Quantifiers · Groups · RegExp Object · Methods"
 nav_order: 19
 ---

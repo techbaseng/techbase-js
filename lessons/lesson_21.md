@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Data Types, Primitives, Objects, typeof, toString & Type Conversion"
 nav_order: 21
 ---

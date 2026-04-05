@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Classes: Class Syntax · Inheritance · Static Methods & Properties"
 nav_order: 33
 ---

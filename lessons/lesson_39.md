@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Browser Object Model (BOM): Window · Screen · Location · History · Navigator · Popups · Timing · Cookies"
 nav_order: 39
 ---

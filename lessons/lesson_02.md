@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Syntax, Statements & Comments"
 nav_order: 2
 ---

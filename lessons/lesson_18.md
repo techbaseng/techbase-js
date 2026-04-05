@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Math & Random: Math Properties · All Math Methods · Random Numbers · Full Reference"
 nav_order: 18
 ---

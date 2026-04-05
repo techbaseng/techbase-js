@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Conditionals: Conditionals · if · if...else · Ternary · Switch · Booleans · Logical Operators"
 nav_order: 5
 ---

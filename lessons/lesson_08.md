@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Numbers: JS Numbers · Number Methods · Number Properties · Number Reference · Bitwise · BigInt"
 nav_order: 8
 ---

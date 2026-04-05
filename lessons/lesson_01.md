@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "Lesson 01 – JavaScript Tutorial — Introduction, Placement & Output"
 nav_order: 1
 ---

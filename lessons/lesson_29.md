@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Events: Introduction to Events · Mouse Events · Keyboard Events · Load Events · Timing Events · Event Management · DOM Events · EventListener API"
 nav_order: 29
 ---

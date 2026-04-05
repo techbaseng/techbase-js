@@ -1,4 +1,5 @@
 ---
+render_with_liquid: false
 title: "JavaScript Graphics: Canvas, Plotly, Chart.js, Google Charts & D3.js"
 nav_order: 44
 ---
