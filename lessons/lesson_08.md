@@ -4,7 +4,6 @@ nav_order: 8
 ---
 
 ## 📋 Table of Contents
-
 1. [What Is a Number in JavaScript?](#1-what-is-a-number-in-javascript)
 2. [Writing Numbers — Integers, Decimals & Scientific Notation](#2-writing-numbers)
 3. [How JavaScript Stores Numbers — The 64-bit Float Format](#3-how-javascript-stores-numbers)
