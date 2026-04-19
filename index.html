@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaScript — Techbase STEM Academy</title>
+  <meta name="description" content="Free JavaScript course. 46 lessons from syntax and functions to async, DOM, APIs and a full reference manual. By Techbase, Ibadan, Nigeria." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0a0c10; --surface:#10141c; --surface2:#161b26; --border:#1e2535;
+      --accent:#f7df1e; --accent-dim:rgba(247,223,30,.1); --accent-glow:rgba(247,223,30,.07);
+      --brand:#00e5a0;
+      --text:#e8edf5; --muted:#6b7a99;
+      --mono:'Space Mono',monospace; --head:'Syne',sans-serif; --body:'DM Sans',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.7;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,12,16,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem}
+    .nav-logo{font-family:var(--head);font-weight:800;font-size:.88rem;letter-spacing:.12em;color:var(--brand);text-decoration:none;text-transform:uppercase}
+    .nav-links{list-style:none;display:flex;gap:2rem}
+    .nav-links a{color:var(--muted);font-size:.83rem;text-decoration:none;transition:color .2s}
+    .nav-links a:hover{color:var(--text)}
+
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:110px 2rem 80px;position:relative;overflow:hidden}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:50px 50px;opacity:.3;mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 20%,transparent 100%)}
+    .hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(247,223,30,.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-55%);pointer-events:none}
+    .hero-inner{position:relative;z-index:1;text-align:center;max-width:860px}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(247,223,30,.06);border:1px solid rgba(247,223,30,.2);border-radius:100px;padding:.3rem 1rem;font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.08em;margin-bottom:2rem;animation:fd .6s ease both}
+    .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+    .hero h1{font-family:var(--head);font-weight:800;font-size:clamp(2.8rem,7vw,5.5rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:1.5rem;animation:fd .6s .1s ease both}
+    .hero h1 em{font-style:normal;color:var(--accent)}
+    .hero-sub{font-size:1.05rem;color:var(--muted);max-width:560px;margin:0 auto 2.5rem;animation:fd .6s .2s ease both}
+    .hero-sub code{font-family:var(--mono);color:var(--accent);font-size:.88em}
+    .hero-stats{display:flex;justify-content:center;gap:3.5rem;margin-bottom:2.8rem;animation:fd .6s .3s ease both}
+    .stat-n{font-family:var(--head);font-weight:800;font-size:2.1rem;color:var(--accent);display:block}
+    .stat-l{font-size:.72rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+    .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fd .6s .4s ease both}
+    .btn-p{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#1a1700;font-family:var(--head);font-weight:700;font-size:.88rem;padding:.82rem 2rem;border-radius:8px;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 0 28px rgba(247,223,30,.18)}
+    .btn-p:hover{transform:translateY(-2px);box-shadow:0 0 45px rgba(247,223,30,.32)}
+    .btn-g{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--text);font-family:var(--head);font-weight:600;font-size:.88rem;padding:.82rem 2rem;border-radius:8px;text-decoration:none;border:1px solid var(--border);transition:border-color .2s,background .2s}
+    .btn-g:hover{border-color:var(--muted);background:var(--surface)}
+    @keyframes fd{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+
+    .ticker-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);overflow:hidden;padding:.7rem 0}
+    .ticker{display:flex;white-space:nowrap;animation:tick 32s linear infinite}
+    .ticker span{font-family:var(--mono);font-size:.75rem;color:var(--muted);padding:0 2rem}
+    .ticker span em{font-style:normal;color:var(--accent)}
+    @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    main{max-width:1100px;margin:0 auto;padding:0 2rem 6rem;position:relative;z-index:1}
+    .slabel{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem}
+    .slabel::before{content:'// ';opacity:.5}
+
+    .about-sec{padding:5rem 0;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;border-bottom:1px solid var(--border)}
+    .about-text h2{font-family:var(--head);font-weight:800;font-size:2.1rem;line-height:1.2;margin-bottom:1.1rem;letter-spacing:-.02em}
+    .about-text p{color:var(--muted);margin-bottom:1.1rem;line-height:1.8}
+    .learn-list{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+    .learn-list li{display:flex;align-items:flex-start;gap:.75rem;font-size:.92rem}
+    .learn-list li::before{content:'→';color:var(--accent);font-family:var(--mono);flex-shrink:0;margin-top:2px}
+    .tools-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+    .tc-head{padding:.9rem 1.4rem;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:.5rem}
+    .dot{width:9px;height:9px;border-radius:50%}
+    .dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
+    .tr{display:flex;align-items:center;justify-content:space-between;padding:.95rem 1.4rem;border-bottom:1px solid var(--border);transition:background .15s}
+    .tr:last-child{border-bottom:none}
+    .tr:hover{background:var(--surface2)}
+    .tr-name{font-weight:500;font-size:.88rem}
+    .tr-info{font-size:.8rem;color:var(--muted);text-align:right}
+    .tr-link{font-family:var(--mono);font-size:.7rem;color:#4d9fff;text-decoration:none;opacity:.7;transition:opacity .2s}
+    .tr-link:hover{opacity:1}
+
+    /* LESSONS — grouped by phase */
+    .lessons-sec{padding:5rem 0}
+    .lessons-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+    .lessons-hd h2{font-family:var(--head);font-weight:800;font-size:2.2rem;letter-spacing:-.02em}
+    .phase-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:2.2rem 0 .8rem;display:flex;align-items:center;gap:.8rem}
+    .phase-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--border);margin-bottom:.5rem}
+    .lc{background:var(--surface);padding:1.3rem 1.5rem;text-decoration:none;display:flex;align-items:flex-start;gap:.9rem;transition:background .2s;position:relative;overflow:hidden}
+    .lc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);transform:scaleY(0);transition:transform .2s;transform-origin:bottom}
+    .lc:hover{background:var(--surface2)}
+    .lc:hover::before{transform:scaleY(1)}
+    .lc-n{font-family:var(--mono);font-size:.68rem;color:var(--accent);background:rgba(247,223,30,.06);border:1px solid rgba(247,223,30,.16);padding:.18rem .5rem;border-radius:4px;flex-shrink:0;margin-top:2px}
+    .lc-t{font-size:.88rem;font-weight:500;color:var(--text);line-height:1.4;transition:color .2s}
+    .lc:hover .lc-t{color:var(--accent)}
+
+    .journey-sec{padding:5rem 0;border-top:1px solid var(--border)}
+    .journey-sec h2{font-family:var(--head);font-weight:800;font-size:2.1rem;letter-spacing:-.02em;margin-bottom:3rem}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+    .steps::before{content:'';position:absolute;top:27px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(90deg,var(--accent),#4d9fff,#ff6b35,var(--accent));opacity:.3}
+    .step{padding:0 1.2rem;text-align:center}
+    .step-n{width:54px;height:54px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem;font-family:var(--mono);font-size:.8rem;color:var(--accent);position:relative;z-index:1;transition:border-color .2s,box-shadow .2s}
+    .step:hover .step-n{border-color:var(--accent);box-shadow:0 0 18px rgba(247,223,30,.14)}
+    .step h3{font-family:var(--head);font-weight:700;font-size:.92rem;margin-bottom:.4rem}
+    .step p{font-size:.82rem;color:var(--muted);line-height:1.6}
+
+    footer{border-top:1px solid var(--border);background:var(--surface);padding:2.8rem 2.5rem;position:relative;z-index:1}
+    .fi{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+    .fb{font-family:var(--head);font-weight:800;font-size:1rem;color:var(--accent)}
+    .fb span{display:block;font-family:var(--body);font-weight:400;font-size:.8rem;color:var(--muted);margin-top:.2rem}
+    .fl{list-style:none;display:flex;gap:1.5rem;flex-wrap:wrap}
+    .fl a{color:var(--muted);font-size:.82rem;text-decoration:none;transition:color .2s}
+    .fl a:hover{color:var(--text)}
+    .fc{font-size:.78rem;color:var(--muted);text-align:right}
+
+    .sr{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}
+    .sr.in{opacity:1;transform:translateY(0)}
+
+    @media(max-width:768px){.about-sec{grid-template-columns:1fr;gap:2rem}.steps{grid-template-columns:1fr 1fr}.steps::before{display:none}.nav-links{display:none}.lessons-hd{flex-direction:column;align-items:flex-start}}
+    @media(max-width:480px){.hero h1{font-size:2.4rem}.lessons-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="https://techbaseng.github.io" class="nav-logo">Techbase Academy</a>
+  <ul class="nav-links">
+    <li><a href="#lessons">Lessons</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://techbaseng.github.io">← All Courses</a></li>
+    <li><a href="https://github.com/techbaseng/techbase-js" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="badge"><span class="badge-dot"></span>FREE COURSE · IBADAN, NIGERIA · INTERMEDIATE</div>
+    <h1><em>JavaScript</em><br>Mastery</h1>
+    <p class="hero-sub">From your first <code>console.log()</code> to async programming, the DOM, APIs, and a complete reference manual — 46 lessons that take you from beginner to confident JS developer.</p>
+    <div class="hero-stats">
+      <div><span class="stat-n">46</span><span class="stat-l">Lessons</span></div>
+      <div><span class="stat-n">100%</span><span class="stat-l">Free</span></div>
+      <div><span class="stat-n">HTML</span><span class="stat-l">Prerequisite</span></div>
+    </div>
+    <div class="hero-actions">
+      <a href="lessons/lesson_01.html" class="btn-p">Start Lesson 01 →</a>
+      <a href="#lessons" class="btn-g">View All 46 Lessons</a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span><em>const</em> variables</span><span><em>function()</em> calls</span><span><em>=></em> arrow functions</span><span><em>DOM</em> manipulation</span><span><em>async/await</em> promises</span><span><em>fetch()</em> APIs</span><span><em>class</em> OOP</span><span><em>modules</em> imports</span><span><em>regex</em> patterns</span><span><em>JSON</em> data</span><span><em>canvas</em> graphics</span>
+    <span><em>const</em> variables</span><span><em>function()</em> calls</span><span><em>=></em> arrow functions</span><span><em>DOM</em> manipulation</span><span><em>async/await</em> promises</span><span><em>fetch()</em> APIs</span><span><em>class</em> OOP</span><span><em>modules</em> imports</span><span><em>regex</em> patterns</span><span><em>JSON</em> data</span><span><em>canvas</em> graphics</span>
+  </div>
+</div>
+
+<main>
+  <section class="about-sec sr" id="about">
+    <div class="about-text">
+      <p class="slabel">About This Course</p>
+      <h2>Make the web<br>come alive.</h2>
+      <p>HTML gives pages structure, CSS makes them beautiful — JavaScript makes them <em>interactive</em>. It is the programming language of the browser, and the most widely used language in the world.</p>
+      <p>Designed by <strong>Babatunde Awoyemi</strong> at Techbase, Ibadan. 46 lessons covering everything from syntax to advanced patterns, real projects, and a full reference manual.</p>
+      <ul class="learn-list">
+        <li>Variables, data types, operators, and control flow</li>
+        <li>Functions, closures, classes, and modules</li>
+        <li>Selecting and manipulating the DOM</li>
+        <li>Events, forms, and user interaction</li>
+        <li>Async programming — promises, async/await, Fetch</li>
+        <li>JSON, AJAX, Web APIs, canvas graphics &amp; jQuery</li>
+      </ul>
+    </div>
+    <div class="tools-card">
+      <div class="tc-head"><span class="dot dr"></span><span class="dot dy"></span><span class="dot dg"></span>&nbsp;tools_you_need.js</div>
+      <div class="tr"><div><div class="tr-name">VS Code</div><div class="tr-info">Write JS, HTML &amp; CSS</div></div><a href="https://code.visualstudio.com" class="tr-link" target="_blank">↗ Download</a></div>
+      <div class="tr"><div><div class="tr-name">Live Server (extension)</div><div class="tr-info">Auto-refresh on save</div></div><span class="tr-link">Search in VS Code</span></div>
+      <div class="tr"><div><div class="tr-name">Chrome DevTools Console</div><div class="tr-info">Run JS instantly</div></div><span class="tr-link">Press F12 → Console</span></div>
+      <div class="tr"><div><div class="tr-name">HTML Fundamentals</div><div class="tr-info">Complete first — required</div></div><a href="https://techbaseng.github.io/techbase-html/" class="tr-link">↗ Take course</a></div>
+    </div>
+  </section>
+
+  <section class="lessons-sec" id="lessons">
+    <div class="lessons-hd sr">
+      <div><p class="slabel">Course Content</p><h2>46 Lessons</h2></div>
+    </div>
+
+    <p class="phase-label sr">Phase 1 — Core Language (01–11)</p>
+    <div class="lessons-grid sr">
+      <a href="lessons/lesson_01.html" class="lc"><span class="lc-n">01</span><span class="lc-t">JavaScript Tutorial — Introduction, Placement &amp; Output</span></a>
+      <a href="lessons/lesson_02.html" class="lc"><span class="lc-n">02</span><span class="lc-t">JavaScript Syntax, Statements &amp; Comments</span></a>
+      <a href="lessons/lesson_03.html" class="lc"><span class="lc-n">03</span><span class="lc-t">JavaScript Variables, <code style="font-family:var(--mono);font-size:.85em">let</code>, <code style="font-family:var(--mono);font-size:.85em">const</code> &amp; Data Types</span></a>
+      <a href="lessons/lesson_04.html" class="lc"><span class="lc-n">04</span><span class="lc-t">JavaScript Operators: Arithmetic · Assignment · Comparisons</span></a>
+      <a href="lessons/lesson_05.html" class="lc"><span class="lc-n">05</span><span class="lc-t">JavaScript Conditionals: if · if…else · Ternary · Switch · Logical Operators</span></a>
+      <a href="lessons/lesson_06.html" class="lc"><span class="lc-n">06</span><span class="lc-t">JavaScript Loops, Control Flow &amp; Loop Keywords</span></a>
+      <a href="lessons/lesson_07.html" class="lc"><span class="lc-n">07</span><span class="lc-t">JavaScript Strings: Template Strings · String Methods · String Search</span></a>
+      <a href="lessons/lesson_08.html" class="lc"><span class="lc-n">08</span><span class="lc-t">JavaScript Numbers: Number Methods · Properties · Bitwise · BigInt</span></a>
+      <a href="lessons/lesson_09.html" class="lc"><span class="lc-n">09</span><span class="lc-t">JavaScript Functions: Invocation · Parameters · Return · Arrow Functions</span></a>
+      <a href="lessons/lesson_10.html" class="lc"><span class="lc-n">10</span><span class="lc-t">JavaScript Objects: Properties · Methods · <code style="font-family:var(--mono);font-size:.85em">this</code> · Constructors</span></a>
+      <a href="lessons/lesson_11.html" class="lc"><span class="lc-n">11</span><span class="lc-t">JavaScript: Scope, Code Blocks, Hoisting &amp; Strict Mode</span></a>
+    </div>
+
+    <p class="phase-label sr">Phase 2 — Data &amp; Collections (12–20)</p>
+    <div class="lessons-grid sr">
+      <a href="lessons/lesson_12.html" class="lc"><span class="lc-n">12</span><span class="lc-t">JavaScript Dates: Creating · Formatting · Reading · Changing</span></a>
+      <a href="lessons/lesson_13.html" class="lc"><span class="lc-n">13</span><span class="lc-t">JavaScript Temporal API: Modern Date &amp; Time Handling</span></a>
+      <a href="lessons/lesson_14.html" class="lc"><span class="lc-n">14</span><span class="lc-t">JavaScript Arrays: Creating · Accessing · Modifying · Sorting · Iterating</span></a>
+      <a href="lessons/lesson_15.html" class="lc"><span class="lc-n">15</span><span class="lc-t">JavaScript Sets: Unique Values · Set Methods · Union · Intersection · WeakSet</span></a>
+      <a href="lessons/lesson_16.html" class="lc"><span class="lc-n">16</span><span class="lc-t">JavaScript Maps: Key-Value Pairs · Map Methods · WeakMap</span></a>
+      <a href="lessons/lesson_17.html" class="lc"><span class="lc-n">17</span><span class="lc-t">JavaScript Looping, Iterables, Iterators &amp; Generators</span></a>
+      <a href="lessons/lesson_18.html" class="lc"><span class="lc-n">18</span><span class="lc-t">JavaScript Math &amp; Random: Math Properties · All Math Methods</span></a>
+      <a href="lessons/lesson_19.html" class="lc"><span class="lc-n">19</span><span class="lc-t">JavaScript Regular Expressions: Patterns · Flags · Quantifiers · Groups</span></a>
+      <a href="lessons/lesson_20.html" class="lc"><span class="lc-n">20</span><span class="lc-t">JavaScript Destructuring: Arrays · Objects · Nested · Rest · Function Parameters</span></a>
+    </div>
+
+    <p class="phase-label sr">Phase 3 — Intermediate Patterns (21–30)</p>
+    <div class="lessons-grid sr">
+      <a href="lessons/lesson_21.html" class="lc"><span class="lc-n">21</span><span class="lc-t">JavaScript Data Types, Primitives, Objects, <code style="font-family:var(--mono);font-size:.85em">typeof</code> &amp; Type Conversion</span></a>
+      <a href="lessons/lesson_22.html" class="lc"><span class="lc-n">22</span><span class="lc-t">JavaScript Errors — Introduction, Silent Errors, Handling &amp; the Error Object</span></a>
+      <a href="lessons/lesson_23.html" class="lc"><span class="lc-n">23</span><span class="lc-t">JavaScript Debugging: Console · Breakpoints · Error Types · Async Debugging</span></a>
+      <a href="lessons/lesson_24.html" class="lc"><span class="lc-n">24</span><span class="lc-t">JavaScript Conventions, Best Practices, Common Mistakes &amp; Performance</span></a>
+      <a href="lessons/lesson_25.html" class="lc"><span class="lc-n">25</span><span class="lc-t">JavaScript Statements, Reserved Words, Operators &amp; Operator Precedence</span></a>
+      <a href="lessons/lesson_26.html" class="lc"><span class="lc-n">26</span><span class="lc-t">JavaScript Modern Features: ES2016 → ES2026</span></a>
+      <a href="lessons/lesson_27.html" class="lc"><span class="lc-n">27</span><span class="lc-t">JavaScript History, Versions &amp; The Foundation: ES3 · ES5 · ES6</span></a>
+      <a href="lessons/lesson_28.html" class="lc"><span class="lc-n">28</span><span class="lc-t">JavaScript HTML DOM: Methods · Finding Elements · Changing HTML &amp; CSS</span></a>
+      <a href="lessons/lesson_29.html" class="lc"><span class="lc-n">29</span><span class="lc-t">JavaScript Events: Mouse · Keyboard · Load · Timing · EventListener API</span></a>
+      <a href="lessons/lesson_30.html" class="lc"><span class="lc-n">30</span><span class="lc-t">JavaScript Projects: Counter · To-Do List · Modal · Form Validation</span></a>
+    </div>
+
+    <p class="phase-label sr">Phase 4 — Advanced &amp; Architecture (31–40)</p>
+    <div class="lessons-grid sr">
+      <a href="lessons/lesson_31.html" class="lc"><span class="lc-n">31</span><span class="lc-t">JavaScript Functions: Callbacks · <code style="font-family:var(--mono);font-size:.85em">this</code> · call · apply · bind · Closures</span></a>
+      <a href="lessons/lesson_32.html" class="lc"><span class="lc-n">32</span><span class="lc-t">JavaScript Objects: Iterations · Accessors · Prototypes · Reference</span></a>
+      <a href="lessons/lesson_33.html" class="lc"><span class="lc-n">33</span><span class="lc-t">JavaScript Classes: Syntax · Inheritance · Static Methods &amp; Properties</span></a>
+      <a href="lessons/lesson_34.html" class="lc"><span class="lc-n">34</span><span class="lc-t">JavaScript Asynchronous Programming: Promises · Async/Await · Fetch API</span></a>
+      <a href="lessons/lesson_35.html" class="lc"><span class="lc-n">35</span><span class="lc-t">JavaScript Modules: Exports · Imports · Namespaces · Dynamic Imports</span></a>
+      <a href="lessons/lesson_36.html" class="lc"><span class="lc-n">36</span><span class="lc-t">JavaScript Meta Programming: Reflect API · Proxy API</span></a>
+      <a href="lessons/lesson_37.html" class="lc"><span class="lc-n">37</span><span class="lc-t">JavaScript Typed Arrays, ArrayBuffers, DataView &amp; Atomics</span></a>
+      <a href="lessons/lesson_38.html" class="lc"><span class="lc-n">38</span><span class="lc-t">JavaScript DOM — Navigation, Nodes, Collections &amp; NodeLists</span></a>
+      <a href="lessons/lesson_39.html" class="lc"><span class="lc-n">39</span><span class="lc-t">JavaScript Browser Object Model (BOM): Window · Location · History · Cookies</span></a>
+      <a href="lessons/lesson_40.html" class="lc"><span class="lc-n">40</span><span class="lc-t">JavaScript Web APIs: Fetch · Geolocation · Web Storage · Web Workers</span></a>
+    </div>
+
+    <p class="phase-label sr">Phase 5 — Ecosystem &amp; Reference (41–46)</p>
+    <div class="lessons-grid sr">
+      <a href="lessons/lesson_41.html" class="lc"><span class="lc-n">41</span><span class="lc-t">JavaScript AJAX: XMLHttpRequest · Sending Requests · Handling Responses</span></a>
+      <a href="lessons/lesson_42.html" class="lc"><span class="lc-n">42</span><span class="lc-t">JavaScript JSON: Syntax · <code style="font-family:var(--mono);font-size:.85em">JSON.parse()</code> · <code style="font-family:var(--mono);font-size:.85em">JSON.stringify()</code> · JSON &amp; Servers</span></a>
+      <a href="lessons/lesson_43.html" class="lc"><span class="lc-n">43</span><span class="lc-t">JavaScript &amp; jQuery: Selectors · HTML · CSS · DOM Manipulation</span></a>
+      <a href="lessons/lesson_44.html" class="lc"><span class="lc-n">44</span><span class="lc-t">JavaScript Graphics: Canvas · Plotly · Chart.js · Google Charts · D3.js</span></a>
+      <a href="lessons/lesson_45.html" class="lc"><span class="lc-n">45</span><span class="lc-t">JavaScript Mastery Capstone: Examples Library · Practice Arsenal · Interview Prep</span></a>
+      <a href="lessons/lesson_46.html" class="lc"><span class="lc-n">46</span><span class="lc-t">JavaScript Complete Reference Manual: Every Built-in Object · Method · Property</span></a>
+    </div>
+  </section>
+
+  <section class="journey-sec sr">
+    <p class="slabel">How It Works</p>
+    <h2>Learn at your own pace.</h2>
+    <div class="steps">
+      <div class="step"><div class="step-n">01</div><h3>Finish HTML First</h3><p>This course manipulates HTML elements — you need to understand HTML before starting.</p></div>
+      <div class="step"><div class="step-n">02</div><h3>Open Lesson 01</h3><p>Click the first card above or the hero button to begin. No installation needed to start.</p></div>
+      <div class="step"><div class="step-n">03</div><h3>Use the Console</h3><p>Press F12 in Chrome to open DevTools. Run every code snippet as you read each lesson.</p></div>
+      <div class="step"><div class="step-n">04</div><h3>Build the Projects</h3><p>Lesson 30 has real projects. Lesson 45 is the capstone. Work through them all.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="fi">
+    <div class="fb">TECHBASE ACADEMY<span>Ibadan, Nigeria · Free STEM Education</span></div>
+    <ul class="fl">
+      <li><a href="https://techbaseng.github.io">← All Courses</a></li>
+      <li><a href="https://techbaseng.github.io/techbase-html/">HTML</a></li>
+      <li><a href="https://techbaseng.github.io/techbase-css/">CSS</a></li>
+      <li><a href="https://techbasengr.com.ng" target="_blank">Website</a></li>
+      <li><a href="https://github.com/techbaseng" target="_blank">GitHub</a></li>
+    </ul>
+    <div class="fc">Made with ❤️ in Ibadan<br>MIT License · © 2025 Techbase Consultant Services</div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); }), {threshold:0.06});
+  document.querySelectorAll('.sr').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
