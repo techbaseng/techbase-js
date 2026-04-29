@@ -5,41 +5,10 @@ title: JavaScript — Techbase STEM Academy
 
 # ⚡ JavaScript — Techbase STEM Academy
 
-> **Free JavaScript course by [Techbase Consultant Services](https://techbasengr.com.ng), Ibadan, Nigeria**  
-> Instructor: Babatunde Awoyemi · [github.com/techbaseng](https://github.com/techbaseng)
+> Free JavaScript course · Techbase Consultant Services, Ibadan, Nigeria  
+> Instructor: Babatunde Awoyemi · [All Courses →](https://techbaseng.github.io)
 
-[← All Courses](https://techbaseng.github.io) | [🐙 GitHub Repo](https://github.com/techbaseng/techbase-js)
-
----
-
-## About This Course
-
-JavaScript is the programming language of the web. While HTML structures a page and CSS styles it, JavaScript makes it come alive — responding to clicks, updating content, validating forms, and powering interactive features.
-
-**Recommended: Complete HTML Fundamentals before starting this course.**
-
----
-
-## What You Will Learn
-
-- Write JavaScript that runs in a browser
-- Work with variables, data types, and operators
-- Use conditions and loops to control program flow
-- Write and call functions, including arrow functions
-- Select and manipulate HTML elements using the DOM
-- Respond to user events like clicks and keyboard input
-- Use async/await, promises, and the Fetch API
-- Build interactive web projects from scratch
-
----
-
-## Tools You Will Need
-
-| Tool | Purpose | Link |
-|------|---------|------|
-| VS Code | Write your JS, HTML & CSS | [code.visualstudio.com](https://code.visualstudio.com) |
-| Live Server (extension) | Auto-refresh browser on save | Search in VS Code extensions |
-| Chrome DevTools Console | Test JavaScript instantly | Press `F12` → Console tab |
+**Prerequisites:** [HTML Fundamentals](https://techbaseng.github.io/techbase-html/) + [CSS Styling](https://techbaseng.github.io/techbase-css/) (recommended)
 
 ---
 
@@ -51,14 +20,14 @@ JavaScript is the programming language of the web. While HTML structures a page 
 |---|-------|------|
 | 01 | JavaScript Tutorial — Introduction, Placement & Output | [lesson_01](lessons/lesson_01.html) |
 | 02 | JavaScript Syntax, Statements & Comments | [lesson_02](lessons/lesson_02.html) |
-| 03 | JavaScript Variables, `let`, `const` & Data Types | [lesson_03](lessons/lesson_03.html) |
+| 03 | JavaScript Variables, let, const & Data Types | [lesson_03](lessons/lesson_03.html) |
 | 04 | JavaScript Operators: Arithmetic · Assignment · Comparisons | [lesson_04](lessons/lesson_04.html) |
-| 05 | JavaScript Conditionals: `if` · `if...else` · Ternary · Switch · Logical Operators | [lesson_05](lessons/lesson_05.html) |
+| 05 | JavaScript Conditionals: if · if…else · Ternary · Switch · Logical Operators | [lesson_05](lessons/lesson_05.html) |
 | 06 | JavaScript Loops, Control Flow & Loop Keywords | [lesson_06](lessons/lesson_06.html) |
 | 07 | JavaScript Strings: Template Strings · String Methods · String Search | [lesson_07](lessons/lesson_07.html) |
 | 08 | JavaScript Numbers: Number Methods · Properties · Bitwise · BigInt | [lesson_08](lessons/lesson_08.html) |
 | 09 | JavaScript Functions: Invocation · Parameters · Return · Arrow Functions | [lesson_09](lessons/lesson_09.html) |
-| 10 | JavaScript Objects: Properties · Methods · `this` · Constructors | [lesson_10](lessons/lesson_10.html) |
+| 10 | JavaScript Objects: Properties · Methods · this · Constructors | [lesson_10](lessons/lesson_10.html) |
 | 11 | JavaScript: Scope, Code Blocks, Hoisting & Strict Mode | [lesson_11](lessons/lesson_11.html) |
 
 ### Phase 2 — Data & Collections (12–20)
@@ -79,7 +48,7 @@ JavaScript is the programming language of the web. While HTML structures a page 
 
 | # | Topic | Link |
 |---|-------|------|
-| 21 | JavaScript Data Types, Primitives, Objects, `typeof` & Type Conversion | [lesson_21](lessons/lesson_21.html) |
+| 21 | JavaScript Data Types, Primitives, Objects, typeof & Type Conversion | [lesson_21](lessons/lesson_21.html) |
 | 22 | JavaScript Errors — Introduction, Silent Errors, Handling & the Error Object | [lesson_22](lessons/lesson_22.html) |
 | 23 | JavaScript Debugging: Console · Breakpoints · Error Types · Async Debugging | [lesson_23](lessons/lesson_23.html) |
 | 24 | JavaScript Conventions, Best Practices, Common Mistakes & Performance | [lesson_24](lessons/lesson_24.html) |
@@ -94,7 +63,7 @@ JavaScript is the programming language of the web. While HTML structures a page 
 
 | # | Topic | Link |
 |---|-------|------|
-| 31 | JavaScript Functions: Callbacks · `this` · call · apply · bind · Closures | [lesson_31](lessons/lesson_31.html) |
+| 31 | JavaScript Functions: Callbacks · this · call · apply · bind · Closures | [lesson_31](lessons/lesson_31.html) |
 | 32 | JavaScript Objects: Iterations · Accessors · Prototypes · Reference | [lesson_32](lessons/lesson_32.html) |
 | 33 | JavaScript Classes: Syntax · Inheritance · Static Methods & Properties | [lesson_33](lessons/lesson_33.html) |
 | 34 | JavaScript Asynchronous Programming: Promises · Async/Await · Fetch API | [lesson_34](lessons/lesson_34.html) |
@@ -110,7 +79,7 @@ JavaScript is the programming language of the web. While HTML structures a page 
 | # | Topic | Link |
 |---|-------|------|
 | 41 | JavaScript AJAX: XMLHttpRequest · Sending Requests · Handling Responses | [lesson_41](lessons/lesson_41.html) |
-| 42 | JavaScript JSON: Syntax · `JSON.parse()` · `JSON.stringify()` · JSON & Servers | [lesson_42](lessons/lesson_42.html) |
+| 42 | JavaScript JSON: Syntax · JSON.parse() · JSON.stringify() · JSON & Servers | [lesson_42](lessons/lesson_42.html) |
 | 43 | JavaScript & jQuery: Selectors · HTML · CSS · DOM Manipulation | [lesson_43](lessons/lesson_43.html) |
 | 44 | JavaScript Graphics: Canvas · Plotly · Chart.js · Google Charts · D3.js | [lesson_44](lessons/lesson_44.html) |
 | 45 | JavaScript Mastery Capstone: Examples Library · Practice Arsenal · Interview Prep | [lesson_45](lessons/lesson_45.html) |
@@ -118,8 +87,4 @@ JavaScript is the programming language of the web. While HTML structures a page 
 
 ---
 
-## License
-
-Free to use and share under the [MIT License](LICENSE).  
-Created with ❤️ in Ibadan, Nigeria by **Techbase Consultant Services**  
-🌐 [techbasengr.com.ng](https://techbasengr.com.ng) · 🐙 [github.com/techbaseng](https://github.com/techbaseng)
+MIT License · © 2025 Techbase Consultant Services · Made with ❤️ in Ibadan, Nigeria
