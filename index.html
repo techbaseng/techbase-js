@@ -1,308 +1,170 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JavaScript — Techbase STEM Academy</title>
-<meta name="description" content="Free JavaScript course. 46 lessons from syntax and DOM to async, APIs and a full reference. By Techbase, Ibadan, Nigeria.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#030507;--ink1:#0b0f14;--ink2:#141920;--rim:#232d3a;--rim2:#2e3d50;--fog:#8494ab;--mist:#bdc8d6;--snow:#eef2f7;--c:#fde047;--cg:rgba(253,224,71,.08);--D:'Unbounded',sans-serif;--B:'Instrument Sans',sans-serif;--M:'JetBrains Mono',monospace}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--ink);color:var(--snow);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;mix-blend-mode:overlay}
-nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:200;background:rgba(11,15,20,.8);backdrop-filter:blur(24px) saturate(1.6);border:1px solid var(--rim);border-radius:100px;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;gap:2.5rem;width:min(900px,calc(100vw - 2rem));box-shadow:0 4px 40px rgba(0,0,0,.5)}
-.nav-logo{font-family:var(--D);font-weight:700;font-size:.75rem;letter-spacing:.06em;color:var(--snow);text-decoration:none;white-space:nowrap}
-.nav-logo em{font-style:normal;color:#00e5a0}
-.nav-links{list-style:none;display:flex;gap:1.8rem}
-.nav-links a{color:var(--fog);font-size:.8rem;text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--snow)}
-.hero{min-height:100svh;display:flex;align-items:center;padding:100px 2rem 80px;position:relative;overflow:hidden}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--rim) 1px,transparent 1px),linear-gradient(90deg,var(--rim) 1px,transparent 1px);background-size:60px 60px;opacity:.22;mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,black 10%,transparent 100%)}
-.blob{position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px)}
-.wrap{max-width:1180px;margin:0 auto;padding:0 2rem}
-.badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(253,224,71,.07);border:1px solid rgba(253,224,71,.22);border-radius:100px;padding:.3rem 1rem;font-family:var(--M);font-size:.68rem;letter-spacing:.1em;color:var(--c);margin-bottom:1.8rem}
-.badge-pip{width:6px;height:6px;border-radius:50%;background:var(--c);animation:pip 2.2s ease-in-out infinite}
-@keyframes pip{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.65)}}
-h1{font-family:var(--D);font-weight:900;font-size:clamp(2.8rem,7vw,6rem);line-height:.95;letter-spacing:-.03em;margin-bottom:1.3rem;animation:rise .7s .1s both}
-.grad{background:linear-gradient(135deg,var(--c),#fb923c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.hero-sub{font-size:1rem;color:var(--fog);line-height:1.8;max-width:560px;margin-bottom:2rem;animation:rise .7s .2s both}
-.hero-sub code{font-family:var(--M);color:var(--c);font-size:.88em}
-.hero-stats{display:flex;gap:3rem;margin-bottom:2rem;animation:rise .7s .3s both}
-.stat-n{font-family:var(--D);font-weight:700;font-size:1.9rem;color:var(--c);display:block;line-height:1}
-.stat-l{font-size:.72rem;color:var(--fog);letter-spacing:.1em;text-transform:uppercase}
-.btn-row{display:flex;gap:.85rem;flex-wrap:wrap;animation:rise .7s .4s both}
-.btn-p{display:inline-flex;align-items:center;gap:.5rem;background:var(--c);color:#1a1200;font-family:var(--D);font-weight:700;font-size:.75rem;padding:.85rem 1.8rem;border-radius:100px;text-decoration:none;transition:transform .25s,box-shadow .25s;letter-spacing:.03em;white-space:nowrap}
-.btn-p:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(253,224,71,.28)}
-.btn-g{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--snow);font-family:var(--D);font-weight:600;font-size:.75rem;padding:.85rem 1.8rem;border-radius:100px;text-decoration:none;border:1px solid var(--rim2);transition:border-color .2s,background .2s;letter-spacing:.03em;white-space:nowrap}
-.btn-g:hover{border-color:var(--fog);background:var(--ink2)}
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.js-win{background:var(--ink2);border:1px solid var(--rim);border-radius:20px;overflow:hidden;animation:rise .7s .5s both}
-.jw-head{padding:.85rem 1.2rem;border-bottom:1px solid var(--rim);display:flex;align-items:center;gap:.45rem}
-.dot{width:9px;height:9px;border-radius:50%}.dr{background:#ff5f57}.dy{background:#febc2e}.dg{background:#28c840}
-.jw-file{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:var(--fog)}
-.jw-body{padding:1.4rem 1.6rem;font-family:var(--M);font-size:.78rem;line-height:2}
-.kw{color:#a78bfa}.fn{color:#38bdf8}.str{color:#4ade80}.num{color:#fb923c}.cmt{color:#475569}.hl{color:#fde047}.tx{color:var(--snow)}.op{color:var(--fog)}
-.jw-out{margin:0 1.2rem 1.2rem;background:rgba(0,0,0,.4);border:1px solid var(--rim);border-radius:10px;padding:.8rem 1.2rem;font-family:var(--M);font-size:.72rem}
-.out-label{color:#475569;margin-bottom:.35rem;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase}
-.out-line{color:#4ade80;line-height:1.8}
-.ticker-wrap{border-top:1px solid var(--rim);border-bottom:1px solid var(--rim);background:var(--ink1);overflow:hidden;padding:.75rem 0}
-.ticker{display:flex;white-space:nowrap;animation:scroll 32s linear infinite}
-.ti{font-family:var(--M);font-size:.72rem;color:var(--fog);padding:0 2.5rem;display:flex;align-items:center;gap:1rem}
-.ti::after{content:'·';color:var(--rim2)}
-.ti em{font-style:normal;color:var(--c)}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.sec{padding:5rem 0;position:relative;z-index:1}
-.sec-div{border-top:1px solid var(--rim)}
-.slbl{font-family:var(--M);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--c);margin-bottom:.9rem;display:flex;align-items:center;gap:.6rem}
-.slbl::before{content:'//';opacity:.4}
-.sec-h2{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.02em;line-height:1.15}
-.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4.5rem;align-items:start}
-.about-text h2{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,2.8vw,2rem);letter-spacing:-.02em;margin-bottom:1rem;line-height:1.2}
-.about-text p{color:var(--fog);margin-bottom:1rem;line-height:1.8;font-size:.95rem}
-.learn-list{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-top:.5rem}
-.learn-list li{display:flex;align-items:flex-start;gap:.7rem;font-size:.9rem;color:var(--mist)}
-.learn-list li::before{content:'→';color:var(--c);font-family:var(--M);flex-shrink:0;margin-top:2px;font-size:.8rem}
-.tc{background:var(--ink1);border:1px solid var(--rim);border-radius:20px;overflow:hidden}
-.tc-head{padding:.9rem 1.5rem;border-bottom:1px solid var(--rim);font-family:var(--M);font-size:.7rem;color:var(--fog);display:flex;align-items:center;gap:.45rem}
-.tc-row{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--rim);transition:background .15s}
-.tc-row:last-child{border-bottom:none}.tc-row:hover{background:var(--ink2)}
-.tc-name{font-weight:600;font-size:.88rem}.tc-info{font-size:.78rem;color:var(--fog)}
-.tc-link{font-family:var(--M);font-size:.68rem;color:#4d9fff;text-decoration:none;opacity:.75;transition:opacity .2s}
-.tc-link:hover{opacity:1}
-.phase-div{display:flex;align-items:center;gap:1rem;margin:2.5rem 0 1rem}
-.phase-div span{font-family:var(--M);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);white-space:nowrap}
-.phase-div::after{content:'';flex:1;height:1px;background:var(--rim)}
-.lesson-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1px;background:var(--rim);border:1px solid var(--rim);border-radius:20px;overflow:hidden}
-.lc{background:var(--ink1);padding:1.2rem 1.5rem;display:flex;align-items:flex-start;gap:.9rem;text-decoration:none;position:relative;transition:background .2s}
-.lc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--c);transform:scaleY(0);transform-origin:bottom;transition:transform .22s}
-.lc:hover{background:var(--ink2)}.lc:hover::before{transform:scaleY(1)}
-.lnum{font-family:var(--M);font-size:.64rem;color:var(--c);background:rgba(253,224,71,.07);border:1px solid rgba(253,224,71,.2);padding:.15rem .5rem;border-radius:5px;flex-shrink:0;margin-top:3px;letter-spacing:.04em}
-.ltitle{font-size:.87rem;color:var(--mist);line-height:1.45;transition:color .2s}
-.lc:hover .ltitle{color:var(--snow)}
-.steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative}
-.steps-row::before{content:'';position:absolute;top:27px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(90deg,var(--c),#38bdf8,#ff6b35,var(--c));opacity:.3}
-.step-item{text-align:center;padding:0 .5rem}
-.step-circle{width:54px;height:54px;border-radius:50%;border:1px solid var(--rim);background:var(--ink2);display:flex;align-items:center;justify-content:center;font-family:var(--M);font-size:.78rem;color:var(--c);margin:0 auto 1rem;transition:border-color .2s,box-shadow .2s;position:relative;z-index:1}
-.step-item:hover .step-circle{border-color:var(--c);box-shadow:0 0 20px rgba(253,224,71,.15)}
-.step-item h3{font-family:var(--D);font-weight:600;font-size:.85rem;margin-bottom:.4rem}
-.step-item p{font-size:.82rem;color:var(--fog);line-height:1.6}
-footer{border-top:1px solid var(--rim);background:var(--ink1);padding:3rem 2.5rem;position:relative;z-index:1}
-.fi{max-width:1180px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:2.5rem}
-.fb{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--c)}
-.fb p{font-family:var(--B);font-weight:400;font-size:.8rem;color:var(--fog);margin-top:.3rem;line-height:1.6}
-.fl-head{font-family:var(--D);font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fog);margin-bottom:.8rem}
-.fl{list-style:none;display:flex;flex-direction:column;gap:.45rem}
-.fl a{color:var(--fog);font-size:.82rem;text-decoration:none;transition:color .2s}
-.fl a:hover{color:var(--snow)}
-.fc{font-size:.75rem;color:var(--fog);line-height:1.9}.fc strong{color:var(--mist)}
-.sr{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
-.sr.in{opacity:1;transform:none}
-@media(max-width:860px){.about-grid{grid-template-columns:1fr;gap:2.5rem}.steps-row{grid-template-columns:1fr 1fr}.steps-row::before{display:none}.nav-links{display:none}}
-@media(max-width:540px){.steps-row{grid-template-columns:1fr}.lesson-grid{grid-template-columns:1fr}h1{font-size:2.5rem}}
-</style>
-</head>
-<body>
-<nav>
-  <a href="https://techbaseng.github.io" class="nav-logo">TECH<em>BASE</em> ACADEMY</a>
+
+:root{--c:#d97706;--hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 50%,#fff7ed 100%)}
+.eyebrow{color:#d97706;background:rgba(217,119,6,.07);border-color:rgba(217,119,6,.2)}
+.stat-n{color:#d97706}.slbl{color:#d97706}
+.step-n{color:#d97706}.step:hover .step-n{border-color:#d97706;box-shadow:0 0 0 4px rgba(217,119,6,.1)}
+.lc::before{background:#d97706}.lnum{color:#d97706;background:rgba(217,119,6,.07);border-color:rgba(217,119,6,.2)}
+.btn-p{background:#d97706;box-shadow:0 4px 14px rgba(217,119,6,.3)}.btn-p:hover{box-shadow:0 8px 24px rgba(217,119,6,.4)}
+.ticker-wrap{background:#fffbeb;border-top:1px solid #fde68a;border-bottom:1px solid #fde68a}
+.ti{color:#92400e}.ti em{color:#d97706}.fb{color:#d97706}
+</style></head><body>
+<nav><div class="nav-inner">
+  <a href="https://techbaseng.github.io" class="nav-logo"><em>Techbase</em> Academy</a>
   <ul class="nav-links">
-    <li><a href="#lessons">Lessons</a></li>
-    <li><a href="#about">About</a></li>
+    <li class="keep"><a href="#lessons">Lessons</a></li><li><a href="#about">About</a></li>
     <li><a href="https://techbaseng.github.io">← All Courses</a></li>
-    <li><a href="https://github.com/techbaseng/techbase-js" target="_blank">GitHub ↗</a></li>
+    <li class="keep"><a href="lessons/lesson_01.html" style="color:#d97706;font-weight:600">Start Course →</a></li>
   </ul>
-</nav>
-
-<section class="hero">
-  <div class="hero-grid"></div>
-  <div class="blob" style="width:550px;height:550px;background:radial-gradient(circle,rgba(253,224,71,.07) 0%,transparent 70%);top:5%;left:55%"></div>
-  <div class="blob" style="width:350px;height:350px;background:radial-gradient(circle,rgba(251,146,60,.06) 0%,transparent 70%);bottom:15%;left:3%"></div>
-  <div class="wrap" style="position:relative;z-index:1;width:100%;display:grid;grid-template-columns:1.1fr .9fr;gap:4rem;align-items:center">
-    <div>
-      <div class="badge"><span class="badge-pip"></span>FREE COURSE · IBADAN, NIGERIA · INTERMEDIATE</div>
-      <h1><span class="grad">Java-<br>Script</span></h1>
-      <p class="hero-sub">From your first <code>console.log()</code> to async/await, DOM, APIs and a complete reference manual — <strong style="color:var(--snow)">46 lessons</strong> covering JavaScript from beginner to confident developer.</p>
-      <div class="hero-stats">
-        <div><span class="stat-n">46</span><span class="stat-l">Lessons</span></div>
-        <div><span class="stat-n">5</span><span class="stat-l">Phases</span></div>
-        <div><span class="stat-n">HTML+CSS</span><span class="stat-l">Prerequisite</span></div>
-      </div>
-      <div class="btn-row">
-        <a href="lessons/lesson_01.html" class="btn-p">Start Lesson 01 →</a>
-        <a href="#lessons" class="btn-g">View All 46 Lessons</a>
-      </div>
+</div></nav>
+<section class="hero"><div class="hero-grid"></div>
+<div class="hero-inner">
+  <div>
+    <div class="eyebrow">Free Course · Intermediate · Ibadan, Nigeria</div>
+    <h1>JavaScript</h1>
+    <p class="hero-sub">From your first <code>console.log()</code> to async/await, DOM, APIs and a complete reference — <strong>46 lessons</strong> across 5 phases, beginner to confident developer.</p>
+    <div class="hero-stats">
+      <div><span class="stat-n">46</span><span class="stat-l">Lessons</span></div>
+      <div><span class="stat-n">5</span><span class="stat-l">Phases</span></div>
+      <div><span class="stat-n">HTML+CSS</span><span class="stat-l">Prerequisite</span></div>
     </div>
-    <div class="js-win">
-      <div class="jw-head"><span class="dot dr"></span><span class="dot dy"></span><span class="dot dg"></span><span class="jw-file">script.js</span></div>
-      <div class="jw-body">
-        <div><span class="cmt">// Lesson 09 — Arrow Functions</span></div>
-        <div><span class="kw">const</span> <span class="fn">greet</span> <span class="op">=</span> <span class="kw">(</span><span class="tx">name</span><span class="kw">)</span> <span class="op">=&gt;</span> <span class="kw">{</span></div>
-        <div style="padding-left:1.4rem"><span class="kw">return</span> <span class="str">`Hello, <span class="hl">${name}</span>!`</span><span class="op">;</span></div>
-        <div><span class="kw">};</span></div>
-        <div>&nbsp;</div>
-        <div><span class="cmt">// Lesson 34 — Async/Await</span></div>
-        <div><span class="kw">const</span> <span class="fn">fetchData</span> <span class="op">=</span> <span class="kw">async</span> <span class="kw">()</span> <span class="op">=&gt;</span> <span class="kw">{</span></div>
-        <div style="padding-left:1.4rem"><span class="kw">const</span> <span class="tx">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span><span class="kw">(</span><span class="str">'/api/data'</span><span class="kw">)</span><span class="op">;</span></div>
-        <div style="padding-left:1.4rem"><span class="kw">return</span> <span class="tx">res</span><span class="op">.</span><span class="fn">json</span><span class="kw">()</span><span class="op">;</span></div>
-        <div><span class="kw">};</span></div>
-      </div>
-      <div class="jw-out">
-        <div class="out-label">Console output</div>
-        <div class="out-line">&gt; greet("Techbase")</div>
-        <div class="out-line" style="color:var(--snow)">&lt; "Hello, Techbase!"</div>
-      </div>
+    <div class="btn-row">
+      <a href="lessons/lesson_01.html" class="btn-p">Start Lesson 01 →</a>
+      <a href="#lessons" class="btn-g">View All 46 Lessons</a>
     </div>
   </div>
-</section>
-
-<div class="ticker-wrap" aria-hidden="true">
-  <div class="ticker">
-    <span class="ti"><em>const</em> variables</span><span class="ti"><em>=&gt;</em> arrow functions</span><span class="ti"><em>DOM</em> manipulation</span><span class="ti"><em>async/await</em> promises</span><span class="ti"><em>fetch()</em> APIs</span><span class="ti"><em>class</em> OOP</span><span class="ti"><em>Map &amp; Set</em> collections</span><span class="ti"><em>modules</em> imports</span><span class="ti"><em>regex</em> patterns</span><span class="ti"><em>JSON</em> data</span>
-    <span class="ti"><em>const</em> variables</span><span class="ti"><em>=&gt;</em> arrow functions</span><span class="ti"><em>DOM</em> manipulation</span><span class="ti"><em>async/await</em> promises</span><span class="ti"><em>fetch()</em> APIs</span><span class="ti"><em>class</em> OOP</span><span class="ti"><em>Map &amp; Set</em> collections</span><span class="ti"><em>modules</em> imports</span><span class="ti"><em>regex</em> patterns</span><span class="ti"><em>JSON</em> data</span>
+  <div class="prev-card">
+    <div class="pc-bar"><span class="dot dr"></span><span class="dot dy"></span><span class="dot dg"></span><span class="pc-tab">script.js</span></div>
+    <div class="pc-body">
+      <div style="color:#64748b">// Lesson 09 — Arrow Functions</div>
+      <div><span style="color:#c084fc">const</span> <span style="color:#38bdf8">greet</span> = <span style="color:#94a3b8">(</span><span style="color:#e2e8f0">name</span><span style="color:#94a3b8">)</span> => <span style="color:#94a3b8">{</span></div>
+      <div style="padding-left:1.2em"><span style="color:#c084fc">return</span> <span style="color:#86efac">`Hello, <span style="color:#34d399">${name}</span>!`</span><span style="color:#94a3b8">;</span></div>
+      <div><span style="color:#94a3b8">};</span></div>
+      <div>&nbsp;</div>
+      <div style="color:#64748b">// Lesson 34 — Async/Await</div>
+      <div><span style="color:#c084fc">const</span> <span style="color:#38bdf8">getData</span> = <span style="color:#c084fc">async</span> () => <span style="color:#94a3b8">{</span></div>
+      <div style="padding-left:1.2em"><span style="color:#c084fc">const</span> res = <span style="color:#c084fc">await</span> <span style="color:#38bdf8">fetch</span>(<span style="color:#86efac">'/api/data'</span>)<span style="color:#94a3b8">;</span></div>
+      <div style="padding-left:1.2em"><span style="color:#c084fc">return</span> res.<span style="color:#38bdf8">json</span>()<span style="color:#94a3b8">;</span></div>
+      <div><span style="color:#94a3b8">};</span></div>
+    </div>
+    <div style="padding:.75rem 1.2rem 1.1rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#475569;background:#0f172a">
+      <div style="color:#64748b;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem">Console</div>
+      <div style="color:#94a3b8">&gt; greet("Techbase")</div>
+      <div style="color:#34d399">&lt; "Hello, Techbase!"</div>
+    </div>
   </div>
-</div>
-
+</div></section>
+<div class="ticker-wrap" aria-hidden="true"><div class="ticker">
+  <span class="ti"><em>const</em> variables</span><span class="ti"><em>=></em> arrow functions</span><span class="ti"><em>DOM</em> manipulation</span><span class="ti"><em>async/await</em> promises</span><span class="ti"><em>fetch()</em> APIs</span><span class="ti"><em>class</em> OOP</span><span class="ti"><em>Map &amp; Set</em> collections</span><span class="ti"><em>modules</em> imports</span><span class="ti"><em>regex</em> patterns</span><span class="ti"><em>JSON</em> data</span>
+  <span class="ti"><em>const</em> variables</span><span class="ti"><em>=></em> arrow functions</span><span class="ti"><em>DOM</em> manipulation</span><span class="ti"><em>async/await</em> promises</span><span class="ti"><em>fetch()</em> APIs</span><span class="ti"><em>class</em> OOP</span><span class="ti"><em>Map &amp; Set</em> collections</span><span class="ti"><em>modules</em> imports</span><span class="ti"><em>regex</em> patterns</span><span class="ti"><em>JSON</em> data</span>
+</div></div>
 <main>
-<section class="sec" id="about">
-<div class="wrap">
-<div class="about-grid sr">
+<section class="sec" id="about"><div class="wrap"><div class="about-grid sr">
   <div class="about-text">
     <div class="slbl">About This Course</div>
-    <h2>Make the web<br>come alive.</h2>
-    <p>HTML gives pages structure, CSS makes them beautiful — JavaScript makes them <em style="font-style:normal;color:var(--snow)">interactive</em>. It's the programming language of the browser, and the most widely used language in the world.</p>
-    <p>46 lessons across 5 phases, covering everything from syntax to advanced patterns, real projects, and a complete reference manual. Designed by <strong style="color:var(--snow)">Babatunde Awoyemi</strong>, Techbase, Ibadan.</p>
+    <h2>Make the web come alive.</h2>
+    <p>HTML gives structure, CSS makes it beautiful — JavaScript makes it <strong>interactive</strong>. It's the programming language of the browser and the most widely used language in the world. 46 lessons across 5 phases, designed by <strong>Babatunde Awoyemi</strong>, Techbase, Ibadan.</p>
     <ul class="learn-list">
-      <li>Variables, data types, operators and control flow</li>
-      <li>Functions, closures, classes and modules</li>
-      <li>Selecting and manipulating the DOM</li>
-      <li>Events, forms and user interaction</li>
-      <li>Async programming — promises, async/await, Fetch API</li>
-      <li>JSON, AJAX, Web APIs, Canvas and jQuery</li>
+      <li>Variables, data types, operators and control flow</li><li>Functions, closures, classes and modules</li>
+      <li>Selecting and manipulating the DOM</li><li>Events, forms and user interaction</li>
+      <li>Async programming — promises, async/await, Fetch API</li><li>JSON, AJAX, Web APIs, Canvas and jQuery</li>
     </ul>
   </div>
   <div class="tc">
-    <div class="tc-head"><span class="dot dr"></span><span class="dot dy"></span><span class="dot dg"></span>&nbsp;&nbsp;tools_you_need.js</div>
-    <div class="tc-row"><div><div class="tc-name">VS Code</div><div class="tc-info">Write JS, HTML &amp; CSS</div></div><a href="https://code.visualstudio.com" class="tc-link" target="_blank">↗ Download</a></div>
-    <div class="tc-row"><div><div class="tc-name">Live Server</div><div class="tc-info">Auto-refresh on save</div></div><span class="tc-link">VS Code extension</span></div>
-    <div class="tc-row"><div><div class="tc-name">DevTools Console</div><div class="tc-info">Run JS instantly</div></div><span class="tc-link">F12 → Console</span></div>
-    <div class="tc-row"><div><div class="tc-name">Prerequisite: HTML</div><div class="tc-info">Complete first — required</div></div><a href="https://techbaseng.github.io/techbase-html/" class="tc-link">↗ Take course</a></div>
-    <div class="tc-row"><div><div class="tc-name">Prerequisite: CSS</div><div class="tc-info">Complete first — recommended</div></div><a href="https://techbaseng.github.io/techbase-css/" class="tc-link">↗ Take course</a></div>
+    <div class="tc-head"><span class="dot dr"></span><span class="dot dy"></span><span class="dot dg"></span>&nbsp;&nbsp;tools_needed.txt</div>
+    <div class="tc-row"><div><div class="tc-name">VS Code + Live Server</div><div class="tc-info">Write JS, HTML &amp; CSS with live reload</div></div><a href="https://code.visualstudio.com" class="tc-link" target="_blank">↗ Download</a></div>
+    <div class="tc-row"><div><div class="tc-name">Chrome DevTools Console</div><div class="tc-info">Test JavaScript instantly</div></div><span class="tc-link">F12 → Console</span></div>
+    <div class="tc-row"><div><div class="tc-name">Prerequisite: HTML</div><div class="tc-info">Complete first — required</div></div><a href="https://techbaseng.github.io/techbase-html/" class="tc-link">↗ Take it</a></div>
+    <div class="tc-row"><div><div class="tc-name">Prerequisite: CSS</div><div class="tc-info">Complete first — recommended</div></div><a href="https://techbaseng.github.io/techbase-css/" class="tc-link">↗ Take it</a></div>
   </div>
-</div>
-</div>
-</section>
-
-<section class="sec sec-div" id="lessons">
-<div class="wrap">
-  <div class="sr" style="margin-bottom:.5rem">
-    <div class="slbl">Course Content</div>
-    <h2 class="sec-h2">46 Lessons · 5 Phases</h2>
-  </div>
-
+</div></div></section>
+<section class="sec sec-div sec-white" id="lessons"><div class="wrap">
+  <div class="sr"><div class="slbl">Course Content</div><h2 class="sec-h2">46 Lessons · 5 Phases</h2></div>
   <div class="phase-div sr"><span>Phase 1 — Core Language (01–11)</span></div>
   <div class="lesson-grid sr">
     <a href="lessons/lesson_01.html" class="lc"><span class="lnum">01</span><span class="ltitle">JavaScript Tutorial — Introduction, Placement &amp; Output</span></a>
     <a href="lessons/lesson_02.html" class="lc"><span class="lnum">02</span><span class="ltitle">JavaScript Syntax, Statements &amp; Comments</span></a>
     <a href="lessons/lesson_03.html" class="lc"><span class="lnum">03</span><span class="ltitle">JavaScript Variables, let, const &amp; Data Types</span></a>
     <a href="lessons/lesson_04.html" class="lc"><span class="lnum">04</span><span class="ltitle">JavaScript Operators: Arithmetic · Assignment · Comparisons</span></a>
-    <a href="lessons/lesson_05.html" class="lc"><span class="lnum">05</span><span class="ltitle">JavaScript Conditionals: if · if…else · Ternary · Switch · Logical Operators</span></a>
+    <a href="lessons/lesson_05.html" class="lc"><span class="lnum">05</span><span class="ltitle">JavaScript Conditionals: if · else · Ternary · Switch · Logical Operators</span></a>
     <a href="lessons/lesson_06.html" class="lc"><span class="lnum">06</span><span class="ltitle">JavaScript Loops, Control Flow &amp; Loop Keywords</span></a>
-    <a href="lessons/lesson_07.html" class="lc"><span class="lnum">07</span><span class="ltitle">JavaScript Strings: Template Strings · String Methods · String Search</span></a>
-    <a href="lessons/lesson_08.html" class="lc"><span class="lnum">08</span><span class="ltitle">JavaScript Numbers: Number Methods · Properties · Bitwise · BigInt</span></a>
+    <a href="lessons/lesson_07.html" class="lc"><span class="lnum">07</span><span class="ltitle">JavaScript Strings: Template Strings · Methods · Search</span></a>
+    <a href="lessons/lesson_08.html" class="lc"><span class="lnum">08</span><span class="ltitle">JavaScript Numbers: Methods · Properties · Bitwise · BigInt</span></a>
     <a href="lessons/lesson_09.html" class="lc"><span class="lnum">09</span><span class="ltitle">JavaScript Functions: Invocation · Parameters · Return · Arrow Functions</span></a>
     <a href="lessons/lesson_10.html" class="lc"><span class="lnum">10</span><span class="ltitle">JavaScript Objects: Properties · Methods · this · Constructors</span></a>
     <a href="lessons/lesson_11.html" class="lc"><span class="lnum">11</span><span class="ltitle">JavaScript: Scope, Code Blocks, Hoisting &amp; Strict Mode</span></a>
   </div>
-
   <div class="phase-div sr"><span>Phase 2 — Data &amp; Collections (12–20)</span></div>
   <div class="lesson-grid sr">
     <a href="lessons/lesson_12.html" class="lc"><span class="lnum">12</span><span class="ltitle">JavaScript Dates: Creating · Formatting · Reading · Changing</span></a>
     <a href="lessons/lesson_13.html" class="lc"><span class="lnum">13</span><span class="ltitle">JavaScript Temporal API: Modern Date &amp; Time Handling</span></a>
-    <a href="lessons/lesson_14.html" class="lc"><span class="lnum">14</span><span class="ltitle">JavaScript Arrays: Creating · Accessing · Modifying · Sorting · Iterating</span></a>
-    <a href="lessons/lesson_15.html" class="lc"><span class="lnum">15</span><span class="ltitle">JavaScript Sets: Unique Values · Set Methods · Union · Intersection · WeakSet</span></a>
-    <a href="lessons/lesson_16.html" class="lc"><span class="lnum">16</span><span class="ltitle">JavaScript Maps: Key-Value Pairs · Map Methods · WeakMap</span></a>
+    <a href="lessons/lesson_14.html" class="lc"><span class="lnum">14</span><span class="ltitle">JavaScript Arrays: Creating · Modifying · Sorting · Iterating</span></a>
+    <a href="lessons/lesson_15.html" class="lc"><span class="lnum">15</span><span class="ltitle">JavaScript Sets: Unique Values · Methods · Union · WeakSet</span></a>
+    <a href="lessons/lesson_16.html" class="lc"><span class="lnum">16</span><span class="ltitle">JavaScript Maps: Key-Value Pairs · Methods · WeakMap</span></a>
     <a href="lessons/lesson_17.html" class="lc"><span class="lnum">17</span><span class="ltitle">JavaScript Looping, Iterables, Iterators &amp; Generators</span></a>
-    <a href="lessons/lesson_18.html" class="lc"><span class="lnum">18</span><span class="ltitle">JavaScript Math &amp; Random: Math Properties · All Math Methods</span></a>
-    <a href="lessons/lesson_19.html" class="lc"><span class="lnum">19</span><span class="ltitle">JavaScript Regular Expressions: Patterns · Flags · Quantifiers · Groups</span></a>
-    <a href="lessons/lesson_20.html" class="lc"><span class="lnum">20</span><span class="ltitle">JavaScript Destructuring: Arrays · Objects · Nested · Rest · Function Parameters</span></a>
+    <a href="lessons/lesson_18.html" class="lc"><span class="lnum">18</span><span class="ltitle">JavaScript Math &amp; Random: Properties · All Math Methods</span></a>
+    <a href="lessons/lesson_19.html" class="lc"><span class="lnum">19</span><span class="ltitle">JavaScript Regular Expressions: Patterns · Flags · Quantifiers</span></a>
+    <a href="lessons/lesson_20.html" class="lc"><span class="lnum">20</span><span class="ltitle">JavaScript Destructuring: Arrays · Objects · Nested · Rest</span></a>
   </div>
-
   <div class="phase-div sr"><span>Phase 3 — Intermediate Patterns (21–30)</span></div>
   <div class="lesson-grid sr">
-    <a href="lessons/lesson_21.html" class="lc"><span class="lnum">21</span><span class="ltitle">JavaScript Data Types, Primitives, Objects, typeof &amp; Type Conversion</span></a>
-    <a href="lessons/lesson_22.html" class="lc"><span class="lnum">22</span><span class="ltitle">JavaScript Errors — Introduction, Silent Errors, Handling &amp; the Error Object</span></a>
-    <a href="lessons/lesson_23.html" class="lc"><span class="lnum">23</span><span class="ltitle">JavaScript Debugging: Console · Breakpoints · Error Types · Async Debugging</span></a>
-    <a href="lessons/lesson_24.html" class="lc"><span class="lnum">24</span><span class="ltitle">JavaScript Conventions, Best Practices, Common Mistakes &amp; Performance</span></a>
-    <a href="lessons/lesson_25.html" class="lc"><span class="lnum">25</span><span class="ltitle">JavaScript Statements, Reserved Words, Operators &amp; Operator Precedence</span></a>
+    <a href="lessons/lesson_21.html" class="lc"><span class="lnum">21</span><span class="ltitle">JavaScript Data Types, Primitives, typeof &amp; Type Conversion</span></a>
+    <a href="lessons/lesson_22.html" class="lc"><span class="lnum">22</span><span class="ltitle">JavaScript Errors — Introduction, Silent Errors &amp; the Error Object</span></a>
+    <a href="lessons/lesson_23.html" class="lc"><span class="lnum">23</span><span class="ltitle">JavaScript Debugging: Console · Breakpoints · Error Types</span></a>
+    <a href="lessons/lesson_24.html" class="lc"><span class="lnum">24</span><span class="ltitle">JavaScript Conventions, Best Practices &amp; Performance</span></a>
+    <a href="lessons/lesson_25.html" class="lc"><span class="lnum">25</span><span class="ltitle">JavaScript Statements, Reserved Words &amp; Operator Precedence</span></a>
     <a href="lessons/lesson_26.html" class="lc"><span class="lnum">26</span><span class="ltitle">JavaScript Modern Features: ES2016 → ES2026</span></a>
     <a href="lessons/lesson_27.html" class="lc"><span class="lnum">27</span><span class="ltitle">JavaScript History, Versions &amp; The Foundation: ES3 · ES5 · ES6</span></a>
-    <a href="lessons/lesson_28.html" class="lc"><span class="lnum">28</span><span class="ltitle">JavaScript HTML DOM: Methods · Finding Elements · Changing HTML &amp; CSS</span></a>
-    <a href="lessons/lesson_29.html" class="lc"><span class="lnum">29</span><span class="ltitle">JavaScript Events: Mouse · Keyboard · Load · Timing · EventListener API</span></a>
+    <a href="lessons/lesson_28.html" class="lc"><span class="lnum">28</span><span class="ltitle">JavaScript HTML DOM: Methods · Finding &amp; Changing Elements</span></a>
+    <a href="lessons/lesson_29.html" class="lc"><span class="lnum">29</span><span class="ltitle">JavaScript Events: Mouse · Keyboard · Load · Timing · EventListener</span></a>
     <a href="lessons/lesson_30.html" class="lc"><span class="lnum">30</span><span class="ltitle">JavaScript Projects: Counter · To-Do List · Modal · Form Validation</span></a>
   </div>
-
   <div class="phase-div sr"><span>Phase 4 — Advanced &amp; Architecture (31–40)</span></div>
   <div class="lesson-grid sr">
     <a href="lessons/lesson_31.html" class="lc"><span class="lnum">31</span><span class="ltitle">JavaScript Functions: Callbacks · this · call · apply · bind · Closures</span></a>
-    <a href="lessons/lesson_32.html" class="lc"><span class="lnum">32</span><span class="ltitle">JavaScript Objects: Iterations · Accessors · Prototypes · Reference</span></a>
-    <a href="lessons/lesson_33.html" class="lc"><span class="lnum">33</span><span class="ltitle">JavaScript Classes: Syntax · Inheritance · Static Methods &amp; Properties</span></a>
-    <a href="lessons/lesson_34.html" class="lc"><span class="lnum">34</span><span class="ltitle">JavaScript Asynchronous Programming: Promises · Async/Await · Fetch API</span></a>
-    <a href="lessons/lesson_35.html" class="lc"><span class="lnum">35</span><span class="ltitle">JavaScript Modules: Exports · Imports · Namespaces · Dynamic Imports</span></a>
+    <a href="lessons/lesson_32.html" class="lc"><span class="lnum">32</span><span class="ltitle">JavaScript Objects: Iterations · Accessors · Prototypes</span></a>
+    <a href="lessons/lesson_33.html" class="lc"><span class="lnum">33</span><span class="ltitle">JavaScript Classes: Syntax · Inheritance · Static Methods</span></a>
+    <a href="lessons/lesson_34.html" class="lc"><span class="lnum">34</span><span class="ltitle">JavaScript Asynchronous Programming: Promises · Async/Await · Fetch</span></a>
+    <a href="lessons/lesson_35.html" class="lc"><span class="lnum">35</span><span class="ltitle">JavaScript Modules: Exports · Imports · Dynamic Imports</span></a>
     <a href="lessons/lesson_36.html" class="lc"><span class="lnum">36</span><span class="ltitle">JavaScript Meta Programming: Reflect API · Proxy API</span></a>
     <a href="lessons/lesson_37.html" class="lc"><span class="lnum">37</span><span class="ltitle">JavaScript Typed Arrays, ArrayBuffers, DataView &amp; Atomics</span></a>
     <a href="lessons/lesson_38.html" class="lc"><span class="lnum">38</span><span class="ltitle">JavaScript DOM — Navigation, Nodes, Collections &amp; NodeLists</span></a>
-    <a href="lessons/lesson_39.html" class="lc"><span class="lnum">39</span><span class="ltitle">JavaScript Browser Object Model (BOM): Window · Location · History · Cookies</span></a>
-    <a href="lessons/lesson_40.html" class="lc"><span class="lnum">40</span><span class="ltitle">JavaScript Web APIs: Fetch · Geolocation · Web Storage · Web Workers</span></a>
+    <a href="lessons/lesson_39.html" class="lc"><span class="lnum">39</span><span class="ltitle">JavaScript Browser Object Model: Window · Location · History</span></a>
+    <a href="lessons/lesson_40.html" class="lc"><span class="lnum">40</span><span class="ltitle">JavaScript Web APIs: Fetch · Geolocation · Web Storage · Workers</span></a>
   </div>
-
   <div class="phase-div sr"><span>Phase 5 — Ecosystem &amp; Reference (41–46)</span></div>
   <div class="lesson-grid sr">
-    <a href="lessons/lesson_41.html" class="lc"><span class="lnum">41</span><span class="ltitle">JavaScript AJAX: XMLHttpRequest · Sending Requests · Handling Responses</span></a>
-    <a href="lessons/lesson_42.html" class="lc"><span class="lnum">42</span><span class="ltitle">JavaScript JSON: Syntax · JSON.parse() · JSON.stringify() · JSON &amp; Servers</span></a>
+    <a href="lessons/lesson_41.html" class="lc"><span class="lnum">41</span><span class="ltitle">JavaScript AJAX: XMLHttpRequest · Sending &amp; Handling Responses</span></a>
+    <a href="lessons/lesson_42.html" class="lc"><span class="lnum">42</span><span class="ltitle">JavaScript JSON: Syntax · JSON.parse() · JSON.stringify() · Servers</span></a>
     <a href="lessons/lesson_43.html" class="lc"><span class="lnum">43</span><span class="ltitle">JavaScript &amp; jQuery: Selectors · HTML · CSS · DOM Manipulation</span></a>
     <a href="lessons/lesson_44.html" class="lc"><span class="lnum">44</span><span class="ltitle">JavaScript Graphics: Canvas · Plotly · Chart.js · Google Charts · D3.js</span></a>
-    <a href="lessons/lesson_45.html" class="lc"><span class="lnum">45</span><span class="ltitle">JavaScript Mastery Capstone: Examples Library · Practice Arsenal · Interview Prep</span></a>
-    <a href="lessons/lesson_46.html" class="lc"><span class="lnum">46</span><span class="ltitle">JavaScript Complete Reference Manual: Every Built-in Object · Method · Property</span></a>
+    <a href="lessons/lesson_45.html" class="lc"><span class="lnum">45</span><span class="ltitle">JavaScript Mastery Capstone: Examples · Practice · Interview Prep</span></a>
+    <a href="lessons/lesson_46.html" class="lc"><span class="lnum">46</span><span class="ltitle">JavaScript Complete Reference Manual</span></a>
   </div>
-</div>
-</section>
-
-<section class="sec sec-div">
-<div class="wrap sr">
-  <div class="slbl" style="margin-bottom:1rem">How It Works</div>
-  <h2 class="sec-h2" style="margin-bottom:3rem">Learn at your own pace.</h2>
+</div></section>
+<section class="sec sec-div"><div class="wrap sr">
+  <div class="slbl">How It Works</div><h2 class="sec-h2" style="margin-bottom:3rem">Learn at your own pace.</h2>
   <div class="steps-row">
-    <div class="step-item"><div class="step-circle">01</div><h3>Finish HTML First</h3><p>This course manipulates HTML elements. Understand HTML (and ideally CSS) before you begin.</p></div>
-    <div class="step-item"><div class="step-circle">02</div><h3>Open Lesson 01</h3><p>Click the first card or the hero button. Open DevTools alongside every lesson.</p></div>
-    <div class="step-item"><div class="step-circle">03</div><h3>Use the Console</h3><p>Press F12 in Chrome. Run every code snippet as you read — learning JS requires typing JS.</p></div>
-    <div class="step-item"><div class="step-circle">04</div><h3>Build the Projects</h3><p>Lesson 30 has real projects. Lesson 45 is the capstone. Work through every single one.</p></div>
+    <div class="step"><div class="step-n">01</div><h3>Finish HTML First</h3><p>This course manipulates HTML. Complete HTML (and ideally CSS) before you start.</p></div>
+    <div class="step"><div class="step-n">02</div><h3>Open Lesson 01</h3><p>Open DevTools (F12) alongside every lesson and run every snippet as you read.</p></div>
+    <div class="step"><div class="step-n">03</div><h3>Type the Code</h3><p>Don't copy-paste. Type every example. Muscle memory is how JS learning sticks.</p></div>
+    <div class="step"><div class="step-n">04</div><h3>Build Projects</h3><p>Lesson 30 has real projects. Lesson 45 is the capstone. Complete every one.</p></div>
   </div>
-</div>
-</section>
+</div></section>
 </main>
-
 <footer>
   <div class="fi">
-    <div class="fb">TECHBASE ACADEMY<p>Ibadan, Nigeria · Free STEM Education</p></div>
-    <div>
-      <p class="fl-head">This Course</p>
-      <ul class="fl">
-        <li><a href="#lessons">All 46 Lessons</a></li>
-        <li><a href="https://github.com/techbaseng/techbase-js" target="_blank">GitHub Repo ↗</a></li>
-      </ul>
-    </div>
-    <div>
-      <p class="fl-head">Learning Path</p>
-      <ul class="fl">
-        <li><a href="https://techbaseng.github.io/techbase-html/">← HTML Fundamentals</a></li>
-        <li><a href="https://techbaseng.github.io/techbase-css/">← CSS Styling</a></li>
-        <li><a href="https://techbaseng.github.io">← All Courses</a></li>
-      </ul>
-    </div>
-    <div class="fc"><strong>MIT License</strong><br>© 2025 Techbase Consultant Services<br>Made with ❤️ in Ibadan, Nigeria</div>
+    <div><div class="fb">JavaScript</div><p>Part of the Techbase STEM Academy free course series. Ibadan, Nigeria.</p></div>
+    <div><p class="fl-h">Lessons</p><ul class="fl"><li><a href="#lessons">All 46 Lessons</a></li><li><a href="https://github.com/techbaseng/techbase-js" target="_blank">GitHub Repo</a></li></ul></div>
+    <div><p class="fl-h">Path</p><ul class="fl"><li><a href="https://techbaseng.github.io/techbase-css/">← CSS</a></li><li><a href="https://techbaseng.github.io/techbase-python/">Python →</a></li></ul></div>
+    <div><p class="fl-h">Academy</p><ul class="fl"><li><a href="https://techbaseng.github.io">← All Courses</a></li><li><a href="https://techbasengr.com.ng" target="_blank">Website</a></li></ul></div>
   </div>
+  <div class="f-bot"><span>© 2025 Techbase Consultant Services</span><span>MIT License · Made with ❤️ in Ibadan</span></div>
 </footer>
 <script>const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.07});document.querySelectorAll('.sr').forEach(el=>io.observe(el));</script>
-</body>
-</html>
+</body></html>
