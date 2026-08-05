@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 17: JS Strings — Techbase JS Course</title>
+<meta name="description" content="Create and work with strings — properties, concatenation and template literals">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
+  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
+  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--t2:#334155;--muted:#64748b;
+  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.l-nav-back:hover{color:var(--accent)}
+.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
+.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:820px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
+.l-hero-build strong{color:var(--accent)}
+.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
+.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
+.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
+.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
+.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.phase-check.done{background:#10b981;color:#fff}
+.phase-body{padding:1.4rem}
+.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
+.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
+.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
+.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
+.code-dot{width:8px;height:8px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
+.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
+.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
+.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
+.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
+.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
+.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
+.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
+.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
+.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
+.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
+.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.github-acc-body.open{display:block}
+.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.session-end.visible{display:block}
+.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ln-btn.primary:hover{opacity:.9}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+</style>
+</head>
+<body>
+<nav class="l-nav">
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
+  <span class="l-nav-lesson">Lesson 17 of 46</span>
+  <a href="../index.html" class="l-nav-back">← All Lessons</a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div class="l-hero">
+  <div class="l-hero-inner">
+    <div class="l-badge">JavaScript · Lesson 17 </div>
+    <h1>JS Strings</h1>
+    <div class="l-hero-tag">Create and work with strings — properties, concatenation and template literals</div>
+    <div class="l-hero-build"><strong>🏗️ Build:</strong> My String Toolbox</div>
+  </div>
+</div>
+<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+  <h2>👋 Welcome to Lesson 17</h2>
+  <p>Create and work with strings — properties, concatenation and template literals</p>
+  <div class="welcome-meta">
+    <span>📚 2 phases</span>
+    <span>🏗️ Build: My String Toolbox</span>
+    
+  </div>
+</div></div>
+</section>
+<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">String basics and template literals</div></div>
+    <div class="phase-check" id="check1"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Strings are immutable sequences of characters. Create with quotes: single <code>&apos;</code>, double <code>&quot;</code>, or backtick <code>`</code> (template literal). Template literals support: multiline strings, embedded expressions <code>${expr}</code>, and tagged templates. Properties: <code>.length</code>. Escape sequences: <code>\n</code> (newline), <code>\t</code> (tab), <code>\'</code> (quote).</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>const name = &#x27;Amina&#x27;;
+const course = &#x27;JavaScript&#x27;;
+
+// Concatenation (old way)
+const msg1 = &#x27;Hello, &#x27; + name + &#x27;! Welcome to &#x27; + course + &#x27;.&#x27;;
+
+// Template literal (modern — prefer this)
+const msg2 = `Hello, ${name}! Welcome to ${course}.`;
+
+// Expressions in template literals
+const score = 94;
+const msg3 = `Score: ${score} — Grade: ${score &gt;= 70 ? &#x27;A&#x27; : &#x27;B&#x27;}`;
+
+// Multiline template literal
+const email = `
+  Dear ${name},
+
+  Your enrollment in ${course} is confirmed.
+  Score: ${score}
+
+  Techbase Academy
+`;
+
+// String properties
+&#x27;hello&#x27;.length;      // 5
+&#x27;&#x27;.length;           // 0 (empty string is falsy)
+
+// Escape sequences
+&#x27;Line 1\nLine 2&#x27;;   // newline
+&#x27;Tab\there&#x27;;        // tab
+&quot;She said \&quot;hi\&quot;&quot;; // escaped quote</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Write a function that takes a student object and returns a formatted report card string using a template literal. Include name, score, grade, and a personalised message based on their grade.</p></div>
+    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase2">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">String immutability</div></div>
+    <div class="phase-check" id="check2"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Strings are immutable — methods return NEW strings, they don't change the original. Accessing characters: <code>str[0]</code> or <code>str.charAt(0)</code>. Comparing: use <code>===</code>, or <code>.localeCompare()</code> for proper alphabetical ordering. <code>typeof</code> returns <code>'string'</code>. Strings and numbers: <code>Number('42')</code>, <code>String(42)</code>, <code>parseInt('42px')</code>.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>let str = &#x27;Hello&#x27;;
+str.toUpperCase();  // &#x27;HELLO&#x27;
+console.log(str);   // still &#x27;Hello&#x27; — immutable!
+
+// Character access
+&#x27;Hello&#x27;[0];             // &#x27;H&#x27;
+&#x27;Hello&#x27;.charAt(1);      // &#x27;e&#x27;
+&#x27;Hello&#x27;.at(-1);         // &#x27;o&#x27; (negative index!)
+
+// String → number
+Number(&#x27;42&#x27;);           // 42
+parseInt(&#x27;42px&#x27;);       // 42 (stops at non-digit)
+parseFloat(&#x27;3.14em&#x27;);   // 3.14
++&#x27;42&#x27;;                  // 42 (unary + operator)
+
+// Number → string
+String(42);             // &#x27;42&#x27;
+(42).toString();        // &#x27;42&#x27;
+(3.14159).toFixed(2);  // &#x27;3.14&#x27; (for display)
+
+// Comparison
+&#x27;apple&#x27; &lt; &#x27;banana&#x27;;        // true (alphabetical)
+&#x27;Apple&#x27;.localeCompare(&#x27;apple&#x27;);  // negative (A before a)</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Create a function <code>formatCurrency(amount)</code> that takes a number and returns it formatted as Nigerian Naira: <code>₦5,000.00</code>. Use <code>toLocaleString()</code> or <code>toFixed()</code>.</p></div>
+    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+  </div>
+</div>
+<div class="project-box" id="build-it" style="display:none">
+  <div class="project-label">🏗️ Build It</div>
+  <div class="project-name">String Toolbox</div>
+  <div class="project-desc">A text transformation playground with live string methods.</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
+<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;title&gt;JS Strings&lt;/title&gt;
+&lt;style&gt;
+  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+  textarea,input[type=text]{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+  textarea:focus,input:focus{border-color:#d97706}
+  .btn-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .btn{padding:8px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:12px;background:#fef3c7;color:#92400e;border:1.5px solid #fde68a;transition:.15s}
+  .btn:hover,.btn.active{background:#d97706;color:white;border-color:#d97706}
+  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;min-height:44px;word-break:break-all;white-space:pre-wrap}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .stat{background:#fef9ee;border:1.5px solid #fde68a;border-radius:8px;padding:8px 14px;text-align:center;flex:1;min-width:80px}
+  .stat-val{font-size:1.4rem;font-weight:800;color:#d97706;display:block}
+  .stat-lbl{font-size:11px;color:#92400e}
+  .template-out{background:#fef3c7;border-radius:8px;padding:14px;font-size:14px;line-height:1.8;color:#78350f;white-space:pre-wrap}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;⚡ JS Strings&lt;/h1&gt;
+&lt;h2&gt;String Transformer&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+  &lt;textarea id=&quot;str-in&quot; rows=&quot;2&quot;&gt;Hello, Techbase Academy!&lt;/textarea&gt;
+  &lt;div class=&quot;stat-row&quot;&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-val&quot; id=&quot;s-len&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;stat-lbl&quot;&gt;length&lt;/span&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-val&quot; id=&quot;s-words&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;stat-lbl&quot;&gt;words&lt;/span&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-val&quot; id=&quot;s-chars&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;stat-lbl&quot;&gt;non-space&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;btn-row&quot;&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;upper&#x27;)&quot;&gt;UPPERCASE&lt;/button&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;lower&#x27;)&quot;&gt;lowercase&lt;/button&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;title&#x27;)&quot;&gt;Title Case&lt;/button&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;reverse&#x27;)&quot;&gt;esreveR&lt;/button&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;trim&#x27;)&quot;&gt;Trim&lt;/button&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;repeat&#x27;)&quot;&gt;×3 Repeat&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;output&quot; id=&quot;str-out&quot;&gt;Result appears here…&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Template Literal Report Card&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+  &lt;input type=&quot;text&quot; id=&quot;rpt-name&quot; placeholder=&quot;Student Name&quot; value=&quot;Amina Bello&quot;&gt;
+  &lt;input type=&quot;number&quot; id=&quot;rpt-score&quot; placeholder=&quot;Score (0-100)&quot; value=&quot;94&quot;&gt;
+  &lt;button style=&quot;background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;width:100%&quot; onclick=&quot;makeReport()&quot;&gt;Generate Report Card&lt;/button&gt;
+  &lt;div class=&quot;template-out&quot; id=&quot;rpt-out&quot; style=&quot;margin-top:10px&quot;&gt;Fill in details and click Generate&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;String to Number&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+  &lt;input type=&quot;text&quot; id=&quot;conv-in&quot; placeholder=&quot;Try: &#x27;42&#x27;, &#x27;3.14&#x27;, &#x27;₦5000&#x27;, &#x27;hello&#x27;&quot; value=&quot;₦5,000.00&quot;&gt;
+  &lt;div class=&quot;btn-row&quot;&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;convert(&#x27;Number&#x27;)&quot;&gt;Number()&lt;/button&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;convert(&#x27;parseInt&#x27;)&quot;&gt;parseInt()&lt;/button&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;convert(&#x27;parseFloat&#x27;)&quot;&gt;parseFloat()&lt;/button&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;convert(&#x27;unary&#x27;)&quot;&gt;+val (unary)&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;output&quot; id=&quot;conv-out&quot;&gt;Select a conversion method&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  const strIn = document.getElementById(&#x27;str-in&#x27;);
+  function updateStats() {
+    const v = strIn.value;
+    document.getElementById(&#x27;s-len&#x27;).textContent = v.length;
+    document.getElementById(&#x27;s-words&#x27;).textContent = v.trim() ? v.trim().split(/\s+/).length : 0;
+    document.getElementById(&#x27;s-chars&#x27;).textContent = v.replace(/\s/g,&#x27;&#x27;).length;
+  }
+  strIn.addEventListener(&#x27;input&#x27;, updateStats);
+  updateStats();
+  function transform(op) {
+    const v = strIn.value;
+    let result;
+    switch(op) {
+      case &#x27;upper&#x27;: result = v.toUpperCase(); break;
+      case &#x27;lower&#x27;: result = v.toLowerCase(); break;
+      case &#x27;title&#x27;: result = v.replace(/\w\S*/g, w =&gt; w[0].toUpperCase() + w.slice(1).toLowerCase()); break;
+      case &#x27;reverse&#x27;: result = v.split(&#x27;&#x27;).reverse().join(&#x27;&#x27;); break;
+      case &#x27;trim&#x27;: result = v.trim(); break;
+      case &#x27;repeat&#x27;: result = v.repeat(3); break;
+    }
+    document.getElementById(&#x27;str-out&#x27;).textContent = result;
+  }
+  function makeReport() {
+    const name  = document.getElementById(&#x27;rpt-name&#x27;).value || &#x27;Student&#x27;;
+    const score = parseInt(document.getElementById(&#x27;rpt-score&#x27;).value) || 0;
+    const grade = score &gt;= 70 ? &#x27;A&#x27; : score &gt;= 60 ? &#x27;B&#x27; : score &gt;= 50 ? &#x27;C&#x27; : score &gt;= 45 ? &#x27;D&#x27; : &#x27;F&#x27;;
+    const msg   = grade === &#x27;A&#x27; ? &#x27;Outstanding performance! 🌟&#x27; :
+                  grade === &#x27;B&#x27; ? &#x27;Great work — keep it up! 👍&#x27; :
+                  grade === &#x27;C&#x27; ? &#x27;Good effort — room to improve.&#x27; :
+                  grade === &#x27;D&#x27; ? &#x27;Passed — more practice needed.&#x27; : &#x27;Please see your instructor.&#x27;;
+    document.getElementById(&#x27;rpt-out&#x27;).textContent =
+`╔══════════════════════════════╗
+║     TECHBASE ACADEMY          ║
+║     Student Report Card       ║
+╚══════════════════════════════╝
+
+Student: ${name}
+Score:   ${score}/100
+Grade:   ${grade}
+
+${msg}
+
+Generated: ${new Date().toLocaleDateString(&#x27;en-NG&#x27;)}`;
+  }
+  function convert(method) {
+    const raw = document.getElementById(&#x27;conv-in&#x27;).value;
+    // Strip currency symbols for parsing
+    const clean = raw.replace(/[₦,\s]/g,&#x27;&#x27;);
+    let result, expr;
+    switch(method) {
+      case &#x27;Number&#x27;:   result = Number(clean);     expr = `Number(&quot;${raw}&quot;)`; break;
+      case &#x27;parseInt&#x27;:  result = parseInt(clean,10); expr = `parseInt(&quot;${raw}&quot;)`; break;
+      case &#x27;parseFloat&#x27;:result = parseFloat(clean); expr = `parseFloat(&quot;${raw}&quot;)`; break;
+      case &#x27;unary&#x27;:    result = +clean;             expr = `+&quot;${raw}&quot;`; break;
+    }
+    document.getElementById(&#x27;conv-out&#x27;).textContent =
+      `${expr}
+→ ${result}
+→ typeof: ${typeof result}
+→ isNaN: ${isNaN(result)}`;
+  }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+</div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+      ⬇ Download starter.html
+    </button>
+    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+      🐙 Push to GitHub →
+    </button>
+  </div>
+  <script>
+  const __code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JS Strings</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+  textarea,input[type=text]{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+  textarea:focus,input:focus{border-color:#d97706}
+  .btn-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .btn{padding:8px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:12px;background:#fef3c7;color:#92400e;border:1.5px solid #fde68a;transition:.15s}
+  .btn:hover,.btn.active{background:#d97706;color:white;border-color:#d97706}
+  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;min-height:44px;word-break:break-all;white-space:pre-wrap}
+  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .stat{background:#fef9ee;border:1.5px solid #fde68a;border-radius:8px;padding:8px 14px;text-align:center;flex:1;min-width:80px}
+  .stat-val{font-size:1.4rem;font-weight:800;color:#d97706;display:block}
+  .stat-lbl{font-size:11px;color:#92400e}
+  .template-out{background:#fef3c7;border-radius:8px;padding:14px;font-size:14px;line-height:1.8;color:#78350f;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<h1>⚡ JS Strings</h1>
+<h2>String Transformer</h2>
+<div class="box">
+  <textarea id="str-in" rows="2">Hello, Techbase Academy!</textarea>
+  <div class="stat-row">
+    <div class="stat"><span class="stat-val" id="s-len">0</span><span class="stat-lbl">length</span></div>
+    <div class="stat"><span class="stat-val" id="s-words">0</span><span class="stat-lbl">words</span></div>
+    <div class="stat"><span class="stat-val" id="s-chars">0</span><span class="stat-lbl">non-space</span></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn" onclick="transform('upper')">UPPERCASE</button>
+    <button class="btn" onclick="transform('lower')">lowercase</button>
+    <button class="btn" onclick="transform('title')">Title Case</button>
+    <button class="btn" onclick="transform('reverse')">esreveR</button>
+    <button class="btn" onclick="transform('trim')">Trim</button>
+    <button class="btn" onclick="transform('repeat')">×3 Repeat</button>
+  </div>
+  <div class="output" id="str-out">Result appears here…</div>
+</div>
+<h2>Template Literal Report Card</h2>
+<div class="box">
+  <input type="text" id="rpt-name" placeholder="Student Name" value="Amina Bello">
+  <input type="number" id="rpt-score" placeholder="Score (0-100)" value="94">
+  <button style="background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;width:100%" onclick="makeReport()">Generate Report Card</button>
+  <div class="template-out" id="rpt-out" style="margin-top:10px">Fill in details and click Generate</div>
+</div>
+<h2>String to Number</h2>
+<div class="box">
+  <input type="text" id="conv-in" placeholder="Try: '42', '3.14', '₦5000', 'hello'" value="₦5,000.00">
+  <div class="btn-row">
+    <button class="btn" onclick="convert('Number')">Number()</button>
+    <button class="btn" onclick="convert('parseInt')">parseInt()</button>
+    <button class="btn" onclick="convert('parseFloat')">parseFloat()</button>
+    <button class="btn" onclick="convert('unary')">+val (unary)</button>
+  </div>
+  <div class="output" id="conv-out">Select a conversion method</div>
+</div>
+<script>
+  const strIn = document.getElementById('str-in');
+  function updateStats() {
+    const v = strIn.value;
+    document.getElementById('s-len').textContent = v.length;
+    document.getElementById('s-words').textContent = v.trim() ? v.trim().split(/\s+/).length : 0;
+    document.getElementById('s-chars').textContent = v.replace(/\s/g,'').length;
+  }
+  strIn.addEventListener('input', updateStats);
+  updateStats();
+  function transform(op) {
+    const v = strIn.value;
+    let result;
+    switch(op) {
+      case 'upper': result = v.toUpperCase(); break;
+      case 'lower': result = v.toLowerCase(); break;
+      case 'title': result = v.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase()); break;
+      case 'reverse': result = v.split('').reverse().join(''); break;
+      case 'trim': result = v.trim(); break;
+      case 'repeat': result = v.repeat(3); break;
+    }
+    document.getElementById('str-out').textContent = result;
+  }
+  function makeReport() {
+    const name  = document.getElementById('rpt-name').value || 'Student';
+    const score = parseInt(document.getElementById('rpt-score').value) || 0;
+    const grade = score >= 70 ? 'A' : score >= 60 ? 'B' : score >= 50 ? 'C' : score >= 45 ? 'D' : 'F';
+    const msg   = grade === 'A' ? 'Outstanding performance! 🌟' :
+                  grade === 'B' ? 'Great work — keep it up! 👍' :
+                  grade === 'C' ? 'Good effort — room to improve.' :
+                  grade === 'D' ? 'Passed — more practice needed.' : 'Please see your instructor.';
+    document.getElementById('rpt-out').textContent =
+\`╔══════════════════════════════╗
+║     TECHBASE ACADEMY          ║
+║     Student Report Card       ║
+╚══════════════════════════════╝
+
+Student: ${name}
+Score:   ${score}/100
+Grade:   ${grade}
+
+${msg}
+
+Generated: ${new Date().toLocaleDateString('en-NG')}\`;
+  }
+  function convert(method) {
+    const raw = document.getElementById('conv-in').value;
+    // Strip currency symbols for parsing
+    const clean = raw.replace(/[₦,\s]/g,'');
+    let result, expr;
+    switch(method) {
+      case 'Number':   result = Number(clean);     expr = \`Number("${raw}")\`; break;
+      case 'parseInt':  result = parseInt(clean,10); expr = \`parseInt("${raw}")\`; break;
+      case 'parseFloat':result = parseFloat(clean); expr = \`parseFloat("${raw}")\`; break;
+      case 'unary':    result = +clean;             expr = \`+"${raw}"\`; break;
+    }
+    document.getElementById('conv-out').textContent =
+      \`${expr}
+→ ${result}
+→ typeof: ${typeof result}
+→ isNaN: ${isNaN(result)}\`;
+  }
+</script>
+</body>
+</html>`;
+  function downloadStarter(){
+    const a=document.createElement('a');
+    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
+    a.download='starter.html'; a.click();
+  }
+  </script>
+</div>
+
+<div class="github-acc" id="github-steps" style="display:none">
+  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
+    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+  </div>
+  <div class="github-acc-body">
+    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-17-js_strings</code>.</p></div>
+    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
+    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 17 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-17-js_strings/</code> in ~1 min! 🎉</p></div>
+    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  </div>
+</div>
+<div class="session-end" id="session-end">
+  <h2>🎉 Great work! Lesson 17 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
+  <ul><li>✅ String basics and template literals</li><li>✅ String immutability</li></ul>
+  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
+    <a href="lesson_16.html" class="ln-btn">← Lesson 16</a>
+    <a href="lesson_18.html" class="ln-btn primary">Lesson 18 →</a>
+  </div>
+</div>
+</main>
+<footer class="lesson-footer">
+  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 17 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+</footer>
+<script>
+const TOTAL=2, KEY='techbase_js_17_phase';
+let current=parseInt(localStorage.getItem(KEY)||'1');
+function init(){
+  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  updateBar();
+}
+function unlockNext(n){
+  document.getElementById('check'+n).classList.add('done');
+  document.getElementById('check'+n).textContent='✓';
+  localStorage.setItem(KEY,n+1);
+  current=n+1;
+  if(n===TOTAL){
+    document.getElementById('build-it').style.display='block';
+    const cap=document.getElementById('capstone');
+    if(cap) cap.style.display='block';
+    updateBar(100);
+    setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
+  } else {
+    unlockPhase(n+1,true);
+    updateBar();
+  }
+}
+function unlockPhase(n,scroll){
+  const el=document.getElementById('phase'+n);
+  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+}
+function updateBar(pct){
+  const p=pct||Math.round((current-1)/TOTAL*95);
+  document.getElementById('pbar').style.width=p+'%';
+}
+function showGithub(){
+  const g=document.getElementById('github-steps');
+  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+}
+function showEnd(){
+  const e=document.getElementById('session-end');
+  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+}
+init();
+</script>
+</body>
+</html>

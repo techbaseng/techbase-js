@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 21: JS Numbers — Techbase JS Course</title>
+<meta name="description" content="Work with numbers, number methods and the Math object">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
+  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
+  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--t2:#334155;--muted:#64748b;
+  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.l-nav-back:hover{color:var(--accent)}
+.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
+.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:820px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
+.l-hero-build strong{color:var(--accent)}
+.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
+.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
+.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
+.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
+.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.phase-check.done{background:#10b981;color:#fff}
+.phase-body{padding:1.4rem}
+.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
+.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
+.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
+.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
+.code-dot{width:8px;height:8px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
+.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
+.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
+.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
+.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
+.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
+.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
+.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
+.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
+.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
+.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
+.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.github-acc-body.open{display:block}
+.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.session-end.visible{display:block}
+.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ln-btn.primary:hover{opacity:.9}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+</style>
+</head>
+<body>
+<nav class="l-nav">
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
+  <span class="l-nav-lesson">Lesson 21 of 46</span>
+  <a href="../index.html" class="l-nav-back">← All Lessons</a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div class="l-hero">
+  <div class="l-hero-inner">
+    <div class="l-badge">JavaScript · Lesson 21 </div>
+    <h1>JS Numbers</h1>
+    <div class="l-hero-tag">Work with numbers, number methods and the Math object</div>
+    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Number Toolbox</div>
+  </div>
+</div>
+<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+  <h2>👋 Welcome to Lesson 21</h2>
+  <p>Work with numbers, number methods and the Math object</p>
+  <div class="welcome-meta">
+    <span>📚 2 phases</span>
+    <span>🏗️ Build: My Number Toolbox</span>
+    
+  </div>
+</div></div>
+</section>
+<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Number types and limits</div></div>
+    <div class="phase-check" id="check1"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>JS has one number type: 64-bit float (IEEE 754). Integer precision up to 2⁵³-1 (<code>Number.MAX_SAFE_INTEGER</code> = 9007199254740991). Larger: use BigInt. Special values: <code>Infinity</code>, <code>-Infinity</code>, <code>NaN</code>. Check: <code>isFinite()</code>, <code>isNaN()</code>. Hex: <code>0xFF</code>. Octal: <code>0o77</code>. Binary: <code>0b1010</code>.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>Number.MAX_SAFE_INTEGER;  // 9007199254740991
+Number.MIN_SAFE_INTEGER;  // -9007199254740991
+Number.MAX_VALUE;         // ~1.8e+308
+Number.EPSILON;           // ~2.22e-16
+
+// Checking special values
+isNaN(NaN);        // true
+isNaN(&#x27;hello&#x27;);    // true  (converts then checks)
+Number.isNaN(NaN); // true  (strict — no conversion)
+Number.isNaN(&#x27;hello&#x27;); // false (correct!)
+isFinite(1/0);     // false
+Number.isFinite(42); // true
+
+// Number bases
+0xFF;     // 255 (hex)
+0o77;     // 63  (octal)
+0b1010;   // 10  (binary)
+
+// Scientific notation
+1e6;    // 1000000
+1.5e-3; // 0.0015
+
+// Number methods
+(3.14159).toFixed(2);      // &quot;3.14&quot;
+(1234567).toLocaleString(); // &quot;1,234,567&quot;
+(255).toString(16);         // &quot;ff&quot;  (to hex)
+(10).toString(2);           // &quot;1010&quot; (to binary)</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Write a function that checks if a number is: safe integer, finite, NaN. Display all three checks in a coloured badge system.</p></div>
+    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase2">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Math object</div></div>
+    <div class="phase-check" id="check2"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><code>Math</code> has 30+ methods. Key: <code>Math.random()</code> — float 0 to <1. Random integer: <code>Math.floor(Math.random() * max)</code>. Range: <code>Math.floor(Math.random() * (max - min + 1)) + min</code>. Rounding: <code>round</code>, <code>floor</code>, <code>ceil</code>, <code>trunc</code>. Trig: <code>sin, cos, tan</code>. Log: <code>log, log2, log10</code>.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// Random numbers
+Math.random();                              // 0.xxx (0 ≤ x &lt; 1)
+Math.floor(Math.random() * 6) + 1;         // dice: 1–6
+Math.floor(Math.random() * (100 - 50 + 1)) + 50; // 50–100
+
+// Rounding
+Math.round(4.5);   // 5
+Math.floor(4.9);   // 4 (towards -∞)
+Math.ceil(4.1);    // 5 (towards +∞)
+Math.trunc(4.9);   // 4 (towards 0, same for positive)
+Math.trunc(-4.9);  // -4 (truncates decimal part)
+
+// Power &amp; roots
+Math.pow(2, 10);   // 1024
+Math.sqrt(25);     // 5
+Math.cbrt(27);     // 3
+
+// Min / max / absolute
+Math.max(3, 1, 9, 2);  // 9
+Math.min(3, 1, 9, 2);  // 1
+Math.abs(-42);          // 42
+Math.hypot(3, 4);       // 5 (Pythagorean)
+Math.PI;                // 3.141592...
+Math.E;                 // 2.718281...</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Build a dice roller: roll 2 dice (1-6) and calculate their sum. Show which combinations total 7 — the most common roll in a real dice game.</p></div>
+    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+  </div>
+</div>
+<div class="project-box" id="build-it" style="display:none">
+  <div class="project-label">🏗️ Build It</div>
+  <div class="project-name">Number Toolbox</div>
+  <div class="project-desc">A number inspector, random number generator and unit converter.</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
+<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;title&gt;JS Numbers&lt;/title&gt;
+&lt;style&gt;
+  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+  input,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+  input:focus,select:focus{border-color:#d97706}
+  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+  .btn:hover{background:#b45309}
+  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:36px}
+  .dice-wrap{display:flex;gap:20px;justify-content:center;align-items:center;padding:20px 0}
+  .die{width:80px;height:80px;border-radius:14px;background:#0f172a;display:flex;align-items:center;justify-content:center;font-size:2.5rem;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:transform .2s}
+  .die.rolling{animation:shake .3s ease-in-out}
+  @keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+  .dice-sum{font-size:2rem;font-weight:800;color:#d97706}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;⚡ JS Numbers&lt;/h1&gt;
+&lt;h2&gt;Number Inspector&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+  &lt;input type=&quot;number&quot; id=&quot;num-in&quot; value=&quot;3.14159&quot; oninput=&quot;inspectNum()&quot;&gt;
+  &lt;div class=&quot;output&quot; id=&quot;num-out&quot;&gt;Type a number above&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Dice Roller (Math.random)&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+  &lt;div class=&quot;dice-wrap&quot;&gt;
+    &lt;div class=&quot;die&quot; id=&quot;die1&quot;&gt;🎲&lt;/div&gt;
+    &lt;div class=&quot;dice-sum&quot; id=&quot;dice-sum&quot;&gt;?&lt;/div&gt;
+    &lt;div class=&quot;die&quot; id=&quot;die2&quot;&gt;🎲&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button class=&quot;btn&quot; style=&quot;width:100%&quot; onclick=&quot;rollDice()&quot;&gt;🎲 Roll Dice!&lt;/button&gt;
+  &lt;div class=&quot;output&quot; id=&quot;dice-out&quot; style=&quot;margin-top:10px&quot;&gt;Click Roll to start!&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Unit Converter&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+  &lt;input type=&quot;number&quot; id=&quot;unit-in&quot; value=&quot;100&quot; oninput=&quot;convert()&quot;&gt;
+  &lt;select id=&quot;unit-type&quot; onchange=&quot;convert()&quot;&gt;
+    &lt;option value=&quot;kmToMi&quot;&gt;km → miles&lt;/option&gt;
+    &lt;option value=&quot;miToKm&quot;&gt;miles → km&lt;/option&gt;
+    &lt;option value=&quot;kgToLb&quot;&gt;kg → pounds&lt;/option&gt;
+    &lt;option value=&quot;lbToKg&quot;&gt;pounds → kg&lt;/option&gt;
+    &lt;option value=&quot;cToF&quot;&gt;°C → °F&lt;/option&gt;
+    &lt;option value=&quot;fToC&quot;&gt;°F → °C&lt;/option&gt;
+    &lt;option value=&quot;nairaToUSD&quot;&gt;₦ → USD&lt;/option&gt;
+    &lt;option value=&quot;usdToNaira&quot;&gt;USD → ₦&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;div class=&quot;output&quot; id=&quot;unit-out&quot;&gt;100 km = 62.14 miles&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  function inspectNum() {
+    const raw = document.getElementById(&#x27;num-in&#x27;).value;
+    const n = parseFloat(raw);
+    if (raw === &#x27;&#x27;) { document.getElementById(&#x27;num-out&#x27;).textContent = &#x27;Enter a number&#x27;; return; }
+    const lines = [
+      `Value:          ${n}`,
+      `isNaN:          ${isNaN(raw)}`,
+      `Number.isNaN:   ${Number.isNaN(n)}`,
+      `isFinite:       ${isFinite(n)}`,
+      `isInteger:      ${Number.isInteger(n)}`,
+      `isSafeInteger:  ${Number.isSafeInteger(n)}`,
+      ``,
+      `toFixed(2):     &quot;${n.toFixed(2)}&quot;`,
+      `toFixed(4):     &quot;${n.toFixed(4)}&quot;`,
+      `toLocaleString: &quot;${n.toLocaleString()}&quot;`,
+      `toString(2):    &quot;${Math.floor(Math.abs(n)).toString(2)}&quot; (binary)`,
+      `toString(16):   &quot;${Math.floor(Math.abs(n)).toString(16)}&quot; (hex)`,
+      ``,
+      `Math.round:  ${Math.round(n)}`,
+      `Math.floor:  ${Math.floor(n)}`,
+      `Math.ceil:   ${Math.ceil(n)}`,
+      `Math.trunc:  ${Math.trunc(n)}`,
+    ];
+    document.getElementById(&#x27;num-out&#x27;).textContent = lines.join(&#x27;
+&#x27;);
+  }
+  inspectNum();
+  const FACES = [&#x27;⚀&#x27;,&#x27;⚁&#x27;,&#x27;⚂&#x27;,&#x27;⚃&#x27;,&#x27;⚄&#x27;,&#x27;⚅&#x27;];
+  let rollHistory = [];
+  function rollDice() {
+    const d1 = Math.floor(Math.random()*6);
+    const d2 = Math.floor(Math.random()*6);
+    document.getElementById(&#x27;die1&#x27;).className=&#x27;die rolling&#x27;;
+    document.getElementById(&#x27;die2&#x27;).className=&#x27;die rolling&#x27;;
+    setTimeout(()=&gt;{
+      document.getElementById(&#x27;die1&#x27;).textContent=FACES[d1];
+      document.getElementById(&#x27;die2&#x27;).textContent=FACES[d2];
+      document.getElementById(&#x27;die1&#x27;).className=&#x27;die&#x27;;
+      document.getElementById(&#x27;die2&#x27;).className=&#x27;die&#x27;;
+      const sum = d1+d2+2;
+      document.getElementById(&#x27;dice-sum&#x27;).textContent=sum;
+      rollHistory.push(sum);
+      const counts={};
+      rollHistory.forEach(s=&gt;counts[s]=(counts[s]||0)+1);
+      const avgSum=rollHistory.reduce((a,b)=&gt;a+b,0)/rollHistory.length;
+      document.getElementById(&#x27;dice-out&#x27;).textContent=
+        `Roll: ${d1+1} + ${d2+1} = ${sum}
+Average after ${rollHistory.length} rolls: ${avgSum.toFixed(1)}
+Most common: ${Object.entries(counts).sort((a,b)=&gt;b[1]-a[1])[0][0]}`;
+    },300);
+  }
+  const CONVERSIONS = {
+    kmToMi:(v)=&gt;[v*0.621371,&#x27;miles&#x27;],miToKm:(v)=&gt;[v*1.60934,&#x27;km&#x27;],
+    kgToLb:(v)=&gt;[v*2.20462,&#x27;pounds&#x27;],lbToKg:(v)=&gt;[v/2.20462,&#x27;kg&#x27;],
+    cToF:(v)=&gt;[v*9/5+32,&#x27;°F&#x27;],fToC:(v)=&gt;[(v-32)*5/9,&#x27;°C&#x27;],
+    nairaToUSD:(v)=&gt;[v/1500,&#x27;USD&#x27;],usdToNaira:(v)=&gt;[v*1500,&#x27;₦&#x27;],
+  };
+  function convert() {
+    const val=parseFloat(document.getElementById(&#x27;unit-in&#x27;).value)||0;
+    const type=document.getElementById(&#x27;unit-type&#x27;).value;
+    const [result,unit]=CONVERSIONS[type](val);
+    document.getElementById(&#x27;unit-out&#x27;).textContent=`${val} ${type.split(&#x27;To&#x27;)[0]} = ${result.toFixed(4)} ${unit}`;
+  }
+  convert();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+</div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+      ⬇ Download starter.html
+    </button>
+    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+      🐙 Push to GitHub →
+    </button>
+  </div>
+  <script>
+  const __code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JS Numbers</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+  input,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+  input:focus,select:focus{border-color:#d97706}
+  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+  .btn:hover{background:#b45309}
+  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:36px}
+  .dice-wrap{display:flex;gap:20px;justify-content:center;align-items:center;padding:20px 0}
+  .die{width:80px;height:80px;border-radius:14px;background:#0f172a;display:flex;align-items:center;justify-content:center;font-size:2.5rem;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:transform .2s}
+  .die.rolling{animation:shake .3s ease-in-out}
+  @keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+  .dice-sum{font-size:2rem;font-weight:800;color:#d97706}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<h1>⚡ JS Numbers</h1>
+<h2>Number Inspector</h2>
+<div class="box">
+  <input type="number" id="num-in" value="3.14159" oninput="inspectNum()">
+  <div class="output" id="num-out">Type a number above</div>
+</div>
+<h2>Dice Roller (Math.random)</h2>
+<div class="box">
+  <div class="dice-wrap">
+    <div class="die" id="die1">🎲</div>
+    <div class="dice-sum" id="dice-sum">?</div>
+    <div class="die" id="die2">🎲</div>
+  </div>
+  <button class="btn" style="width:100%" onclick="rollDice()">🎲 Roll Dice!</button>
+  <div class="output" id="dice-out" style="margin-top:10px">Click Roll to start!</div>
+</div>
+<h2>Unit Converter</h2>
+<div class="box">
+  <input type="number" id="unit-in" value="100" oninput="convert()">
+  <select id="unit-type" onchange="convert()">
+    <option value="kmToMi">km → miles</option>
+    <option value="miToKm">miles → km</option>
+    <option value="kgToLb">kg → pounds</option>
+    <option value="lbToKg">pounds → kg</option>
+    <option value="cToF">°C → °F</option>
+    <option value="fToC">°F → °C</option>
+    <option value="nairaToUSD">₦ → USD</option>
+    <option value="usdToNaira">USD → ₦</option>
+  </select>
+  <div class="output" id="unit-out">100 km = 62.14 miles</div>
+</div>
+<script>
+  function inspectNum() {
+    const raw = document.getElementById('num-in').value;
+    const n = parseFloat(raw);
+    if (raw === '') { document.getElementById('num-out').textContent = 'Enter a number'; return; }
+    const lines = [
+      \`Value:          ${n}\`,
+      \`isNaN:          ${isNaN(raw)}\`,
+      \`Number.isNaN:   ${Number.isNaN(n)}\`,
+      \`isFinite:       ${isFinite(n)}\`,
+      \`isInteger:      ${Number.isInteger(n)}\`,
+      \`isSafeInteger:  ${Number.isSafeInteger(n)}\`,
+      \`\`,
+      \`toFixed(2):     "${n.toFixed(2)}"\`,
+      \`toFixed(4):     "${n.toFixed(4)}"\`,
+      \`toLocaleString: "${n.toLocaleString()}"\`,
+      \`toString(2):    "${Math.floor(Math.abs(n)).toString(2)}" (binary)\`,
+      \`toString(16):   "${Math.floor(Math.abs(n)).toString(16)}" (hex)\`,
+      \`\`,
+      \`Math.round:  ${Math.round(n)}\`,
+      \`Math.floor:  ${Math.floor(n)}\`,
+      \`Math.ceil:   ${Math.ceil(n)}\`,
+      \`Math.trunc:  ${Math.trunc(n)}\`,
+    ];
+    document.getElementById('num-out').textContent = lines.join('
+');
+  }
+  inspectNum();
+  const FACES = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+  let rollHistory = [];
+  function rollDice() {
+    const d1 = Math.floor(Math.random()*6);
+    const d2 = Math.floor(Math.random()*6);
+    document.getElementById('die1').className='die rolling';
+    document.getElementById('die2').className='die rolling';
+    setTimeout(()=>{
+      document.getElementById('die1').textContent=FACES[d1];
+      document.getElementById('die2').textContent=FACES[d2];
+      document.getElementById('die1').className='die';
+      document.getElementById('die2').className='die';
+      const sum = d1+d2+2;
+      document.getElementById('dice-sum').textContent=sum;
+      rollHistory.push(sum);
+      const counts={};
+      rollHistory.forEach(s=>counts[s]=(counts[s]||0)+1);
+      const avgSum=rollHistory.reduce((a,b)=>a+b,0)/rollHistory.length;
+      document.getElementById('dice-out').textContent=
+        \`Roll: ${d1+1} + ${d2+1} = ${sum}
+Average after ${rollHistory.length} rolls: ${avgSum.toFixed(1)}
+Most common: ${Object.entries(counts).sort((a,b)=>b[1]-a[1])[0][0]}\`;
+    },300);
+  }
+  const CONVERSIONS = {
+    kmToMi:(v)=>[v*0.621371,'miles'],miToKm:(v)=>[v*1.60934,'km'],
+    kgToLb:(v)=>[v*2.20462,'pounds'],lbToKg:(v)=>[v/2.20462,'kg'],
+    cToF:(v)=>[v*9/5+32,'°F'],fToC:(v)=>[(v-32)*5/9,'°C'],
+    nairaToUSD:(v)=>[v/1500,'USD'],usdToNaira:(v)=>[v*1500,'₦'],
+  };
+  function convert() {
+    const val=parseFloat(document.getElementById('unit-in').value)||0;
+    const type=document.getElementById('unit-type').value;
+    const [result,unit]=CONVERSIONS[type](val);
+    document.getElementById('unit-out').textContent=\`${val} ${type.split('To')[0]} = ${result.toFixed(4)} ${unit}\`;
+  }
+  convert();
+</script>
+</body>
+</html>`;
+  function downloadStarter(){
+    const a=document.createElement('a');
+    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
+    a.download='starter.html'; a.click();
+  }
+  </script>
+</div>
+
+<div class="github-acc" id="github-steps" style="display:none">
+  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
+    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+  </div>
+  <div class="github-acc-body">
+    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-21-js_numbers</code>.</p></div>
+    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
+    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 21 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-21-js_numbers/</code> in ~1 min! 🎉</p></div>
+    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  </div>
+</div>
+<div class="session-end" id="session-end">
+  <h2>🎉 Great work! Lesson 21 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
+  <ul><li>✅ Number types and limits</li><li>✅ Math object</li></ul>
+  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
+    <a href="lesson_20.html" class="ln-btn">← Lesson 20</a>
+    <a href="lesson_22.html" class="ln-btn primary">Lesson 22 →</a>
+  </div>
+</div>
+</main>
+<footer class="lesson-footer">
+  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 21 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+</footer>
+<script>
+const TOTAL=2, KEY='techbase_js_21_phase';
+let current=parseInt(localStorage.getItem(KEY)||'1');
+function init(){
+  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  updateBar();
+}
+function unlockNext(n){
+  document.getElementById('check'+n).classList.add('done');
+  document.getElementById('check'+n).textContent='✓';
+  localStorage.setItem(KEY,n+1);
+  current=n+1;
+  if(n===TOTAL){
+    document.getElementById('build-it').style.display='block';
+    const cap=document.getElementById('capstone');
+    if(cap) cap.style.display='block';
+    updateBar(100);
+    setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
+  } else {
+    unlockPhase(n+1,true);
+    updateBar();
+  }
+}
+function unlockPhase(n,scroll){
+  const el=document.getElementById('phase'+n);
+  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+}
+function updateBar(pct){
+  const p=pct||Math.round((current-1)/TOTAL*95);
+  document.getElementById('pbar').style.width=p+'%';
+}
+function showGithub(){
+  const g=document.getElementById('github-steps');
+  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+}
+function showEnd(){
+  const e=document.getElementById('session-end');
+  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+}
+init();
+</script>
+</body>
+</html>

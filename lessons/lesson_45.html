@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 45: JS Strict Mode — Techbase JS Course</title>
+<meta name="description" content="Enable strict mode to catch common JavaScript mistakes early">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
+  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
+  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--t2:#334155;--muted:#64748b;
+  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.l-nav-back:hover{color:var(--accent)}
+.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
+.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:820px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
+.l-hero-build strong{color:var(--accent)}
+.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
+.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
+.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
+.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
+.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.phase-check.done{background:#10b981;color:#fff}
+.phase-body{padding:1.4rem}
+.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
+.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
+.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
+.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
+.code-dot{width:8px;height:8px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
+.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
+.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
+.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
+.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
+.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
+.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
+.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
+.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
+.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
+.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
+.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.github-acc-body.open{display:block}
+.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.session-end.visible{display:block}
+.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ln-btn.primary:hover{opacity:.9}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+</style>
+</head>
+<body>
+<nav class="l-nav">
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
+  <span class="l-nav-lesson">Lesson 45 of 46</span>
+  <a href="../index.html" class="l-nav-back">← All Lessons</a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div class="l-hero">
+  <div class="l-hero-inner">
+    <div class="l-badge">JavaScript · Lesson 45 </div>
+    <h1>JS Strict Mode</h1>
+    <div class="l-hero-tag">Enable strict mode to catch common JavaScript mistakes early</div>
+    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Strict Mode Guide</div>
+  </div>
+</div>
+<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+  <h2>👋 Welcome to Lesson 45</h2>
+  <p>Enable strict mode to catch common JavaScript mistakes early</p>
+  <div class="welcome-meta">
+    <span>📚 2 phases</span>
+    <span>🏗️ Build: My Strict Mode Guide</span>
+    
+  </div>
+</div></div>
+</section>
+<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Enabling strict mode</div></div>
+    <div class="phase-check" id="check1"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Add <code>'use strict';</code> at the top of a file or function. ES modules and classes are always strict. Strict mode: prevents undeclared variables, disallows duplicate params, makes <code>this</code> undefined in plain calls (not window), prevents deleting variables, and more.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>&#x27;use strict&#x27;;
+
+// Error: undeclared variable
+// x = 5; // ❌ ReferenceError in strict mode
+let x = 5; // ✅ must declare
+
+// Error: duplicate params
+// function f(a, a) {} // ❌ SyntaxError in strict mode
+
+// Error: deleting variables
+// delete x; // ❌ SyntaxError
+
+// &#x27;this&#x27; in functions
+function fn() { return this; }
+fn(); // undefined in strict (was window in sloppy)
+
+// Octal literals not allowed
+// let n = 010; // ❌ SyntaxError in strict (was 8)
+let n = 0o10; // ✅ use ES6 octal
+
+// Writing to read-only properties throws
+const obj = Object.freeze({x: 1});
+// obj.x = 2; // ❌ TypeError (silently fails in sloppy)</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Toggle strict mode on/off in a script. Try assigning to an undeclared variable in both modes. Notice that sloppy mode silently creates a global variable — a nasty bug source!</p></div>
+    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase2">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Common mistakes strict mode catches</div></div>
+    <div class="phase-check" id="check2"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Strict mode is a tool for writing better code. It prevents: accidental globals (forgetting <code>let</code>), keyword conflicts, with statement, arguments/eval as variable names, future-reserved keywords. Modern projects use ES modules (always strict) or configure linters. Just always write strict code.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// Without strict: silent bugs
+function updateScore() {
+  scroe = 94; // typo — creates global &#x27;scroe&#x27;!
+}
+// With strict: ReferenceError — caught immediately!
+
+// with statement (confusing — forbidden in strict)
+// with (obj) { x = 1; } // ❌ SyntaxError in strict
+
+// eval/arguments as identifiers
+// let eval = 5;      // ❌ strict mode
+// let arguments = []; // ❌ strict mode
+
+// Reserved for future (strict only)
+// let implements = 1; // ❌
+// let interface = 1;  // ❌
+// let private = 1;    // ❌
+
+// Always use strict — or use ES modules
+// &lt;script type=&quot;module&quot;&gt; — always strict!
+// class MyClass {} — body always strict!</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>List 5 bugs that strict mode would have caught in real code. Research 'strict mode JavaScript bugs caught' and document what each error message means.</p></div>
+    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+  </div>
+</div>
+<div class="project-box" id="build-it" style="display:none">
+  <div class="project-label">🏗️ Build It</div>
+  <div class="project-name">Strict Mode Guide</div>
+  <div class="project-desc">Strict vs sloppy mode comparison with live examples.</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
+<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;title&gt;JS Strict Mode&lt;/title&gt;
+&lt;style&gt;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;⚡ JS Strict Mode&lt;/h1&gt;
+
+&lt;h2&gt;Strict vs Sloppy Mode&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;div style=&quot;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;strictDemo(&#x27;undeclared&#x27;)&quot;&gt;Undeclared var&lt;/button&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;strictDemo(&#x27;this&#x27;)&quot;&gt;this in function&lt;/button&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;strictDemo(&#x27;freeze&#x27;)&quot;&gt;Frozen object&lt;/button&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;strictDemo(&#x27;duplicate&#x27;)&quot;&gt;Duplicate params&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class=&quot;output&quot; id=&quot;strict-out&quot;&gt;Click a demo to see strict mode in action&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Mistakes Strict Mode Catches&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;showMistakes()&quot;&gt;Show Common Mistakes&lt;/button&gt;
+&lt;div class=&quot;output&quot; id=&quot;mistakes-out&quot;&gt;Click to see what strict mode prevents&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;When is Code Strict?&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;div id=&quot;strict-contexts&quot; style=&quot;display:grid;grid-template-columns:1fr 1fr;gap:8px&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+function strictDemo(type){
+  const lines=[];
+  switch(type){
+    case &#x27;undeclared&#x27;:
+      lines.push(&#x27;Sloppy mode:&#x27;);
+      lines.push(&#x27;  score = 94;  // No error!&#x27;);
+      lines.push(&#x27;  Creates global variable &quot;score&quot; silently.&#x27;);
+      lines.push(&#x27;  Typos become globals: scroe = 94 → new global &quot;scroe&quot;!&#x27;);
+      lines.push(&#x27;&#x27;);
+      lines.push(&quot;Strict mode (&#x27;use strict&#x27;):  &quot;);
+      lines.push(&#x27;  score = 94;  // ❌ ReferenceError: score is not defined&#x27;);
+      lines.push(&#x27;  Bug caught immediately instead of silently causing issues.&#x27;);
+      break;
+    case &#x27;this&#x27;:
+      function sloppyFn(){ return typeof this; }
+      lines.push(&#x27;In a plain function call:&#x27;);
+      lines.push(&#x27;  Sloppy: this = window (global object)&#x27;);
+      lines.push(&#x27;  Strict: this = undefined&#x27;);
+      lines.push(&#x27;&#x27;);
+      lines.push(&#x27;Current context: typeof this = &quot;&#x27;+typeof this+&#x27;&quot;&#x27;);
+      lines.push(&#x27;&#x27;);
+      lines.push(&#x27;Why it matters: accidentally mutating window in sloppy&#x27;);
+      lines.push(&#x27;mode caused &quot;global pollution&quot; — a common bug source.&#x27;);
+      break;
+    case &#x27;freeze&#x27;:
+      const frozen=Object.freeze({x:1,y:2});
+      let err=&#x27;&#x27;;
+      try{frozen.x=99;}catch(e){err=e.message;}
+      lines.push(&#x27;const obj = Object.freeze({x:1, y:2})&#x27;);
+      lines.push(&#x27;obj.x = 99;&#x27;);
+      lines.push(&#x27;&#x27;);
+      lines.push(&#x27;Sloppy mode: silently fails, obj.x stays 1&#x27;);
+      lines.push(&#x27;Strict mode: ❌ TypeError: &#x27;+err);
+      lines.push(&#x27;Current result: obj.x = &#x27;+frozen.x);
+      break;
+    case &#x27;duplicate&#x27;:
+      lines.push(&#x27;Duplicate parameter names:&#x27;);
+      lines.push(&#x27;  function f(a, a) { return a; }&#x27;);
+      lines.push(&#x27;&#x27;);
+      lines.push(&#x27;Sloppy mode: allowed! Returns last &quot;a&quot; — confusing&#x27;);
+      lines.push(&#x27;Strict mode: ❌ SyntaxError: Duplicate parameter name&#x27;);
+      lines.push(&#x27;&#x27;);
+      lines.push(&#x27;This prevents very confusing bugs in function signatures.&#x27;);
+      break;
+  }
+  document.getElementById(&#x27;strict-out&#x27;).textContent=lines.join(&#x27;
+&#x27;);
+}
+function showMistakes(){
+  const mistakes=[
+    &#x27;1. Typo creates global: user.scroe=94 (missing &quot;e&quot;) → silent global &quot;scroe&quot;&#x27;,
+    &#x27;2. Deleting a variable: delete myVar → SyntaxError in strict&#x27;,
+    &#x27;3. Writing to read-only: NaN = 5 → TypeError in strict&#x27;,
+    &#x27;4. with statement: with(obj){} → SyntaxError in strict&#x27;,
+    &#x27;5. eval as variable: let eval=5 → SyntaxError in strict&#x27;,
+    &#x27;6. Octal literal: let n=010 → SyntaxError (use 0o10)&#x27;,
+    &#x27;7. Future reserved words: let private=1 → SyntaxError&#x27;,
+  ];
+  document.getElementById(&#x27;mistakes-out&#x27;).textContent=
+    &#x27;Mistakes strict mode catches:
+
+&#x27;+mistakes.join(&#x27;
+&#x27;);
+}
+const contexts=[
+  {label:&quot;&#x27;use strict&#x27;; at top&quot;,strict:true,note:&#x27;Whole file strict&#x27;},
+  {label:&quot;function() {&#x27;use strict&#x27;}&quot;,strict:true,note:&#x27;Just that function&#x27;},
+  {label:&#x27;&lt;script type=&quot;module&quot;&gt;&#x27;,strict:true,note:&#x27;Always strict&#x27;},
+  {label:&#x27;class { }&#x27;,strict:true,note:&#x27;Class body always strict&#x27;},
+  {label:&#x27;&lt;script&gt; (no type)&#x27;,strict:false,note:&#x27;Sloppy mode&#x27;},
+  {label:&#x27;Normal function (no directive)&#x27;,strict:false,note:&#x27;Sloppy mode&#x27;},
+];
+document.getElementById(&#x27;strict-contexts&#x27;).innerHTML=contexts.map(c=&gt;
+  `&lt;div style=&quot;background:${c.strict?&#x27;#dcfce7&#x27;:&#x27;#fee2e2&#x27;};border:1.5px solid ${c.strict?&#x27;#86efac&#x27;:&#x27;#fca5a5&#x27;};border-radius:8px;padding:10px&quot;&gt;
+    &lt;div style=&quot;font-family:monospace;font-size:11px;font-weight:700;color:${c.strict?&#x27;#15803d&#x27;:&#x27;#dc2626&#x27;}&quot;&gt;${c.label}&lt;/div&gt;
+    &lt;div style=&quot;font-size:11px;color:#475569;margin-top:3px&quot;&gt;${c.strict?&#x27;✅&#x27;:&#x27;❌&#x27;} ${c.note}&lt;/div&gt;
+  &lt;/div&gt;`
+).join(&#x27;&#x27;);
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+</div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+      ⬇ Download starter.html
+    </button>
+    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+      🐙 Push to GitHub →
+    </button>
+  </div>
+  <script>
+  const __code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JS Strict Mode</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+</style>
+</head>
+<body>
+<h1>⚡ JS Strict Mode</h1>
+
+<h2>Strict vs Sloppy Mode</h2>
+<div class="box">
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+<button class="btn" onclick="strictDemo('undeclared')">Undeclared var</button>
+<button class="btn" onclick="strictDemo('this')">this in function</button>
+<button class="btn" onclick="strictDemo('freeze')">Frozen object</button>
+<button class="btn" onclick="strictDemo('duplicate')">Duplicate params</button>
+</div>
+<div class="output" id="strict-out">Click a demo to see strict mode in action</div>
+</div>
+<h2>Mistakes Strict Mode Catches</h2>
+<div class="box">
+<button class="btn" onclick="showMistakes()">Show Common Mistakes</button>
+<div class="output" id="mistakes-out">Click to see what strict mode prevents</div>
+</div>
+<h2>When is Code Strict?</h2>
+<div class="box">
+<div id="strict-contexts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+</div>
+<script>
+function strictDemo(type){
+  const lines=[];
+  switch(type){
+    case 'undeclared':
+      lines.push('Sloppy mode:');
+      lines.push('  score = 94;  // No error!');
+      lines.push('  Creates global variable "score" silently.');
+      lines.push('  Typos become globals: scroe = 94 → new global "scroe"!');
+      lines.push('');
+      lines.push("Strict mode ('use strict'):  ");
+      lines.push('  score = 94;  // ❌ ReferenceError: score is not defined');
+      lines.push('  Bug caught immediately instead of silently causing issues.');
+      break;
+    case 'this':
+      function sloppyFn(){ return typeof this; }
+      lines.push('In a plain function call:');
+      lines.push('  Sloppy: this = window (global object)');
+      lines.push('  Strict: this = undefined');
+      lines.push('');
+      lines.push('Current context: typeof this = "'+typeof this+'"');
+      lines.push('');
+      lines.push('Why it matters: accidentally mutating window in sloppy');
+      lines.push('mode caused "global pollution" — a common bug source.');
+      break;
+    case 'freeze':
+      const frozen=Object.freeze({x:1,y:2});
+      let err='';
+      try{frozen.x=99;}catch(e){err=e.message;}
+      lines.push('const obj = Object.freeze({x:1, y:2})');
+      lines.push('obj.x = 99;');
+      lines.push('');
+      lines.push('Sloppy mode: silently fails, obj.x stays 1');
+      lines.push('Strict mode: ❌ TypeError: '+err);
+      lines.push('Current result: obj.x = '+frozen.x);
+      break;
+    case 'duplicate':
+      lines.push('Duplicate parameter names:');
+      lines.push('  function f(a, a) { return a; }');
+      lines.push('');
+      lines.push('Sloppy mode: allowed! Returns last "a" — confusing');
+      lines.push('Strict mode: ❌ SyntaxError: Duplicate parameter name');
+      lines.push('');
+      lines.push('This prevents very confusing bugs in function signatures.');
+      break;
+  }
+  document.getElementById('strict-out').textContent=lines.join('
+');
+}
+function showMistakes(){
+  const mistakes=[
+    '1. Typo creates global: user.scroe=94 (missing "e") → silent global "scroe"',
+    '2. Deleting a variable: delete myVar → SyntaxError in strict',
+    '3. Writing to read-only: NaN = 5 → TypeError in strict',
+    '4. with statement: with(obj){} → SyntaxError in strict',
+    '5. eval as variable: let eval=5 → SyntaxError in strict',
+    '6. Octal literal: let n=010 → SyntaxError (use 0o10)',
+    '7. Future reserved words: let private=1 → SyntaxError',
+  ];
+  document.getElementById('mistakes-out').textContent=
+    'Mistakes strict mode catches:
+
+'+mistakes.join('
+');
+}
+const contexts=[
+  {label:"'use strict'; at top",strict:true,note:'Whole file strict'},
+  {label:"function() {'use strict'}",strict:true,note:'Just that function'},
+  {label:'<script type="module">',strict:true,note:'Always strict'},
+  {label:'class { }',strict:true,note:'Class body always strict'},
+  {label:'<script> (no type)',strict:false,note:'Sloppy mode'},
+  {label:'Normal function (no directive)',strict:false,note:'Sloppy mode'},
+];
+document.getElementById('strict-contexts').innerHTML=contexts.map(c=>
+  \`<div style="background:${c.strict?'#dcfce7':'#fee2e2'};border:1.5px solid ${c.strict?'#86efac':'#fca5a5'};border-radius:8px;padding:10px">
+    <div style="font-family:monospace;font-size:11px;font-weight:700;color:${c.strict?'#15803d':'#dc2626'}">${c.label}</div>
+    <div style="font-size:11px;color:#475569;margin-top:3px">${c.strict?'✅':'❌'} ${c.note}</div>
+  </div>\`
+).join('');
+</script>
+</body>
+</html>`;
+  function downloadStarter(){
+    const a=document.createElement('a');
+    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
+    a.download='starter.html'; a.click();
+  }
+  </script>
+</div>
+
+<div class="github-acc" id="github-steps" style="display:none">
+  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
+    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+  </div>
+  <div class="github-acc-body">
+    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-45-js_strict_mode</code>.</p></div>
+    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
+    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 45 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-45-js_strict_mode/</code> in ~1 min! 🎉</p></div>
+    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  </div>
+</div>
+<div class="session-end" id="session-end">
+  <h2>🎉 Great work! Lesson 45 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
+  <ul><li>✅ Enabling strict mode</li><li>✅ Common mistakes strict mode catches</li></ul>
+  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
+    <a href="lesson_44.html" class="ln-btn">← Lesson 44</a>
+    <a href="lesson_46.html" class="ln-btn primary">Lesson 46 →</a>
+  </div>
+</div>
+</main>
+<footer class="lesson-footer">
+  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 45 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+</footer>
+<script>
+const TOTAL=2, KEY='techbase_js_45_phase';
+let current=parseInt(localStorage.getItem(KEY)||'1');
+function init(){
+  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  updateBar();
+}
+function unlockNext(n){
+  document.getElementById('check'+n).classList.add('done');
+  document.getElementById('check'+n).textContent='✓';
+  localStorage.setItem(KEY,n+1);
+  current=n+1;
+  if(n===TOTAL){
+    document.getElementById('build-it').style.display='block';
+    const cap=document.getElementById('capstone');
+    if(cap) cap.style.display='block';
+    updateBar(100);
+    setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
+  } else {
+    unlockPhase(n+1,true);
+    updateBar();
+  }
+}
+function unlockPhase(n,scroll){
+  const el=document.getElementById('phase'+n);
+  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+}
+function updateBar(pct){
+  const p=pct||Math.round((current-1)/TOTAL*95);
+  document.getElementById('pbar').style.width=p+'%';
+}
+function showGithub(){
+  const g=document.getElementById('github-steps');
+  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+}
+function showEnd(){
+  const e=document.getElementById('session-end');
+  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+}
+init();
+</script>
+</body>
+</html>

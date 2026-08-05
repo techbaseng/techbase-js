@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 46: JS Final Capstone — Techbase JS Course</title>
+<meta name="description" content="Put everything together — variables, functions, arrays, objects, loops, closures and more">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
+  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
+  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--t2:#334155;--muted:#64748b;
+  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.l-nav-back:hover{color:var(--accent)}
+.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
+.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:820px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
+.l-hero-build strong{color:var(--accent)}
+.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
+.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
+.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
+.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
+.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.phase-check.done{background:#10b981;color:#fff}
+.phase-body{padding:1.4rem}
+.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
+.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
+.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
+.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
+.code-dot{width:8px;height:8px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
+.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
+.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
+.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
+.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
+.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
+.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
+.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
+.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
+.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
+.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
+.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.github-acc-body.open{display:block}
+.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.session-end.visible{display:block}
+.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ln-btn.primary:hover{opacity:.9}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+</style>
+</head>
+<body>
+<nav class="l-nav">
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
+  <span class="l-nav-lesson">Lesson 46 of 46</span>
+  <a href="../index.html" class="l-nav-back">← All Lessons</a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div class="l-hero">
+  <div class="l-hero-inner">
+    <div class="l-badge">JavaScript · Lesson 46 </div>
+    <h1>JS Final Capstone</h1>
+    <div class="l-hero-tag">Put everything together — variables, functions, arrays, objects, loops, closures and more</div>
+    <div class="l-hero-build"><strong>🏗️ Build:</strong> Interactive Quiz App</div>
+  </div>
+</div>
+<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+  <h2>👋 Welcome to Lesson 46</h2>
+  <p>Put everything together — variables, functions, arrays, objects, loops, closures and more</p>
+  <div class="welcome-meta">
+    <span>📚 2 phases</span>
+    <span>🏗️ Build: Interactive Quiz App</span>
+    
+  </div>
+</div></div>
+</section>
+<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Review: Core Concepts</div></div>
+    <div class="phase-check" id="check1"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>You have covered 45 lessons of JavaScript: variables (let/const), data types, operators, functions, objects, arrays, strings, dates, Math, loops (for/while/for-of/for-in), closures, scope, hoisting, strict mode, iterables, and array methods (map/filter/reduce/sort). The capstone builds an interactive quiz using ALL of these.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">capstone.js</span></div>
+<div class="code-body"><pre>// All concepts used in the capstone quiz:
+
+// Variables &amp; data types
+const QUESTIONS = [...];    // const array of objects
+let score = 0;              // let — changes over time
+let timeLeft = 20;          // let — countdown
+
+// Functions &amp; closures
+function startQuiz() { ... }  // declaration
+const shuffle = arr =&gt; { ... }; // arrow function + closure
+
+// Arrays &amp; array methods
+questions = shuffle(QUESTIONS).slice(0, 10); // shuffle + slice
+questions.map((q, i) =&gt; ...)                 // map to HTML
+history.push({...})                          // push to history
+
+// Objects &amp; destructuring
+const { topic, q, ans } = questions[qi];
+
+// Loops &amp; conditionals
+if (chosen === correct_idx) { score += 20; }
+for (const h of history) { ... }
+
+// DOM events
+button.addEventListener(&#x27;click&#x27;, pickAnswer);
+setInterval(() =&gt; { timeLeft--; }, 1000);   // timer
+
+// Template literals
+`Q ${qi + 1}/10`
+`Score: ${score}/200`</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Read through the capstone source code and identify where each JS concept is used. Can you find: a closure, a shuffle, a timer, an arrow function, template literals, and event listeners?</p></div>
+    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase2">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Build It: Interactive Quiz App</div></div>
+    <div class="phase-check" id="check2"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Your final project uses everything you have learned: array shuffle (Math.random), a countdown timer (setInterval), event listeners (addEventListener), closures (score and history persist across questions), template literals, and DOM manipulation. Try extending it: add categories, adjust time limits, or save the high score to localStorage.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">quiz.js</span></div>
+<div class="code-body"><pre>// Extension ideas:
+// 1. Save high score
+const best = localStorage.getItem(&#x27;bestScore&#x27;) || 0;
+if (score &gt; best) localStorage.setItem(&#x27;bestScore&#x27;, score);
+
+// 2. Category filter
+const jsOnly = QUESTIONS.filter(q =&gt; q.topic === &#x27;Arrays&#x27;);
+
+// 3. Difficulty levels
+const POINTS = { easy:10, medium:15, hard:20 };
+score += POINTS[question.difficulty];
+
+// 4. Share result
+const shareText = `I scored ${score}/200 on the Techbase JS Quiz!`;
+navigator.share?.({ text: shareText });
+
+// 5. Streak bonus
+if (streak &gt;= 3) score += 5; // bonus for streaks</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Extend the quiz: add a high score saved to localStorage, a category filter dropdown, or a difficulty system. Share your deployed version on GitHub Pages!</p></div>
+    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+  </div>
+</div>
+<div class="project-box" id="build-it" style="display:none">
+  <div class="project-label">🏗️ Build It</div>
+  <div class="project-name">JS Final Capstone: Interactive Quiz App</div>
+  <div class="project-desc">Deploy a full JavaScript quiz app covering all 46 lessons. Features: 20 questions (10 picked randomly), 20-second countdown timer, speed bonus for fast answers, streak tracking, and a review of your answers.</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
+<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;title&gt;JS Final Capstone — Quiz App&lt;/title&gt;
+&lt;style&gt;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;⚡ JS Final Capstone: Interactive Quiz App&lt;/h1&gt;
+
+&lt;style&gt;
+  .quiz-container{max-width:600px;margin:0 auto}
+  .progress-bar{height:8px;background:#fde68a;border-radius:4px;overflow:hidden;margin-bottom:20px}
+  .progress-fill{height:100%;background:#d97706;transition:width .4s ease}
+  .q-card{background:white;border:2px solid #fde68a;border-radius:16px;padding:24px;margin-bottom:16px}
+  .q-num{font-family:monospace;font-size:11px;font-weight:700;color:#d97706;letter-spacing:.1em;margin-bottom:8px}
+  .q-text{font-size:1.1rem;font-weight:700;color:#1c1917;margin-bottom:16px;line-height:1.5}
+  .options{display:grid;gap:8px}
+  .option{padding:12px 16px;border:2px solid #fde68a;border-radius:10px;background:#fef9ee;cursor:pointer;font-size:14px;font-weight:500;transition:.15s;text-align:left}
+  .option:hover{border-color:#d97706;background:#fffbeb}
+  .option.correct{border-color:#16a34a;background:#dcfce7;color:#15803d;font-weight:700}
+  .option.wrong{border-color:#dc2626;background:#fee2e2;color:#dc2626}
+  .option.disabled{pointer-events:none;opacity:.6}
+  .option.show-correct{border-color:#16a34a;background:#dcfce7;color:#15803d}
+  .feedback{padding:12px;border-radius:10px;font-size:13px;font-weight:600;margin-top:10px;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:#dcfce7;color:#15803d}
+  .feedback.bad{background:#fee2e2;color:#dc2626}
+  .stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .stat{flex:1;min-width:80px;background:#fef9ee;border:1.5px solid #fde68a;border-radius:10px;padding:12px;text-align:center}
+  .stat-v{font-size:1.5rem;font-weight:800;color:#d97706;display:block}
+  .stat-l{font-size:11px;color:#92400e}
+  .results{background:linear-gradient(135deg,#d97706,#b45309);color:white;border-radius:16px;padding:24px;text-align:center}
+  .results h2{font-size:1.5rem;margin-bottom:8px}
+  .big-score{font-size:4rem;font-weight:800;margin:12px 0}
+&lt;/style&gt;
+&lt;div class=&quot;quiz-container&quot;&gt;
+  &lt;div id=&quot;quiz-screen&quot;&gt;
+    &lt;div style=&quot;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px&quot;&gt;
+      &lt;span id=&quot;q-counter&quot; style=&quot;font-family:monospace;font-size:12px;color:#92400e&quot;&gt;Q 1/10&lt;/span&gt;
+      &lt;span id=&quot;timer&quot; style=&quot;font-family:monospace;font-size:1.1rem;font-weight:800;color:#d97706&quot;&gt;⏱ 20&lt;/span&gt;
+      &lt;span id=&quot;score-live&quot; style=&quot;font-family:monospace;font-size:12px;color:#92400e&quot;&gt;Score: 0&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;progress-bar&quot;&gt;&lt;div class=&quot;progress-fill&quot; id=&quot;q-progress&quot; style=&quot;width:0%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;q-card&quot;&gt;
+      &lt;div class=&quot;q-num&quot; id=&quot;q-topic&quot;&gt;Topic&lt;/div&gt;
+      &lt;div class=&quot;q-text&quot; id=&quot;q-text&quot;&gt;Loading…&lt;/div&gt;
+      &lt;div class=&quot;options&quot; id=&quot;q-options&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;feedback&quot; id=&quot;q-feedback&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button class=&quot;btn&quot; id=&quot;next-btn&quot; onclick=&quot;nextQuestion()&quot; style=&quot;display:none;width:100%;margin-top:4px&quot;&gt;Next Question →&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;results-screen&quot; style=&quot;display:none&quot;&gt;
+    &lt;div class=&quot;results&quot;&gt;
+      &lt;h2&gt;🎉 Quiz Complete!&lt;/h2&gt;
+      &lt;div class=&quot;big-score&quot; id=&quot;final-score&quot;&gt;0/10&lt;/div&gt;
+      &lt;p id=&quot;final-msg&quot;&gt;Well done!&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;stat-row&quot; style=&quot;margin-top:16px&quot;&gt;
+      &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-v&quot; id=&quot;r-correct&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;stat-l&quot;&gt;Correct&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-v&quot; id=&quot;r-wrong&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;stat-l&quot;&gt;Wrong&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-v&quot; id=&quot;r-pct&quot;&gt;0%&lt;/span&gt;&lt;span class=&quot;stat-l&quot;&gt;Score&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-v&quot; id=&quot;r-streak&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;stat-l&quot;&gt;Best Streak&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;output&quot; id=&quot;review-out&quot; style=&quot;margin-top:10px;max-height:200px;overflow-y:auto&quot;&gt;&lt;/div&gt;
+    &lt;button class=&quot;btn&quot; onclick=&quot;startQuiz()&quot; style=&quot;width:100%;margin-top:12px&quot;&gt;🔄 Play Again&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+const QUESTIONS=[
+  {topic:&#x27;Variables&#x27;,q:&#x27;Which keyword creates a block-scoped variable that can be reassigned?&#x27;,opts:[&#x27;var&#x27;,&#x27;let&#x27;,&#x27;const&#x27;,&#x27;function&#x27;],ans:1},
+  {topic:&#x27;Data Types&#x27;,q:&#x27;What does typeof null return?&#x27;,opts:[&#x27;&quot;null&quot;&#x27;,&#x27;&quot;undefined&quot;&#x27;,&#x27;&quot;object&quot;&#x27;,&#x27;&quot;boolean&quot;&#x27;],ans:2},
+  {topic:&#x27;Operators&#x27;,q:&#x27;What does 5 === &quot;5&quot; evaluate to?&#x27;,opts:[&#x27;true&#x27;,&#x27;false&#x27;,&#x27;undefined&#x27;,&#x27;TypeError&#x27;],ans:1},
+  {topic:&#x27;Functions&#x27;,q:&#x27;What is an arrow function missing compared to a regular function?&#x27;,opts:[&#x27;return keyword&#x27;,&#x27;curly braces&#x27;,&#x27;its own &quot;this&quot;&#x27;,&#x27;parameters&#x27;],ans:2},
+  {topic:&#x27;Arrays&#x27;,q:&#x27;Which method returns a NEW array with elements transformed?&#x27;,opts:[&#x27;forEach&#x27;,&#x27;push&#x27;,&#x27;map&#x27;,&#x27;splice&#x27;],ans:2},
+  {topic:&#x27;Objects&#x27;,q:&#x27;How do you safely access a deeply nested property that might not exist?&#x27;,opts:[&#x27;obj.a.b&#x27;,&#x27;obj?.a?.b&#x27;,&#x27;obj[&quot;a&quot;][&quot;b&quot;]&#x27;,&#x27;obj &amp;&amp; obj.a &amp;&amp; obj.a.b&#x27;],ans:1},
+  {topic:&#x27;Closures&#x27;,q:&#x27;What is a closure?&#x27;,opts:[&#x27;A type of loop&#x27;,&#x27;A function with access to its outer scope&#x27;,&#x27;An immediately invoked function&#x27;,&#x27;A way to close the browser&#x27;],ans:1},
+  {topic:&#x27;Scope&#x27;,q:&#x27;Which variables are block-scoped?&#x27;,opts:[&#x27;var only&#x27;,&#x27;let and const&#x27;,&#x27;var and let&#x27;,&#x27;All variables&#x27;],ans:1},
+  {topic:&#x27;Loops&#x27;,q:&#x27;Which loop always executes its body at least once?&#x27;,opts:[&#x27;for&#x27;,&#x27;while&#x27;,&#x27;do...while&#x27;,&#x27;for...of&#x27;],ans:2},
+  {topic:&#x27;Hoisting&#x27;,q:&#x27;What value does a hoisted var declaration have before assignment?&#x27;,opts:[&#x27;null&#x27;,&#x27;0&#x27;,&#x27;undefined&#x27;,&#x27;ReferenceError&#x27;],ans:2},
+  {topic:&#x27;String Methods&#x27;,q:&#x27;Which method returns a new string with whitespace removed from both ends?&#x27;,opts:[&#x27;strip()&#x27;,&#x27;clean()&#x27;,&#x27;trim()&#x27;,&#x27;remove()&#x27;],ans:2},
+  {topic:&#x27;Array Methods&#x27;,q:&#x27;Which method removes and returns the last element of an array?&#x27;,opts:[&#x27;shift()&#x27;,&#x27;pop()&#x27;,&#x27;splice()&#x27;,&#x27;slice()&#x27;],ans:1},
+  {topic:&#x27;Booleans&#x27;,q:&#x27;Which of these is a TRUTHY value?&#x27;,opts:[&#x27;0&#x27;,&#x27;&quot;&quot;&#x27;,&#x27;null&#x27;,&#x27;[]&#x27;],ans:3},
+  {topic:&#x27;Comparisons&#x27;,q:&#x27;Which operator checks both value AND type?&#x27;,opts:[&#x27;==&#x27;,&#x27;!=&#x27;,&#x27;===&#x27;,&#x27;=&#x27;],ans:2},
+  {topic:&#x27;Strict Mode&#x27;,q:&quot;What does &#x27;use strict&#x27; prevent?&quot;,opts:[&#x27;Using functions&#x27;,&#x27;Using let/const&#x27;,&#x27;Using undeclared variables&#x27;,&#x27;Using objects&#x27;],ans:2},
+  {topic:&#x27;Math&#x27;,q:&#x27;What does Math.floor(4.9) return?&#x27;,opts:[&#x27;5&#x27;,&#x27;4&#x27;,&#x27;4.9&#x27;,&#x27;undefined&#x27;],ans:1},
+  {topic:&#x27;Dates&#x27;,q:&#x27;In JavaScript, what is the index of January in new Date(2025, 0, 15)?&#x27;,opts:[&#x27;1&#x27;,&#x27;0&#x27;,&#x27;15&#x27;,&#x27;2025&#x27;],ans:1},
+  {topic:&#x27;Events&#x27;,q:&#x27;What method adds an event listener to an element?&#x27;,opts:[&#x27;onClick()&#x27;,&#x27;addEventListener()&#x27;,&#x27;attachEvent()&#x27;,&#x27;onEvent()&#x27;],ans:1},
+  {topic:&#x27;Iterables&#x27;,q:&#x27;Which of these is NOT iterable by default?&#x27;,opts:[&#x27;Array&#x27;,&#x27;String&#x27;,&#x27;Map&#x27;,&#x27;Plain object {}&#x27;],ans:3},
+  {topic:&#x27;Template Literals&#x27;,q:&#x27;How do you embed an expression in a template literal?&#x27;,opts:[&#x27;#{expr}&#x27;,&#x27;{{expr}}&#x27;,&#x27;${expr}&#x27;,&#x27;[expr]&#x27;],ans:2},
+];
+
+let questions=[],qi=0,score=0,correct=0,wrong=0,streak=0,bestStreak=0;
+let timer,timeLeft,answered=false;
+const history=[];
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i&gt;0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function startQuiz(){
+  questions=shuffle(QUESTIONS).slice(0,10);
+  qi=0;score=0;correct=0;wrong=0;streak=0;bestStreak=0;history.length=0;
+  document.getElementById(&#x27;quiz-screen&#x27;).style.display=&#x27;block&#x27;;
+  document.getElementById(&#x27;results-screen&#x27;).style.display=&#x27;none&#x27;;
+  showQuestion();
+}
+
+function showQuestion(){
+  answered=false;
+  clearInterval(timer);timeLeft=20;updateTimer();
+  timer=setInterval(()=&gt;{timeLeft--;updateTimer();if(timeLeft&lt;=0){clearInterval(timer);autoSubmit();}},1000);
+  const q=questions[qi];
+  document.getElementById(&#x27;q-counter&#x27;).textContent=`Q ${qi+1}/10`;
+  document.getElementById(&#x27;q-topic&#x27;).textContent=q.topic;
+  document.getElementById(&#x27;q-text&#x27;).textContent=q.q;
+  document.getElementById(&#x27;q-progress&#x27;).style.width=((qi/10)*100)+&#x27;%&#x27;;
+  document.getElementById(&#x27;score-live&#x27;).textContent=&#x27;Score: &#x27;+score;
+  document.getElementById(&#x27;next-btn&#x27;).style.display=&#x27;none&#x27;;
+  document.getElementById(&#x27;q-feedback&#x27;).className=&#x27;feedback&#x27;;
+  document.getElementById(&#x27;q-options&#x27;).innerHTML=q.opts.map((o,i)=&gt;
+    `&lt;button class=&quot;option&quot; onclick=&quot;pickAnswer(${i})&quot;&gt;${o}&lt;/button&gt;`
+  ).join(&#x27;&#x27;);
+}
+
+function updateTimer(){
+  const el=document.getElementById(&#x27;timer&#x27;);
+  el.textContent=&#x27;⏱ &#x27;+timeLeft;
+  el.style.color=timeLeft&lt;=5?&#x27;#dc2626&#x27;:&#x27;#d97706&#x27;;
+}
+
+function autoSubmit(){
+  if(!answered) pickAnswer(-1);
+}
+
+function pickAnswer(chosen){
+  if(answered) return;
+  answered=true;
+  clearInterval(timer);
+  const q=questions[qi];
+  const correct_idx=q.ans;
+  const opts=document.querySelectorAll(&#x27;.option&#x27;);
+  opts.forEach((o,i)=&gt;{
+    o.classList.add(&#x27;disabled&#x27;);
+    if(i===correct_idx) o.classList.add(&#x27;correct&#x27;);
+    else if(i===chosen) o.classList.add(&#x27;wrong&#x27;);
+  });
+  const ok=chosen===correct_idx;
+  if(ok){score+=timeLeft&gt;10?20:10;correct++;streak++;bestStreak=Math.max(bestStreak,streak);}
+  else{wrong++;streak=0;}
+  history.push({topic:q.topic,q:q.q,ok,chosen:chosen&gt;=0?q.opts[chosen]:&#x27;(timed out)&#x27;,ans:q.opts[correct_idx]});
+  const fb=document.getElementById(&#x27;q-feedback&#x27;);
+  fb.textContent=ok?&#x27;✅ Correct! &#x27;+(timeLeft&gt;10?&#x27;+20 (fast bonus)&#x27;:&#x27;+10&#x27;):
+    (chosen===-1?&#x27;⏰ Time up! Answer was: &#x27;+q.opts[correct_idx]:&#x27;❌ Wrong. Answer: &#x27;+q.opts[correct_idx]);
+  fb.className=&#x27;feedback show &#x27;+(ok?&#x27;ok&#x27;:&#x27;bad&#x27;);
+  document.getElementById(&#x27;next-btn&#x27;).style.display=&#x27;block&#x27;;
+}
+
+function nextQuestion(){
+  qi++;
+  if(qi&gt;=10) showResults();
+  else showQuestion();
+}
+
+function showResults(){
+  clearInterval(timer);
+  document.getElementById(&#x27;quiz-screen&#x27;).style.display=&#x27;none&#x27;;
+  document.getElementById(&#x27;results-screen&#x27;).style.display=&#x27;block&#x27;;
+  const pct=Math.round(score/200*100);
+  const msg=pct&gt;=80?&#x27;Outstanding! 🌟&#x27;:pct&gt;=60?&#x27;Great work! 👍&#x27;:pct&gt;=40?&#x27;Good effort! ✅&#x27;:&#x27;Keep practising! 💪&#x27;;
+  document.getElementById(&#x27;final-score&#x27;).textContent=score+&#x27;/200&#x27;;
+  document.getElementById(&#x27;final-msg&#x27;).textContent=msg;
+  document.getElementById(&#x27;r-correct&#x27;).textContent=correct;
+  document.getElementById(&#x27;r-wrong&#x27;).textContent=wrong;
+  document.getElementById(&#x27;r-pct&#x27;).textContent=pct+&#x27;%&#x27;;
+  document.getElementById(&#x27;r-streak&#x27;).textContent=bestStreak;
+  document.getElementById(&#x27;review-out&#x27;).textContent=&#x27;Review:
+&#x27;+
+    history.map((h,i)=&gt;`${h.ok?&#x27;✅&#x27;:&#x27;❌&#x27;} Q${i+1} [${h.topic}]: ${h.ok?&#x27;Correct&#x27;:&#x27;Wrong — you said &quot;&#x27;+h.chosen+&#x27;&quot; / answer: &quot;&#x27;+h.ans+&#x27;&quot;&#x27;}`).join(&#x27;
+&#x27;);
+}
+
+startQuiz();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+</div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+      ⬇ Download starter.html
+    </button>
+    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+      🐙 Push to GitHub →
+    </button>
+  </div>
+  <script>
+  const __code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JS Final Capstone — Quiz App</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+</style>
+</head>
+<body>
+<h1>⚡ JS Final Capstone: Interactive Quiz App</h1>
+
+<style>
+  .quiz-container{max-width:600px;margin:0 auto}
+  .progress-bar{height:8px;background:#fde68a;border-radius:4px;overflow:hidden;margin-bottom:20px}
+  .progress-fill{height:100%;background:#d97706;transition:width .4s ease}
+  .q-card{background:white;border:2px solid #fde68a;border-radius:16px;padding:24px;margin-bottom:16px}
+  .q-num{font-family:monospace;font-size:11px;font-weight:700;color:#d97706;letter-spacing:.1em;margin-bottom:8px}
+  .q-text{font-size:1.1rem;font-weight:700;color:#1c1917;margin-bottom:16px;line-height:1.5}
+  .options{display:grid;gap:8px}
+  .option{padding:12px 16px;border:2px solid #fde68a;border-radius:10px;background:#fef9ee;cursor:pointer;font-size:14px;font-weight:500;transition:.15s;text-align:left}
+  .option:hover{border-color:#d97706;background:#fffbeb}
+  .option.correct{border-color:#16a34a;background:#dcfce7;color:#15803d;font-weight:700}
+  .option.wrong{border-color:#dc2626;background:#fee2e2;color:#dc2626}
+  .option.disabled{pointer-events:none;opacity:.6}
+  .option.show-correct{border-color:#16a34a;background:#dcfce7;color:#15803d}
+  .feedback{padding:12px;border-radius:10px;font-size:13px;font-weight:600;margin-top:10px;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:#dcfce7;color:#15803d}
+  .feedback.bad{background:#fee2e2;color:#dc2626}
+  .stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .stat{flex:1;min-width:80px;background:#fef9ee;border:1.5px solid #fde68a;border-radius:10px;padding:12px;text-align:center}
+  .stat-v{font-size:1.5rem;font-weight:800;color:#d97706;display:block}
+  .stat-l{font-size:11px;color:#92400e}
+  .results{background:linear-gradient(135deg,#d97706,#b45309);color:white;border-radius:16px;padding:24px;text-align:center}
+  .results h2{font-size:1.5rem;margin-bottom:8px}
+  .big-score{font-size:4rem;font-weight:800;margin:12px 0}
+</style>
+<div class="quiz-container">
+  <div id="quiz-screen">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <span id="q-counter" style="font-family:monospace;font-size:12px;color:#92400e">Q 1/10</span>
+      <span id="timer" style="font-family:monospace;font-size:1.1rem;font-weight:800;color:#d97706">⏱ 20</span>
+      <span id="score-live" style="font-family:monospace;font-size:12px;color:#92400e">Score: 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="q-progress" style="width:0%"></div></div>
+    <div class="q-card">
+      <div class="q-num" id="q-topic">Topic</div>
+      <div class="q-text" id="q-text">Loading…</div>
+      <div class="options" id="q-options"></div>
+      <div class="feedback" id="q-feedback"></div>
+    </div>
+    <button class="btn" id="next-btn" onclick="nextQuestion()" style="display:none;width:100%;margin-top:4px">Next Question →</button>
+  </div>
+  <div id="results-screen" style="display:none">
+    <div class="results">
+      <h2>🎉 Quiz Complete!</h2>
+      <div class="big-score" id="final-score">0/10</div>
+      <p id="final-msg">Well done!</p>
+    </div>
+    <div class="stat-row" style="margin-top:16px">
+      <div class="stat"><span class="stat-v" id="r-correct">0</span><span class="stat-l">Correct</span></div>
+      <div class="stat"><span class="stat-v" id="r-wrong">0</span><span class="stat-l">Wrong</span></div>
+      <div class="stat"><span class="stat-v" id="r-pct">0%</span><span class="stat-l">Score</span></div>
+      <div class="stat"><span class="stat-v" id="r-streak">0</span><span class="stat-l">Best Streak</span></div>
+    </div>
+    <div class="output" id="review-out" style="margin-top:10px;max-height:200px;overflow-y:auto"></div>
+    <button class="btn" onclick="startQuiz()" style="width:100%;margin-top:12px">🔄 Play Again</button>
+  </div>
+</div>
+<script>
+const QUESTIONS=[
+  {topic:'Variables',q:'Which keyword creates a block-scoped variable that can be reassigned?',opts:['var','let','const','function'],ans:1},
+  {topic:'Data Types',q:'What does typeof null return?',opts:['"null"','"undefined"','"object"','"boolean"'],ans:2},
+  {topic:'Operators',q:'What does 5 === "5" evaluate to?',opts:['true','false','undefined','TypeError'],ans:1},
+  {topic:'Functions',q:'What is an arrow function missing compared to a regular function?',opts:['return keyword','curly braces','its own "this"','parameters'],ans:2},
+  {topic:'Arrays',q:'Which method returns a NEW array with elements transformed?',opts:['forEach','push','map','splice'],ans:2},
+  {topic:'Objects',q:'How do you safely access a deeply nested property that might not exist?',opts:['obj.a.b','obj?.a?.b','obj["a"]["b"]','obj && obj.a && obj.a.b'],ans:1},
+  {topic:'Closures',q:'What is a closure?',opts:['A type of loop','A function with access to its outer scope','An immediately invoked function','A way to close the browser'],ans:1},
+  {topic:'Scope',q:'Which variables are block-scoped?',opts:['var only','let and const','var and let','All variables'],ans:1},
+  {topic:'Loops',q:'Which loop always executes its body at least once?',opts:['for','while','do...while','for...of'],ans:2},
+  {topic:'Hoisting',q:'What value does a hoisted var declaration have before assignment?',opts:['null','0','undefined','ReferenceError'],ans:2},
+  {topic:'String Methods',q:'Which method returns a new string with whitespace removed from both ends?',opts:['strip()','clean()','trim()','remove()'],ans:2},
+  {topic:'Array Methods',q:'Which method removes and returns the last element of an array?',opts:['shift()','pop()','splice()','slice()'],ans:1},
+  {topic:'Booleans',q:'Which of these is a TRUTHY value?',opts:['0','""','null','[]'],ans:3},
+  {topic:'Comparisons',q:'Which operator checks both value AND type?',opts:['==','!=','===','='],ans:2},
+  {topic:'Strict Mode',q:"What does 'use strict' prevent?",opts:['Using functions','Using let/const','Using undeclared variables','Using objects'],ans:2},
+  {topic:'Math',q:'What does Math.floor(4.9) return?',opts:['5','4','4.9','undefined'],ans:1},
+  {topic:'Dates',q:'In JavaScript, what is the index of January in new Date(2025, 0, 15)?',opts:['1','0','15','2025'],ans:1},
+  {topic:'Events',q:'What method adds an event listener to an element?',opts:['onClick()','addEventListener()','attachEvent()','onEvent()'],ans:1},
+  {topic:'Iterables',q:'Which of these is NOT iterable by default?',opts:['Array','String','Map','Plain object {}'],ans:3},
+  {topic:'Template Literals',q:'How do you embed an expression in a template literal?',opts:['#{expr}','{{expr}}','${expr}','[expr]'],ans:2},
+];
+
+let questions=[],qi=0,score=0,correct=0,wrong=0,streak=0,bestStreak=0;
+let timer,timeLeft,answered=false;
+const history=[];
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function startQuiz(){
+  questions=shuffle(QUESTIONS).slice(0,10);
+  qi=0;score=0;correct=0;wrong=0;streak=0;bestStreak=0;history.length=0;
+  document.getElementById('quiz-screen').style.display='block';
+  document.getElementById('results-screen').style.display='none';
+  showQuestion();
+}
+
+function showQuestion(){
+  answered=false;
+  clearInterval(timer);timeLeft=20;updateTimer();
+  timer=setInterval(()=>{timeLeft--;updateTimer();if(timeLeft<=0){clearInterval(timer);autoSubmit();}},1000);
+  const q=questions[qi];
+  document.getElementById('q-counter').textContent=\`Q ${qi+1}/10\`;
+  document.getElementById('q-topic').textContent=q.topic;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('q-progress').style.width=((qi/10)*100)+'%';
+  document.getElementById('score-live').textContent='Score: '+score;
+  document.getElementById('next-btn').style.display='none';
+  document.getElementById('q-feedback').className='feedback';
+  document.getElementById('q-options').innerHTML=q.opts.map((o,i)=>
+    \`<button class="option" onclick="pickAnswer(${i})">${o}</button>\`
+  ).join('');
+}
+
+function updateTimer(){
+  const el=document.getElementById('timer');
+  el.textContent='⏱ '+timeLeft;
+  el.style.color=timeLeft<=5?'#dc2626':'#d97706';
+}
+
+function autoSubmit(){
+  if(!answered) pickAnswer(-1);
+}
+
+function pickAnswer(chosen){
+  if(answered) return;
+  answered=true;
+  clearInterval(timer);
+  const q=questions[qi];
+  const correct_idx=q.ans;
+  const opts=document.querySelectorAll('.option');
+  opts.forEach((o,i)=>{
+    o.classList.add('disabled');
+    if(i===correct_idx) o.classList.add('correct');
+    else if(i===chosen) o.classList.add('wrong');
+  });
+  const ok=chosen===correct_idx;
+  if(ok){score+=timeLeft>10?20:10;correct++;streak++;bestStreak=Math.max(bestStreak,streak);}
+  else{wrong++;streak=0;}
+  history.push({topic:q.topic,q:q.q,ok,chosen:chosen>=0?q.opts[chosen]:'(timed out)',ans:q.opts[correct_idx]});
+  const fb=document.getElementById('q-feedback');
+  fb.textContent=ok?'✅ Correct! '+(timeLeft>10?'+20 (fast bonus)':'+10'):
+    (chosen===-1?'⏰ Time up! Answer was: '+q.opts[correct_idx]:'❌ Wrong. Answer: '+q.opts[correct_idx]);
+  fb.className='feedback show '+(ok?'ok':'bad');
+  document.getElementById('next-btn').style.display='block';
+}
+
+function nextQuestion(){
+  qi++;
+  if(qi>=10) showResults();
+  else showQuestion();
+}
+
+function showResults(){
+  clearInterval(timer);
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('results-screen').style.display='block';
+  const pct=Math.round(score/200*100);
+  const msg=pct>=80?'Outstanding! 🌟':pct>=60?'Great work! 👍':pct>=40?'Good effort! ✅':'Keep practising! 💪';
+  document.getElementById('final-score').textContent=score+'/200';
+  document.getElementById('final-msg').textContent=msg;
+  document.getElementById('r-correct').textContent=correct;
+  document.getElementById('r-wrong').textContent=wrong;
+  document.getElementById('r-pct').textContent=pct+'%';
+  document.getElementById('r-streak').textContent=bestStreak;
+  document.getElementById('review-out').textContent='Review:
+'+
+    history.map((h,i)=>\`${h.ok?'✅':'❌'} Q${i+1} [${h.topic}]: ${h.ok?'Correct':'Wrong — you said "'+h.chosen+'" / answer: "'+h.ans+'"'}\`).join('
+');
+}
+
+startQuiz();
+</script>
+</body>
+</html>`;
+  function downloadStarter(){
+    const a=document.createElement('a');
+    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
+    a.download='starter.html'; a.click();
+  }
+  </script>
+</div>
+
+<div class="github-acc" id="github-steps" style="display:none">
+  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
+    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+  </div>
+  <div class="github-acc-body">
+    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-46-js_final_capstone</code>.</p></div>
+    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
+    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 46 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-46-js_final_capstone/</code> in ~1 min! 🎉</p></div>
+    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  </div>
+</div>
+<div class="session-end" id="session-end">
+  <h2>🎉 Great work! Lesson 46 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
+  <ul><li>✅ Review: Core Concepts</li><li>✅ Build It: Interactive Quiz App</li></ul>
+  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
+    <a href="lesson_45.html" class="ln-btn">← Lesson 45</a>
+    <a href="../index.html" class="ln-btn primary">🎉 Course Complete!</a>
+  </div>
+</div>
+</main>
+<footer class="lesson-footer">
+  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 46 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+</footer>
+<script>
+const TOTAL=2, KEY='techbase_js_46_phase';
+let current=parseInt(localStorage.getItem(KEY)||'1');
+function init(){
+  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  updateBar();
+}
+function unlockNext(n){
+  document.getElementById('check'+n).classList.add('done');
+  document.getElementById('check'+n).textContent='✓';
+  localStorage.setItem(KEY,n+1);
+  current=n+1;
+  if(n===TOTAL){
+    document.getElementById('build-it').style.display='block';
+    const cap=document.getElementById('capstone');
+    if(cap) cap.style.display='block';
+    updateBar(100);
+    setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
+  } else {
+    unlockPhase(n+1,true);
+    updateBar();
+  }
+}
+function unlockPhase(n,scroll){
+  const el=document.getElementById('phase'+n);
+  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+}
+function updateBar(pct){
+  const p=pct||Math.round((current-1)/TOTAL*95);
+  document.getElementById('pbar').style.width=p+'%';
+}
+function showGithub(){
+  const g=document.getElementById('github-steps');
+  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+}
+function showEnd(){
+  const e=document.getElementById('session-end');
+  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+}
+init();
+</script>
+</body>
+</html>

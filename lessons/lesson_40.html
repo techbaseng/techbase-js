@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 40: JS Break — Techbase JS Course</title>
+<meta name="description" content="Control loop flow with break, continue and labelled statements">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
+  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
+  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--t2:#334155;--muted:#64748b;
+  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.l-nav-back:hover{color:var(--accent)}
+.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
+.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:820px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
+.l-hero-build strong{color:var(--accent)}
+.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
+.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
+.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
+.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
+.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.phase-check.done{background:#10b981;color:#fff}
+.phase-body{padding:1.4rem}
+.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
+.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
+.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
+.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
+.code-dot{width:8px;height:8px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
+.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
+.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
+.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
+.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
+.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
+.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
+.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
+.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
+.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
+.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
+.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.github-acc-body.open{display:block}
+.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.session-end.visible{display:block}
+.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ln-btn.primary:hover{opacity:.9}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+</style>
+</head>
+<body>
+<nav class="l-nav">
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
+  <span class="l-nav-lesson">Lesson 40 of 46</span>
+  <a href="../index.html" class="l-nav-back">← All Lessons</a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div class="l-hero">
+  <div class="l-hero-inner">
+    <div class="l-badge">JavaScript · Lesson 40 </div>
+    <h1>JS Break</h1>
+    <div class="l-hero-tag">Control loop flow with break, continue and labelled statements</div>
+    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Loop Control Demo</div>
+  </div>
+</div>
+<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+  <h2>👋 Welcome to Lesson 40</h2>
+  <p>Control loop flow with break, continue and labelled statements</p>
+  <div class="welcome-meta">
+    <span>📚 2 phases</span>
+    <span>🏗️ Build: My Loop Control Demo</span>
+    
+  </div>
+</div></div>
+</section>
+<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">break and continue</div></div>
+    <div class="phase-check" id="check1"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><code>break</code> exits the innermost loop or switch immediately. <code>continue</code> skips the rest of the current iteration and moves to the next. Both work in for, while, do...while, and for...of/in. Neither works in forEach — use for...of instead when you need break.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// break — exit loop early
+for (let i = 0; i &lt; 10; i++) {
+  if (i === 5) break;  // exits when i === 5
+  console.log(i);      // 0,1,2,3,4
+}
+
+// continue — skip iteration
+for (let i = 0; i &lt; 10; i++) {
+  if (i % 2 === 0) continue; // skip even
+  console.log(i); // 1,3,5,7,9
+}
+
+// break in while
+let found = -1;
+const arr = [3, 7, 2, 9, 1];
+let i = 0;
+while (i &lt; arr.length) {
+  if (arr[i] &gt; 8) { found = i; break; }
+  i++;
+}
+
+// break in switch (always needed!)
+switch (x) {
+  case 1: doA(); break; // break prevents fall-through
+  case 2: doB(); break;
+}</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Use break to find the first duplicate in an array: [1,3,5,3,2,7] — stop as soon as you find a value you've seen before. Return the duplicate.</p></div>
+    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase2">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Labelled break</div></div>
+    <div class="phase-check" id="check2"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Labels let you break out of or continue an OUTER loop from inside a nested loop. Syntax: <code>outerLabel: for(...)</code> then <code>break outerLabel</code>. Rarely needed — restructure your code first. Useful for grid searches: find an item and break out of both loops at once.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// Labelled break — exit outer loop from inner
+outer: for (let i = 0; i &lt; 3; i++) {
+  for (let j = 0; j &lt; 3; j++) {
+    if (i === 1 &amp;&amp; j === 1) {
+      break outer; // exits BOTH loops!
+    }
+    console.log(i, j);
+  }
+}
+// logs: 0,0  0,1  0,2  1,0  (then stops)
+
+// Labelled continue
+outer: for (let i = 0; i &lt; 3; i++) {
+  for (let j = 0; j &lt; 3; j++) {
+    if (j === 1) continue outer; // skip to next i
+    console.log(i, j);
+  }
+}
+// logs: 0,0  1,0  2,0</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Use a labelled break to search a 2D grid (array of arrays) for a target value. Once found, break out of both the row and column loops and log the coordinates.</p></div>
+    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+  </div>
+</div>
+<div class="project-box" id="build-it" style="display:none">
+  <div class="project-label">🏗️ Build It</div>
+  <div class="project-name">Loop Control Demo</div>
+  <div class="project-desc">Break/continue visualiser and 2D grid search.</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
+<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;title&gt;JS Break&lt;/title&gt;
+&lt;style&gt;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;⚡ JS Break / Continue&lt;/h1&gt;
+
+&lt;h2&gt;break vs continue Visualiser&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;div style=&quot;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;demo(&#x27;none&#x27;)&quot;&gt;No control&lt;/button&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;demo(&#x27;break&#x27;)&quot;&gt;break at 5&lt;/button&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;demo(&#x27;continue&#x27;)&quot;&gt;continue even&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;loop-boxes&quot; style=&quot;display:flex;flex-wrap:wrap;gap:6px;padding:12px;background:#fef9ee;border-radius:10px;min-height:56px&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;output&quot; id=&quot;loop-out&quot; style=&quot;margin-top:8px&quot;&gt;Click a button to visualise the loop&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Grid Search with Labelled Break&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;div style=&quot;display:flex;gap:8px;margin-bottom:8px&quot;&gt;
+&lt;input id=&quot;target-in&quot; type=&quot;number&quot; value=&quot;7&quot; style=&quot;width:80px;margin:0&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;gridSearch()&quot;&gt;Search Grid&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;grid-display&quot; style=&quot;margin-bottom:8px&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;output&quot; id=&quot;grid-out&quot;&gt;Enter a target and click Search&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+function demo(mode){
+  const boxes=document.getElementById(&#x27;loop-boxes&#x27;);
+  const out=document.getElementById(&#x27;loop-out&#x27;);
+  boxes.innerHTML=&#x27;&#x27;; const visited=[]; const skipped=[];
+  for(let i=0;i&lt;10;i++){
+    if(mode===&#x27;break&#x27;&amp;&amp;i===5){
+      const b=document.createElement(&#x27;div&#x27;);
+      b.style.cssText=&#x27;padding:8px 12px;border-radius:6px;font-weight:800;background:#dc2626;color:white;font-family:monospace&#x27;;
+      b.textContent=&#x27;BREAK&#x27;;boxes.appendChild(b);break;
+    }
+    if(mode===&#x27;continue&#x27;&amp;&amp;i%2===0){skipped.push(i);continue;}
+    visited.push(i);
+    const b=document.createElement(&#x27;div&#x27;);
+    b.style.cssText=&#x27;padding:8px 12px;border-radius:6px;font-weight:800;font-family:monospace;background:#d97706;color:white&#x27;;
+    b.textContent=i;boxes.appendChild(b);
+  }
+  out.textContent=mode===&#x27;none&#x27;?&#x27;All 10 iterations ran: [0..9]&#x27;:
+    mode===&#x27;break&#x27;?`break at 5. Ran: [${visited.join(&#x27;,&#x27;)}]. Items after break never executed.`:
+    `continue skips even numbers.
+Ran: [${visited.join(&#x27;,&#x27;)}]
+Skipped: [${skipped.join(&#x27;,&#x27;)}]`;
+}
+const GRID=[[3,7,2],[9,1,5],[8,4,6]];
+function gridSearch(){
+  const target=parseInt(document.getElementById(&#x27;target-in&#x27;).value);
+  let found=null,row=-1,col=-1;
+  outer:for(let r=0;r&lt;GRID.length;r++){
+    for(let c=0;c&lt;GRID[r].length;c++){
+      if(GRID[r][c]===target){found=GRID[r][c];row=r;col=c;break outer;}
+    }
+  }
+  let html=&#x27;&lt;table style=&quot;border-collapse:collapse&quot;&gt;&#x27;;
+  for(let r=0;r&lt;GRID.length;r++){
+    html+=&#x27;&lt;tr&gt;&#x27;;
+    for(let c=0;c&lt;GRID[r].length;c++){
+      const isTarget=GRID[r][c]===target;
+      html+=`&lt;td style=&quot;padding:12px;border:2px solid ${isTarget?&#x27;#d97706&#x27;:&#x27;#fde68a&#x27;};background:${isTarget?&#x27;#d97706&#x27;:&#x27;#fef9ee&#x27;};color:${isTarget?&#x27;white&#x27;:&#x27;#1c1917&#x27;};font-weight:800;font-family:monospace;text-align:center;font-size:1.1rem&quot;&gt;${GRID[r][c]}&lt;/td&gt;`;
+    }
+    html+=&#x27;&lt;/tr&gt;&#x27;;
+  }
+  html+=&#x27;&lt;/table&gt;&#x27;;
+  document.getElementById(&#x27;grid-display&#x27;).innerHTML=html;
+  document.getElementById(&#x27;grid-out&#x27;).textContent=found!==null?
+    `Found ${target} at grid[${row}][${col}]!
+Labelled break exited both loops immediately.`:
+    `${target} not found in the grid.`;
+}
+gridSearch();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+</div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+      ⬇ Download starter.html
+    </button>
+    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+      🐙 Push to GitHub →
+    </button>
+  </div>
+  <script>
+  const __code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JS Break</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+</style>
+</head>
+<body>
+<h1>⚡ JS Break / Continue</h1>
+
+<h2>break vs continue Visualiser</h2>
+<div class="box">
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+<button class="btn" onclick="demo('none')">No control</button>
+<button class="btn" onclick="demo('break')">break at 5</button>
+<button class="btn" onclick="demo('continue')">continue even</button>
+</div>
+<div id="loop-boxes" style="display:flex;flex-wrap:wrap;gap:6px;padding:12px;background:#fef9ee;border-radius:10px;min-height:56px"></div>
+<div class="output" id="loop-out" style="margin-top:8px">Click a button to visualise the loop</div>
+</div>
+<h2>Grid Search with Labelled Break</h2>
+<div class="box">
+<div style="display:flex;gap:8px;margin-bottom:8px">
+<input id="target-in" type="number" value="7" style="width:80px;margin:0">
+<button class="btn" onclick="gridSearch()">Search Grid</button>
+</div>
+<div id="grid-display" style="margin-bottom:8px"></div>
+<div class="output" id="grid-out">Enter a target and click Search</div>
+</div>
+<script>
+function demo(mode){
+  const boxes=document.getElementById('loop-boxes');
+  const out=document.getElementById('loop-out');
+  boxes.innerHTML=''; const visited=[]; const skipped=[];
+  for(let i=0;i<10;i++){
+    if(mode==='break'&&i===5){
+      const b=document.createElement('div');
+      b.style.cssText='padding:8px 12px;border-radius:6px;font-weight:800;background:#dc2626;color:white;font-family:monospace';
+      b.textContent='BREAK';boxes.appendChild(b);break;
+    }
+    if(mode==='continue'&&i%2===0){skipped.push(i);continue;}
+    visited.push(i);
+    const b=document.createElement('div');
+    b.style.cssText='padding:8px 12px;border-radius:6px;font-weight:800;font-family:monospace;background:#d97706;color:white';
+    b.textContent=i;boxes.appendChild(b);
+  }
+  out.textContent=mode==='none'?'All 10 iterations ran: [0..9]':
+    mode==='break'?\`break at 5. Ran: [${visited.join(',')}]. Items after break never executed.\`:
+    \`continue skips even numbers.
+Ran: [${visited.join(',')}]
+Skipped: [${skipped.join(',')}]\`;
+}
+const GRID=[[3,7,2],[9,1,5],[8,4,6]];
+function gridSearch(){
+  const target=parseInt(document.getElementById('target-in').value);
+  let found=null,row=-1,col=-1;
+  outer:for(let r=0;r<GRID.length;r++){
+    for(let c=0;c<GRID[r].length;c++){
+      if(GRID[r][c]===target){found=GRID[r][c];row=r;col=c;break outer;}
+    }
+  }
+  let html='<table style="border-collapse:collapse">';
+  for(let r=0;r<GRID.length;r++){
+    html+='<tr>';
+    for(let c=0;c<GRID[r].length;c++){
+      const isTarget=GRID[r][c]===target;
+      html+=\`<td style="padding:12px;border:2px solid ${isTarget?'#d97706':'#fde68a'};background:${isTarget?'#d97706':'#fef9ee'};color:${isTarget?'white':'#1c1917'};font-weight:800;font-family:monospace;text-align:center;font-size:1.1rem">${GRID[r][c]}</td>\`;
+    }
+    html+='</tr>';
+  }
+  html+='</table>';
+  document.getElementById('grid-display').innerHTML=html;
+  document.getElementById('grid-out').textContent=found!==null?
+    \`Found ${target} at grid[${row}][${col}]!
+Labelled break exited both loops immediately.\`:
+    \`${target} not found in the grid.\`;
+}
+gridSearch();
+</script>
+</body>
+</html>`;
+  function downloadStarter(){
+    const a=document.createElement('a');
+    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
+    a.download='starter.html'; a.click();
+  }
+  </script>
+</div>
+
+<div class="github-acc" id="github-steps" style="display:none">
+  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
+    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+  </div>
+  <div class="github-acc-body">
+    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-40-js_break</code>.</p></div>
+    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
+    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 40 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-40-js_break/</code> in ~1 min! 🎉</p></div>
+    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  </div>
+</div>
+<div class="session-end" id="session-end">
+  <h2>🎉 Great work! Lesson 40 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
+  <ul><li>✅ break and continue</li><li>✅ Labelled break</li></ul>
+  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
+    <a href="lesson_39.html" class="ln-btn">← Lesson 39</a>
+    <a href="lesson_41.html" class="ln-btn primary">Lesson 41 →</a>
+  </div>
+</div>
+</main>
+<footer class="lesson-footer">
+  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 40 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+</footer>
+<script>
+const TOTAL=2, KEY='techbase_js_40_phase';
+let current=parseInt(localStorage.getItem(KEY)||'1');
+function init(){
+  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  updateBar();
+}
+function unlockNext(n){
+  document.getElementById('check'+n).classList.add('done');
+  document.getElementById('check'+n).textContent='✓';
+  localStorage.setItem(KEY,n+1);
+  current=n+1;
+  if(n===TOTAL){
+    document.getElementById('build-it').style.display='block';
+    const cap=document.getElementById('capstone');
+    if(cap) cap.style.display='block';
+    updateBar(100);
+    setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
+  } else {
+    unlockPhase(n+1,true);
+    updateBar();
+  }
+}
+function unlockPhase(n,scroll){
+  const el=document.getElementById('phase'+n);
+  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+}
+function updateBar(pct){
+  const p=pct||Math.round((current-1)/TOTAL*95);
+  document.getElementById('pbar').style.width=p+'%';
+}
+function showGithub(){
+  const g=document.getElementById('github-steps');
+  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+}
+function showEnd(){
+  const e=document.getElementById('session-end');
+  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+}
+init();
+</script>
+</body>
+</html>

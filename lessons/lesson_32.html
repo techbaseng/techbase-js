@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 32: JS Booleans — Techbase JS Course</title>
+<meta name="description" content="Master true/false, truthy/falsy values and Boolean conversion">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
+  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
+  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--t2:#334155;--muted:#64748b;
+  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.l-nav-back:hover{color:var(--accent)}
+.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
+.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:820px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
+.l-hero-build strong{color:var(--accent)}
+.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
+.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
+.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
+.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
+.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.phase-check.done{background:#10b981;color:#fff}
+.phase-body{padding:1.4rem}
+.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
+.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
+.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
+.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
+.code-dot{width:8px;height:8px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
+.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
+.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
+.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
+.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
+.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
+.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
+.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
+.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
+.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
+.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
+.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.github-acc-body.open{display:block}
+.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.session-end.visible{display:block}
+.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ln-btn.primary:hover{opacity:.9}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+</style>
+</head>
+<body>
+<nav class="l-nav">
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
+  <span class="l-nav-lesson">Lesson 32 of 46</span>
+  <a href="../index.html" class="l-nav-back">← All Lessons</a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div class="l-hero">
+  <div class="l-hero-inner">
+    <div class="l-badge">JavaScript · Lesson 32 </div>
+    <h1>JS Booleans</h1>
+    <div class="l-hero-tag">Master true/false, truthy/falsy values and Boolean conversion</div>
+    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Boolean Explorer</div>
+  </div>
+</div>
+<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+  <h2>👋 Welcome to Lesson 32</h2>
+  <p>Master true/false, truthy/falsy values and Boolean conversion</p>
+  <div class="welcome-meta">
+    <span>📚 2 phases</span>
+    <span>🏗️ Build: My Boolean Explorer</span>
+    
+  </div>
+</div></div>
+</section>
+<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Truthy and falsy</div></div>
+    <div class="phase-check" id="check1"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Only 8 falsy values: <code>false</code>, <code>0</code>, <code>-0</code>, <code>0n</code>, <code>''</code>, <code>null</code>, <code>undefined</code>, <code>NaN</code>. Everything else is truthy — including <code>'false'</code>, <code>[]</code>, <code>{}</code>, <code>-1</code>! Use <code>Boolean(val)</code> or <code>!!val</code> to convert.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// The 8 falsy values
+Boolean(false);     // false
+Boolean(0);         // false
+Boolean(-0);        // false
+Boolean(0n);        // false (BigInt zero)
+Boolean(&#x27;&#x27;);        // false (empty string)
+Boolean(null);      // false
+Boolean(undefined); // false
+Boolean(NaN);       // false
+
+// Surprising truthy values!
+Boolean(&#x27;false&#x27;);   // true (non-empty string)
+Boolean(&#x27;0&#x27;);       // true (non-empty string)
+Boolean([]);        // true (empty array!)
+Boolean({});        // true (empty object!)
+Boolean(-1);        // true (non-zero number)
+
+// !! double-negation to boolean
+!!0;      // false
+!!&#x27;&#x27;;     // false
+!!&#x27;hi&#x27;;   // true
+!![];     // true</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Write a function that classifies a value as truthy or falsy. Test it with all 8 falsy values plus 5 truthy surprises like [] and 'false'.</p></div>
+    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase2">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Boolean logic patterns</div></div>
+    <div class="phase-check" id="check2"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Short-circuit patterns: <code>a && b</code> returns a if falsy, else b. <code>a || b</code> returns a if truthy, else b. <code>a ?? b</code> returns b only if a is null/undefined. Use for defaults: <code>const name = input || 'Guest'</code>. Guard: <code>user && user.name</code>.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// Default values
+const name = &#x27;&#x27; || &#x27;Guest&#x27;;      // &#x27;Guest&#x27; (&#x27;&#x27; is falsy)
+const score = 0 || 100;          // 100 (0 is falsy — wrong!)
+const score2 = 0 ?? 100;         // 0 (?? only checks null/undefined)
+
+// Guard — access property safely
+const user = null;
+const username = user &amp;&amp; user.name; // null (short-circuits)
+
+// Optional chaining (modern alternative)
+const username2 = user?.name;    // undefined (safe)
+const city = user?.address?.city; // undefined (nested)
+
+// Conditional rendering pattern
+const isLoggedIn = true;
+isLoggedIn &amp;&amp; showDashboard();  // only calls if true
+
+// Convert truthy to strict boolean
+const hasItems = !!cart.length;  // true/false not a number</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Build a form validation system using truthy/falsy: check if name, email, and phone are non-empty strings. Use && to combine all checks into a single isValid boolean.</p></div>
+    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+  </div>
+</div>
+<div class="project-box" id="build-it" style="display:none">
+  <div class="project-label">🏗️ Build It</div>
+  <div class="project-name">Boolean Explorer</div>
+  <div class="project-desc">Truthy/falsy classifier and boolean logic playground.</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
+<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;title&gt;JS Booleans&lt;/title&gt;
+&lt;style&gt;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;⚡ JS Booleans&lt;/h1&gt;
+
+&lt;h2&gt;Truthy / Falsy Classifier&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;input id=&quot;bool-in&quot; placeholder=&quot;Enter a value: 0, &#x27;&#x27;, [], {}, null, &#x27;false&#x27;&quot; value=&quot;0&quot; oninput=&quot;classify()&quot;&gt;
+&lt;div id=&quot;bool-result&quot; style=&quot;padding:14px;border-radius:10px;text-align:center;margin-top:8px;font-size:1.2rem;font-weight:800&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;All Falsy Values&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;div id=&quot;falsy-grid&quot; style=&quot;display:grid;grid-template-columns:repeat(4,1fr);gap:8px&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Short-circuit Logic&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;scDemo()&quot;&gt;Run Short-Circuit Demo&lt;/button&gt;
+&lt;div class=&quot;output&quot; id=&quot;sc-out&quot;&gt;Click to run&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+const falsyVals=[false,0,-0,0n,&#x27;&#x27;,null,undefined,NaN];
+const falsyLabels=[&#x27;false&#x27;,&#x27;0&#x27;,&#x27;-0&#x27;,&#x27;0n&#x27;,&quot;&#x27;&#x27;&quot;,&quot;null&quot;,&quot;undefined&quot;,&quot;NaN&quot;];
+document.getElementById(&#x27;falsy-grid&#x27;).innerHTML=falsyLabels.map(l=&gt;
+  `&lt;div style=&quot;background:#fee2e2;color:#dc2626;border:2px solid #fca5a5;border-radius:8px;padding:10px;text-align:center;font-family:monospace;font-weight:700&quot;&gt;${l}&lt;div style=&quot;font-size:10px;font-weight:400;margin-top:2px&quot;&gt;FALSY&lt;/div&gt;&lt;/div&gt;`
+).join(&#x27;&#x27;);
+function classify(){
+  const raw=document.getElementById(&#x27;bool-in&#x27;).value;
+  let val;
+  try{ val=eval(raw); }catch(e){ val=raw; }
+  const isTruthy=!!val;
+  const el=document.getElementById(&#x27;bool-result&#x27;);
+  el.textContent=(isTruthy?&#x27;✅ TRUTHY&#x27;:&#x27;❌ FALSY&#x27;)+&#x27; — Boolean(&#x27;+raw+&#x27;) = &#x27;+String(isTruthy);
+  el.style.background=isTruthy?&#x27;#dcfce7&#x27;:&#x27;#fee2e2&#x27;;
+  el.style.color=isTruthy?&#x27;#15803d&#x27;:&#x27;#dc2626&#x27;;
+}
+classify();
+function scDemo(){
+  const lines=[
+    &#x27;&amp;&amp; short-circuit (returns first falsy or last):&#x27;,
+    &quot;  null &amp;&amp; &#x27;hello&#x27;  = &quot;+String(null&amp;&amp;&#x27;hello&#x27;),
+    &quot;  0 &amp;&amp; &#x27;hello&#x27;     = &quot;+String(0&amp;&amp;&#x27;hello&#x27;),
+    &quot;  &#x27;hi&#x27; &amp;&amp; &#x27;hello&#x27;  = &quot;+String(&#x27;hi&#x27;&amp;&amp;&#x27;hello&#x27;),
+    &#x27;&#x27;,
+    &#x27;|| short-circuit (returns first truthy or last):&#x27;,
+    &quot;  null || &#x27;Guest&#x27;  = &quot;+(null||&#x27;Guest&#x27;),
+    &quot;  0 || 100         = &quot;+(0||100)+&quot; ← 0 is falsy!&quot;,
+    &quot;  &#x27;Amina&#x27; || &#x27;def&#x27; = &quot;+(&#x27;Amina&#x27;||&#x27;def&#x27;),
+    &#x27;&#x27;,
+    &#x27;?? nullish (returns right only if null/undefined):&#x27;,
+    &quot;  0 ?? 100         = &quot;+(0??100)+&quot; ← 0 is NOT null/undefined&quot;,
+    &quot;  null ?? &#x27;Guest&#x27;  = &quot;+(null??&#x27;Guest&#x27;),
+    &quot;  &#x27;&#x27; ?? &#x27;default&#x27;  = &quot;+(&#x27;&#x27;??&#x27;default&#x27;)+&quot; ← &#x27;&#x27; is NOT null/undefined&quot;,
+  ];
+  document.getElementById(&#x27;sc-out&#x27;).textContent=lines.join(&#x27;
+&#x27;);
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+</div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+      ⬇ Download starter.html
+    </button>
+    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+      🐙 Push to GitHub →
+    </button>
+  </div>
+  <script>
+  const __code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JS Booleans</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+</style>
+</head>
+<body>
+<h1>⚡ JS Booleans</h1>
+
+<h2>Truthy / Falsy Classifier</h2>
+<div class="box">
+<input id="bool-in" placeholder="Enter a value: 0, '', [], {}, null, 'false'" value="0" oninput="classify()">
+<div id="bool-result" style="padding:14px;border-radius:10px;text-align:center;margin-top:8px;font-size:1.2rem;font-weight:800">
+</div>
+</div>
+<h2>All Falsy Values</h2>
+<div class="box">
+<div id="falsy-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
+</div>
+<h2>Short-circuit Logic</h2>
+<div class="box">
+<button class="btn" onclick="scDemo()">Run Short-Circuit Demo</button>
+<div class="output" id="sc-out">Click to run</div>
+</div>
+<script>
+const falsyVals=[false,0,-0,0n,'',null,undefined,NaN];
+const falsyLabels=['false','0','-0','0n',"''","null","undefined","NaN"];
+document.getElementById('falsy-grid').innerHTML=falsyLabels.map(l=>
+  \`<div style="background:#fee2e2;color:#dc2626;border:2px solid #fca5a5;border-radius:8px;padding:10px;text-align:center;font-family:monospace;font-weight:700">${l}<div style="font-size:10px;font-weight:400;margin-top:2px">FALSY</div></div>\`
+).join('');
+function classify(){
+  const raw=document.getElementById('bool-in').value;
+  let val;
+  try{ val=eval(raw); }catch(e){ val=raw; }
+  const isTruthy=!!val;
+  const el=document.getElementById('bool-result');
+  el.textContent=(isTruthy?'✅ TRUTHY':'❌ FALSY')+' — Boolean('+raw+') = '+String(isTruthy);
+  el.style.background=isTruthy?'#dcfce7':'#fee2e2';
+  el.style.color=isTruthy?'#15803d':'#dc2626';
+}
+classify();
+function scDemo(){
+  const lines=[
+    '&& short-circuit (returns first falsy or last):',
+    "  null && 'hello'  = "+String(null&&'hello'),
+    "  0 && 'hello'     = "+String(0&&'hello'),
+    "  'hi' && 'hello'  = "+String('hi'&&'hello'),
+    '',
+    '|| short-circuit (returns first truthy or last):',
+    "  null || 'Guest'  = "+(null||'Guest'),
+    "  0 || 100         = "+(0||100)+" ← 0 is falsy!",
+    "  'Amina' || 'def' = "+('Amina'||'def'),
+    '',
+    '?? nullish (returns right only if null/undefined):',
+    "  0 ?? 100         = "+(0??100)+" ← 0 is NOT null/undefined",
+    "  null ?? 'Guest'  = "+(null??'Guest'),
+    "  '' ?? 'default'  = "+(''??'default')+" ← '' is NOT null/undefined",
+  ];
+  document.getElementById('sc-out').textContent=lines.join('
+');
+}
+</script>
+</body>
+</html>`;
+  function downloadStarter(){
+    const a=document.createElement('a');
+    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
+    a.download='starter.html'; a.click();
+  }
+  </script>
+</div>
+
+<div class="github-acc" id="github-steps" style="display:none">
+  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
+    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+  </div>
+  <div class="github-acc-body">
+    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-32-js_booleans</code>.</p></div>
+    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
+    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 32 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-32-js_booleans/</code> in ~1 min! 🎉</p></div>
+    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  </div>
+</div>
+<div class="session-end" id="session-end">
+  <h2>🎉 Great work! Lesson 32 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
+  <ul><li>✅ Truthy and falsy</li><li>✅ Boolean logic patterns</li></ul>
+  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
+    <a href="lesson_31.html" class="ln-btn">← Lesson 31</a>
+    <a href="lesson_33.html" class="ln-btn primary">Lesson 33 →</a>
+  </div>
+</div>
+</main>
+<footer class="lesson-footer">
+  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 32 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+</footer>
+<script>
+const TOTAL=2, KEY='techbase_js_32_phase';
+let current=parseInt(localStorage.getItem(KEY)||'1');
+function init(){
+  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  updateBar();
+}
+function unlockNext(n){
+  document.getElementById('check'+n).classList.add('done');
+  document.getElementById('check'+n).textContent='✓';
+  localStorage.setItem(KEY,n+1);
+  current=n+1;
+  if(n===TOTAL){
+    document.getElementById('build-it').style.display='block';
+    const cap=document.getElementById('capstone');
+    if(cap) cap.style.display='block';
+    updateBar(100);
+    setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
+  } else {
+    unlockPhase(n+1,true);
+    updateBar();
+  }
+}
+function unlockPhase(n,scroll){
+  const el=document.getElementById('phase'+n);
+  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+}
+function updateBar(pct){
+  const p=pct||Math.round((current-1)/TOTAL*95);
+  document.getElementById('pbar').style.width=p+'%';
+}
+function showGithub(){
+  const g=document.getElementById('github-steps');
+  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+}
+function showEnd(){
+  const e=document.getElementById('session-end');
+  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+}
+init();
+</script>
+</body>
+</html>

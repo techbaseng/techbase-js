@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 39: JS Loop While — Techbase JS Course</title>
+<meta name="description" content="Use while and do...while loops for condition-driven iteration">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
+  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
+  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--t2:#334155;--muted:#64748b;
+  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.l-nav-back:hover{color:var(--accent)}
+.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
+.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:820px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
+.l-hero-build strong{color:var(--accent)}
+.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
+.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
+.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
+.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
+.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.phase-check.done{background:#10b981;color:#fff}
+.phase-body{padding:1.4rem}
+.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
+.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
+.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
+.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
+.code-dot{width:8px;height:8px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
+.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
+.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
+.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
+.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
+.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
+.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
+.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
+.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
+.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
+.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
+.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.github-acc-body.open{display:block}
+.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.session-end.visible{display:block}
+.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ln-btn.primary:hover{opacity:.9}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+</style>
+</head>
+<body>
+<nav class="l-nav">
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
+  <span class="l-nav-lesson">Lesson 39 of 46</span>
+  <a href="../index.html" class="l-nav-back">← All Lessons</a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div class="l-hero">
+  <div class="l-hero-inner">
+    <div class="l-badge">JavaScript · Lesson 39 </div>
+    <h1>JS Loop While</h1>
+    <div class="l-hero-tag">Use while and do...while loops for condition-driven iteration</div>
+    <div class="l-hero-build"><strong>🏗️ Build:</strong> My While Loop Lab</div>
+  </div>
+</div>
+<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+  <h2>👋 Welcome to Lesson 39</h2>
+  <p>Use while and do...while loops for condition-driven iteration</p>
+  <div class="welcome-meta">
+    <span>📚 2 phases</span>
+    <span>🏗️ Build: My While Loop Lab</span>
+    
+  </div>
+</div></div>
+</section>
+<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">while loop</div></div>
+    <div class="phase-check" id="check1"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><code>while(condition)</code> — checks condition BEFORE each iteration. If the condition starts false, the body never runs. Always ensure the condition eventually becomes false or use <code>break</code> — infinite loops freeze the browser! Use while when you don't know how many iterations are needed.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// Basic while
+let i = 0;
+while (i &lt; 5) {
+  console.log(i);
+  i++; // MUST update condition variable!
+}
+
+// Unknown iterations — reading user input
+let attempts = 0;
+let password = &#x27;&#x27;;
+while (password !== &#x27;secret&#x27; &amp;&amp; attempts &lt; 3) {
+  password = prompt(&#x27;Enter password:&#x27;);
+  attempts++;
+}
+
+// Find first prime &gt; 100
+let n = 101;
+while (!isPrime(n)) n++;
+console.log(n); // 101 (it is prime)
+
+// Loop with break
+let count = 0;
+while (true) {  // infinite — must break!
+  count++;
+  if (count &gt;= 10) break;
+}</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Write a while loop that generates random numbers until it gets one above 0.9. Count how many attempts it took. Run it 5 times and log the average attempts.</p></div>
+    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase2">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">do...while loop</div></div>
+    <div class="phase-check" id="check2"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><code>do { } while(condition)</code> — runs body ONCE first, THEN checks condition. Use when you need at least one execution: input validation, game loops, menu prompts. Rarer than while — only use when the first-run guarantee matters.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// do...while — body always runs at least once
+let num;
+do {
+  num = parseInt(prompt(&#x27;Enter a number 1-10:&#x27;));
+} while (num &lt; 1 || num &gt; 10 || isNaN(num));
+
+// Countdown timer
+let count = 5;
+do {
+  console.log(count);
+  count--;
+} while (count &gt; 0);
+// logs: 5,4,3,2,1
+
+// Difference from while:
+let x = 100;
+while (x &lt; 10) { console.log(&#x27;while&#x27;); }    // never runs
+do { console.log(&#x27;do-while&#x27;); } while (x &lt; 10); // runs once!</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Build a number guessing game: pick a random number 1-100, use a do...while to keep asking for guesses until correct. Count the guesses. Give 'higher'/'lower' hints.</p></div>
+    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+  </div>
+</div>
+<div class="project-box" id="build-it" style="display:none">
+  <div class="project-label">🏗️ Build It</div>
+  <div class="project-name">While Loop Lab</div>
+  <div class="project-desc">Number guessing game and random-until demos.</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
+<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;title&gt;JS Loop While&lt;/title&gt;
+&lt;style&gt;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;⚡ JS Loop While&lt;/h1&gt;
+
+&lt;h2&gt;Number Guessing Game (do...while)&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;div id=&quot;guess-setup&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;startGame()&quot;&gt;🎲 New Game&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;guess-play&quot; style=&quot;display:none&quot;&gt;
+&lt;div id=&quot;guess-hint&quot; style=&quot;font-size:1.1rem;font-weight:700;color:#d97706;margin-bottom:8px;text-align:center&quot;&gt;Guess a number 1–100&lt;/div&gt;
+&lt;div style=&quot;display:flex;gap:8px&quot;&gt;
+&lt;input type=&quot;number&quot; id=&quot;guess-in&quot; min=&quot;1&quot; max=&quot;100&quot; placeholder=&quot;Your guess&quot; style=&quot;margin:0&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;makeGuess()&quot;&gt;Guess&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class=&quot;output&quot; id=&quot;guess-out&quot; style=&quot;margin-top:8px&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;while — Random Until&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;label style=&quot;font-size:13px;font-weight:700;color:#92400e&quot;&gt;Target threshold (0-1):&lt;/label&gt;
+&lt;input type=&quot;number&quot; id=&quot;threshold&quot; value=&quot;0.9&quot; min=&quot;0.01&quot; max=&quot;0.99&quot; step=&quot;0.01&quot; style=&quot;margin-bottom:8px&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;randomUntil()&quot;&gt;Run 5 times&lt;/button&gt;
+&lt;div class=&quot;output&quot; id=&quot;rand-out&quot;&gt;Click to run&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;while vs do...while&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;compareLoops()&quot;&gt;Show difference&lt;/button&gt;
+&lt;div class=&quot;output&quot; id=&quot;compare-out&quot;&gt;Click to compare&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+let target,guesses=0,gameActive=false;
+function startGame(){
+  target=Math.floor(Math.random()*100)+1;
+  guesses=0; gameActive=true;
+  document.getElementById(&#x27;guess-setup&#x27;).style.display=&#x27;none&#x27;;
+  document.getElementById(&#x27;guess-play&#x27;).style.display=&#x27;block&#x27;;
+  document.getElementById(&#x27;guess-hint&#x27;).textContent=&#x27;I picked a number 1–100. Start guessing!&#x27;;
+  document.getElementById(&#x27;guess-out&#x27;).textContent=&#x27;&#x27;;
+  document.getElementById(&#x27;guess-in&#x27;).value=&#x27;&#x27;;
+  document.getElementById(&#x27;guess-in&#x27;).focus();
+}
+document.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.key===&#x27;Enter&#x27;&amp;&amp;gameActive)makeGuess();});
+function makeGuess(){
+  const g=parseInt(document.getElementById(&#x27;guess-in&#x27;).value);
+  if(!g||g&lt;1||g&gt;100){document.getElementById(&#x27;guess-out&#x27;).textContent=&#x27;Enter a number 1–100!&#x27;;return;}
+  guesses++;
+  if(g===target){
+    document.getElementById(&#x27;guess-hint&#x27;).textContent=&#x27;🎉 Correct!&#x27;;
+    document.getElementById(&#x27;guess-out&#x27;).textContent=`You got it in ${guesses} guess${guesses!==1?&#x27;es&#x27;:&#x27;&#x27;}!
+The number was ${target}.`;
+    gameActive=false;
+    document.getElementById(&#x27;guess-setup&#x27;).style.display=&#x27;block&#x27;;
+    document.getElementById(&#x27;guess-setup&#x27;).innerHTML=&#x27;&lt;button class=&quot;btn&quot; onclick=&quot;startGame()&quot;&gt;🎲 Play Again&lt;/button&gt;&#x27;;
+  } else {
+    const hint=g&lt;target?&#x27;📈 Higher!&#x27;:&#x27;📉 Lower!&#x27;;
+    document.getElementById(&#x27;guess-hint&#x27;).textContent=hint;
+    document.getElementById(&#x27;guess-out&#x27;).textContent=`Guess #${guesses}: ${g} — ${hint}`;
+  }
+  document.getElementById(&#x27;guess-in&#x27;).value=&#x27;&#x27;;
+}
+function randomUntil(){
+  const thresh=parseFloat(document.getElementById(&#x27;threshold&#x27;).value)||0.9;
+  const results=[];
+  for(let r=0;r&lt;5;r++){
+    let tries=0,val=0;
+    while(val&lt;=thresh){val=Math.random();tries++;}
+    results.push(`Run ${r+1}: ${tries} tries → got ${val.toFixed(4)}`);
+  }
+  const totalTries=results.map(r=&gt;parseInt(r.split(&#x27;:&#x27;)[1])).reduce((a,b)=&gt;a+b,0);
+  document.getElementById(&#x27;rand-out&#x27;).textContent=results.join(&#x27;
+&#x27;)+`
+
+Avg tries: ${(totalTries/5).toFixed(1)}
+Expected: ~${(1/(1-thresh)).toFixed(1)} (1/(1-threshold))`;
+}
+function compareLoops(){
+  const x=100;
+  const lines=[
+    `x = ${x}`,
+    &#x27;&#x27;,
+    &#x27;while (x &lt; 10) { ... }&#x27;,
+    &#x27;  Condition false at start → body NEVER runs&#x27;,
+    &#x27;  Output: (nothing)&#x27;,
+    &#x27;&#x27;,
+    &#x27;do { ... } while (x &lt; 10)&#x27;,
+    &#x27;  Body runs ONCE before condition check&#x27;,
+    &#x27;  Output: body ran once!&#x27;,
+    &#x27;&#x27;,
+    &#x27;Rule: use do...while when you need at least one execution.&#x27;,
+    &#x27;Example: input validation — always ask once, then check.&#x27;,
+  ];
+  document.getElementById(&#x27;compare-out&#x27;).textContent=lines.join(&#x27;
+&#x27;);
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+</div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+      ⬇ Download starter.html
+    </button>
+    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+      🐙 Push to GitHub →
+    </button>
+  </div>
+  <script>
+  const __code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JS Loop While</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+</style>
+</head>
+<body>
+<h1>⚡ JS Loop While</h1>
+
+<h2>Number Guessing Game (do...while)</h2>
+<div class="box">
+<div id="guess-setup">
+<button class="btn" onclick="startGame()">🎲 New Game</button>
+</div>
+<div id="guess-play" style="display:none">
+<div id="guess-hint" style="font-size:1.1rem;font-weight:700;color:#d97706;margin-bottom:8px;text-align:center">Guess a number 1–100</div>
+<div style="display:flex;gap:8px">
+<input type="number" id="guess-in" min="1" max="100" placeholder="Your guess" style="margin:0">
+<button class="btn" onclick="makeGuess()">Guess</button>
+</div>
+<div class="output" id="guess-out" style="margin-top:8px"></div>
+</div>
+</div>
+<h2>while — Random Until</h2>
+<div class="box">
+<label style="font-size:13px;font-weight:700;color:#92400e">Target threshold (0-1):</label>
+<input type="number" id="threshold" value="0.9" min="0.01" max="0.99" step="0.01" style="margin-bottom:8px">
+<button class="btn" onclick="randomUntil()">Run 5 times</button>
+<div class="output" id="rand-out">Click to run</div>
+</div>
+<h2>while vs do...while</h2>
+<div class="box">
+<button class="btn" onclick="compareLoops()">Show difference</button>
+<div class="output" id="compare-out">Click to compare</div>
+</div>
+<script>
+let target,guesses=0,gameActive=false;
+function startGame(){
+  target=Math.floor(Math.random()*100)+1;
+  guesses=0; gameActive=true;
+  document.getElementById('guess-setup').style.display='none';
+  document.getElementById('guess-play').style.display='block';
+  document.getElementById('guess-hint').textContent='I picked a number 1–100. Start guessing!';
+  document.getElementById('guess-out').textContent='';
+  document.getElementById('guess-in').value='';
+  document.getElementById('guess-in').focus();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&gameActive)makeGuess();});
+function makeGuess(){
+  const g=parseInt(document.getElementById('guess-in').value);
+  if(!g||g<1||g>100){document.getElementById('guess-out').textContent='Enter a number 1–100!';return;}
+  guesses++;
+  if(g===target){
+    document.getElementById('guess-hint').textContent='🎉 Correct!';
+    document.getElementById('guess-out').textContent=\`You got it in ${guesses} guess${guesses!==1?'es':''}!
+The number was ${target}.\`;
+    gameActive=false;
+    document.getElementById('guess-setup').style.display='block';
+    document.getElementById('guess-setup').innerHTML='<button class="btn" onclick="startGame()">🎲 Play Again</button>';
+  } else {
+    const hint=g<target?'📈 Higher!':'📉 Lower!';
+    document.getElementById('guess-hint').textContent=hint;
+    document.getElementById('guess-out').textContent=\`Guess #${guesses}: ${g} — ${hint}\`;
+  }
+  document.getElementById('guess-in').value='';
+}
+function randomUntil(){
+  const thresh=parseFloat(document.getElementById('threshold').value)||0.9;
+  const results=[];
+  for(let r=0;r<5;r++){
+    let tries=0,val=0;
+    while(val<=thresh){val=Math.random();tries++;}
+    results.push(\`Run ${r+1}: ${tries} tries → got ${val.toFixed(4)}\`);
+  }
+  const totalTries=results.map(r=>parseInt(r.split(':')[1])).reduce((a,b)=>a+b,0);
+  document.getElementById('rand-out').textContent=results.join('
+')+\`
+
+Avg tries: ${(totalTries/5).toFixed(1)}
+Expected: ~${(1/(1-thresh)).toFixed(1)} (1/(1-threshold))\`;
+}
+function compareLoops(){
+  const x=100;
+  const lines=[
+    \`x = ${x}\`,
+    '',
+    'while (x < 10) { ... }',
+    '  Condition false at start → body NEVER runs',
+    '  Output: (nothing)',
+    '',
+    'do { ... } while (x < 10)',
+    '  Body runs ONCE before condition check',
+    '  Output: body ran once!',
+    '',
+    'Rule: use do...while when you need at least one execution.',
+    'Example: input validation — always ask once, then check.',
+  ];
+  document.getElementById('compare-out').textContent=lines.join('
+');
+}
+</script>
+</body>
+</html>`;
+  function downloadStarter(){
+    const a=document.createElement('a');
+    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
+    a.download='starter.html'; a.click();
+  }
+  </script>
+</div>
+
+<div class="github-acc" id="github-steps" style="display:none">
+  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
+    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+  </div>
+  <div class="github-acc-body">
+    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-39-js_loop_while</code>.</p></div>
+    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
+    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 39 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-39-js_loop_while/</code> in ~1 min! 🎉</p></div>
+    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  </div>
+</div>
+<div class="session-end" id="session-end">
+  <h2>🎉 Great work! Lesson 39 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
+  <ul><li>✅ while loop</li><li>✅ do...while loop</li></ul>
+  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
+    <a href="lesson_38.html" class="ln-btn">← Lesson 38</a>
+    <a href="lesson_40.html" class="ln-btn primary">Lesson 40 →</a>
+  </div>
+</div>
+</main>
+<footer class="lesson-footer">
+  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 39 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+</footer>
+<script>
+const TOTAL=2, KEY='techbase_js_39_phase';
+let current=parseInt(localStorage.getItem(KEY)||'1');
+function init(){
+  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  updateBar();
+}
+function unlockNext(n){
+  document.getElementById('check'+n).classList.add('done');
+  document.getElementById('check'+n).textContent='✓';
+  localStorage.setItem(KEY,n+1);
+  current=n+1;
+  if(n===TOTAL){
+    document.getElementById('build-it').style.display='block';
+    const cap=document.getElementById('capstone');
+    if(cap) cap.style.display='block';
+    updateBar(100);
+    setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
+  } else {
+    unlockPhase(n+1,true);
+    updateBar();
+  }
+}
+function unlockPhase(n,scroll){
+  const el=document.getElementById('phase'+n);
+  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+}
+function updateBar(pct){
+  const p=pct||Math.round((current-1)/TOTAL*95);
+  document.getElementById('pbar').style.width=p+'%';
+}
+function showGithub(){
+  const g=document.getElementById('github-steps');
+  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+}
+function showEnd(){
+  const e=document.getElementById('session-end');
+  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+}
+init();
+</script>
+</body>
+</html>

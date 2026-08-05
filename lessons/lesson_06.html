@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 06: JS Comments — Techbase JS Course</title>
+<meta name="description" content="Write clear comments to document and explain JavaScript code">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
+  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
+  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--t2:#334155;--muted:#64748b;
+  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.l-nav-back:hover{color:var(--accent)}
+.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
+.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:820px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
+.l-hero-build strong{color:var(--accent)}
+.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
+.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
+.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
+.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
+.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.phase-check.done{background:#10b981;color:#fff}
+.phase-body{padding:1.4rem}
+.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
+.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
+.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
+.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
+.code-dot{width:8px;height:8px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
+.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
+.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
+.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
+.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
+.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
+.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
+.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
+.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
+.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
+.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
+.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.github-acc-body.open{display:block}
+.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.session-end.visible{display:block}
+.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ln-btn.primary:hover{opacity:.9}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+</style>
+</head>
+<body>
+<nav class="l-nav">
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
+  <span class="l-nav-lesson">Lesson 06 of 46</span>
+  <a href="../index.html" class="l-nav-back">← All Lessons</a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div class="l-hero">
+  <div class="l-hero-inner">
+    <div class="l-badge">JavaScript · Lesson 06 </div>
+    <h1>JS Comments</h1>
+    <div class="l-hero-tag">Write clear comments to document and explain JavaScript code</div>
+    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Commented Code</div>
+  </div>
+</div>
+<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+  <h2>👋 Welcome to Lesson 06</h2>
+  <p>Write clear comments to document and explain JavaScript code</p>
+  <div class="welcome-meta">
+    <span>📚 2 phases</span>
+    <span>🏗️ Build: My Commented Code</span>
+    
+  </div>
+</div></div>
+</section>
+<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Single-line and multi-line comments</div></div>
+    <div class="phase-check" id="check1"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><code>//</code> starts a single-line comment — everything after is ignored. <code>/* ... */</code> makes a multi-line comment. Comments are not executed — use them to: explain WHY (not what), document function parameters, disable code temporarily, add TODO notes. <em>Good code explains itself; comments explain intent.</em></p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// Single-line comment — use for brief explanations
+let tax = 0.075; // 7.5% VAT rate for Nigeria
+
+// Explain WHY, not WHAT (what is visible in the code)
+// Bad: // add 1 to count
+count++;
+// Good: // increment to account for the off-by-one in legacy API
+count++;
+
+/* Multi-line comment — use for longer explanations
+   or temporarily disabling a block of code */
+
+/**
+ * JSDoc comment — documents a function (shows in editor tooltips)
+ * @param {number} price  - Base price before tax
+ * @param {number} rate   - Tax rate as decimal (e.g. 0.075)
+ * @returns {number} Total price including tax
+ */
+function withTax(price, rate) {
+  return price * (1 + rate);
+}</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Go through 10 lines of code and add single-line comments explaining WHY each piece exists. Then write a JSDoc comment block (<code>/** */</code>) for a function that calculates a student's grade.</p></div>
+    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase2">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Comment best practices</div></div>
+    <div class="phase-check" id="check2"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Good comments: explain logic that isn't obvious, document edge cases, add TODOs for future work. Bad comments: restate what the code already says (<code>// add 1</code>), never updated so they become wrong, commented-out code left in forever. Comment code you'd have to stop and think about; don't comment the obvious.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// ✅ GOOD — explains non-obvious business logic
+// Prices are stored in kobo (1 NGN = 100 kobo) to avoid
+// floating-point rounding errors in financial calculations
+const priceInKobo = 150000; // ₦1,500.00
+
+// ✅ TODO comment — signals future work
+// TODO: replace with API call once backend is ready
+const students = [{ name: &#x27;Amina&#x27;, score: 94 }];
+
+// ✅ Explain a workaround
+// eslint-disable-next-line — false positive, not a real circular ref
+import { helper } from &#x27;./utils&#x27;;
+
+// ❌ BAD — restates the code
+// set x to 5
+let x = 5;
+
+// ❌ BAD — commented-out code with no explanation (delete it!)
+// let oldVersion = fetch(&#x27;/api/v1/data&#x27;);  &lt;-- what was this?</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Review any code you've written so far and improve the comments: remove ones that restate code, add ones that explain intent, and add TODOs for anything unfinished. Good comments make future-you say 'thanks!'</p></div>
+    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+  </div>
+</div>
+<div class="project-box" id="build-it" style="display:none">
+  <div class="project-label">🏗️ Build It</div>
+  <div class="project-name">My Commented Code</div>
+  <div class="project-desc">A well-commented utility library with JSDoc documentation.</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
+<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;JS Comments&lt;/title&gt;
+&lt;style&gt;
+  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+  .code-wrap{background:#0f172a;border-radius:12px;overflow:hidden;margin-bottom:14px}
+  .code-bar{background:#1e293b;padding:8px 14px;font-family:monospace;font-size:11px;color:#64748b}
+  pre{font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:12px;line-height:1.8;color:#e2e8f0;padding:16px;overflow-x:auto;margin:0}
+  .c-comment{color:#6a9955}.c-keyword{color:#569cd6}.c-string{color:#ce9178}.c-num{color:#b5cea8}.c-func{color:#dcdcaa}
+  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px}
+  .btn:hover{background:#b45309}.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;margin-top:10px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;⚡ JS Comments&lt;/h1&gt;
+&lt;h2&gt;Well-Commented Utility Library&lt;/h2&gt;
+&lt;div class=&quot;code-wrap&quot;&gt;
+&lt;div class=&quot;code-bar&quot;&gt;utils.js — example of good commenting style&lt;/div&gt;
+&lt;pre&gt;
+&lt;span class=&quot;c-comment&quot;&gt;/**
+ * Techbase Student Utility Library
+ * Provides grade calculation and formatting helpers.
+ * @module studentUtils
+ */&lt;/span&gt;
+
+&lt;span class=&quot;c-comment&quot;&gt;/**
+ * Converts a raw score to a letter grade.
+ * Uses Nigerian university grading scale (5-point system).
+ *
+ * @param {number} score  - Raw score (0–100)
+ * @returns {string} Letter grade: A, B, C, D, or F
+ */&lt;/span&gt;
+&lt;span class=&quot;c-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;c-func&quot;&gt;getGrade&lt;/span&gt;(score) {
+  &lt;span class=&quot;c-comment&quot;&gt;// Nigerian grading: 70-100=A, 60-69=B, 50-59=C, 45-49=D, below=F&lt;/span&gt;
+  &lt;span class=&quot;c-keyword&quot;&gt;if&lt;/span&gt; (score &gt;= &lt;span class=&quot;c-num&quot;&gt;70&lt;/span&gt;) &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;A&#x27;&lt;/span&gt;;
+  &lt;span class=&quot;c-keyword&quot;&gt;if&lt;/span&gt; (score &gt;= &lt;span class=&quot;c-num&quot;&gt;60&lt;/span&gt;) &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;B&#x27;&lt;/span&gt;;
+  &lt;span class=&quot;c-keyword&quot;&gt;if&lt;/span&gt; (score &gt;= &lt;span class=&quot;c-num&quot;&gt;50&lt;/span&gt;) &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;C&#x27;&lt;/span&gt;;
+  &lt;span class=&quot;c-keyword&quot;&gt;if&lt;/span&gt; (score &gt;= &lt;span class=&quot;c-num&quot;&gt;45&lt;/span&gt;) &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;D&#x27;&lt;/span&gt;;
+  &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;F&#x27;&lt;/span&gt;;
+}
+
+&lt;span class=&quot;c-comment&quot;&gt;// TODO: Add GPA conversion once we know the university&#x27;s scale&lt;/span&gt;
+&lt;span class=&quot;c-comment&quot;&gt;/* Temporarily disabled — waiting for API endpoint
+function fetchGradeHistory(studentId) {
+  return fetch(&#x27;/api/grades/&#x27; + studentId);
+}
+*/&lt;/span&gt;
+
+&lt;span class=&quot;c-keyword&quot;&gt;const&lt;/span&gt; students = [
+  { name: &lt;span class=&quot;c-string&quot;&gt;&#x27;Amina&#x27;&lt;/span&gt;, score: &lt;span class=&quot;c-num&quot;&gt;94&lt;/span&gt; },
+  { name: &lt;span class=&quot;c-string&quot;&gt;&#x27;Chidi&#x27;&lt;/span&gt;, score: &lt;span class=&quot;c-num&quot;&gt;67&lt;/span&gt; },
+  { name: &lt;span class=&quot;c-string&quot;&gt;&#x27;Tunde&#x27;&lt;/span&gt;, score: &lt;span class=&quot;c-num&quot;&gt;52&lt;/span&gt; },
+];
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h2&gt;Try the Grade Function&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+  &lt;label style=&quot;font-size:13px;color:#64748b&quot;&gt;Enter a score (0–100):&lt;/label&gt;
+  &lt;input type=&quot;number&quot; id=&quot;score-in&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;75&quot; style=&quot;width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin:8px 0&quot;&gt;
+  &lt;button class=&quot;btn&quot; onclick=&quot;runGrade()&quot;&gt;Get Grade&lt;/button&gt;
+  &lt;div class=&quot;output&quot; id=&quot;grade-out&quot;&gt;Click the button to see the grade&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  function getGrade(score) {
+    if (score &gt;= 70) return &#x27;A&#x27;;
+    if (score &gt;= 60) return &#x27;B&#x27;;
+    if (score &gt;= 50) return &#x27;C&#x27;;
+    if (score &gt;= 45) return &#x27;D&#x27;;
+    return &#x27;F&#x27;;
+  }
+  function runGrade() {
+    const score = parseInt(document.getElementById(&#x27;score-in&#x27;).value);
+    const grade = getGrade(score);
+    const labels = {A:&#x27;Excellent 🌟&#x27;,B:&#x27;Good 👍&#x27;,C:&#x27;Average ✅&#x27;,D:&#x27;Pass ⚠️&#x27;,F:&#x27;Fail ❌&#x27;};
+    document.getElementById(&#x27;grade-out&#x27;).textContent =
+      `Score: ${score} → Grade: ${grade} (${labels[grade]})`;
+  }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+</div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+      ⬇ Download starter.html
+    </button>
+    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+      🐙 Push to GitHub →
+    </button>
+  </div>
+  <script>
+  const __code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS Comments</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+  .code-wrap{background:#0f172a;border-radius:12px;overflow:hidden;margin-bottom:14px}
+  .code-bar{background:#1e293b;padding:8px 14px;font-family:monospace;font-size:11px;color:#64748b}
+  pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;color:#e2e8f0;padding:16px;overflow-x:auto;margin:0}
+  .c-comment{color:#6a9955}.c-keyword{color:#569cd6}.c-string{color:#ce9178}.c-num{color:#b5cea8}.c-func{color:#dcdcaa}
+  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px}
+  .btn:hover{background:#b45309}.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;margin-top:10px}
+</style>
+</head>
+<body>
+<h1>⚡ JS Comments</h1>
+<h2>Well-Commented Utility Library</h2>
+<div class="code-wrap">
+<div class="code-bar">utils.js — example of good commenting style</div>
+<pre>
+<span class="c-comment">/**
+ * Techbase Student Utility Library
+ * Provides grade calculation and formatting helpers.
+ * @module studentUtils
+ */</span>
+
+<span class="c-comment">/**
+ * Converts a raw score to a letter grade.
+ * Uses Nigerian university grading scale (5-point system).
+ *
+ * @param {number} score  - Raw score (0–100)
+ * @returns {string} Letter grade: A, B, C, D, or F
+ */</span>
+<span class="c-keyword">function</span> <span class="c-func">getGrade</span>(score) {
+  <span class="c-comment">// Nigerian grading: 70-100=A, 60-69=B, 50-59=C, 45-49=D, below=F</span>
+  <span class="c-keyword">if</span> (score >= <span class="c-num">70</span>) <span class="c-keyword">return</span> <span class="c-string">'A'</span>;
+  <span class="c-keyword">if</span> (score >= <span class="c-num">60</span>) <span class="c-keyword">return</span> <span class="c-string">'B'</span>;
+  <span class="c-keyword">if</span> (score >= <span class="c-num">50</span>) <span class="c-keyword">return</span> <span class="c-string">'C'</span>;
+  <span class="c-keyword">if</span> (score >= <span class="c-num">45</span>) <span class="c-keyword">return</span> <span class="c-string">'D'</span>;
+  <span class="c-keyword">return</span> <span class="c-string">'F'</span>;
+}
+
+<span class="c-comment">// TODO: Add GPA conversion once we know the university's scale</span>
+<span class="c-comment">/* Temporarily disabled — waiting for API endpoint
+function fetchGradeHistory(studentId) {
+  return fetch('/api/grades/' + studentId);
+}
+*/</span>
+
+<span class="c-keyword">const</span> students = [
+  { name: <span class="c-string">'Amina'</span>, score: <span class="c-num">94</span> },
+  { name: <span class="c-string">'Chidi'</span>, score: <span class="c-num">67</span> },
+  { name: <span class="c-string">'Tunde'</span>, score: <span class="c-num">52</span> },
+];
+</pre>
+</div>
+<h2>Try the Grade Function</h2>
+<div class="box">
+  <label style="font-size:13px;color:#64748b">Enter a score (0–100):</label>
+  <input type="number" id="score-in" min="0" max="100" value="75" style="width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin:8px 0">
+  <button class="btn" onclick="runGrade()">Get Grade</button>
+  <div class="output" id="grade-out">Click the button to see the grade</div>
+</div>
+<script>
+  function getGrade(score) {
+    if (score >= 70) return 'A';
+    if (score >= 60) return 'B';
+    if (score >= 50) return 'C';
+    if (score >= 45) return 'D';
+    return 'F';
+  }
+  function runGrade() {
+    const score = parseInt(document.getElementById('score-in').value);
+    const grade = getGrade(score);
+    const labels = {A:'Excellent 🌟',B:'Good 👍',C:'Average ✅',D:'Pass ⚠️',F:'Fail ❌'};
+    document.getElementById('grade-out').textContent =
+      \`Score: ${score} → Grade: ${grade} (${labels[grade]})\`;
+  }
+</script>
+</body>
+</html>`;
+  function downloadStarter(){
+    const a=document.createElement('a');
+    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
+    a.download='starter.html'; a.click();
+  }
+  </script>
+</div>
+
+<div class="github-acc" id="github-steps" style="display:none">
+  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
+    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+  </div>
+  <div class="github-acc-body">
+    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-06-js_comments</code>.</p></div>
+    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
+    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 06 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-06-js_comments/</code> in ~1 min! 🎉</p></div>
+    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  </div>
+</div>
+<div class="session-end" id="session-end">
+  <h2>🎉 Great work! Lesson 06 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
+  <ul><li>✅ Single-line and multi-line comments</li><li>✅ Comment best practices</li></ul>
+  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
+    <a href="lesson_05.html" class="ln-btn">← Lesson 05</a>
+    <a href="lesson_07.html" class="ln-btn primary">Lesson 07 →</a>
+  </div>
+</div>
+</main>
+<footer class="lesson-footer">
+  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 06 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+</footer>
+<script>
+const TOTAL=2, KEY='techbase_js_06_phase';
+let current=parseInt(localStorage.getItem(KEY)||'1');
+function init(){
+  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  updateBar();
+}
+function unlockNext(n){
+  document.getElementById('check'+n).classList.add('done');
+  document.getElementById('check'+n).textContent='✓';
+  localStorage.setItem(KEY,n+1);
+  current=n+1;
+  if(n===TOTAL){
+    document.getElementById('build-it').style.display='block';
+    const cap=document.getElementById('capstone');
+    if(cap) cap.style.display='block';
+    updateBar(100);
+    setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
+  } else {
+    unlockPhase(n+1,true);
+    updateBar();
+  }
+}
+function unlockPhase(n,scroll){
+  const el=document.getElementById('phase'+n);
+  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+}
+function updateBar(pct){
+  const p=pct||Math.round((current-1)/TOTAL*95);
+  document.getElementById('pbar').style.width=p+'%';
+}
+function showGithub(){
+  const g=document.getElementById('github-steps');
+  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+}
+function showEnd(){
+  const e=document.getElementById('session-end');
+  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+}
+init();
+</script>
+</body>
+</html>

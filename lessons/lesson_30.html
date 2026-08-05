@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 30: JS Math — Techbase JS Course</title>
+<meta name="description" content="Use the Math object for calculations, rounding and random numbers">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
+  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
+  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--t2:#334155;--muted:#64748b;
+  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+.l-nav-back:hover{color:var(--accent)}
+.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
+.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:820px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
+.l-hero-build strong{color:var(--accent)}
+.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
+.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
+.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
+.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
+.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.phase-check.done{background:#10b981;color:#fff}
+.phase-body{padding:1.4rem}
+.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
+.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
+.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
+.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
+.code-dot{width:8px;height:8px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
+.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
+.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
+.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
+.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
+.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
+.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
+.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
+.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
+.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
+.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
+.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
+.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
+.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.github-acc-body.open{display:block}
+.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.session-end.visible{display:block}
+.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ln-btn.primary:hover{opacity:.9}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+</style>
+</head>
+<body>
+<nav class="l-nav">
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
+  <span class="l-nav-lesson">Lesson 30 of 46</span>
+  <a href="../index.html" class="l-nav-back">← All Lessons</a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+<div class="l-hero">
+  <div class="l-hero-inner">
+    <div class="l-badge">JavaScript · Lesson 30 </div>
+    <h1>JS Math</h1>
+    <div class="l-hero-tag">Use the Math object for calculations, rounding and random numbers</div>
+    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Math Toolkit</div>
+  </div>
+</div>
+<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+  <h2>👋 Welcome to Lesson 30</h2>
+  <p>Use the Math object for calculations, rounding and random numbers</p>
+  <div class="welcome-meta">
+    <span>📚 2 phases</span>
+    <span>🏗️ Build: My Math Toolkit</span>
+    
+  </div>
+</div></div>
+</section>
+<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+<div class="phase" id="phase1">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Math methods reference</div></div>
+    <div class="phase-check" id="check1"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>The Math object has static properties and methods. Key: <code>Math.PI</code>, <code>Math.E</code>. Rounding: <code>round</code>, <code>floor</code>, <code>ceil</code>, <code>trunc</code>. Powers: <code>pow</code>, <code>sqrt</code>, <code>cbrt</code>. Range: <code>max</code>, <code>min</code>, <code>abs</code>, <code>sign</code> (-1,0,1). Log: <code>log</code>, <code>log2</code>, <code>log10</code>.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// Constants
+Math.PI;      // 3.14159...
+Math.E;       // 2.71828... (Euler&#x27;s number)
+Math.SQRT2;   // 1.41421...
+
+// Rounding
+Math.round(4.5);  // 5
+Math.floor(4.9);  // 4
+Math.ceil(4.1);   // 5
+Math.trunc(-4.9); // -4 (toward zero)
+
+// Powers
+Math.pow(2, 8);   // 256
+Math.sqrt(144);   // 12
+Math.cbrt(27);    // 3
+Math.hypot(3, 4); // 5 (Pythagorean)
+
+// Min/max/abs
+Math.max(3,1,9);  // 9
+Math.min(3,1,9);  // 1
+Math.max(...[5,2,8,1]); // 8 (spread array)
+Math.abs(-42);    // 42
+Math.sign(-5);    // -1
+
+// Logarithms
+Math.log(Math.E);  // 1
+Math.log2(8);      // 3
+Math.log10(1000);  // 3</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Build a function <code>clamp(val, min, max)</code> using Math.min and Math.max that limits a value to a range. Test with clamp(150, 0, 100) = 100 and clamp(-5, 0, 100) = 0.</p></div>
+    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase2">
+  <div class="phase-header">
+    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Math.random() patterns</div></div>
+    <div class="phase-check" id="check2"></div>
+  </div>
+  <div class="phase-body">
+    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><code>Math.random()</code> returns [0, 1). Random integer in range: <code>Math.floor(Math.random() * (max - min + 1)) + min</code>. Pick random array element: <code>arr[Math.floor(Math.random() * arr.length)]</code>. Shuffle: Fisher-Yates algorithm.</p></div>
+    <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
+<div class="code-body"><pre>// Random float: 0 &lt;= x &lt; 1
+Math.random();
+
+// Random integer 0 to n-1
+Math.floor(Math.random() * n);
+
+// Random integer min to max (inclusive)
+Math.floor(Math.random() * (max - min + 1)) + min;
+
+// Dice: 1-6
+Math.floor(Math.random() * 6) + 1;
+
+// Random array element
+const pick = arr =&gt; arr[Math.floor(Math.random() * arr.length)];
+
+// Coin flip
+Math.random() &lt; 0.5 ? &#x27;heads&#x27; : &#x27;tails&#x27;;
+
+// Weighted random (70% A, 30% B)
+Math.random() &lt; 0.7 ? &#x27;A&#x27; : &#x27;B&#x27;;</pre></div>
+</div>
+    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Build a quiz question picker that randomly selects 5 unique questions from a pool of 20. Use Fisher-Yates shuffle and slice to get 5 unique ones.</p></div>
+    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+  </div>
+</div>
+<div class="project-box" id="build-it" style="display:none">
+  <div class="project-label">🏗️ Build It</div>
+  <div class="project-name">Math Toolkit</div>
+  <div class="project-desc">Math calculator, random number tools and probability demo.</div>
+  <div class="code-wrap">
+<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
+<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+&lt;title&gt;JS Math&lt;/title&gt;
+&lt;style&gt;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;⚡ JS Math&lt;/h1&gt;
+
+&lt;h2&gt;Math Method Calculator&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;input type=&quot;number&quot; id=&quot;m-in&quot; value=&quot;16&quot; oninput=&quot;mathCalc()&quot;&gt;
+&lt;div id=&quot;m-grid&quot; style=&quot;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Random Number Generator&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;div style=&quot;display:flex;gap:8px;margin-bottom:8px&quot;&gt;
+&lt;input type=&quot;number&quot; id=&quot;rnd-min&quot; value=&quot;1&quot; placeholder=&quot;Min&quot; style=&quot;width:80px;margin:0&quot;&gt;
+&lt;input type=&quot;number&quot; id=&quot;rnd-max&quot; value=&quot;100&quot; placeholder=&quot;Max&quot; style=&quot;width:80px;margin:0&quot;&gt;
+&lt;input type=&quot;number&quot; id=&quot;rnd-count&quot; value=&quot;10&quot; placeholder=&quot;Count&quot; style=&quot;width:80px;margin:0&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;genRandom()&quot;&gt;Generate&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class=&quot;output&quot; id=&quot;rnd-out&quot;&gt;Click Generate&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Coin Flip &amp; Dice&lt;/h2&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;coinFlip()&quot;&gt;🪙 Flip Coin&lt;/button&gt;
+&lt;button class=&quot;btn&quot; onclick=&quot;rollDice()&quot;&gt;🎲 Roll 2 Dice&lt;/button&gt;
+&lt;div class=&quot;output&quot; id=&quot;random-out&quot;&gt;Click a button!&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+function mathCalc(){
+  const n=parseFloat(document.getElementById(&#x27;m-in&#x27;).value)||0;
+  const methods=[
+    [&#x27;Math.round()&#x27;,Math.round(n)],[&#x27;Math.floor()&#x27;,Math.floor(n)],
+    [&#x27;Math.ceil()&#x27;,Math.ceil(n)],[&#x27;Math.trunc()&#x27;,Math.trunc(n)],
+    [&#x27;Math.abs()&#x27;,Math.abs(n)],[&#x27;Math.sign()&#x27;,Math.sign(n)],
+    [&#x27;Math.sqrt()&#x27;,n&gt;=0?Math.sqrt(n).toFixed(4):&#x27;NaN&#x27;],
+    [&#x27;Math.pow(n,2)&#x27;,Math.pow(n,2)],
+    [&#x27;Math.log10()&#x27;,n&gt;0?Math.log10(n).toFixed(4):&#x27;NaN&#x27;],
+    [&#x27;Math.PI * n&#x27;,(Math.PI*n).toFixed(4)],
+  ];
+  document.getElementById(&#x27;m-grid&#x27;).innerHTML=methods.map(([m,v])=&gt;
+    `&lt;div style=&quot;background:#fef9ee;border:1.5px solid #fde68a;border-radius:8px;padding:8px&quot;&gt;
+      &lt;div style=&quot;font-family:monospace;font-size:11px;color:#d97706;font-weight:700&quot;&gt;${m}&lt;/div&gt;
+      &lt;div style=&quot;font-size:1.1rem;font-weight:800;color:#1c1917&quot;&gt;${v}&lt;/div&gt;
+    &lt;/div&gt;`).join(&#x27;&#x27;);
+}
+mathCalc();
+function genRandom(){
+  const min=parseInt(document.getElementById(&#x27;rnd-min&#x27;).value)||1;
+  const max=parseInt(document.getElementById(&#x27;rnd-max&#x27;).value)||100;
+  const count=Math.min(parseInt(document.getElementById(&#x27;rnd-count&#x27;).value)||10,100);
+  const nums=Array.from({length:count},()=&gt;Math.floor(Math.random()*(max-min+1))+min);
+  const avg=nums.reduce((a,b)=&gt;a+b,0)/nums.length;
+  document.getElementById(&#x27;rnd-out&#x27;).textContent=
+    &#x27;Generated: [&#x27;+nums.join(&#x27;, &#x27;)+&#x27;]
+Min: &#x27;+Math.min(...nums)+&#x27; | Max: &#x27;+Math.max(...nums)+&#x27; | Avg: &#x27;+avg.toFixed(1);
+}
+let coinFlips={heads:0,tails:0};
+function coinFlip(){
+  const result=Math.random()&lt;0.5?&#x27;heads&#x27;:&#x27;tails&#x27;;
+  coinFlips[result]++;
+  const total=coinFlips.heads+coinFlips.tails;
+  document.getElementById(&#x27;random-out&#x27;).textContent=
+    `Result: ${result.toUpperCase()}! 🪙
+
+After ${total} flips:
+Heads: ${coinFlips.heads} (${(coinFlips.heads/total*100).toFixed(1)}%)
+Tails: ${coinFlips.tails} (${(coinFlips.tails/total*100).toFixed(1)}%)`;
+}
+const faces=[&#x27;⚀&#x27;,&#x27;⚁&#x27;,&#x27;⚂&#x27;,&#x27;⚃&#x27;,&#x27;⚄&#x27;,&#x27;⚅&#x27;];
+function rollDice(){
+  const d1=Math.floor(Math.random()*6)+1;
+  const d2=Math.floor(Math.random()*6)+1;
+  document.getElementById(&#x27;random-out&#x27;).textContent=
+    `${faces[d1-1]} + ${faces[d2-1]} = ${d1+d2}
+
+Die 1: ${d1}
+Die 2: ${d2}
+Total: ${d1+d2}`;
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+</div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
+    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+      ⬇ Download starter.html
+    </button>
+    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+      🐙 Push to GitHub →
+    </button>
+  </div>
+  <script>
+  const __code = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JS Math</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
+h1{color:#d97706;margin-bottom:4px}
+h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
+.box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#d97706}
+.btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
+.btn:hover{background:#b45309}
+.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;white-space:pre-wrap;min-height:40px;line-height:1.7}
+code{background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
+</style>
+</head>
+<body>
+<h1>⚡ JS Math</h1>
+
+<h2>Math Method Calculator</h2>
+<div class="box">
+<input type="number" id="m-in" value="16" oninput="mathCalc()">
+<div id="m-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"></div>
+</div>
+<h2>Random Number Generator</h2>
+<div class="box">
+<div style="display:flex;gap:8px;margin-bottom:8px">
+<input type="number" id="rnd-min" value="1" placeholder="Min" style="width:80px;margin:0">
+<input type="number" id="rnd-max" value="100" placeholder="Max" style="width:80px;margin:0">
+<input type="number" id="rnd-count" value="10" placeholder="Count" style="width:80px;margin:0">
+<button class="btn" onclick="genRandom()">Generate</button>
+</div>
+<div class="output" id="rnd-out">Click Generate</div>
+</div>
+<h2>Coin Flip & Dice</h2>
+<div class="box">
+<button class="btn" onclick="coinFlip()">🪙 Flip Coin</button>
+<button class="btn" onclick="rollDice()">🎲 Roll 2 Dice</button>
+<div class="output" id="random-out">Click a button!</div>
+</div>
+<script>
+function mathCalc(){
+  const n=parseFloat(document.getElementById('m-in').value)||0;
+  const methods=[
+    ['Math.round()',Math.round(n)],['Math.floor()',Math.floor(n)],
+    ['Math.ceil()',Math.ceil(n)],['Math.trunc()',Math.trunc(n)],
+    ['Math.abs()',Math.abs(n)],['Math.sign()',Math.sign(n)],
+    ['Math.sqrt()',n>=0?Math.sqrt(n).toFixed(4):'NaN'],
+    ['Math.pow(n,2)',Math.pow(n,2)],
+    ['Math.log10()',n>0?Math.log10(n).toFixed(4):'NaN'],
+    ['Math.PI * n',(Math.PI*n).toFixed(4)],
+  ];
+  document.getElementById('m-grid').innerHTML=methods.map(([m,v])=>
+    \`<div style="background:#fef9ee;border:1.5px solid #fde68a;border-radius:8px;padding:8px">
+      <div style="font-family:monospace;font-size:11px;color:#d97706;font-weight:700">${m}</div>
+      <div style="font-size:1.1rem;font-weight:800;color:#1c1917">${v}</div>
+    </div>\`).join('');
+}
+mathCalc();
+function genRandom(){
+  const min=parseInt(document.getElementById('rnd-min').value)||1;
+  const max=parseInt(document.getElementById('rnd-max').value)||100;
+  const count=Math.min(parseInt(document.getElementById('rnd-count').value)||10,100);
+  const nums=Array.from({length:count},()=>Math.floor(Math.random()*(max-min+1))+min);
+  const avg=nums.reduce((a,b)=>a+b,0)/nums.length;
+  document.getElementById('rnd-out').textContent=
+    'Generated: ['+nums.join(', ')+']
+Min: '+Math.min(...nums)+' | Max: '+Math.max(...nums)+' | Avg: '+avg.toFixed(1);
+}
+let coinFlips={heads:0,tails:0};
+function coinFlip(){
+  const result=Math.random()<0.5?'heads':'tails';
+  coinFlips[result]++;
+  const total=coinFlips.heads+coinFlips.tails;
+  document.getElementById('random-out').textContent=
+    \`Result: ${result.toUpperCase()}! 🪙
+
+After ${total} flips:
+Heads: ${coinFlips.heads} (${(coinFlips.heads/total*100).toFixed(1)}%)
+Tails: ${coinFlips.tails} (${(coinFlips.tails/total*100).toFixed(1)}%)\`;
+}
+const faces=['⚀','⚁','⚂','⚃','⚄','⚅'];
+function rollDice(){
+  const d1=Math.floor(Math.random()*6)+1;
+  const d2=Math.floor(Math.random()*6)+1;
+  document.getElementById('random-out').textContent=
+    \`${faces[d1-1]} + ${faces[d2-1]} = ${d1+d2}
+
+Die 1: ${d1}
+Die 2: ${d2}
+Total: ${d1+d2}\`;
+}
+</script>
+</body>
+</html>`;
+  function downloadStarter(){
+    const a=document.createElement('a');
+    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
+    a.download='starter.html'; a.click();
+  }
+  </script>
+</div>
+
+<div class="github-acc" id="github-steps" style="display:none">
+  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
+    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+  </div>
+  <div class="github-acc-body">
+    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-30-js_math</code>.</p></div>
+    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
+    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 30 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-30-js_math/</code> in ~1 min! 🎉</p></div>
+    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  </div>
+</div>
+<div class="session-end" id="session-end">
+  <h2>🎉 Great work! Lesson 30 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
+  <ul><li>✅ Math methods reference</li><li>✅ Math.random() patterns</li></ul>
+  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
+    <a href="lesson_29.html" class="ln-btn">← Lesson 29</a>
+    <a href="lesson_31.html" class="ln-btn primary">Lesson 31 →</a>
+  </div>
+</div>
+</main>
+<footer class="lesson-footer">
+  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 30 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+</footer>
+<script>
+const TOTAL=2, KEY='techbase_js_30_phase';
+let current=parseInt(localStorage.getItem(KEY)||'1');
+function init(){
+  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  updateBar();
+}
+function unlockNext(n){
+  document.getElementById('check'+n).classList.add('done');
+  document.getElementById('check'+n).textContent='✓';
+  localStorage.setItem(KEY,n+1);
+  current=n+1;
+  if(n===TOTAL){
+    document.getElementById('build-it').style.display='block';
+    const cap=document.getElementById('capstone');
+    if(cap) cap.style.display='block';
+    updateBar(100);
+    setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
+  } else {
+    unlockPhase(n+1,true);
+    updateBar();
+  }
+}
+function unlockPhase(n,scroll){
+  const el=document.getElementById('phase'+n);
+  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+}
+function updateBar(pct){
+  const p=pct||Math.round((current-1)/TOTAL*95);
+  document.getElementById('pbar').style.width=p+'%';
+}
+function showGithub(){
+  const g=document.getElementById('github-steps');
+  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+}
+function showEnd(){
+  const e=document.getElementById('session-end');
+  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+}
+init();
+</script>
+</body>
+</html>
