@@ -2,447 +2,1308 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 06: JS Comments — Techbase JS Course</title>
-<meta name="description" content="Write clear comments to document and explain JavaScript code">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lesson 06: JavaScript Loops, Control Flow &amp; Loop Keywords — Techbase JavaScript</title>
+<meta name="description" content="JavaScript Loops, Control Flow &amp; Loop Keywords">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
-  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
-  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
+  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
   --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
   --text:#0f172a;--t2:#334155;--muted:#64748b;
   --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+
+/* NAV */
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
+  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
 .l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
-.l-nav-back:hover{color:var(--accent)}
-.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.l-nav-back:hover{color:var(--acc)}
+.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+
+/* PROGRESS */
 .progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
-.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:820px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
-.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
-.l-hero-build strong{color:var(--accent)}
-.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
-.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
-.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
-.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
-.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
+
+/* HERO */
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:860px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
+  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
+  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
+
+/* WELCOME BOX */
+.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
+.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
+.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
+.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
+  font-family:var(--M);font-size:.68rem;font-weight:500}
+
+/* PHASE */
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
+  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
+.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;
+  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--acc)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
+  flex:1;margin:0 .8rem}
+.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
+  transition:background .3s,color .3s}
 .phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.4rem}
-.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
-.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
-.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
-.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
-.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
-.code-dot{width:8px;height:8px;border-radius:50%}
-.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
-.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
-.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
-.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
-.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
-.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
-.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
-.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
-.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
-.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
-.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
-.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
-.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
-.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
-.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.github-acc-body.open{display:block}
-.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.phase-body{padding:1.6rem 1.8rem}
+
+/* RICH CONTENT STYLES */
+.v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
+  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
+.v2-ul li,.v2-ol li{margin-bottom:.3rem}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
+  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq p{margin:0;color:inherit}
+.v2-bq strong{font-style:normal}
+.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
+.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
+  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
+.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
+.v2-table tr:nth-child(even) td{background:#f8fafc}
+.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
+  padding:1px 5px;font-family:var(--M);font-size:.8em}
+.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.phase-body strong{color:var(--text)}
+
+/* CODE BLOCKS */
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
+.v2-dot{width:10px;height:10px;border-radius:50%}
+.v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
+.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
+.v2-code-body pre{margin:0}
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
+  white-space:pre;background:transparent;padding:0;border-radius:0}
+
+/* TASK BOX */
+.task-box{background:#fef9c3;border:2px dashed #d97706;
+  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
+.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
+  font-family:var(--M);font-size:.82em}
+
+/* UNLOCK BUTTON */
+.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
+  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
+  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
+  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
+.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
+
+/* BUILD IT */
+.build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
+.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
+.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-desc strong{color:#14532d}
+
+/* GITHUB ACCORDION */
+.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.gh-acc-body.open{display:block}
+.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
+  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+
+/* SESSION END */
+.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
 .session-end.visible{display:block}
 .session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
 .session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
-.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
-.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
+  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
+  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
+  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--acc);color:var(--acc)}
+.ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;
+  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
+  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
-  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
-  <span class="l-nav-lesson">Lesson 06 of 46</span>
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
+  <span class="l-nav-label">Lesson 06 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
 <div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+
 <div class="l-hero">
   <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 06 </div>
-    <h1>JS Comments</h1>
-    <div class="l-hero-tag">Write clear comments to document and explain JavaScript code</div>
-    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Commented Code</div>
+    <div class="l-badge">JavaScript · Lesson 06</div>
+    <h1>JavaScript Loops, Control Flow &amp; Loop Keywords</h1>
+    <div class="l-hero-sub">18 phases · Build: Stage 1: Setup &amp; Core Logic</div>
   </div>
 </div>
-<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
   <h2>👋 Welcome to Lesson 06</h2>
-  <p>Write clear comments to document and explain JavaScript code</p>
+  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
   <div class="welcome-meta">
-    <span>📚 2 phases</span>
-    <span>🏗️ Build: My Commented Code</span>
-    
+    <span>📚 18 phases</span>
+    <span>🏗️ Stage 1: Setup &amp; Core Logic</span>
   </div>
 </div></div>
 </section>
-<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+
+<main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
 <div class="phase" id="phase1">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Single-line and multi-line comments</div></div>
-    <div class="phase-check" id="check1"></div>
+    <div class="phase-num">Phase 1 of 18</div>
+    <div class="phase-title">1. What Is a Loop?</div>
+    <div class="phase-check" id="chk1"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><code>//</code> starts a single-line comment — everything after is ignored. <code>/* ... */</code> makes a multi-line comment. Comments are not executed — use them to: explain WHY (not what), document function parameters, disable code temporarily, add TODO notes. <em>Good code explains itself; comments explain intent.</em></p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>// Single-line comment — use for brief explanations
-let tax = 0.075; // 7.5% VAT rate for Nigeria
+    <h3 class="v2-h3">Plain-English Definition</h3>
+<p class="v2-p">A <strong>loop</strong> is an instruction that tells your computer: <em>"Keep doing this action over and over again, until a certain condition is no longer true."</em></p>
+<p class="v2-p">Think about your morning routine. Every morning you might do: wake up → brush teeth → get dressed. A loop is like saying: <em>"For each school day in the week, do my morning routine."</em> You don't write out the routine five separate times — you just describe it once and say "repeat this five times."</p>
+<p class="v2-p">In programming, without loops, you would have to write the same line of code dozens or even hundreds of times. Loops save you time, prevent mistakes, and make your code much easier to read.</p>
+<h3 class="v2-h3">Real-World Comparison</h3>
+<p class="v2-p">Imagine you work at a bakery and you need to label 100 bread bags. Without a loop in your mind, you would say:</p>
+<ul class="v2-ul"><li>"Label bag 1."</li><li>"Label bag 2."</li><li>"Label bag 3."</li><li>... (97 more times!)</li></ul>
+<p class="v2-p">With a loop, you just say:</p>
+<ul class="v2-ul"><li>"For every bag from 1 to 100: label the bag."</li></ul>
+<p class="v2-p">Much better! This is exactly what loops do in code.</p>
+<h3 class="v2-h3">Why Loops Matter in Real Jobs</h3>
+<ul class="v2-ul"><li>A <strong>web developer</strong> uses loops to display a list of products from a database.</li><li>A <strong>data analyst</strong> uses loops to go through thousands of rows of sales data.</li><li>A <strong>game developer</strong> uses loops to move every enemy character on the screen, one by one, every single frame.</li><li>A <strong>bank</strong> uses loops to calculate interest for every customer account.</li></ul>
+<h3 class="v2-h3">The Problem Without Loops</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ WITHOUT a loop — writing the same thing 6 times:
+let cars = [&quot;BMW&quot;, &quot;Volvo&quot;, &quot;Saab&quot;, &quot;Ford&quot;, &quot;Toyota&quot;, &quot;Honda&quot;];
 
-// Explain WHY, not WHAT (what is visible in the code)
-// Bad: // add 1 to count
-count++;
-// Good: // increment to account for the off-by-one in legacy API
-count++;
+let text = &quot;&quot;;
+text += cars[0] + &quot;&lt;br&gt;&quot;;
+text += cars[1] + &quot;&lt;br&gt;&quot;;
+text += cars[2] + &quot;&lt;br&gt;&quot;;
+text += cars[3] + &quot;&lt;br&gt;&quot;;
+text += cars[4] + &quot;&lt;br&gt;&quot;;
+text += cars[5] + &quot;&lt;br&gt;&quot;;</code></pre></div></div>
+<p class="v2-p">This is repetitive and fragile — if you add a 7th car, you have to add another line.</p>
+<h3 class="v2-h3">The Solution With a Loop</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ✅ WITH a loop — clean, flexible, and scalable:
+let cars = [&quot;BMW&quot;, &quot;Volvo&quot;, &quot;Saab&quot;, &quot;Ford&quot;, &quot;Toyota&quot;, &quot;Honda&quot;];
+let text = &quot;&quot;;
 
-/* Multi-line comment — use for longer explanations
-   or temporarily disabling a block of code */
-
-/**
- * JSDoc comment — documents a function (shows in editor tooltips)
- * @param {number} price  - Base price before tax
- * @param {number} rate   - Tax rate as decimal (e.g. 0.075)
- * @returns {number} Total price including tax
- */
-function withTax(price, rate) {
-  return price * (1 + rate);
-}</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Go through 10 lines of code and add single-line comments explaining WHY each piece exists. Then write a JSDoc comment block (<code>/** */</code>) for a function that calculates a student's grade.</p></div>
-    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+for (let i = 0; i &lt; cars.length; i++) {
+  text += cars[i] + &quot;&lt;br&gt;&quot;;
+}</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>BMW
+Volvo
+Saab
+Ford
+Toyota
+Honda</code></pre></div></div>
+<p class="v2-p">Even if you add 50 more cars, the loop handles it automatically. You change nothing.</p>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>Thinking Question:</strong> What happens to the loop if <code>cars</code> has 0 items in it? Does it run at all? <em>(Answer: No — <code>i &lt; cars.length</code> becomes <code>0 &lt; 0</code> which is false immediately, so the loop body never runs.)</em></p></blockquote>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>1. What Is a Loop?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
   </div>
 </div>
 <div class="phase locked" id="phase2">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Comment best practices</div></div>
-    <div class="phase-check" id="check2"></div>
+    <div class="phase-num">Phase 2 of 18</div>
+    <div class="phase-title">2. JavaScript Control Flow</div>
+    <div class="phase-check" id="chk2"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Good comments: explain logic that isn't obvious, document edge cases, add TODOs for future work. Bad comments: restate what the code already says (<code>// add 1</code>), never updated so they become wrong, commented-out code left in forever. Comment code you'd have to stop and think about; don't comment the obvious.</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>// ✅ GOOD — explains non-obvious business logic
-// Prices are stored in kobo (1 NGN = 100 kobo) to avoid
-// floating-point rounding errors in financial calculations
-const priceInKobo = 150000; // ₦1,500.00
+    <h3 class="v2-h3">What Is "Control Flow"?</h3>
+<p class="v2-p"><strong>Control flow</strong> is the order in which JavaScript runs your code statements. By default, JavaScript reads code <strong>from top to bottom, left to right</strong> — like reading a book. But control flow statements let you <em>change</em> that order.</p>
+<p class="v2-p">There are four main categories of control flow:</p>
+<h3 class="v2-h3">2a. Default (Sequential) Flow</h3>
+<p class="v2-p">Code runs line by line, in order.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Example of default sequential flow:
+let x = 5;    // Step 1: x gets the value 5
+let y = 6;    // Step 2: y gets the value 6
+let z = x + y; // Step 3: z = 5 + 6 = 11</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>z</code> is <code>11</code></p>
+<h3 class="v2-h3">2b. Conditional Flow</h3>
+<p class="v2-p">Decisions branch the flow using <code>if</code>, <code>if...else</code>, <code>switch</code>, or the ternary operator <code>? :</code>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let age = 20;
+let text = &quot;Unknown&quot;;
 
-// ✅ TODO comment — signals future work
-// TODO: replace with API call once backend is ready
-const students = [{ name: &#x27;Amina&#x27;, score: 94 }];
+if (age &gt;= 18) {
+  text = &quot;Adult&quot;;   // This branch runs if age is 18 or more
+} else {
+  text = &quot;Minor&quot;;   // This branch runs if age is less than 18
+}
 
-// ✅ Explain a workaround
-// eslint-disable-next-line — false positive, not a real circular ref
-import { helper } from &#x27;./utils&#x27;;
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>Adult</code></p>
+<h3 class="v2-h3">2c. Repetition Flow (Loops)</h3>
+<p class="v2-p">Loops run a block of code multiple times using <code>for</code>, <code>while</code>, or <code>do...while</code>. This is the main topic of this entire lesson.</p>
+<h3 class="v2-h3">2d. Jump Statements</h3>
+<p class="v2-p">Jump statements abruptly change the flow:</p>
+<ul class="v2-ul"><li><code>break</code> — exits a loop or switch</li><li><code>continue</code> — skips the current loop iteration</li><li><code>return</code> — exits from a function (we'll cover functions separately)</li><li><code>throw</code> — jumps to error handling</li></ul>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Simple jump example with break:
+for (let i = 0; i &lt; 10; i++) {
+  if (i === 3) { break; }  // JUMP! Stop the loop entirely at i=3
+  console.log(i);
+}</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0
+1
+2</code></pre></div></div>
+<p class="v2-p"><em>(The loop stops before printing 3.)</em></p>
+<h3 class="v2-h3">2e. Function Flow</h3>
+<p class="v2-p">Functions are reusable code blocks that run when called.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function multiply(p1, p2) {
+  return p1 * p2;
+}
 
-// ❌ BAD — restates the code
-// set x to 5
-let x = 5;
-
-// ❌ BAD — commented-out code with no explanation (delete it!)
-// let oldVersion = fetch(&#x27;/api/v1/data&#x27;);  &lt;-- what was this?</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Review any code you've written so far and improve the comments: remove ones that restate code, add ones that explain intent, and add TODOs for anything unfinished. Good comments make future-you say 'thanks!'</p></div>
-    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+console.log(multiply(4, 5)); // Calls the function</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>20</code></p>
+<h3 class="v2-h3">JavaScript Is Single-Threaded</h3>
+<p class="v2-p">JavaScript can only do <strong>one thing at a time</strong>. Every task must wait for the previous one to finish. This is called being "single-threaded." We will cover asynchronous (non-blocking) programming in a more advanced lesson.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>2. JavaScript Control Flow</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
   </div>
 </div>
-<div class="project-box" id="build-it" style="display:none">
-  <div class="project-label">🏗️ Build It</div>
-  <div class="project-name">My Commented Code</div>
-  <div class="project-desc">A well-commented utility library with JSDoc documentation.</div>
-  <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
-<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-&lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-&lt;title&gt;JS Comments&lt;/title&gt;
-&lt;style&gt;
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .code-wrap{background:#0f172a;border-radius:12px;overflow:hidden;margin-bottom:14px}
-  .code-bar{background:#1e293b;padding:8px 14px;font-family:monospace;font-size:11px;color:#64748b}
-  pre{font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:12px;line-height:1.8;color:#e2e8f0;padding:16px;overflow-x:auto;margin:0}
-  .c-comment{color:#6a9955}.c-keyword{color:#569cd6}.c-string{color:#ce9178}.c-num{color:#b5cea8}.c-func{color:#dcdcaa}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px}
-  .btn:hover{background:#b45309}.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;margin-top:10px}
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;⚡ JS Comments&lt;/h1&gt;
-&lt;h2&gt;Well-Commented Utility Library&lt;/h2&gt;
-&lt;div class=&quot;code-wrap&quot;&gt;
-&lt;div class=&quot;code-bar&quot;&gt;utils.js — example of good commenting style&lt;/div&gt;
-&lt;pre&gt;
-&lt;span class=&quot;c-comment&quot;&gt;/**
- * Techbase Student Utility Library
- * Provides grade calculation and formatting helpers.
- * @module studentUtils
- */&lt;/span&gt;
+<div class="phase locked" id="phase3">
+  <div class="phase-header">
+    <div class="phase-num">Phase 3 of 18</div>
+    <div class="phase-title">3. The `for` Loop</div>
+    <div class="phase-check" id="chk3"></div>
+  </div>
+  <div class="phase-body">
+    <p class="v2-p">The <code>for</code> loop is the most commonly used loop when you <strong>know in advance how many times</strong> you want to repeat something.</p>
+<h3 class="v2-h3">Syntax (the grammar of a <code>for</code> loop)</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>for (exp1; exp2; exp3) {
+  // code to repeat
+}</code></pre></div></div>
+<p class="v2-p">Three expressions control everything:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Expression</th><th>Plain English</th><th>When It Runs</th></tr></thead><tbody><tr><td><code>exp1</code></td><td>"Start here"</td><td>Once, before the loop begins</td></tr><tr><td><code>exp2</code></td><td>"Keep going while this is true"</td><td>Checked before every iteration</td></tr><tr><td><code>exp3</code></td><td>"After each round, do this"</td><td>After every iteration</td></tr></tbody></table></div>
+<h3 class="v2-h3">First Example — Count 0 to 4</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;&quot;;
 
-&lt;span class=&quot;c-comment&quot;&gt;/**
- * Converts a raw score to a letter grade.
- * Uses Nigerian university grading scale (5-point system).
- *
- * @param {number} score  - Raw score (0–100)
- * @returns {string} Letter grade: A, B, C, D, or F
- */&lt;/span&gt;
-&lt;span class=&quot;c-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;c-func&quot;&gt;getGrade&lt;/span&gt;(score) {
-  &lt;span class=&quot;c-comment&quot;&gt;// Nigerian grading: 70-100=A, 60-69=B, 50-59=C, 45-49=D, below=F&lt;/span&gt;
-  &lt;span class=&quot;c-keyword&quot;&gt;if&lt;/span&gt; (score &gt;= &lt;span class=&quot;c-num&quot;&gt;70&lt;/span&gt;) &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;A&#x27;&lt;/span&gt;;
-  &lt;span class=&quot;c-keyword&quot;&gt;if&lt;/span&gt; (score &gt;= &lt;span class=&quot;c-num&quot;&gt;60&lt;/span&gt;) &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;B&#x27;&lt;/span&gt;;
-  &lt;span class=&quot;c-keyword&quot;&gt;if&lt;/span&gt; (score &gt;= &lt;span class=&quot;c-num&quot;&gt;50&lt;/span&gt;) &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;C&#x27;&lt;/span&gt;;
-  &lt;span class=&quot;c-keyword&quot;&gt;if&lt;/span&gt; (score &gt;= &lt;span class=&quot;c-num&quot;&gt;45&lt;/span&gt;) &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;D&#x27;&lt;/span&gt;;
-  &lt;span class=&quot;c-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;c-string&quot;&gt;&#x27;F&#x27;&lt;/span&gt;;
+for (let i = 0; i &lt; 5; i++) {
+  text += &quot;The number is &quot; + i + &quot;\n&quot;;
 }
 
-&lt;span class=&quot;c-comment&quot;&gt;// TODO: Add GPA conversion once we know the university&#x27;s scale&lt;/span&gt;
-&lt;span class=&quot;c-comment&quot;&gt;/* Temporarily disabled — waiting for API endpoint
-function fetchGradeHistory(studentId) {
-  return fetch(&#x27;/api/grades/&#x27; + studentId);
-}
-*/&lt;/span&gt;
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Line-by-line breakdown:</strong></p>
+<ul class="v2-ul"><li><code>let i = 0</code> → (exp1) Create a variable <code>i</code> and set it to 0. This runs once.</li><li><code>i &lt; 5</code> → (exp2) "Is i less than 5?" If yes, run the code block. If no, stop.</li><li><code>i++</code> → (exp3) After running the code block, add 1 to <code>i</code>. (<code>i++</code> is shorthand for <code>i = i + 1</code>)</li><li><code>text += "The number is " + i + "\n"</code> → The actual work done on each repetition. The <code>+=</code> means "add this to <code>text</code>."</li></ul>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>The number is 0
+The number is 1
+The number is 2
+The number is 3
+The number is 4</code></pre></div></div>
+<p class="v2-p">The loop stops because when <code>i</code> reaches 5, <code>i &lt; 5</code> becomes <code>5 &lt; 5</code> which is <code>false</code>.</p>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>Thinking Question:</strong> What if we changed <code>i &lt; 5</code> to <code>i &lt;= 5</code>? What would be the last number printed? <em>(Answer: 5. The <code>&lt;=</code> means "less than OR equal to", so i=5 would pass the check.)</em></p></blockquote>
+<h3 class="v2-h3">Second Example — Loop Through an Array of Cars</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const cars = [&quot;BMW&quot;, &quot;Volvo&quot;, &quot;Saab&quot;, &quot;Ford&quot;];
+let len = cars.length;  // cars.length = 4
+let text = &quot;&quot;;
 
-&lt;span class=&quot;c-keyword&quot;&gt;const&lt;/span&gt; students = [
-  { name: &lt;span class=&quot;c-string&quot;&gt;&#x27;Amina&#x27;&lt;/span&gt;, score: &lt;span class=&quot;c-num&quot;&gt;94&lt;/span&gt; },
-  { name: &lt;span class=&quot;c-string&quot;&gt;&#x27;Chidi&#x27;&lt;/span&gt;, score: &lt;span class=&quot;c-num&quot;&gt;67&lt;/span&gt; },
-  { name: &lt;span class=&quot;c-string&quot;&gt;&#x27;Tunde&#x27;&lt;/span&gt;, score: &lt;span class=&quot;c-num&quot;&gt;52&lt;/span&gt; },
-];
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;h2&gt;Try the Grade Function&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;label style=&quot;font-size:13px;color:#64748b&quot;&gt;Enter a score (0–100):&lt;/label&gt;
-  &lt;input type=&quot;number&quot; id=&quot;score-in&quot; min=&quot;0&quot; max=&quot;100&quot; value=&quot;75&quot; style=&quot;width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin:8px 0&quot;&gt;
-  &lt;button class=&quot;btn&quot; onclick=&quot;runGrade()&quot;&gt;Get Grade&lt;/button&gt;
-  &lt;div class=&quot;output&quot; id=&quot;grade-out&quot;&gt;Click the button to see the grade&lt;/div&gt;
-&lt;/div&gt;
-&lt;script&gt;
-  function getGrade(score) {
-    if (score &gt;= 70) return &#x27;A&#x27;;
-    if (score &gt;= 60) return &#x27;B&#x27;;
-    if (score &gt;= 50) return &#x27;C&#x27;;
-    if (score &gt;= 45) return &#x27;D&#x27;;
-    return &#x27;F&#x27;;
-  }
-  function runGrade() {
-    const score = parseInt(document.getElementById(&#x27;score-in&#x27;).value);
-    const grade = getGrade(score);
-    const labels = {A:&#x27;Excellent 🌟&#x27;,B:&#x27;Good 👍&#x27;,C:&#x27;Average ✅&#x27;,D:&#x27;Pass ⚠️&#x27;,F:&#x27;Fail ❌&#x27;};
-    document.getElementById(&#x27;grade-out&#x27;).textContent =
-      `Score: ${score} → Grade: ${grade} (${labels[grade]})`;
-  }
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre></div>
+for (let i = 0; i &lt; len; i++) {
+  text += cars[i] + &quot;\n&quot;;
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>BMW
+Volvo
+Saab
+Ford</code></pre></div></div>
+<p class="v2-p"><strong>Why use <code>cars.length</code> instead of writing <code>4</code>?</strong> Because if you add more cars to the array later, the loop automatically adjusts — you don't have to update the number <code>4</code> manually.</p>
+<p class="v2-p"><strong>What is <code>cars[i]</code>?</strong> An array stores items in numbered slots starting at 0. <code>cars[0]</code> is <code>"BMW"</code>, <code>cars[1]</code> is <code>"Volvo"</code>, etc. When <code>i = 0</code>, <code>cars[i]</code> means <code>cars[0]</code> = <code>"BMW"</code>. When <code>i = 1</code>, it means <code>cars[1]</code> = <code>"Volvo"</code>. And so on.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>3. The <code>for</code> Loop</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
+  </div>
 </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
-    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+<div class="phase locked" id="phase4">
+  <div class="phase-header">
+    <div class="phase-num">Phase 4 of 18</div>
+    <div class="phase-title">4. Loop Scope</div>
+    <div class="phase-check" id="chk4"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">What Does "Scope" Mean?</h3>
+<p class="v2-p"><strong>Scope</strong> is the area of your program where a variable can be seen and used. Think of it like a security badge at a workplace — some rooms let anyone in, but others only let people with the right badge in.</p>
+<p class="v2-p">In JavaScript, <code>var</code> and <code>let</code> behave differently inside loops.</p>
+<h3 class="v2-h3">Using <code>var</code> in a Loop</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var i = 5;        // i is declared OUTSIDE the loop
+
+for (var i = 0; i &lt; 10; i++) {
+  // some code
+}
+
+console.log(i);   // What is i here?</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>10</code></p>
+<p class="v2-p"><strong>Why?</strong> Because <code>var</code> does NOT respect loop boundaries. The <code>var i</code> inside the loop is the <strong>same variable</strong> as the <code>var i</code> outside. After the loop ends (when i reaches 10), the outside variable has been changed too. This is usually a bug!</p>
+<h3 class="v2-h3">Using <code>let</code> in a Loop (Recommended)</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let i = 5;        // i is declared OUTSIDE the loop
+
+for (let i = 0; i &lt; 10; i++) {
+  // some code
+}
+
+console.log(i);   // What is i here?</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>5</code></p>
+<p class="v2-p"><strong>Why?</strong> Because <code>let</code> DOES respect loop boundaries. The <code>let i</code> inside the loop is a <strong>brand new, separate variable</strong> that only exists inside the loop. The outer <code>i = 5</code> is untouched.</p>
+<blockquote class="v2-bq"><p class="v2-p">✅ <strong>Best Practice:</strong> Always use <code>let</code> (or <code>const</code>) instead of <code>var</code> inside loops. It prevents accidental bugs where the loop variable leaks out.</p></blockquote>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>4. Loop Scope</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase5">
+  <div class="phase-header">
+    <div class="phase-num">Phase 5 of 18</div>
+    <div class="phase-title">5. Optional Expressions in the `for` Loop</div>
+    <div class="phase-check" id="chk5"></div>
+  </div>
+  <div class="phase-body">
+    <p class="v2-p">All three expressions in a <code>for</code> loop are optional. You can leave any of them out — but you must understand why you might and when it's safe.</p>
+<h3 class="v2-h3">Omitting exp1 (the start)</h3>
+<p class="v2-p">You can omit exp1 if you've already set the starting value before the loop:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const cars = [&quot;BMW&quot;, &quot;Volvo&quot;, &quot;Saab&quot;, &quot;Ford&quot;];
+let i = 2;  // Start already set
+let text = &quot;&quot;;
+
+for (; i &lt; cars.length; i++) {   // exp1 is empty
+  text += cars[i] + &quot;\n&quot;;
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Saab
+Ford</code></pre></div></div>
+<p class="v2-p"><em>(We start at index 2, which is "Saab".)</em></p>
+<h3 class="v2-h3">Omitting exp2 (the condition) — ⚠️ Dangerous!</h3>
+<p class="v2-p">You can omit exp2, but then <strong>you must add a <code>break</code> statement inside the loop</strong> or it will run forever and crash your browser.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const cars = [&quot;BMW&quot;, &quot;Volvo&quot;, &quot;Saab&quot;, &quot;Ford&quot;];
+let i = 0;
+let text = &quot;&quot;;
+
+for (; ; ) {        // exp2 is empty — INFINITE loop without break!
+  if (i &gt;= cars.length) break;  // Manual stop condition
+  text += cars[i] + &quot;\n&quot;;
+  i++;
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>BMW
+Volvo
+Saab
+Ford</code></pre></div></div>
+<h3 class="v2-h3">Omitting exp3 (the increment)</h3>
+<p class="v2-p">You can omit exp3 if you increment the variable yourself inside the loop body:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const cars = [&quot;BMW&quot;, &quot;Volvo&quot;, &quot;Saab&quot;, &quot;Ford&quot;];
+let i = 0;
+let text = &quot;&quot;;
+
+for (; i &lt; cars.length; ) {  // exp3 is empty
+  text += cars[i] + &quot;\n&quot;;
+  i++;                         // Increment done manually inside the body
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>BMW
+Volvo
+Saab
+Ford</code></pre></div></div>
+<h3 class="v2-h3">exp3 Can Do More Than Just Increment</h3>
+<p class="v2-p">exp3 doesn't have to add 1. It can do anything:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Count DOWN by 1 (decrement):
+for (let i = 5; i &gt; 0; i--) {
+  console.log(i);
+}</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>5 4 3 2 1</code></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Skip by 2 (count: 0, 2, 4, 6, 8):
+for (let i = 0; i &lt; 10; i = i + 2) {
+  console.log(i);
+}</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>0 2 4 6 8</code></p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>5. Optional Expressions in the <code>for</code> Loop</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase6">
+  <div class="phase-header">
+    <div class="phase-num">Phase 6 of 18</div>
+    <div class="phase-title">6. The `while` Loop</div>
+    <div class="phase-check" id="chk6"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">What Is a <code>while</code> Loop?</h3>
+<p class="v2-p">The <code>while</code> loop is used when you <strong>don't know in advance exactly how many times</strong> the loop should run. It keeps going <strong>as long as a condition is true</strong>.</p>
+<p class="v2-p"><strong>Real-world analogy:</strong> Imagine you're eating dinner and you're hungry. You keep eating <strong>while</strong> you're hungry. You don't decide in advance to eat exactly 10 bites — you just keep going until the hunger condition is no longer true.</p>
+<h3 class="v2-h3">Syntax</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>while (condition) {
+  // code to execute as long as condition is true
+}</code></pre></div></div>
+<h3 class="v2-h3">First Example — Simple Counter</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let i = 0;
+let text = &quot;&quot;;
+
+while (i &lt; 10) {
+  text += &quot;The number is &quot; + i + &quot;\n&quot;;
+  i++;             // ⚠️ VERY IMPORTANT — must increment i
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>The number is 0
+The number is 1
+The number is 2
+The number is 3
+The number is 4
+The number is 5
+The number is 6
+The number is 7
+The number is 8
+The number is 9</code></pre></div></div>
+<p class="v2-p"><strong>How it works step by step:</strong></p>
+<ol class="v2-ol"><li><code>i</code> starts at 0.</li><li>Check: <code>0 &lt; 10</code>? Yes → run the body → print "The number is 0" → <code>i</code> becomes 1.</li><li>Check: <code>1 &lt; 10</code>? Yes → run the body → print "The number is 1" → <code>i</code> becomes 2.</li><li>... continues ...</li><li>Check: <code>10 &lt; 10</code>? No → STOP. Loop ends.</li></ol>
+<h3 class="v2-h3">⚠️ Critical Warning: The Infinite Loop</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ NEVER DO THIS — missing i++ causes an infinite loop!
+let i = 0;
+while (i &lt; 10) {
+  console.log(i);
+  // Forgot i++ — i stays 0 forever!
+  // This will crash your browser tab!
+}</code></pre></div></div>
+<p class="v2-p"><strong>Rule:</strong> If you forget to change the variable used in the condition, the condition stays <code>true</code> forever, and the loop never stops. This is called an <strong>infinite loop</strong> and it freezes your program.</p>
+<h3 class="v2-h3">When to Use <code>while</code> vs <code>for</code></h3>
+<p class="v2-p">Use <code>for</code> when you know the count in advance (e.g., "loop 10 times" or "loop through all items in an array").</p>
+<p class="v2-p">Use <code>while</code> when the stopping condition depends on something that changes unpredictably (e.g., "keep asking for user input while the input is invalid" or "keep processing data while there is more data to read").</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>6. The <code>while</code> Loop</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase7">
+  <div class="phase-header">
+    <div class="phase-num">Phase 7 of 18</div>
+    <div class="phase-title">7. The `do...while` Loop</div>
+    <div class="phase-check" id="chk7"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">What Is <code>do...while</code>?</h3>
+<p class="v2-p">The <code>do...while</code> loop is a special variant of the <code>while</code> loop. The key difference:</p>
+<ul class="v2-ul"><li><code>while</code> checks the condition <strong>before</strong> running the code.</li><li><code>do...while</code> checks the condition <strong>after</strong> running the code.</li></ul>
+<p class="v2-p">This means: <strong><code>do...while</code> always runs at least once</strong>, even if the condition is false from the start.</p>
+<h3 class="v2-h3">Syntax</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>do {
+  // code block
+} while (condition);</code></pre></div></div>
+<p class="v2-p">Notice the semicolon <code>;</code> after the closing parenthesis — that's required!</p>
+<h3 class="v2-h3">Example</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let i = 0;
+let text = &quot;&quot;;
+
+do {
+  text += &quot;The number is &quot; + i + &quot;\n&quot;;
+  i++;
+} while (i &lt; 10);
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>The number is 0
+The number is 1
+The number is 2
+The number is 3
+The number is 4
+The number is 5
+The number is 6
+The number is 7
+The number is 8
+The number is 9</code></pre></div></div>
+<h3 class="v2-h3">The Unique Behaviour — Runs At Least Once</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// What if the condition is false from the start?
+let i = 100;
+let text = &quot;&quot;;
+
+do {
+  text += &quot;This still runs once! i = &quot; + i;
+} while (i &lt; 10);   // False immediately — i is 100!
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>This still runs once! i = 100</code></p>
+<p class="v2-p">A regular <code>while</code> loop with <code>i = 100</code> would not print anything at all. But <code>do...while</code> always runs the body first, then checks.</p>
+<p class="v2-p"><strong>Real-world analogy:</strong> A <code>do...while</code> is like asking someone if they want dessert. You show them the dessert first (you do it), then ask if they want more. They see it at least once before deciding.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>7. The <code>do...while</code> Loop</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase8">
+  <div class="phase-header">
+    <div class="phase-num">Phase 8 of 18</div>
+    <div class="phase-title">8. Comparing `for` and `while`</div>
+    <div class="phase-check" id="chk8"></div>
+  </div>
+  <div class="phase-body">
+    <p class="v2-p">A <code>while</code> loop is essentially a <code>for</code> loop with exp1 and exp3 omitted. Compare these two — they do exactly the same thing:</p>
+<h3 class="v2-h3">Using <code>for</code></h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const cars = [&quot;BMW&quot;, &quot;Volvo&quot;, &quot;Saab&quot;, &quot;Ford&quot;];
+let i = 0;
+let text = &quot;&quot;;
+
+for ( ; cars[i] ; ) {   // exp1 and exp3 are empty
+  text += cars[i] + &quot;\n&quot;;
+  i++;
+}
+
+console.log(text);</code></pre></div></div>
+<h3 class="v2-h3">Using <code>while</code></h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const cars = [&quot;BMW&quot;, &quot;Volvo&quot;, &quot;Saab&quot;, &quot;Ford&quot;];
+let i = 0;
+let text = &quot;&quot;;
+
+while (cars[i]) {       // Condition: cars[i] exists (not undefined)
+  text += cars[i] + &quot;\n&quot;;
+  i++;
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p">Both produce the same output:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>BMW
+Volvo
+Saab
+Ford</code></pre></div></div>
+<p class="v2-p"><strong>Note:</strong> <code>cars[i]</code> as a condition works because when <code>i</code> goes past the last index (e.g., <code>cars[4]</code>), JavaScript returns <code>undefined</code>, which is treated as <code>false</code>. So the loop stops naturally when there are no more items.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>8. Comparing <code>for</code> and <code>while</code></strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase9">
+  <div class="phase-header">
+    <div class="phase-num">Phase 9 of 18</div>
+    <div class="phase-title">9. The `break` Statement</div>
+    <div class="phase-check" id="chk9"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">What Is <code>break</code>?</h3>
+<p class="v2-p">The <code>break</code> statement <strong>immediately exits</strong> the loop it's inside. The remaining iterations are skipped. Program execution continues on the very next line after the loop.</p>
+<p class="v2-p"><strong>Real-world analogy:</strong> You're searching through a drawer for your keys. The moment you find them, you stop searching — you don't keep looking through the rest of the drawer. The <code>break</code> is the moment you say "found it, stop."</p>
+<h3 class="v2-h3">Syntax</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>break;</code></pre></div></div>
+<h3 class="v2-h3">Example — Breaking Out of a Loop</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;&quot;;
+
+for (let i = 0; i &lt; 10; i++) {
+  if (i === 3) { break; }         // ← When i is 3, EXIT the loop immediately
+  text += &quot;The number is &quot; + i + &quot;\n&quot;;
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Step-by-step:</strong></p>
+<ul class="v2-ul"><li><code>i = 0</code>: <code>0 === 3</code>? No. Print "The number is 0".</li><li><code>i = 1</code>: <code>1 === 3</code>? No. Print "The number is 1".</li><li><code>i = 2</code>: <code>2 === 3</code>? No. Print "The number is 2".</li><li><code>i = 3</code>: <code>3 === 3</code>? YES! → <code>break</code> → Loop exits immediately.</li></ul>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>The number is 0
+The number is 1
+The number is 2</code></pre></div></div>
+<p class="v2-p">Notice: "The number is 3" is never printed because <code>break</code> fires before <code>text +=</code> runs.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>9. The <code>break</code> Statement</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase10">
+  <div class="phase-header">
+    <div class="phase-num">Phase 10 of 18</div>
+    <div class="phase-title">10. Break in a Switch Statement</div>
+    <div class="phase-check" id="chk10"></div>
+  </div>
+  <div class="phase-body">
+    <p class="v2-p">The <code>break</code> statement also plays a critical role inside <code>switch</code> statements. Without it, JavaScript keeps executing the code in every case after a match — this is called "fall-through."</p>
+<h3 class="v2-h3">Example — Break in a Switch</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let day;
+switch (new Date().getDay()) {  // getDay() returns 0 (Sunday) through 6 (Saturday)
+  case 0:
+    day = &quot;Sunday&quot;;
+    break;         // ← Stop here! Don&#x27;t fall through to the next case.
+  case 1:
+    day = &quot;Monday&quot;;
+    break;
+  case 2:
+    day = &quot;Tuesday&quot;;
+    break;
+  case 3:
+    day = &quot;Wednesday&quot;;
+    break;
+  case 4:
+    day = &quot;Thursday&quot;;
+    break;
+  case 5:
+    day = &quot;Friday&quot;;
+    break;
+  case 6:
+    day = &quot;Saturday&quot;;
+}
+
+console.log(day);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output (if today is Friday):</strong> <code>Friday</code></p>
+<h3 class="v2-h3">Without <code>break</code> — Dangerous Fall-Through</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 2;
+let result = &quot;&quot;;
+
+switch (score) {
+  case 1:
+    result += &quot;One &quot;;
+  case 2:
+    result += &quot;Two &quot;;   // ← Matches here
+  case 3:
+    result += &quot;Three &quot;; // ← Falls through! Also runs.
+  case 4:
+    result += &quot;Four &quot;;  // ← Falls through! Also runs.
+}
+
+console.log(result);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>Two Three Four</code> ← Bug! We only wanted "Two".</p>
+<p class="v2-p">Always use <code>break</code> in <code>switch</code> cases unless you deliberately want fall-through behavior.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>10. Break in a Switch Statement</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase11">
+  <div class="phase-header">
+    <div class="phase-num">Phase 11 of 18</div>
+    <div class="phase-title">11. JavaScript Labels</div>
+    <div class="phase-check" id="chk11"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">What Is a Label?</h3>
+<p class="v2-p">A <strong>label</strong> is a name you give to a statement or a block of code. It lets you reference that code from elsewhere — especially useful in nested loops.</p>
+<h3 class="v2-h3">Syntax</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>labelname: statement;</code></pre></div></div>
+<p class="v2-p">Or for a block:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>labelname: {
+  statement1;
+  statement2;
+}</code></pre></div></div>
+<p class="v2-p">A label is just an identifier (a name you choose) followed by a colon. By convention, labels are written in lowercase or camelCase.</p>
+<p class="v2-p"><strong>Think of a label like a bookmark in a book</strong> — you can jump back to it whenever you need to.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>11. JavaScript Labels</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase12">
+  <div class="phase-header">
+    <div class="phase-num">Phase 12 of 18</div>
+    <div class="phase-title">12. Labeled `break`</div>
+    <div class="phase-check" id="chk12"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">What Is a Labeled <code>break</code>?</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>break labelname;</code></pre></div></div>
+<p class="v2-p">Normally, <code>break</code> only exits <strong>the innermost</strong> loop it's in. But with a label, you can exit <strong>any outer loop</strong> from deep inside nested loops.</p>
+<h3 class="v2-h3">Example — Break to an Outer Label</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;&quot;;
+
+loop1: for (let j = 1; j &lt; 5; j++) {       // Outer loop — labeled &quot;loop1&quot;
+  loop2: for (let i = 1; i &lt; 5; i++) {     // Inner loop — labeled &quot;loop2&quot;
+    if (i === 3) { break loop1; }          // ← Jump OUT of loop1 entirely!
+    text += i + &quot; &quot;;
+  }
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>1 2 </code></p>
+<p class="v2-p"><strong>Why?</strong> When <code>j=1</code> and <code>i=1</code>, we print 1. When <code>i=2</code>, we print 2. When <code>i=3</code>, we <code>break loop1</code> — we exit the OUTER loop, not just the inner one. So <code>j=2</code>, <code>j=3</code>, <code>j=4</code> never run at all.</p>
+<h3 class="v2-h3">Example — Break to Inner Label Only</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;&quot;;
+
+loop1: for (let j = 1; j &lt; 5; j++) {       // Outer loop
+  loop2: for (let i = 1; i &lt; 5; i++) {     // Inner loop
+    if (i === 3) { break loop2; }          // ← Jump OUT of loop2 only
+    text += i + &quot; &quot;;
+  }
+  text += &quot;(end of j=&quot; + j + &quot;) &quot;;
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>1 2 (end of j=1) 1 2 (end of j=2) 1 2 (end of j=3) 1 2 (end of j=4) </code></p>
+<p class="v2-p"><strong>Why?</strong> Each time <code>i</code> reaches 3, we only break the inner loop. The outer loop continues with the next value of <code>j</code>.</p>
+<h3 class="v2-h3">Labeled Break on a Code Block</h3>
+<p class="v2-p"><code>break</code> with a label can also jump out of ANY code block (not just loops):</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const cars = [&quot;BMW&quot;, &quot;Volvo&quot;, &quot;Saab&quot;, &quot;Ford&quot;];
+let text = &quot;&quot;;
+
+list: {                            // A labeled block — not a loop
+  text += cars[0] + &quot;\n&quot;;
+  text += cars[1] + &quot;\n&quot;;
+  break list;                      // ← Exit the block here
+  text += cars[2] + &quot;\n&quot;;          // ← Never runs!
+  text += cars[3] + &quot;\n&quot;;          // ← Never runs!
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>BMW
+Volvo</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ Note: <code>break</code> and <code>continue</code> are the ONLY JavaScript statements that can "jump out of" a code block <code>{ }</code>.</p></blockquote>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>12. Labeled <code>break</code></strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase13">
+  <div class="phase-header">
+    <div class="phase-num">Phase 13 of 18</div>
+    <div class="phase-title">13. The `continue` Statement</div>
+    <div class="phase-check" id="chk13"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">What Is <code>continue</code>?</h3>
+<p class="v2-p">The <code>continue</code> statement <strong>skips the rest of the current iteration</strong> and moves immediately to the next one. Unlike <code>break</code> (which exits the loop), <code>continue</code> only skips one turn.</p>
+<p class="v2-p"><strong>Real-world analogy:</strong> You're checking each apple in a basket. When you find a bruised one, you skip it (put it aside) and move to the next apple. You don't stop checking — you continue!</p>
+<h3 class="v2-h3">Syntax</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>continue;</code></pre></div></div>
+<h3 class="v2-h3">Example — Skip Number 3</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;&quot;;
+
+for (let i = 1; i &lt; 10; i++) {
+  if (i === 3) { continue; }         // ← Skip i=3 and go to i=4
+  text += &quot;The number is &quot; + i + &quot;\n&quot;;
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>The number is 1
+The number is 2
+The number is 4
+The number is 5
+The number is 6
+The number is 7
+The number is 8
+The number is 9</code></pre></div></div>
+<p class="v2-p">Notice: "The number is 3" is missing. When <code>i === 3</code>, <code>continue</code> fires and skips the <code>text +=</code> line for that iteration only.</p>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>Thinking Question:</strong> What's the difference between <code>break</code> and <code>continue</code>?</p>
+<ul class="v2-ul"><li><code>break</code> → exits the loop entirely. The loop is done.</li><li><code>continue</code> → skips just this one round. The loop keeps going.</li></ul></blockquote>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>13. The <code>continue</code> Statement</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase14">
+  <div class="phase-header">
+    <div class="phase-num">Phase 14 of 18</div>
+    <div class="phase-title">14. Labeled `continue`</div>
+    <div class="phase-check" id="chk14"></div>
+  </div>
+  <div class="phase-body">
+    <p class="v2-p">Just like labeled <code>break</code>, labeled <code>continue</code> lets you skip an iteration of a specific outer loop.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>continue labelname;</code></pre></div></div>
+<h3 class="v2-h3">Example — Continue to Outer Label</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;&quot;;
+
+loop1: for (let j = 1; j &lt; 5; j++) {
+  loop2: for (let i = 1; i &lt; 5; i++) {
+    if (i === 3) { continue loop1; }   // ← Skip rest of loop1&#x27;s current iteration
+    text += i + &quot; &quot;;
+  }
+  text += &quot;(never reached) &quot;;          // ← Never prints, because continue jumps past this
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>1 2 1 2 1 2 1 2 </code></p>
+<p class="v2-p">Each time <code>i</code> reaches 3, we jump back to the top of loop1 (incrementing <code>j</code>), skipping <code>i=4</code> and the code after loop2.</p>
+<h3 class="v2-h3">Example — Continue to Inner Label</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;&quot;;
+
+loop1: for (let j = 1; j &lt; 5; j++) {
+  loop2: for (let i = 1; i &lt; 5; i++) {
+    if (i === 3) { continue loop2; }   // ← Skip rest of THIS inner iteration only
+    text += i + &quot; &quot;;
+  }
+}
+
+console.log(text);</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>1 2 4 1 2 4 1 2 4 1 2 4 </code></p>
+<p class="v2-p">Each time <code>i</code> reaches 3, we skip it but continue with <code>i=4</code>. So each inner loop prints 1, 2, 4.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>14. Labeled <code>continue</code></strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase15">
+  <div class="phase-header">
+    <div class="phase-num">Phase 15 of 18</div>
+    <div class="phase-title">15. Control Flow Summary</div>
+    <div class="phase-check" id="chk15"></div>
+  </div>
+  <div class="phase-body">
+    <p class="v2-p">Here is a complete picture of all the ways JavaScript can control the order of execution:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Control Flow Type</th><th>Statements</th><th>What It Does</th></tr></thead><tbody><tr><td><strong>Sequential</strong></td><td><em>(default)</em></td><td>Runs code top to bottom</td></tr><tr><td><strong>Conditional</strong></td><td><code>if</code>, <code>if...else</code>, <code>switch</code>, <code>? :</code></td><td>Runs different code based on conditions</td></tr><tr><td><strong>Repetition (Loops)</strong></td><td><code>for</code>, <code>while</code>, <code>do...while</code></td><td>Repeats code multiple times</td></tr><tr><td><strong>Jump</strong></td><td><code>break</code>, <code>continue</code>, <code>return</code>, <code>throw</code></td><td>Changes the flow abruptly</td></tr><tr><td><strong>Function</strong></td><td><code>function</code>, <code>=&gt;</code></td><td>Groups code to call on demand</td></tr></tbody></table></div>
+<h3 class="v2-h3">Quick Reference Card</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>for (init; condition; update) { ... }   → Loop a known number of times
+
+while (condition) { ... }               → Loop while condition is true
+
+do { ... } while (condition);           → Loop at least once, then while condition is true
+
+break;                                  → Exit the loop NOW
+break labelName;                        → Exit a specific labeled loop
+
+continue;                               → Skip this iteration, go to next
+continue labelName;                     → Skip this iteration of a specific labeled loop</code></pre></div></div>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>15. Control Flow Summary</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase16">
+  <div class="phase-header">
+    <div class="phase-num">Phase 16 of 18</div>
+    <div class="phase-title">16. JavaScript Is Single-Threaded</div>
+    <div class="phase-check" id="chk16"></div>
+  </div>
+  <div class="phase-body">
+    <p class="v2-p">JavaScript runs in a <strong>single thread</strong>. This means it can only do one thing at a time. Every loop iteration, every function call, every calculation must wait in line.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Task 1 → Task 2 → Task 3 → Task 4 → ...
+(one at a time, no skipping ahead)</code></pre></div></div>
+<p class="v2-p">This is important to understand because if you write a very slow loop (like one that runs millions of times), it will <strong>freeze</strong> your web page until it finishes. This is why developers must be careful about loop performance, and why JavaScript also has asynchronous programming techniques (like Promises and async/await) for handling slow tasks without freezing.</p>
+<blockquote class="v2-bq"><p class="v2-p">ℹ️ Asynchronous programming is an advanced topic covered separately in the JS Advanced section.</p></blockquote>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">> ℹ️ Asynchronous programming is an advanced topic covered separately in the JS Advanced section.
+
+---</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(16)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase17">
+  <div class="phase-header">
+    <div class="phase-num">Phase 17 of 18</div>
+    <div class="phase-title">17. Common Beginner Mistakes</div>
+    <div class="phase-check" id="chk17"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">Mistake 1: Forgetting to Increment → Infinite Loop</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ BUG — will freeze your browser!
+let i = 0;
+while (i &lt; 10) {
+  console.log(i);
+  // Forgot i++ !
+}
+
+// ✅ FIX:
+while (i &lt; 10) {
+  console.log(i);
+  i++;  // ← Always include this!
+}</code></pre></div></div>
+<h3 class="v2-h3">Mistake 2: Off-by-One Error</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ This prints numbers 1 through 5 — but intended 1 through 4:
+for (let i = 1; i &lt;= 5; i++) {
+  console.log(i);
+}
+// Output: 1 2 3 4 5 (5 included because of &lt;=)
+
+// ✅ To print 1 through 4:
+for (let i = 1; i &lt; 5; i++) {
+  console.log(i);
+}
+// Output: 1 2 3 4</code></pre></div></div>
+<p class="v2-p">Remember: <code>&lt;</code> stops <strong>before</strong> the limit. <code>&lt;=</code> stops <strong>at</strong> the limit.</p>
+<h3 class="v2-h3">Mistake 3: Using <code>var</code> Instead of <code>let</code> in Loops</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Bug — the outer variable gets changed unexpectedly
+var i = 10;
+for (var i = 0; i &lt; 5; i++) { }
+console.log(i);  // 5 — not 10!
+
+// ✅ Fix — use let
+let i = 10;
+for (let i = 0; i &lt; 5; i++) { }
+console.log(i);  // 10 — unchanged!</code></pre></div></div>
+<h3 class="v2-h3">Mistake 4: Missing <code>break</code> in a <code>switch</code></h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Missing break causes fall-through
+switch (day) {
+  case 1:
+    result = &quot;Monday&quot;;   // Intended to only set Monday
+  case 2:
+    result = &quot;Tuesday&quot;;  // Overwrites Monday! Bug!
+}
+
+// ✅ Fix:
+switch (day) {
+  case 1:
+    result = &quot;Monday&quot;;
+    break;
+  case 2:
+    result = &quot;Tuesday&quot;;
+    break;
+}</code></pre></div></div>
+<h3 class="v2-h3">Mistake 5: Confusing <code>break</code> and <code>continue</code></h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// break → STOPS the loop entirely
+for (let i = 0; i &lt; 5; i++) {
+  if (i === 2) break;
+  console.log(i);
+}
+// Output: 0 1
+
+// continue → SKIPS one turn, loop keeps going
+for (let i = 0; i &lt; 5; i++) {
+  if (i === 2) continue;
+  console.log(i);
+}
+// Output: 0 1 3 4</code></pre></div></div>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>17. Common Beginner Mistakes</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(17)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase18">
+  <div class="phase-header">
+    <div class="phase-num">Phase 18 of 18</div>
+    <div class="phase-title">Section 2: Applied Exercises</div>
+    <div class="phase-check" id="chk18"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">🌡️ Exercise 1: Weather Temperature Printer (For Loop)</h3>
+<p class="v2-p"><strong>Objective:</strong> Use a <code>for</code> loop to print daily temperature readings.</p>
+<p class="v2-p"><strong>Scenario:</strong> You work at a weather station. You have 7 days of temperatures and need to display each one with its day number.</p>
+<p class="v2-p"><strong>Warm-up Mini-Example:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Mini-example: Loop through a small number array
+let nums = [10, 20, 30];
+for (let i = 0; i &lt; nums.length; i++) {
+  console.log(&quot;Value at index &quot; + i + &quot; is: &quot; + nums[i]);
+}
+// Output:
+// Value at index 0 is: 10
+// Value at index 1 is: 20
+// Value at index 2 is: 30</code></pre></div></div>
+<p class="v2-p"><strong>Your Task:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Given data:
+const temperatures = [22, 19, 25, 30, 28, 17, 21];
+const days = [&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;];
+
+// Write a for loop that prints:
+// &quot;Monday: 22°C&quot;
+// &quot;Tuesday: 19°C&quot;
+// ... and so on for all 7 days</code></pre></div></div>
+<p class="v2-p"><strong>Step-by-step instructions:</strong></p>
+<ol class="v2-ol"><li>Declare a <code>for</code> loop starting at <code>i = 0</code>.</li><li>Set the condition to <code>i &lt; temperatures.length</code> (or <code>i &lt; 7</code>).</li><li>Increment <code>i</code> by 1 each round.</li><li>Inside the loop, use <code>console.log(days[i] + ": " + temperatures[i] + "°C")</code>.</li></ol>
+<p class="v2-p"><strong>Hints:</strong></p>
+<ul class="v2-ul"><li>Both arrays are aligned: <code>days[0]</code> goes with <code>temperatures[0]</code>, etc.</li><li><code>temperatures.length</code> is <code>7</code>.</li></ul>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Monday: 22°C
+Tuesday: 19°C
+Wednesday: 25°C
+Thursday: 30°C
+Friday: 28°C
+Saturday: 17°C
+Sunday: 21°C</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ol class="v2-ol"><li>What happens if you accidentally write <code>i &lt;= temperatures.length</code>?</li><li>Can you modify the loop to only print temperatures above 25°C?</li><li>What does <code>i++</code> mean exactly?</li></ol>
+<p class="v2-p"><strong>What-if challenge:</strong> Add an <code>if</code> statement inside the loop to print "HOT DAY!" next to any temperature that is 28 or above.</p>
+<p class="v2-p"><strong>Professional connection:</strong> Meteorologists and data scientists write loops exactly like this to process and display weather data from sensor arrays.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">🏦 Exercise 2: Bank Interest Calculator (While Loop)</h3>
+<p class="v2-p"><strong>Objective:</strong> Use a <code>while</code> loop to calculate how many years it takes for a savings account to double.</p>
+<p class="v2-p"><strong>Scenario:</strong> A bank customer deposits $1,000 at 5% annual interest. Write code to find how many years it takes to reach $2,000.</p>
+<p class="v2-p"><strong>Warm-up Mini-Example:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Mini-example: Counting up until a condition is met
+let total = 100;
+let years = 0;
+
+while (total &lt; 150) {
+  total = total + 10;  // Add 10 each year
+  years++;
+}
+
+console.log(&quot;Years to reach 150: &quot; + years);
+// Output: Years to reach 150: 5</code></pre></div></div>
+<p class="v2-p"><strong>Your Task:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let balance = 1000;
+let years = 0;
+let interestRate = 0.05;  // 5%
+
+// Write a while loop that:
+// 1. Keeps adding 5% interest each year
+// 2. Counts each year
+// 3. Stops when balance reaches or exceeds 2000
+// 4. Prints the number of years</code></pre></div></div>
+<p class="v2-p"><strong>Hints:</strong></p>
+<ul class="v2-ul"><li>Each year, balance increases by: <code>balance = balance + (balance <em> interestRate)</code> or <code>balance </em>= 1.05</code>.</li><li>Don't forget to count <code>years++</code> inside the loop.</li><li>The condition should be <code>balance &lt; 2000</code>.</li></ul>
+<p class="v2-p"><strong>Expected output:</strong> <code>It takes 15 years to double the investment.</code></p>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ol class="v2-ol"><li>Why is <code>while</code> more natural here than <code>for</code>?</li><li>What would happen if the interest rate were 0%?</li><li>What is the balance after exactly 10 years?</li></ol>
+<hr class="v2-hr">
+<h3 class="v2-h3">🎓 Exercise 3: Skip Failing Grades (continue)</h3>
+<p class="v2-p"><strong>Objective:</strong> Use <code>continue</code> to skip and count students who failed.</p>
+<p class="v2-p"><strong>Scenario:</strong> You're a teacher processing grade data. You want to print only the students who passed (grade ≥ 50) and count how many failed.</p>
+<p class="v2-p"><strong>Warm-up Mini-Example:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Mini-example: Skip even numbers
+for (let i = 1; i &lt;= 8; i++) {
+  if (i % 2 === 0) continue;  // Skip even numbers
+  console.log(i);
+}
+// Output: 1 3 5 7</code></pre></div></div>
+<p class="v2-p"><strong>Your Task:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const students = [
+  { name: &quot;Alice&quot;, grade: 85 },
+  { name: &quot;Bob&quot;, grade: 42 },
+  { name: &quot;Carol&quot;, grade: 91 },
+  { name: &quot;Dave&quot;, grade: 38 },
+  { name: &quot;Eve&quot;, grade: 67 },
+  { name: &quot;Frank&quot;, grade: 55 },
+];
+
+// Write a for loop that:
+// 1. Uses continue to skip students with grade &lt; 50
+// 2. Prints the name and grade of passing students
+// 3. Counts how many failed</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Alice passed with 85
+Carol passed with 91
+Eve passed with 67
+Frank passed with 55
+2 student(s) failed.</code></pre></div></div>
+<p class="v2-p"><strong>Hints:</strong></p>
+<ul class="v2-ul"><li>Use <code>if (students[i].grade &lt; 50) { failCount++; continue; }</code> to skip failures.</li><li>Notice: <code>students[i].name</code> accesses the <code>name</code> property of each student object.</li><li>Declare <code>let failCount = 0</code> before the loop.</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">🔍 Exercise 4: Search and Stop (break)</h3>
+<p class="v2-p"><strong>Objective:</strong> Use <code>break</code> to search for a specific product in a list and stop as soon as it's found.</p>
+<p class="v2-p"><strong>Scenario:</strong> You're a warehouse worker searching for "Laptop" in a list of inventory items. Once you find it, report its position and stop searching.</p>
+<p class="v2-p"><strong>Warm-up Mini-Example:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Mini-example: Find number 7 in an array
+let numbers = [3, 9, 1, 7, 4, 6];
+for (let i = 0; i &lt; numbers.length; i++) {
+  if (numbers[i] === 7) {
+    console.log(&quot;Found 7 at index &quot; + i);
+    break;
+  }
+}
+// Output: Found 7 at index 3</code></pre></div></div>
+<p class="v2-p"><strong>Your Task:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const inventory = [&quot;Monitor&quot;, &quot;Keyboard&quot;, &quot;Mouse&quot;, &quot;Laptop&quot;, &quot;Headphones&quot;, &quot;Webcam&quot;];
+const target = &quot;Laptop&quot;;
+
+// Write a for loop that:
+// 1. Searches for target
+// 2. Prints &quot;Found [target] at position [i]&quot; when found
+// 3. Uses break to stop searching immediately
+// 4. Prints &quot;Not found&quot; if the loop finishes without finding it</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong> <code>Found Laptop at position 3</code></p>
+<p class="v2-p"><strong>Hint:</strong> Use a boolean variable <code>let found = false;</code> and set it to <code>true</code> when you find the item. Check it after the loop to print "Not found" if still false.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>: Applied Exercises</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(18)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="build-box" id="build-it">
+  <div class="build-label">🏗️ Build It</div>
+  <div class="build-name">Stage 1: Setup &amp; Core Logic</div>
+  <div class="build-desc"><strong>Project Overview:</strong> You will build a complete grade report system for a school. It reads student names and scores, calculates a letter grade for each, totals the results, and displays a clean summary.</div>
+  <div class="v2-code-wrap">
+    <div class="v2-code-bar">
+      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
+      <span class="v2-code-lang">starter.html</span>
+    </div>
+    <div class="v2-code-body"><pre><code>// Micro-example of what we&#x27;ll build:
+let score = 85;
+let grade = &quot;&quot;;
+
+if (score &gt;= 90) grade = &quot;A&quot;;
+else if (score &gt;= 80) grade = &quot;B&quot;;
+else if (score &gt;= 70) grade = &quot;C&quot;;
+else if (score &gt;= 60) grade = &quot;D&quot;;
+else grade = &quot;F&quot;;
+
+console.log(&quot;Grade: &quot; + grade);
+// Output: Grade: B</code></pre></div>
+  </div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+    <button class="unlock-btn" onclick="downloadStarter(`// Micro-example of what we'll build:
+let score = 85;
+let grade = "";
+
+if (score >= 90) grade = "A";
+else if (score >= 80) grade = "B";
+else if (score >= 70) grade = "C";
+else if (score >= 60) grade = "D";
+else grade = "F";
+
+console.log("Grade: " + grade);
+// Output: Grade: B`)"
+      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
       ⬇ Download starter.html
     </button>
-    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+    <button class="unlock-btn" onclick="showGithub()"
+      style="background:#0f172a;box-shadow:none">
       🐙 Push to GitHub →
     </button>
   </div>
-  <script>
-  const __code = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JS Comments</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .code-wrap{background:#0f172a;border-radius:12px;overflow:hidden;margin-bottom:14px}
-  .code-bar{background:#1e293b;padding:8px 14px;font-family:monospace;font-size:11px;color:#64748b}
-  pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;color:#e2e8f0;padding:16px;overflow-x:auto;margin:0}
-  .c-comment{color:#6a9955}.c-keyword{color:#569cd6}.c-string{color:#ce9178}.c-num{color:#b5cea8}.c-func{color:#dcdcaa}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px}
-  .btn:hover{background:#b45309}.output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;margin-top:10px}
-</style>
-</head>
-<body>
-<h1>⚡ JS Comments</h1>
-<h2>Well-Commented Utility Library</h2>
-<div class="code-wrap">
-<div class="code-bar">utils.js — example of good commenting style</div>
-<pre>
-<span class="c-comment">/**
- * Techbase Student Utility Library
- * Provides grade calculation and formatting helpers.
- * @module studentUtils
- */</span>
-
-<span class="c-comment">/**
- * Converts a raw score to a letter grade.
- * Uses Nigerian university grading scale (5-point system).
- *
- * @param {number} score  - Raw score (0–100)
- * @returns {string} Letter grade: A, B, C, D, or F
- */</span>
-<span class="c-keyword">function</span> <span class="c-func">getGrade</span>(score) {
-  <span class="c-comment">// Nigerian grading: 70-100=A, 60-69=B, 50-59=C, 45-49=D, below=F</span>
-  <span class="c-keyword">if</span> (score >= <span class="c-num">70</span>) <span class="c-keyword">return</span> <span class="c-string">'A'</span>;
-  <span class="c-keyword">if</span> (score >= <span class="c-num">60</span>) <span class="c-keyword">return</span> <span class="c-string">'B'</span>;
-  <span class="c-keyword">if</span> (score >= <span class="c-num">50</span>) <span class="c-keyword">return</span> <span class="c-string">'C'</span>;
-  <span class="c-keyword">if</span> (score >= <span class="c-num">45</span>) <span class="c-keyword">return</span> <span class="c-string">'D'</span>;
-  <span class="c-keyword">return</span> <span class="c-string">'F'</span>;
-}
-
-<span class="c-comment">// TODO: Add GPA conversion once we know the university's scale</span>
-<span class="c-comment">/* Temporarily disabled — waiting for API endpoint
-function fetchGradeHistory(studentId) {
-  return fetch('/api/grades/' + studentId);
-}
-*/</span>
-
-<span class="c-keyword">const</span> students = [
-  { name: <span class="c-string">'Amina'</span>, score: <span class="c-num">94</span> },
-  { name: <span class="c-string">'Chidi'</span>, score: <span class="c-num">67</span> },
-  { name: <span class="c-string">'Tunde'</span>, score: <span class="c-num">52</span> },
-];
-</pre>
 </div>
-<h2>Try the Grade Function</h2>
-<div class="box">
-  <label style="font-size:13px;color:#64748b">Enter a score (0–100):</label>
-  <input type="number" id="score-in" min="0" max="100" value="75" style="width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin:8px 0">
-  <button class="btn" onclick="runGrade()">Get Grade</button>
-  <div class="output" id="grade-out">Click the button to see the grade</div>
-</div>
-<script>
-  function getGrade(score) {
-    if (score >= 70) return 'A';
-    if (score >= 60) return 'B';
-    if (score >= 50) return 'C';
-    if (score >= 45) return 'D';
-    return 'F';
-  }
-  function runGrade() {
-    const score = parseInt(document.getElementById('score-in').value);
-    const grade = getGrade(score);
-    const labels = {A:'Excellent 🌟',B:'Good 👍',C:'Average ✅',D:'Pass ⚠️',F:'Fail ❌'};
-    document.getElementById('grade-out').textContent =
-      \`Score: ${score} → Grade: ${grade} (${labels[grade]})\`;
-  }
-</script>
-</body>
-</html>`;
-  function downloadStarter(){
-    const a=document.createElement('a');
-    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
-    a.download='starter.html'; a.click();
-  }
-  </script>
-</div>
-
-<div class="github-acc" id="github-steps" style="display:none">
-  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
-    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+<div class="gh-acc" id="gh-steps" style="display:none">
+  <div class="gh-acc-head" onclick="toggleGh(this)">
+    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
   </div>
-  <div class="github-acc-body">
-    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-06-js_comments</code>.</p></div>
-    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
-    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 06 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-06-js_comments/</code> in ~1 min! 🎉</p></div>
-    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  <div class="gh-acc-body">
+    <div class="gh-step"><div class="gh-step-n">1</div>
+    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-06-stage-1-setup-core-logic</code>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">2</div>
+    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">3</div>
+    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
+    <div class="gh-step"><div class="gh-step-n">4</div>
+    <p>Commit message: <em>"Add JavaScript lesson 06 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">5</div>
+    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-06-stage-1-setup-core-logic/</code> in about 1 minute! 🎉</p></div>
+    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
   </div>
 </div>
 <div class="session-end" id="session-end">
-  <h2>🎉 Great work! Lesson 06 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
-  <ul><li>✅ Single-line and multi-line comments</li><li>✅ Comment best practices</li></ul>
-  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
-    <a href="lesson_05.html" class="ln-btn">← Lesson 05</a>
-    <a href="lesson_07.html" class="ln-btn primary">Lesson 07 →</a>
-  </div>
+  <h2>🎉 Lesson 06 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
+  <ul><li>✅ 1. What Is a Loop?</li><li>✅ 2. JavaScript Control Flow</li><li>✅ 3. The `for` Loop</li><li>✅ 4. Loop Scope</li><li>✅ 5. Optional Expressions in the `for` Loop</li><li>✅ 6. The `while` Loop</li><li>✅ 7. The `do...while` Loop</li><li>✅ 8. Comparing `for` and `while`</li></ul>
+  <div class="lesson-nav"><a href="lesson_05.html" class="ln-btn">← Lesson 05</a><a href="lesson_07.html" class="ln-btn primary">Lesson 07 →</a></div>
 </div>
 </main>
+
 <footer class="lesson-footer">
-  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 06 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+  Techbase Code Coach · JavaScript Course · Lesson 06 · © 2025 Techbase Consultant Services, Ibadan
 </footer>
 <script>
-const TOTAL=2, KEY='techbase_js_06_phase';
+const TOTAL=18,KEY='techbase_js_l06';
 let current=parseInt(localStorage.getItem(KEY)||'1');
 function init(){
-  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  for(let i=2;i<=current;i++) unlockPhase(i,false);
   updateBar();
 }
 function unlockNext(n){
-  document.getElementById('check'+n).classList.add('done');
-  document.getElementById('check'+n).textContent='✓';
-  localStorage.setItem(KEY,n+1);
-  current=n+1;
+  const chk=document.getElementById('chk'+n);
+  if(chk){chk.classList.add('done');chk.textContent='✓';}
+  localStorage.setItem(KEY,n+1); current=n+1;
   if(n===TOTAL){
     document.getElementById('build-it').style.display='block';
-    const cap=document.getElementById('capstone');
-    if(cap) cap.style.display='block';
     updateBar(100);
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  } else {
-    unlockPhase(n+1,true);
-    updateBar();
+  }else{
+    unlockPhase(n+1,true); updateBar();
   }
 }
 function unlockPhase(n,scroll){
   const el=document.getElementById('phase'+n);
-  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
 }
 function updateBar(pct){
-  const p=pct||Math.round((current-1)/TOTAL*95);
+  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
   document.getElementById('pbar').style.width=p+'%';
 }
 function showGithub(){
-  const g=document.getElementById('github-steps');
-  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+  const g=document.getElementById('gh-steps');
+  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
 }
 function showEnd(){
   const e=document.getElementById('session-end');
-  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
+}
+function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
+function downloadStarter(code){
+  const a=document.createElement('a');
+  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
+  a.download='starter.html';a.click();
 }
 init();
 </script>

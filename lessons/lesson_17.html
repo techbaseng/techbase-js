@@ -2,543 +2,1403 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 17: JS Strings — Techbase JS Course</title>
-<meta name="description" content="Create and work with strings — properties, concatenation and template literals">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lesson 17: JavaScript Looping, Iterables, Iterators &amp; Generators: Every Loop · The Iterable Protocol · Custom Iterators · Generator Functions — Techbase JavaScript</title>
+<meta name="description" content="JavaScript Looping, Iterables, Iterators &amp; Generators: Every Loop · The Iterable Protocol · Custom Iterators · Generator Functions">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
-  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
-  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
+  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
   --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
   --text:#0f172a;--t2:#334155;--muted:#64748b;
   --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+
+/* NAV */
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
+  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
 .l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
-.l-nav-back:hover{color:var(--accent)}
-.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.l-nav-back:hover{color:var(--acc)}
+.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+
+/* PROGRESS */
 .progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
-.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:820px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
-.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
-.l-hero-build strong{color:var(--accent)}
-.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
-.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
-.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
-.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
-.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
+
+/* HERO */
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:860px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
+  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
+  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
+
+/* WELCOME BOX */
+.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
+.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
+.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
+.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
+  font-family:var(--M);font-size:.68rem;font-weight:500}
+
+/* PHASE */
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
+  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
+.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;
+  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--acc)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
+  flex:1;margin:0 .8rem}
+.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
+  transition:background .3s,color .3s}
 .phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.4rem}
-.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
-.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
-.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
-.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
-.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
-.code-dot{width:8px;height:8px;border-radius:50%}
-.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
-.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
-.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
-.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
-.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
-.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
-.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
-.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
-.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
-.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
-.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
-.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
-.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
-.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
-.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.github-acc-body.open{display:block}
-.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.phase-body{padding:1.6rem 1.8rem}
+
+/* RICH CONTENT STYLES */
+.v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
+  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
+.v2-ul li,.v2-ol li{margin-bottom:.3rem}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
+  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq p{margin:0;color:inherit}
+.v2-bq strong{font-style:normal}
+.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
+.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
+  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
+.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
+.v2-table tr:nth-child(even) td{background:#f8fafc}
+.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
+  padding:1px 5px;font-family:var(--M);font-size:.8em}
+.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.phase-body strong{color:var(--text)}
+
+/* CODE BLOCKS */
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
+.v2-dot{width:10px;height:10px;border-radius:50%}
+.v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
+.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
+.v2-code-body pre{margin:0}
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
+  white-space:pre;background:transparent;padding:0;border-radius:0}
+
+/* TASK BOX */
+.task-box{background:#fef9c3;border:2px dashed #d97706;
+  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
+.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
+  font-family:var(--M);font-size:.82em}
+
+/* UNLOCK BUTTON */
+.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
+  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
+  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
+  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
+.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
+
+/* BUILD IT */
+.build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
+.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
+.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-desc strong{color:#14532d}
+
+/* GITHUB ACCORDION */
+.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.gh-acc-body.open{display:block}
+.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
+  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+
+/* SESSION END */
+.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
 .session-end.visible{display:block}
 .session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
 .session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
-.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
-.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
+  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
+  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
+  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--acc);color:var(--acc)}
+.ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;
+  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
+  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
-  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
-  <span class="l-nav-lesson">Lesson 17 of 46</span>
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
+  <span class="l-nav-label">Lesson 17 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
 <div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+
 <div class="l-hero">
   <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 17 </div>
-    <h1>JS Strings</h1>
-    <div class="l-hero-tag">Create and work with strings — properties, concatenation and template literals</div>
-    <div class="l-hero-build"><strong>🏗️ Build:</strong> My String Toolbox</div>
+    <div class="l-badge">JavaScript · Lesson 17</div>
+    <h1>JavaScript Looping, Iterables, Iterators &amp; Generators: Every Loop · The Iterable Protocol · Custom Iterators · Generator Functions</h1>
+    <div class="l-hero-sub">6 phases · Build: 🔵 Stage 1 — Data Source Generator</div>
   </div>
 </div>
-<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
   <h2>👋 Welcome to Lesson 17</h2>
-  <p>Create and work with strings — properties, concatenation and template literals</p>
+  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
   <div class="welcome-meta">
-    <span>📚 2 phases</span>
-    <span>🏗️ Build: My String Toolbox</span>
-    
+    <span>📚 6 phases</span>
+    <span>🏗️ 🔵 Stage 1 — Data Source Generator</span>
   </div>
 </div></div>
 </section>
-<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+
+<main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
 <div class="phase" id="phase1">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">String basics and template literals</div></div>
-    <div class="phase-check" id="check1"></div>
+    <div class="phase-num">Phase 1 of 6</div>
+    <div class="phase-title">1. Background: What Is Looping and Why Does It Matter?</div>
+    <div class="phase-check" id="chk1"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Strings are immutable sequences of characters. Create with quotes: single <code>&apos;</code>, double <code>&quot;</code>, or backtick <code>`</code> (template literal). Template literals support: multiline strings, embedded expressions <code>${expr}</code>, and tagged templates. Properties: <code>.length</code>. Escape sequences: <code>\n</code> (newline), <code>\t</code> (tab), <code>\'</code> (quote).</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>const name = &#x27;Amina&#x27;;
-const course = &#x27;JavaScript&#x27;;
+    <p class="v2-p">Imagine you are a teacher who needs to print a report card for every student in a class of 500. Without loops you would write the same print instruction 500 times. With a loop, you write it <strong>once</strong> and the computer repeats it automatically.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Without a loop — impossible to scale
+console.log(&quot;Report: Alice  — Score: 88&quot;);
+console.log(&quot;Report: Bob    — Score: 92&quot;);
+// ... 498 more lines!
 
-// Concatenation (old way)
-const msg1 = &#x27;Hello, &#x27; + name + &#x27;! Welcome to &#x27; + course + &#x27;.&#x27;;
-
-// Template literal (modern — prefer this)
-const msg2 = `Hello, ${name}! Welcome to ${course}.`;
-
-// Expressions in template literals
-const score = 94;
-const msg3 = `Score: ${score} — Grade: ${score &gt;= 70 ? &#x27;A&#x27; : &#x27;B&#x27;}`;
-
-// Multiline template literal
-const email = `
-  Dear ${name},
-
-  Your enrollment in ${course} is confirmed.
-  Score: ${score}
-
-  Techbase Academy
-`;
-
-// String properties
-&#x27;hello&#x27;.length;      // 5
-&#x27;&#x27;.length;           // 0 (empty string is falsy)
-
-// Escape sequences
-&#x27;Line 1\nLine 2&#x27;;   // newline
-&#x27;Tab\there&#x27;;        // tab
-&quot;She said \&quot;hi\&quot;&quot;; // escaped quote</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Write a function that takes a student object and returns a formatted report card string using a template literal. Include name, score, grade, and a personalised message based on their grade.</p></div>
-    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+// ✅ With a loop — one instruction, any number of repetitions
+const students = [{ name: &quot;Alice&quot;, score: 88 }, { name: &quot;Bob&quot;, score: 92 }];
+for (const s of students) {
+  console.log(`Report: ${s.name.padEnd(6)} — Score: ${s.score}`);
+}</code></pre></div></div>
+<p class="v2-p">A <strong>loop</strong> is a block of code that repeats until a condition is met. JavaScript has many loop types — each designed for a specific situation.</p>
+<p class="v2-p">Beyond simple loops, JavaScript has a deeper concept — the <strong>iteration protocol</strong>. This is a set of rules that defines what it means for anything (not just arrays) to be "loop-able". Understanding this protocol unlocks:</p>
+<ul class="v2-ul"><li><strong>Iterables</strong> — objects that can be looped with <code>for...of</code></li><li><strong>Iterators</strong> — objects that control exactly how values are produced one at a time</li><li><strong>Generators</strong> — special functions that can pause and resume, producing values lazily on demand</li></ul>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Iteration is everywhere in professional JavaScript — reading lines from a file, paginating API results, streaming data, building custom data structures, and implementing pipelines that process millions of records without loading them all into memory at once.</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>1. Background: What Is Looping and Why Does It Matter?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
   </div>
 </div>
 <div class="phase locked" id="phase2">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">String immutability</div></div>
-    <div class="phase-check" id="check2"></div>
+    <div class="phase-num">Phase 2 of 6</div>
+    <div class="phase-title">2. Topic 1 — JavaScript Looping (All Loop Types)</div>
+    <div class="phase-check" id="chk2"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Strings are immutable — methods return NEW strings, they don't change the original. Accessing characters: <code>str[0]</code> or <code>str.charAt(0)</code>. Comparing: use <code>===</code>, or <code>.localeCompare()</code> for proper alphabetical ordering. <code>typeof</code> returns <code>'string'</code>. Strings and numbers: <code>Number('42')</code>, <code>String(42)</code>, <code>parseInt('42px')</code>.</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>let str = &#x27;Hello&#x27;;
-str.toUpperCase();  // &#x27;HELLO&#x27;
-console.log(str);   // still &#x27;Hello&#x27; — immutable!
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">JavaScript has <strong>seven</strong> loop constructs. Each has a specific job. Understanding when to use each is a core professional skill.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">2A — <code>for</code> Loop — Classic Counter Loop</h3>
+<p class="v2-p">The <code>for</code> loop is the most fundamental loop. Use it when you know <strong>exactly how many times</strong> you want to loop, or when you need precise control over the counter.</p>
+<p class="v2-p"><strong>Structure:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (initialise; condition; update) {
+  // body runs while condition is true
+}</code></pre></div></div>
+<ul class="v2-ul"><li><strong>Initialise</strong> — runs once before the loop starts (set up counter)</li><li><strong>Condition</strong> — checked before each iteration; loop stops when <code>false</code></li><li><strong>Update</strong> — runs after each iteration (advance counter)</li></ul>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Count from 1 to 5
+for (let i = 1; i &lt;= 5; i++) {
+  console.log(i);
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+2
+3
+4
+5</code></pre></div></div>
+<h4 class="v2-h4">Step-by-step trace:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Start:   i = 1 → condition 1 &lt;= 5 → true  → body runs → i becomes 2
+         i = 2 → condition 2 &lt;= 5 → true  → body runs → i becomes 3
+         i = 3 → condition 3 &lt;= 5 → true  → body runs → i becomes 4
+         i = 4 → condition 4 &lt;= 5 → true  → body runs → i becomes 5
+         i = 5 → condition 5 &lt;= 5 → true  → body runs → i becomes 6
+         i = 6 → condition 6 &lt;= 5 → false → STOP</code></pre></div></div>
+<h4 class="v2-h4">Loop through an array by index:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
 
-// Character access
-&#x27;Hello&#x27;[0];             // &#x27;H&#x27;
-&#x27;Hello&#x27;.charAt(1);      // &#x27;e&#x27;
-&#x27;Hello&#x27;.at(-1);         // &#x27;o&#x27; (negative index!)
+for (let i = 0; i &lt; fruits.length; i++) {
+  console.log(i + &quot;: &quot; + fruits[i]);
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0: Apple
+1: Banana
+2: Mango</code></pre></div></div>
+<h4 class="v2-h4">Count backwards:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (let i = 5; i &gt;= 1; i--) {
+  console.log(i);
+}
+// 5, 4, 3, 2, 1</code></pre></div></div>
+<h4 class="v2-h4">Count in steps:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (let i = 0; i &lt;= 10; i += 2) {
+  console.log(i); // 0, 2, 4, 6, 8, 10
+}</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Use <code>let</code> for the loop variable — never <code>var</code>. With <code>var</code>, the variable "leaks" out of the loop block. With <code>let</code>, it is properly block-scoped.</p></blockquote>
+<blockquote class="v2-bq"><p class="v2-p">🐛 <strong>COMMON MISTAKE — Off-by-one error:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Wrong — misses last element (&lt; vs &lt;=)
+for (let i = 0; i &lt; 5; i++) { ... }  // runs 5 times: 0,1,2,3,4
 
-// String → number
-Number(&#x27;42&#x27;);           // 42
-parseInt(&#x27;42px&#x27;);       // 42 (stops at non-digit)
-parseFloat(&#x27;3.14em&#x27;);   // 3.14
-+&#x27;42&#x27;;                  // 42 (unary + operator)
+// To loop array by index, always use i &lt; arr.length (not &lt;=)
+for (let i = 0; i &lt; arr.length; i++) { ... }  // correct!
+// arr.length - 1 is the last valid index</code></pre></div></div></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">2B — <code>while</code> Loop — Condition-First Loop</h3>
+<p class="v2-p">The <code>while</code> loop repeats as long as a condition is <code>true</code>. Use it when you do <strong>not know in advance</strong> how many iterations you need.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>while (condition) {
+  // body
+}</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let count = 1;
 
-// Number → string
-String(42);             // &#x27;42&#x27;
-(42).toString();        // &#x27;42&#x27;
-(3.14159).toFixed(2);  // &#x27;3.14&#x27; (for display)
+while (count &lt;= 5) {
+  console.log(count);
+  count++;
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+2
+3
+4
+5</code></pre></div></div>
+<h4 class="v2-h4">Real example — keep asking for input until valid:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Simulated user input
+const inputs = [&quot;&quot;, &quot;abc&quot;, &quot;&quot;, &quot;42&quot;]; // first valid input is &quot;42&quot;
+let idx = 0;
 
-// Comparison
-&#x27;apple&#x27; &lt; &#x27;banana&#x27;;        // true (alphabetical)
-&#x27;Apple&#x27;.localeCompare(&#x27;apple&#x27;);  // negative (A before a)</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Create a function <code>formatCurrency(amount)</code> that takes a number and returns it formatted as Nigerian Naira: <code>₦5,000.00</code>. Use <code>toLocaleString()</code> or <code>toFixed()</code>.</p></div>
-    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+let input = &quot;&quot;;
+while (input.trim() === &quot;&quot; || isNaN(Number(input))) {
+  input = inputs[idx++]; // simulate reading next input
+}
+console.log(&quot;Valid input received:&quot;, input); // &quot;42&quot;</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>Valid input received: 42</code></p>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT — Infinite Loop!</strong> If the condition never becomes <code>false</code>, the loop runs forever and crashes the program.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ DANGER — infinite loop!
+let i = 1;
+while (i &gt; 0) {   // i always &gt; 0 since we never change it
+console.log(i);
+// forgot to add: i++
+}
+// Always make sure the loop variable changes toward the exit condition!</code></pre></div></div></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">2C — <code>do...while</code> Loop — Body-First Loop</h3>
+<p class="v2-p">Like <code>while</code>, but the body runs <strong>at least once</strong> before the condition is checked.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>do {
+  // body runs first, THEN condition is checked
+} while (condition);</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let count = 1;
+
+do {
+  console.log(count);
+  count++;
+} while (count &lt;= 5);</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+2
+3
+4
+5</code></pre></div></div>
+<h4 class="v2-h4">The key difference — runs at least once even if condition starts false:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let i = 10; // condition (i &lt;= 5) is already false
+
+// while — body NEVER runs
+while (i &lt;= 5) {
+  console.log(&quot;while:&quot;, i); // skipped entirely
+}
+
+// do...while — body runs ONCE before condition is checked
+do {
+  console.log(&quot;do...while:&quot;, i); // prints &quot;do...while: 10&quot;
+} while (i &lt;= 5);</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>do...while: 10</code></p>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>do...while</code> is perfect for menu systems and prompts — show the menu at least once, then keep showing it until the user picks "Exit".</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">2D — <code>for...in</code> Loop — Iterate Object Properties</h3>
+<p class="v2-p"><code>for...in</code> loops over the <strong>enumerable property keys</strong> of an object (including inherited ones from the prototype chain). It is designed for plain objects.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const key in object) {
+  // key is each property name (string)
+}</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const student = {
+  name:  &quot;Amara&quot;,
+  score: 85,
+  grade: &quot;A&quot;,
+  city:  &quot;Lagos&quot;
+};
+
+for (const key in student) {
+  console.log(key + &quot;: &quot; + student[key]);
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>name: Amara
+score: 85
+grade: A
+city: Lagos</code></pre></div></div>
+<h4 class="v2-h4"><code>hasOwnProperty</code> — Skip Inherited Keys:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const key in student) {
+  if (student.hasOwnProperty(key)) {
+    // Only own properties, not inherited prototype properties
+    console.log(key + &quot;:&quot;, student[key]);
+  }
+}</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT — Do NOT use <code>for...in</code> on arrays!</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+
+// ❌ for...in on arrays — gives STRING indices, may include extra properties
+for (const i in arr) {
+console.log(i, typeof i); // &quot;0&quot; string, &quot;1&quot; string, &quot;2&quot; string ← strings not numbers!
+}
+
+// ✅ Use for...of or a regular for loop for arrays instead</code></pre></div></div>
+<p class="v2-p"><code>for...in</code> is for <strong>objects</strong>. <code>for...of</code> is for <strong>iterables</strong> (arrays, strings, Sets, Maps).</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">2E — <code>for...of</code> Loop — Iterate Iterable Values (Modern, Preferred)</h3>
+<p class="v2-p"><code>for...of</code> loops over the <strong>values</strong> of any iterable — arrays, strings, Sets, Maps, generators, and any object implementing the iterable protocol.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const value of iterable) {
+  // value is each element
+}</code></pre></div></div>
+<h4 class="v2-h4">Arrays:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+
+for (const fruit of fruits) {
+  console.log(fruit);
+}
+// Apple
+// Banana
+// Mango</code></pre></div></div>
+<h4 class="v2-h4">Strings — character by character:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const char of &quot;Hello&quot;) {
+  console.log(char);
+}
+// H
+// e
+// l
+// l
+// o</code></pre></div></div>
+<h4 class="v2-h4">Sets:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const tags = new Set([&quot;js&quot;, &quot;web&quot;, &quot;css&quot;]);
+
+for (const tag of tags) {
+  console.log(tag);
+}
+// js
+// web
+// css</code></pre></div></div>
+<h4 class="v2-h4">Maps — destructuring key and value:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = new Map([[&quot;Alice&quot;, 88], [&quot;Bob&quot;, 92]]);
+
+for (const [name, score] of scores) {
+  console.log(name + &quot;: &quot; + score);
+}
+// Alice: 88
+// Bob: 92</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> When you need the index while using <code>for...of</code>, use <code>entries()</code>:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+
+for (const [index, fruit] of fruits.entries()) {
+console.log(index + &quot;: &quot; + fruit);
+}
+// 0: Apple
+// 1: Banana
+// 2: Mango</code></pre></div></div></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">2F — <code>break</code> and <code>continue</code> — Loop Control</h3>
+<h4 class="v2-h4"><code>break</code> — Exit the loop immediately:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [3, 7, 2, 9, 1, 5];
+
+// Find first number greater than 6
+for (const n of nums) {
+  if (n &gt; 6) {
+    console.log(&quot;Found:&quot;, n);
+    break; // stop immediately
+  }
+}
+// Found: 7</code></pre></div></div>
+<h4 class="v2-h4"><code>continue</code> — Skip to next iteration:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [1, 2, 3, 4, 5, 6];
+
+// Print only odd numbers
+for (const n of nums) {
+  if (n % 2 === 0) continue; // skip even numbers
+  console.log(n);
+}
+// 1
+// 3
+// 5</code></pre></div></div>
+<h4 class="v2-h4">Labelled <code>break</code> — Break out of nested loops:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Without label — only breaks the inner loop
+outer: for (let i = 0; i &lt; 3; i++) {
+  for (let j = 0; j &lt; 3; j++) {
+    if (i === 1 &amp;&amp; j === 1) {
+      break outer; // exits BOTH loops immediately
+    }
+    console.log(i, j);
+  }
+}
+// 0 0
+// 0 1
+// 0 2
+// 1 0
+// (stops here — break outer exits both loops)</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0 0
+0 1
+0 2
+1 0</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">2G — Loop Comparison Table</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Loop</th><th>Use When</th><th>Needs index?</th><th>Works on objects?</th><th>Works on iterables?</th></tr></thead><tbody><tr><td><code>for</code></td><td>Known count / index control</td><td>✅ Yes</td><td>❌ (manually)</td><td>✅ (manually)</td></tr><tr><td><code>while</code></td><td>Unknown count, condition-driven</td><td>⚙️ Manual</td><td>⚙️ Manual</td><td>⚙️ Manual</td></tr><tr><td><code>do...while</code></td><td>Run at least once</td><td>⚙️ Manual</td><td>⚙️ Manual</td><td>⚙️ Manual</td></tr><tr><td><code>for...in</code></td><td>Object property keys</td><td>❌ No (gives key)</td><td>✅ Yes</td><td>⚠️ Not recommended</td></tr><tr><td><code>for...of</code></td><td>Any iterable values</td><td>✅ via <code>.entries()</code></td><td>❌ (plain objects)</td><td>✅ Yes</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>2. Topic 1 — JavaScript Looping (All Loop Types)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
   </div>
 </div>
-<div class="project-box" id="build-it" style="display:none">
-  <div class="project-label">🏗️ Build It</div>
-  <div class="project-name">String Toolbox</div>
-  <div class="project-desc">A text transformation playground with live string methods.</div>
-  <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
-<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-&lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
-&lt;title&gt;JS Strings&lt;/title&gt;
-&lt;style&gt;
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  textarea,input[type=text]{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
-  textarea:focus,input:focus{border-color:#d97706}
-  .btn-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-  .btn{padding:8px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:12px;background:#fef3c7;color:#92400e;border:1.5px solid #fde68a;transition:.15s}
-  .btn:hover,.btn.active{background:#d97706;color:white;border-color:#d97706}
-  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;min-height:44px;word-break:break-all;white-space:pre-wrap}
-  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-  .stat{background:#fef9ee;border:1.5px solid #fde68a;border-radius:8px;padding:8px 14px;text-align:center;flex:1;min-width:80px}
-  .stat-val{font-size:1.4rem;font-weight:800;color:#d97706;display:block}
-  .stat-lbl{font-size:11px;color:#92400e}
-  .template-out{background:#fef3c7;border-radius:8px;padding:14px;font-size:14px;line-height:1.8;color:#78350f;white-space:pre-wrap}
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;⚡ JS Strings&lt;/h1&gt;
-&lt;h2&gt;String Transformer&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;textarea id=&quot;str-in&quot; rows=&quot;2&quot;&gt;Hello, Techbase Academy!&lt;/textarea&gt;
-  &lt;div class=&quot;stat-row&quot;&gt;
-    &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-val&quot; id=&quot;s-len&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;stat-lbl&quot;&gt;length&lt;/span&gt;&lt;/div&gt;
-    &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-val&quot; id=&quot;s-words&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;stat-lbl&quot;&gt;words&lt;/span&gt;&lt;/div&gt;
-    &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-val&quot; id=&quot;s-chars&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;stat-lbl&quot;&gt;non-space&lt;/span&gt;&lt;/div&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;btn-row&quot;&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;upper&#x27;)&quot;&gt;UPPERCASE&lt;/button&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;lower&#x27;)&quot;&gt;lowercase&lt;/button&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;title&#x27;)&quot;&gt;Title Case&lt;/button&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;reverse&#x27;)&quot;&gt;esreveR&lt;/button&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;trim&#x27;)&quot;&gt;Trim&lt;/button&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;transform(&#x27;repeat&#x27;)&quot;&gt;×3 Repeat&lt;/button&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;output&quot; id=&quot;str-out&quot;&gt;Result appears here…&lt;/div&gt;
-&lt;/div&gt;
-&lt;h2&gt;Template Literal Report Card&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;input type=&quot;text&quot; id=&quot;rpt-name&quot; placeholder=&quot;Student Name&quot; value=&quot;Amina Bello&quot;&gt;
-  &lt;input type=&quot;number&quot; id=&quot;rpt-score&quot; placeholder=&quot;Score (0-100)&quot; value=&quot;94&quot;&gt;
-  &lt;button style=&quot;background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;width:100%&quot; onclick=&quot;makeReport()&quot;&gt;Generate Report Card&lt;/button&gt;
-  &lt;div class=&quot;template-out&quot; id=&quot;rpt-out&quot; style=&quot;margin-top:10px&quot;&gt;Fill in details and click Generate&lt;/div&gt;
-&lt;/div&gt;
-&lt;h2&gt;String to Number&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;input type=&quot;text&quot; id=&quot;conv-in&quot; placeholder=&quot;Try: &#x27;42&#x27;, &#x27;3.14&#x27;, &#x27;₦5000&#x27;, &#x27;hello&#x27;&quot; value=&quot;₦5,000.00&quot;&gt;
-  &lt;div class=&quot;btn-row&quot;&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;convert(&#x27;Number&#x27;)&quot;&gt;Number()&lt;/button&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;convert(&#x27;parseInt&#x27;)&quot;&gt;parseInt()&lt;/button&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;convert(&#x27;parseFloat&#x27;)&quot;&gt;parseFloat()&lt;/button&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;convert(&#x27;unary&#x27;)&quot;&gt;+val (unary)&lt;/button&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;output&quot; id=&quot;conv-out&quot;&gt;Select a conversion method&lt;/div&gt;
-&lt;/div&gt;
-&lt;script&gt;
-  const strIn = document.getElementById(&#x27;str-in&#x27;);
-  function updateStats() {
-    const v = strIn.value;
-    document.getElementById(&#x27;s-len&#x27;).textContent = v.length;
-    document.getElementById(&#x27;s-words&#x27;).textContent = v.trim() ? v.trim().split(/\s+/).length : 0;
-    document.getElementById(&#x27;s-chars&#x27;).textContent = v.replace(/\s/g,&#x27;&#x27;).length;
-  }
-  strIn.addEventListener(&#x27;input&#x27;, updateStats);
-  updateStats();
-  function transform(op) {
-    const v = strIn.value;
-    let result;
-    switch(op) {
-      case &#x27;upper&#x27;: result = v.toUpperCase(); break;
-      case &#x27;lower&#x27;: result = v.toLowerCase(); break;
-      case &#x27;title&#x27;: result = v.replace(/\w\S*/g, w =&gt; w[0].toUpperCase() + w.slice(1).toLowerCase()); break;
-      case &#x27;reverse&#x27;: result = v.split(&#x27;&#x27;).reverse().join(&#x27;&#x27;); break;
-      case &#x27;trim&#x27;: result = v.trim(); break;
-      case &#x27;repeat&#x27;: result = v.repeat(3); break;
-    }
-    document.getElementById(&#x27;str-out&#x27;).textContent = result;
-  }
-  function makeReport() {
-    const name  = document.getElementById(&#x27;rpt-name&#x27;).value || &#x27;Student&#x27;;
-    const score = parseInt(document.getElementById(&#x27;rpt-score&#x27;).value) || 0;
-    const grade = score &gt;= 70 ? &#x27;A&#x27; : score &gt;= 60 ? &#x27;B&#x27; : score &gt;= 50 ? &#x27;C&#x27; : score &gt;= 45 ? &#x27;D&#x27; : &#x27;F&#x27;;
-    const msg   = grade === &#x27;A&#x27; ? &#x27;Outstanding performance! 🌟&#x27; :
-                  grade === &#x27;B&#x27; ? &#x27;Great work — keep it up! 👍&#x27; :
-                  grade === &#x27;C&#x27; ? &#x27;Good effort — room to improve.&#x27; :
-                  grade === &#x27;D&#x27; ? &#x27;Passed — more practice needed.&#x27; : &#x27;Please see your instructor.&#x27;;
-    document.getElementById(&#x27;rpt-out&#x27;).textContent =
-`╔══════════════════════════════╗
-║     TECHBASE ACADEMY          ║
-║     Student Report Card       ║
-╚══════════════════════════════╝
+<div class="phase locked" id="phase3">
+  <div class="phase-header">
+    <div class="phase-num">Phase 3 of 6</div>
+    <div class="phase-title">3. Topic 2 — Iterables</div>
+    <div class="phase-check" id="chk3"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">You have used <code>for...of</code> to loop over arrays, strings, Sets, and Maps. But how does <code>for...of</code> <em>know</em> how to loop over them? They are all different types of objects! The answer is the <strong>iterable protocol</strong>.</p>
+<h3 class="v2-h3">What Is an Iterable?</h3>
+<p class="v2-p">An <strong>iterable</strong> is any object that has a special method named <code>[Symbol.iterator]</code>. This method, when called, returns an <strong>iterator</strong> — an object that produces values one at a time.</p>
+<p class="v2-p">Think of it like a vending machine:</p>
+<ul class="v2-ul"><li>The <strong>vending machine</strong> is the iterable (has a mechanism to deliver items)</li><li>The <strong>dispenser button</strong> is <code>[Symbol.iterator]()</code> — calling it starts the dispensing process</li><li>Each <strong>press of the button</strong> is like calling <code>.next()</code> — one item comes out</li><li>When the machine is <strong>empty</strong>, it signals done</li></ul>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Iterable                →   has [Symbol.iterator]() method
+[Symbol.iterator]()     →   returns an Iterator
+Iterator                →   has .next() method
+.next()                 →   returns { value: ..., done: false/true }</code></pre></div></div>
+<h3 class="v2-h3">Built-in Iterables in JavaScript</h3>
+<p class="v2-p">These types are all iterable out of the box:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Type</th><th>Example</th></tr></thead><tbody><tr><td><code>Array</code></td><td><code>[1, 2, 3]</code></td></tr><tr><td><code>String</code></td><td><code>"hello"</code></td></tr><tr><td><code>Set</code></td><td><code>new Set([1, 2, 3])</code></td></tr><tr><td><code>Map</code></td><td><code>new Map([["a", 1]])</code></td></tr><tr><td><code>arguments</code> object</td><td>Inside functions</td></tr><tr><td><code>NodeList</code></td><td><code>document.querySelectorAll("p")</code></td></tr><tr><td>Generator objects</td><td>Result of calling a generator function</td></tr><tr><td><code>TypedArray</code></td><td><code>Int8Array</code>, <code>Float64Array</code>, etc.</td></tr></tbody></table></div>
+<p class="v2-p"><strong>Plain objects <code>{}</code> are NOT iterable by default.</strong></p>
+<hr class="v2-hr">
+<h3 class="v2-h3">How <code>for...of</code> Uses the Iterable Protocol Internally</h3>
+<p class="v2-p">When JavaScript sees <code>for (const x of something)</code>, it does this behind the scenes:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr = [10, 20, 30];
 
-Student: ${name}
-Score:   ${score}/100
-Grade:   ${grade}
+// What for...of does internally:
+const iterator = arr[Symbol.iterator](); // Step 1: get the iterator
 
-${msg}
+let result = iterator.next();            // Step 2: ask for first value
+while (!result.done) {                   // Step 3: loop while not done
+  const x = result.value;
+  console.log(x);                        // Step 4: use the value
+  result = iterator.next();             // Step 5: ask for next value
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>10
+20
+30</code></pre></div></div>
+<p class="v2-p">This is exactly what <code>for...of</code> does automatically:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const x of [10, 20, 30]) {
+  console.log(x); // 10, 20, 30
+}</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Verifying That Something Is Iterable</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function isIterable(obj) {
+  return obj != null &amp;&amp; typeof obj[Symbol.iterator] === &quot;function&quot;;
+}
 
-Generated: ${new Date().toLocaleDateString(&#x27;en-NG&#x27;)}`;
+console.log(isIterable([1, 2, 3]));          // true
+console.log(isIterable(&quot;hello&quot;));            // true
+console.log(isIterable(new Set([1, 2])));    // true
+console.log(isIterable(new Map()));          // true
+console.log(isIterable({ a: 1 }));          // false ← plain object!
+console.log(isIterable(42));                // false
+console.log(isIterable(null));              // false</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+true
+true
+true
+false
+false
+false</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Using Spread <code>...</code> and Destructuring — They Use the Iterable Protocol Too!</h3>
+<p class="v2-p">Any iterable works with spread and destructuring — not just arrays:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Spread Set into array
+const set = new Set([1, 2, 3]);
+const arr = [...set];
+console.log(arr); // [1, 2, 3]
+
+// Spread Map
+const map = new Map([[&quot;a&quot;, 1], [&quot;b&quot;, 2]]);
+console.log([...map]); // [[&quot;a&quot;,1],[&quot;b&quot;,2]]
+
+// Spread String
+console.log([...&quot;hello&quot;]); // [&quot;h&quot;,&quot;e&quot;,&quot;l&quot;,&quot;l&quot;,&quot;o&quot;]
+
+// Destructure a Set
+const [first, second] = new Set([10, 20, 30]);
+console.log(first, second); // 10 20
+
+// Spread into function arguments
+function sum(a, b, c) { return a + b + c; }
+const nums = [1, 2, 3];
+console.log(sum(...nums)); // 6</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[1, 2, 3]
+[[&quot;a&quot;,1],[&quot;b&quot;,2]]
+[&quot;h&quot;,&quot;e&quot;,&quot;l&quot;,&quot;l&quot;,&quot;o&quot;]
+10 20
+6</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> The iterable protocol is the foundation of modern JavaScript patterns like <code>Array.from()</code>, <code>Promise.all([...])</code>, <code>for...of</code> in React's render loops, and REST/spread patterns throughout every modern codebase.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Making a Plain Object Iterable</h3>
+<p class="v2-p">A plain object <code>{}</code> is not iterable — <code>for...of</code> will throw a TypeError. To make it iterable, you add a <code>[Symbol.iterator]</code> method.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const range = {
+  from: 1,
+  to:   5,
+
+  [Symbol.iterator]() {
+    let current = this.from;
+    const last  = this.to;
+
+    // Return an iterator object
+    return {
+      next() {
+        if (current &lt;= last) {
+          return { value: current++, done: false };
+        }
+        return { value: undefined, done: true };
+      }
+    };
   }
-  function convert(method) {
-    const raw = document.getElementById(&#x27;conv-in&#x27;).value;
-    // Strip currency symbols for parsing
-    const clean = raw.replace(/[₦,\s]/g,&#x27;&#x27;);
-    let result, expr;
-    switch(method) {
-      case &#x27;Number&#x27;:   result = Number(clean);     expr = `Number(&quot;${raw}&quot;)`; break;
-      case &#x27;parseInt&#x27;:  result = parseInt(clean,10); expr = `parseInt(&quot;${raw}&quot;)`; break;
-      case &#x27;parseFloat&#x27;:result = parseFloat(clean); expr = `parseFloat(&quot;${raw}&quot;)`; break;
-      case &#x27;unary&#x27;:    result = +clean;             expr = `+&quot;${raw}&quot;`; break;
-    }
-    document.getElementById(&#x27;conv-out&#x27;).textContent =
-      `${expr}
-→ ${result}
-→ typeof: ${typeof result}
-→ isNaN: ${isNaN(result)}`;
-  }
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre></div>
+};
+
+// Now range is iterable!
+for (const n of range) {
+  console.log(n);
+}
+// 1, 2, 3, 4, 5
+
+// Spread also works!
+console.log([...range]); // [1, 2, 3, 4, 5]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+2
+3
+4
+5
+[1, 2, 3, 4, 5]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🤔 <strong>THINK ABOUT IT:</strong> What would happen if <code>current</code> never reached <code>last</code>? The <code>done: true</code> would never be returned, and <code>for...of</code> would loop forever. Always make sure your iterator eventually returns <code>{ done: true }</code>!</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>3. Topic 2 — Iterables</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
+  </div>
 </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
-    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+<div class="phase locked" id="phase4">
+  <div class="phase-header">
+    <div class="phase-num">Phase 4 of 6</div>
+    <div class="phase-title">4. Topic 3 — Iterators</div>
+    <div class="phase-check" id="chk4"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">An <strong>iterator</strong> is an object that implements the <strong>iterator protocol</strong>:</p>
+<ul class="v2-ul"><li>It must have a <code>.next()</code> method</li><li><code>.next()</code> must return an object with exactly two properties:</li></ul>
+<p class="v2-p">- <code>value</code> — the current value (any type)   - <code>done</code> — a boolean: <code>false</code> if more values remain, <code>true</code> when finished</p>
+<p class="v2-p">When <code>done</code> is <code>true</code>, any <code>value</code> provided is ignored by <code>for...of</code>.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">Creating an Iterator from Scratch</h3>
+<p class="v2-p">Let's build a counter iterator step by step:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function makeCounter(start, end) {
+  let current = start;
+
+  return {
+    next() {
+      if (current &lt;= end) {
+        return { value: current++, done: false };
+      }
+      return { value: undefined, done: true };
+    }
+  };
+}
+
+const counter = makeCounter(1, 4);
+
+console.log(counter.next()); // { value: 1, done: false }
+console.log(counter.next()); // { value: 2, done: false }
+console.log(counter.next()); // { value: 3, done: false }
+console.log(counter.next()); // { value: 4, done: false }
+console.log(counter.next()); // { value: undefined, done: true }
+console.log(counter.next()); // { value: undefined, done: true } ← stays done</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>{ value: 1, done: false }
+{ value: 2, done: false }
+{ value: 3, done: false }
+{ value: 4, done: false }
+{ value: undefined, done: true }
+{ value: undefined, done: true }</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Notice that once an iterator returns <code>{ done: true }</code>, it should continue to return <code>{ done: true }</code> for any further <code>.next()</code> calls. This is the convention.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Iterator vs Iterable — What Is the Difference?</h3>
+<p class="v2-p">This is a very common point of confusion:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Term</th><th>Definition</th><th>Has</th></tr></thead><tbody><tr><td><strong>Iterable</strong></td><td>An object that CAN be iterated</td><td><code>[Symbol.iterator]()</code> method → returns an iterator</td></tr><tr><td><strong>Iterator</strong></td><td>An object that DOES the iterating</td><td><code>.next()</code> method → returns <code>{value, done}</code></td></tr></tbody></table></div>
+<p class="v2-p">An iterable <strong>produces</strong> iterators. An iterator <strong>produces</strong> values.</p>
+<p class="v2-p">Arrays are <strong>iterable</strong> — calling <code>arr[Symbol.iterator]()</code> gives you an <strong>iterator</strong>:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr      = [10, 20, 30];       // Array is ITERABLE
+const iterator = arr[Symbol.iterator](); // iterator is the ITERATOR
+
+console.log(iterator.next()); // { value: 10, done: false }
+console.log(iterator.next()); // { value: 20, done: false }
+console.log(iterator.next()); // { value: 30, done: false }
+console.log(iterator.next()); // { value: undefined, done: true }</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Self-Iterating Objects — Combining Both Protocols</h3>
+<p class="v2-p">The cleanest design makes an object both iterable <strong>and</strong> its own iterator by returning <code>this</code> from <code>[Symbol.iterator]()</code>:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function makeRange(from, to) {
+  return {
+    current: from,
+    last:    to,
+
+    // Makes it ITERABLE
+    [Symbol.iterator]() {
+      return this; // ← returns itself as the iterator
+    },
+
+    // Makes it an ITERATOR
+    next() {
+      if (this.current &lt;= this.last) {
+        return { value: this.current++, done: false };
+      }
+      return { value: undefined, done: true };
+    }
+  };
+}
+
+const range = makeRange(1, 5);
+
+// Works with for...of (uses [Symbol.iterator])
+for (const n of range) {
+  console.log(n);
+}
+// 1 2 3 4 5
+
+// Also works with spread (uses [Symbol.iterator])
+// Note: range is now exhausted — a new range is needed to spread
+const range2 = makeRange(1, 3);
+console.log([...range2]); // [1, 2, 3]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+2
+3
+4
+5
+[1, 2, 3]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT:</strong> When an object is its own iterator (returns <code>this</code>), it is <strong>consumed</strong> — once iterated, it cannot be iterated again. A fresh iterable (like an array) returns a new iterator each time <code>[Symbol.iterator]()</code> is called, so you can loop it many times.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Practical Example — A Fibonacci Iterator</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function fibIterator(limit) {
+  let prev = 0, curr = 1;
+
+  return {
+    [Symbol.iterator]() { return this; },
+
+    next() {
+      if (prev &gt; limit) return { value: undefined, done: true };
+      const value = prev;
+      [prev, curr] = [curr, prev + curr]; // advance sequence
+      return { value, done: false };
+    }
+  };
+}
+
+// Print Fibonacci numbers up to 100
+for (const n of fibIterator(100)) {
+  process.stdout.write(n + &quot; &quot;);
+}
+console.log();
+// 0 1 1 2 3 5 8 13 21 34 55 89
+
+// Collect into array
+console.log([...fibIterator(50)]); // [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0 1 1 2 3 5 8 13 21 34 55 89
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Iterators are used to represent sequences that are computed on demand — paginated API results, rows from a database cursor, tokens from a parser, or any data where you want the next item only when you need it (lazy evaluation).</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Iterator Return Method (Optional Cleanup)</h3>
+<p class="v2-p">Iterators can optionally implement a <code>return(value)</code> method, which is called when a loop exits early (via <code>break</code> or <code>return</code> inside <code>for...of</code>). Use it to release resources.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function makeCleanupIterator(items) {
+  let index = 0;
+  return {
+    [Symbol.iterator]() { return this; },
+
+    next() {
+      if (index &lt; items.length) {
+        return { value: items[index++], done: false };
+      }
+      return { value: undefined, done: true };
+    },
+
+    return(value) {
+      console.log(&quot;Iterator closed early — releasing resources&quot;);
+      return { value, done: true };
+    }
+  };
+}
+
+for (const item of makeCleanupIterator([1, 2, 3, 4, 5])) {
+  console.log(item);
+  if (item === 3) break; // triggers return()
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+2
+3
+Iterator closed early — releasing resources</code></pre></div></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>4. Topic 3 — Iterators</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase5">
+  <div class="phase-header">
+    <div class="phase-num">Phase 5 of 6</div>
+    <div class="phase-title">5. Topic 4 — Generator Functions</div>
+    <div class="phase-check" id="chk5"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">Writing iterators manually (as shown above) works — but it is verbose and requires careful state management. <strong>Generator functions</strong> are a much easier way to create iterators. They let you write iterating logic in a natural, top-to-bottom style using the special <code>yield</code> keyword.</p>
+<h3 class="v2-h3">The Magic of <code>yield</code> — Pause and Resume</h3>
+<p class="v2-p">A generator function can <strong>pause</strong> its execution in the middle and <strong>resume</strong> later from exactly where it left off. Normal functions cannot do this — they run start to finish without stopping.</p>
+<p class="v2-p">Think of it like a book with bookmarks:</p>
+<ul class="v2-ul"><li><strong>Normal function</strong> — reads the whole chapter at once, then closes the book</li><li><strong>Generator function</strong> — reads one page, puts a bookmark in, hands you the page, waits. When you ask for the next page, it opens the book at the bookmark and continues.</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">Declaring a Generator Function</h3>
+<p class="v2-p">The <code>function<em></code> syntax (note the asterisk <code></em></code>) marks a function as a generator:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* myGenerator() {
+  yield 1;
+  yield 2;
+  yield 3;
+}</code></pre></div></div>
+<p class="v2-p">Calling a generator function does <strong>not run the body</strong>. It returns a <strong>generator object</strong> — which is both an iterator AND an iterable.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* myGenerator() {
+  console.log(&quot;Start&quot;);
+  yield 1;
+  console.log(&quot;After first yield&quot;);
+  yield 2;
+  console.log(&quot;After second yield&quot;);
+  yield 3;
+  console.log(&quot;Done&quot;);
+}
+
+const gen = myGenerator(); // ← body does NOT run yet!
+
+console.log(gen.next()); // &quot;Start&quot; then { value: 1, done: false }
+console.log(gen.next()); // &quot;After first yield&quot; then { value: 2, done: false }
+console.log(gen.next()); // &quot;After second yield&quot; then { value: 3, done: false }
+console.log(gen.next()); // &quot;Done&quot; then { value: undefined, done: true }</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Start
+{ value: 1, done: false }
+After first yield
+{ value: 2, done: false }
+After second yield
+{ value: 3, done: false }
+Done
+{ value: undefined, done: true }</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🤔 <strong>THINK ABOUT IT:</strong> The <code>console.log("Start")</code> only runs when we call <code>.next()</code> the first time — not when we call <code>myGenerator()</code>. This is the pausing behaviour. The function runs until it hits a <code>yield</code>, pauses there, and waits for the next <code>.next()</code> call.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Generators Are Both Iterators and Iterables</h3>
+<p class="v2-p">Generator objects implement both protocols automatically. This means you can use them directly in <code>for...of</code>, spread, and destructuring:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* count() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+// for...of (uses iterable protocol)
+for (const n of count()) {
+  console.log(n);
+}
+// 1, 2, 3
+
+// Spread (uses iterable protocol)
+console.log([...count()]); // [1, 2, 3]
+
+// Destructuring
+const [a, b, c] = count();
+console.log(a, b, c); // 1 2 3</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+2
+3
+[1, 2, 3]
+1 2 3</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Generators with Loops — Infinite Sequences</h3>
+<p class="v2-p">Generators are perfect for producing sequences — especially <strong>infinite</strong> ones. Because values are produced lazily (one at a time on demand), you can define an endless sequence without running out of memory.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// An INFINITE counter — never runs out!
+function* counter(start = 0) {
+  let n = start;
+  while (true) {   // ← infinite loop is OK in a generator!
+    yield n++;
+  }
+}
+
+const gen = counter(1);
+
+console.log(gen.next().value); // 1
+console.log(gen.next().value); // 2
+console.log(gen.next().value); // 3
+// ... you can call .next() as many times as you want
+
+// Take first 5 values using a helper
+function take(gen, n) {
+  const result = [];
+  for (const val of gen) {
+    result.push(val);
+    if (result.length === n) break;
+  }
+  return result;
+}
+
+console.log(take(counter(10), 5)); // [10, 11, 12, 13, 14]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+2
+3
+[10, 11, 12, 13, 14]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT:</strong> Never do <code>[...counter()]</code> — spreading an infinite generator will try to collect all values until memory is exhausted. Always use <code>break</code>, <code>.next()</code>, or <code>take()</code> to limit how many values you consume from an infinite generator.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>return</code> in a Generator</h3>
+<p class="v2-p">If a generator hits a <code>return</code> statement (or the function body ends), it signals <code>done: true</code>:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* gen() {
+  yield 1;
+  yield 2;
+  return &quot;finished&quot;; // ← done: true, value: &quot;finished&quot;
+  yield 3;           // ← NEVER reached
+}
+
+const g = gen();
+console.log(g.next()); // { value: 1,          done: false }
+console.log(g.next()); // { value: 2,          done: false }
+console.log(g.next()); // { value: &quot;finished&quot;, done: true  }
+console.log(g.next()); // { value: undefined,  done: true  }</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> The <code>return</code> value in a generator IS available in <code>.next()</code> but is <strong>skipped by <code>for...of</code></strong>. <code>for...of</code> stops as soon as it sees <code>done: true</code> without using the value.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Passing Values INTO a Generator with <code>.next(value)</code></h3>
+<p class="v2-p">You can pass a value into a generator through <code>.next(value)</code>. This value becomes the <strong>result of the <code>yield</code> expression</strong> inside the generator.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* dialogue() {
+  const name    = yield &quot;What is your name?&quot;;
+  const age     = yield `Hello ${name}! How old are you?`;
+  yield `So ${name} is ${age} years old. Got it!`;
+}
+
+const chat = dialogue();
+
+console.log(chat.next().value);          // &quot;What is your name?&quot;
+console.log(chat.next(&quot;Alice&quot;).value);   // &quot;Hello Alice! How old are you?&quot;
+console.log(chat.next(30).value);        // &quot;So Alice is 30 years old. Got it!&quot;</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>What is your name?
+Hello Alice! How old are you?
+So Alice is 30 years old. Got it!</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> The first <code>.next()</code> call cannot pass a value in (there is no <code>yield</code> to receive it yet). Values passed in through <code>.next(val)</code> only apply from the second call onward.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>yield*</code> — Delegate to Another Generator or Iterable</h3>
+<p class="v2-p"><code>yield*</code> inside a generator delegates iteration to another iterable or generator, yielding all of its values in sequence.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* inner() {
+  yield &quot;B&quot;;
+  yield &quot;C&quot;;
+}
+
+function* outer() {
+  yield &quot;A&quot;;
+  yield* inner();  // ← delegates to inner generator
+  yield &quot;D&quot;;
+}
+
+console.log([...outer()]); // [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>["A", "B", "C", "D"]</code></p>
+<p class="v2-p"><code>yield*</code> works with any iterable — arrays, strings, Sets, other generators:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* combined() {
+  yield* [1, 2, 3];         // yields from array
+  yield* &quot;AB&quot;;              // yields characters of string
+  yield* new Set([4, 5]);   // yields from Set
+}
+
+console.log([...combined()]); // [1, 2, 3, &quot;A&quot;, &quot;B&quot;, 4, 5]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>[1, 2, 3, "A", "B", 4, 5]</code></p>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>yield*</code> is used to build tree-traversal generators — e.g., yielding all nodes in a nested file system or DOM tree structure depth-first without recursion complexity.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Generator as an Iterable Object Method</h3>
+<p class="v2-p">You can use generator functions as methods inside objects or classes, making them directly iterable:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>class NumberRange {
+  constructor(from, to, step = 1) {
+    this.from = from;
+    this.to   = to;
+    this.step = step;
+  }
+
+  // Generator method — makes instances of NumberRange iterable
+  *[Symbol.iterator]() {
+    for (let n = this.from; n &lt;= this.to; n += this.step) {
+      yield n;
+    }
+  }
+}
+
+const evens = new NumberRange(2, 10, 2);
+
+for (const n of evens) {
+  process.stdout.write(n + &quot; &quot;);
+}
+console.log();
+// 2 4 6 8 10
+
+console.log([...new NumberRange(1, 5)]); // [1, 2, 3, 4, 5]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>2 4 6 8 10
+[1, 2, 3, 4, 5]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Generator vs Manual Iterator — Side by Side</h3>
+<p class="v2-p">Here is the same Fibonacci iterator from Topic 3, now written as a generator:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Manual iterator (Topic 3 version) — verbose!
+function fibIterator(limit) {
+  let prev = 0, curr = 1;
+  return {
+    [Symbol.iterator]() { return this; },
+    next() {
+      if (prev &gt; limit) return { value: undefined, done: true };
+      const value = prev;
+      [prev, curr] = [curr, prev + curr];
+      return { value, done: false };
+    }
+  };
+}
+
+// Generator version — clean and simple!
+function* fibGenerator(limit) {
+  let prev = 0, curr = 1;
+  while (prev &lt;= limit) {
+    yield prev;
+    [prev, curr] = [curr, prev + curr];
+  }
+}
+
+// Both produce the same output:
+console.log([...fibGenerator(100)]); // [0,1,1,2,3,5,8,13,21,34,55,89]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]</code></p>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Generators are used in: Redux Saga (managing async side effects in React apps), data streaming (process file lines one at a time), custom pagination (fetch next page only when needed), and any "lazy" sequence where values should be produced on demand.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Summary: Iterator vs Generator vs Iterable</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Concept</th><th>Definition</th><th>Key Syntax</th></tr></thead><tbody><tr><td><strong>Iterable</strong></td><td>Object that CAN produce an iterator</td><td>Has <code>[Symbol.iterator]()</code> method</td></tr><tr><td><strong>Iterator</strong></td><td>Object that produces values one at a time</td><td>Has <code>.next()</code> → <code>{value, done}</code></td></tr><tr><td><strong>Generator function</strong></td><td>Function that produces a generator object</td><td><code>function*</code> with <code>yield</code></td></tr><tr><td><strong>Generator object</strong></td><td>Both an iterator AND an iterable</td><td>Returned by calling <code>function*</code></td></tr></tbody></table></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>5. Topic 4 — Generator Functions</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase6">
+  <div class="phase-header">
+    <div class="phase-num">Phase 6 of 6</div>
+    <div class="phase-title">6. Applied Exercises</div>
+    <div class="phase-check" id="chk6"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 2 — Applied Exercises</strong></p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 1 — Loop Master 🔁</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice choosing the right loop for each situation.</p>
+<p class="v2-p"><strong>Scenario:</strong> You are building a <strong>student results portal</strong>. Each task below requires a different loop type.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [72, 45, 88, 56, 93];
+let total = 0;
+
+for (const score of scores) {
+  total += score;
+}
+console.log(&quot;Average:&quot;, (total / scores.length).toFixed(1)); // 70.8</code></pre></div></div>
+<h4 class="v2-h4">Task A — Use the Right Loop</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const students = [
+  { name: &quot;Amara&quot;,  score: 85, grade: &quot;B&quot; },
+  { name: &quot;Kwame&quot;,  score: 92, grade: &quot;A&quot; },
+  { name: &quot;Fatima&quot;, score: 58, grade: &quot;F&quot; },
+  { name: &quot;Emeka&quot;,  score: 74, grade: &quot;C&quot; },
+  { name: &quot;Priya&quot;,  score: 95, grade: &quot;A&quot; },
+];
+
+// 1. FOR loop — print each student with rank
+console.log(&quot;--- Rankings (for loop) ---&quot;);
+for (let i = 0; i &lt; students.length; i++) {
+  console.log(`${i + 1}. ${students[i].name} — ${students[i].score}`);
+}
+
+// 2. FOR...OF — sum all scores
+let total = 0;
+for (const s of students) { total += s.score; }
+console.log(&quot;\nClass average:&quot;, (total / students.length).toFixed(1));
+
+// 3. FOR...IN — list properties of first student object
+console.log(&quot;\nStudent record fields (for...in):&quot;);
+for (const key in students[0]) {
+  console.log(`  ${key}: ${students[0][key]}`);
+}
+
+// 4. WHILE — find first student scoring above 90
+let idx = 0;
+while (idx &lt; students.length &amp;&amp; students[idx].score &lt;= 90) idx++;
+const topStudent = idx &lt; students.length ? students[idx] : null;
+console.log(&quot;\nFirst student above 90:&quot;, topStudent?.name ?? &quot;none&quot;);
+
+// 5. DO...WHILE — show menu until valid selection
+const validChoices = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;];
+const inputs = [&quot;X&quot;, &quot;Q&quot;, &quot;B&quot;]; // simulated; &quot;B&quot; is the first valid one
+let choice, inputIdx = 0;
+do {
+  choice = inputs[inputIdx++];
+  console.log(&quot;Input received:&quot;, choice);
+} while (!validChoices.includes(choice));
+console.log(&quot;Valid choice selected:&quot;, choice);</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>--- Rankings (for loop) ---
+1. Amara — 85
+2. Kwame — 92
+3. Fatima — 58
+4. Emeka — 74
+5. Priya — 95
+
+Class average: 80.8
+
+Student record fields (for...in):
+  name: Amara
+  score: 85
+  grade: B
+
+First student above 90: Kwame
+
+Input received: X
+Input received: Q
+Input received: B
+Valid choice selected: B</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>Why should you NOT use <code>for...in</code> to loop over the <code>students</code> array?</li><li>When would <code>do...while</code> be more appropriate than <code>while</code>?</li><li>What is the difference between <code>break</code> and <code>continue</code>?</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 2 — Custom Iterable Builder 🔧</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice creating a custom iterable object using <code>[Symbol.iterator]</code>.</p>
+<p class="v2-p"><strong>Scenario:</strong> Build a <strong>paginated data reader</strong> that iterates records in pages of a given size.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const simpleRange = {
+  [Symbol.iterator]() {
+    let n = 1;
+    return { next() { return n &lt;= 3 ? { value: n++, done: false } : { value: undefined, done: true }; } };
+  }
+};
+
+for (const n of simpleRange) process.stdout.write(n + &quot; &quot;);
+console.log(); // 1 2 3</code></pre></div></div>
+<h4 class="v2-h4">Task A — Paginator Object</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function createPaginator(records, pageSize) {
+  return {
+    records,
+    pageSize,
+
+    [Symbol.iterator]() {
+      let pageNum = 0;
+      const { records, pageSize } = this;
+
+      return {
+        next() {
+          const start = pageNum * pageSize;
+          if (start &gt;= records.length) return { value: undefined, done: true };
+
+          const page = {
+            pageNumber: pageNum + 1,
+            items: records.slice(start, start + pageSize),
+            totalPages: Math.ceil(records.length / pageSize)
+          };
+          pageNum++;
+          return { value: page, done: false };
+        }
+      };
+    }
+  };
+}
+
+const allRecords = [
+  &quot;Record A&quot;, &quot;Record B&quot;, &quot;Record C&quot;, &quot;Record D&quot;,
+  &quot;Record E&quot;, &quot;Record F&quot;, &quot;Record G&quot;
+];
+
+const paginator = createPaginator(allRecords, 3);
+
+for (const page of paginator) {
+  console.log(`\n── Page ${page.pageNumber}/${page.totalPages} ──`);
+  page.items.forEach((item, i) =&gt; console.log(`  ${i + 1}. ${item}`));
+}
+
+// Can be spread into an array of page objects
+const pages = [...createPaginator(allRecords, 3)];
+console.log(&quot;\nTotal pages:&quot;, pages.length);</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>── Page 1/3 ──
+  1. Record A
+  2. Record B
+  3. Record C
+
+── Page 2/3 ──
+  1. Record D
+  2. Record E
+  3. Record F
+
+── Page 3/3 ──
+  1. Record G
+
+Total pages: 3</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>Why is <code>[Symbol.iterator]</code> the key that makes an object iterable?</li><li>What is the difference between the iterable (paginator) and the iterator (object returned from <code>[Symbol.iterator]()</code>)?</li><li>How would you rewrite this using a generator function?</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 3 — Generator Workshop ⚡</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice writing generator functions for real data tasks.</p>
+<p class="v2-p"><strong>Scenario:</strong> Build generators for a <strong>data processing pipeline</strong> at an analytics company.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* squares(n) {
+  for (let i = 1; i &lt;= n; i++) yield i * i;
+}
+console.log([...squares(5)]); // [1, 4, 9, 16, 25]</code></pre></div></div>
+<h4 class="v2-h4">Task A — Utility Generators</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 1. Unique ID generator
+function* idGenerator(prefix = &quot;ID&quot;) {
+  let n = 1;
+  while (true) {
+    yield `${prefix}-${String(n++).padStart(4, &quot;0&quot;)}`;
+  }
+}
+
+const userId = idGenerator(&quot;USR&quot;);
+console.log(userId.next().value); // USR-0001
+console.log(userId.next().value); // USR-0002
+console.log(userId.next().value); // USR-0003
+
+// 2. Chunker — split array into fixed-size chunks lazily
+function* chunk(array, size) {
+  for (let i = 0; i &lt; array.length; i += size) {
+    yield array.slice(i, i + size);
+  }
+}
+
+const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+for (const batch of chunk(data, 3)) {
+  console.log(&quot;Batch:&quot;, batch);
+}
+// Batch: [1, 2, 3]
+// Batch: [4, 5, 6]
+// Batch: [7, 8, 9]
+// Batch: [10]
+
+// 3. Filter + map pipeline using generators
+function* filterGen(iterable, predicate) {
+  for (const item of iterable) {
+    if (predicate(item)) yield item;
+  }
+}
+
+function* mapGen(iterable, transform) {
+  for (const item of iterable) {
+    yield transform(item);
+  }
+}
+
+const scores  = [45, 72, 88, 56, 93, 61, 78, 34, 90];
+const passing = filterGen(scores, s =&gt; s &gt;= 60);
+const graded  = mapGen(passing, s =&gt; ({
+  score: s,
+  grade: s &gt;= 90 ? &quot;A&quot; : s &gt;= 75 ? &quot;B&quot; : &quot;C&quot;
+}));
+
+console.log(&quot;\nPassing grades:&quot;);
+for (const g of graded) {
+  console.log(`  Score: ${g.score} → Grade: ${g.grade}`);
+}</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>USR-0001
+USR-0002
+USR-0003
+Batch: [1, 2, 3]
+Batch: [4, 5, 6]
+Batch: [7, 8, 9]
+Batch: [10]
+
+Passing grades:
+  Score: 72  → Grade: C
+  Score: 88  → Grade: B
+  Score: 93  → Grade: A
+  Score: 61  → Grade: C
+  Score: 78  → Grade: B
+  Score: 90  → Grade: A</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>Why is an infinite generator (<code>while (true) { yield ... }</code>) safe to use as long as you break or use <code>.next()</code> selectively?</li><li>How does <code>yield*</code> differ from calling <code>yield</code> inside a loop?</li><li>What is "lazy evaluation" and why do generators enable it?</li></ul>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">---
+
+### Exercise 1 — Loop Master 🔁
+
+Objective: Practice choosing the right loop for each situation.
+
+Scenario: You are building a student results portal. Each task below requires a different loop type.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="build-box" id="build-it">
+  <div class="build-label">🏗️ Build It</div>
+  <div class="build-name">🔵 Stage 1 — Data Source Generator</div>
+  <div class="build-desc"><strong>Real-world scenario:</strong> You work at a data analytics company. You receive large batches of raw transaction records. Build a <strong>lazy data pipeline</strong> using generators and iterators that:</div>
+  <div class="v2-code-wrap">
+    <div class="v2-code-bar">
+      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
+      <span class="v2-code-lang">starter.html</span>
+    </div>
+    <div class="v2-code-body"><pre><code>function* range(n) { for (let i = 1; i &lt;= n; i++) yield i; }
+console.log([...range(4)]); // [1, 2, 3, 4]</code></pre></div>
+  </div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+    <button class="unlock-btn" onclick="downloadStarter(`function* range(n) { for (let i = 1; i <= n; i++) yield i; }
+console.log([...range(4)]); // [1, 2, 3, 4]`)"
+      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
       ⬇ Download starter.html
     </button>
-    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+    <button class="unlock-btn" onclick="showGithub()"
+      style="background:#0f172a;box-shadow:none">
       🐙 Push to GitHub →
     </button>
   </div>
-  <script>
-  const __code = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JS Strings</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  textarea,input[type=text]{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
-  textarea:focus,input:focus{border-color:#d97706}
-  .btn-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-  .btn{padding:8px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:12px;background:#fef3c7;color:#92400e;border:1.5px solid #fde68a;transition:.15s}
-  .btn:hover,.btn.active{background:#d97706;color:white;border-color:#d97706}
-  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;min-height:44px;word-break:break-all;white-space:pre-wrap}
-  .stat-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-  .stat{background:#fef9ee;border:1.5px solid #fde68a;border-radius:8px;padding:8px 14px;text-align:center;flex:1;min-width:80px}
-  .stat-val{font-size:1.4rem;font-weight:800;color:#d97706;display:block}
-  .stat-lbl{font-size:11px;color:#92400e}
-  .template-out{background:#fef3c7;border-radius:8px;padding:14px;font-size:14px;line-height:1.8;color:#78350f;white-space:pre-wrap}
-</style>
-</head>
-<body>
-<h1>⚡ JS Strings</h1>
-<h2>String Transformer</h2>
-<div class="box">
-  <textarea id="str-in" rows="2">Hello, Techbase Academy!</textarea>
-  <div class="stat-row">
-    <div class="stat"><span class="stat-val" id="s-len">0</span><span class="stat-lbl">length</span></div>
-    <div class="stat"><span class="stat-val" id="s-words">0</span><span class="stat-lbl">words</span></div>
-    <div class="stat"><span class="stat-val" id="s-chars">0</span><span class="stat-lbl">non-space</span></div>
-  </div>
-  <div class="btn-row">
-    <button class="btn" onclick="transform('upper')">UPPERCASE</button>
-    <button class="btn" onclick="transform('lower')">lowercase</button>
-    <button class="btn" onclick="transform('title')">Title Case</button>
-    <button class="btn" onclick="transform('reverse')">esreveR</button>
-    <button class="btn" onclick="transform('trim')">Trim</button>
-    <button class="btn" onclick="transform('repeat')">×3 Repeat</button>
-  </div>
-  <div class="output" id="str-out">Result appears here…</div>
 </div>
-<h2>Template Literal Report Card</h2>
-<div class="box">
-  <input type="text" id="rpt-name" placeholder="Student Name" value="Amina Bello">
-  <input type="number" id="rpt-score" placeholder="Score (0-100)" value="94">
-  <button style="background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;width:100%" onclick="makeReport()">Generate Report Card</button>
-  <div class="template-out" id="rpt-out" style="margin-top:10px">Fill in details and click Generate</div>
-</div>
-<h2>String to Number</h2>
-<div class="box">
-  <input type="text" id="conv-in" placeholder="Try: '42', '3.14', '₦5000', 'hello'" value="₦5,000.00">
-  <div class="btn-row">
-    <button class="btn" onclick="convert('Number')">Number()</button>
-    <button class="btn" onclick="convert('parseInt')">parseInt()</button>
-    <button class="btn" onclick="convert('parseFloat')">parseFloat()</button>
-    <button class="btn" onclick="convert('unary')">+val (unary)</button>
+<div class="gh-acc" id="gh-steps" style="display:none">
+  <div class="gh-acc-head" onclick="toggleGh(this)">
+    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
   </div>
-  <div class="output" id="conv-out">Select a conversion method</div>
-</div>
-<script>
-  const strIn = document.getElementById('str-in');
-  function updateStats() {
-    const v = strIn.value;
-    document.getElementById('s-len').textContent = v.length;
-    document.getElementById('s-words').textContent = v.trim() ? v.trim().split(/\s+/).length : 0;
-    document.getElementById('s-chars').textContent = v.replace(/\s/g,'').length;
-  }
-  strIn.addEventListener('input', updateStats);
-  updateStats();
-  function transform(op) {
-    const v = strIn.value;
-    let result;
-    switch(op) {
-      case 'upper': result = v.toUpperCase(); break;
-      case 'lower': result = v.toLowerCase(); break;
-      case 'title': result = v.replace(/\w\S*/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase()); break;
-      case 'reverse': result = v.split('').reverse().join(''); break;
-      case 'trim': result = v.trim(); break;
-      case 'repeat': result = v.repeat(3); break;
-    }
-    document.getElementById('str-out').textContent = result;
-  }
-  function makeReport() {
-    const name  = document.getElementById('rpt-name').value || 'Student';
-    const score = parseInt(document.getElementById('rpt-score').value) || 0;
-    const grade = score >= 70 ? 'A' : score >= 60 ? 'B' : score >= 50 ? 'C' : score >= 45 ? 'D' : 'F';
-    const msg   = grade === 'A' ? 'Outstanding performance! 🌟' :
-                  grade === 'B' ? 'Great work — keep it up! 👍' :
-                  grade === 'C' ? 'Good effort — room to improve.' :
-                  grade === 'D' ? 'Passed — more practice needed.' : 'Please see your instructor.';
-    document.getElementById('rpt-out').textContent =
-\`╔══════════════════════════════╗
-║     TECHBASE ACADEMY          ║
-║     Student Report Card       ║
-╚══════════════════════════════╝
-
-Student: ${name}
-Score:   ${score}/100
-Grade:   ${grade}
-
-${msg}
-
-Generated: ${new Date().toLocaleDateString('en-NG')}\`;
-  }
-  function convert(method) {
-    const raw = document.getElementById('conv-in').value;
-    // Strip currency symbols for parsing
-    const clean = raw.replace(/[₦,\s]/g,'');
-    let result, expr;
-    switch(method) {
-      case 'Number':   result = Number(clean);     expr = \`Number("${raw}")\`; break;
-      case 'parseInt':  result = parseInt(clean,10); expr = \`parseInt("${raw}")\`; break;
-      case 'parseFloat':result = parseFloat(clean); expr = \`parseFloat("${raw}")\`; break;
-      case 'unary':    result = +clean;             expr = \`+"${raw}"\`; break;
-    }
-    document.getElementById('conv-out').textContent =
-      \`${expr}
-→ ${result}
-→ typeof: ${typeof result}
-→ isNaN: ${isNaN(result)}\`;
-  }
-</script>
-</body>
-</html>`;
-  function downloadStarter(){
-    const a=document.createElement('a');
-    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
-    a.download='starter.html'; a.click();
-  }
-  </script>
-</div>
-
-<div class="github-acc" id="github-steps" style="display:none">
-  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
-    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
-  </div>
-  <div class="github-acc-body">
-    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-17-js_strings</code>.</p></div>
-    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
-    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 17 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-17-js_strings/</code> in ~1 min! 🎉</p></div>
-    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  <div class="gh-acc-body">
+    <div class="gh-step"><div class="gh-step-n">1</div>
+    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-17-stage-1-data-source-generator</code>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">2</div>
+    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">3</div>
+    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
+    <div class="gh-step"><div class="gh-step-n">4</div>
+    <p>Commit message: <em>"Add JavaScript lesson 17 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">5</div>
+    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-17-stage-1-data-source-generator/</code> in about 1 minute! 🎉</p></div>
+    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
   </div>
 </div>
 <div class="session-end" id="session-end">
-  <h2>🎉 Great work! Lesson 17 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
-  <ul><li>✅ String basics and template literals</li><li>✅ String immutability</li></ul>
-  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
-    <a href="lesson_16.html" class="ln-btn">← Lesson 16</a>
-    <a href="lesson_18.html" class="ln-btn primary">Lesson 18 →</a>
-  </div>
+  <h2>🎉 Lesson 17 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
+  <ul><li>✅ 1. Background: What Is Looping and Why Does It Matter?</li><li>✅ 2. Topic 1 — JavaScript Looping (All Loop Types)</li><li>✅ 3. Topic 2 — Iterables</li><li>✅ 4. Topic 3 — Iterators</li><li>✅ 5. Topic 4 — Generator Functions</li><li>✅ 6. Applied Exercises</li></ul>
+  <div class="lesson-nav"><a href="lesson_16.html" class="ln-btn">← Lesson 16</a><a href="lesson_18.html" class="ln-btn primary">Lesson 18 →</a></div>
 </div>
 </main>
+
 <footer class="lesson-footer">
-  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 17 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+  Techbase Code Coach · JavaScript Course · Lesson 17 · © 2025 Techbase Consultant Services, Ibadan
 </footer>
 <script>
-const TOTAL=2, KEY='techbase_js_17_phase';
+const TOTAL=6,KEY='techbase_js_l17';
 let current=parseInt(localStorage.getItem(KEY)||'1');
 function init(){
-  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  for(let i=2;i<=current;i++) unlockPhase(i,false);
   updateBar();
 }
 function unlockNext(n){
-  document.getElementById('check'+n).classList.add('done');
-  document.getElementById('check'+n).textContent='✓';
-  localStorage.setItem(KEY,n+1);
-  current=n+1;
+  const chk=document.getElementById('chk'+n);
+  if(chk){chk.classList.add('done');chk.textContent='✓';}
+  localStorage.setItem(KEY,n+1); current=n+1;
   if(n===TOTAL){
     document.getElementById('build-it').style.display='block';
-    const cap=document.getElementById('capstone');
-    if(cap) cap.style.display='block';
     updateBar(100);
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  } else {
-    unlockPhase(n+1,true);
-    updateBar();
+  }else{
+    unlockPhase(n+1,true); updateBar();
   }
 }
 function unlockPhase(n,scroll){
   const el=document.getElementById('phase'+n);
-  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
 }
 function updateBar(pct){
-  const p=pct||Math.round((current-1)/TOTAL*95);
+  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
   document.getElementById('pbar').style.width=p+'%';
 }
 function showGithub(){
-  const g=document.getElementById('github-steps');
-  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+  const g=document.getElementById('gh-steps');
+  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
 }
 function showEnd(){
   const e=document.getElementById('session-end');
-  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
+}
+function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
+function downloadStarter(code){
+  const a=document.createElement('a');
+  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
+  a.download='starter.html';a.click();
 }
 init();
 </script>

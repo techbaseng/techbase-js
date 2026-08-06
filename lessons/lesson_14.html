@@ -2,502 +2,1561 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 14: JS Functions — Techbase JS Course</title>
-<meta name="description" content="Define and call functions — declarations, expressions and arrow functions">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lesson 14: JavaScript Arrays: Creating · Accessing · Modifying · Searching · Sorting · Iterating Every Array — Techbase JavaScript</title>
+<meta name="description" content="JavaScript Arrays: Creating · Accessing · Modifying · Searching · Sorting · Iterating Every Array">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
-  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
-  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
+  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
   --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
   --text:#0f172a;--t2:#334155;--muted:#64748b;
   --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+
+/* NAV */
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
+  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
 .l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
-.l-nav-back:hover{color:var(--accent)}
-.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.l-nav-back:hover{color:var(--acc)}
+.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+
+/* PROGRESS */
 .progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
-.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:820px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
-.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
-.l-hero-build strong{color:var(--accent)}
-.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
-.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
-.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
-.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
-.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
+
+/* HERO */
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:860px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
+  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
+  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
+
+/* WELCOME BOX */
+.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
+.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
+.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
+.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
+  font-family:var(--M);font-size:.68rem;font-weight:500}
+
+/* PHASE */
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
+  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
+.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;
+  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--acc)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
+  flex:1;margin:0 .8rem}
+.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
+  transition:background .3s,color .3s}
 .phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.4rem}
-.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
-.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
-.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
-.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
-.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
-.code-dot{width:8px;height:8px;border-radius:50%}
-.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
-.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
-.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
-.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
-.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
-.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
-.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
-.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
-.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
-.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
-.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
-.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
-.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
-.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
-.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.github-acc-body.open{display:block}
-.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.phase-body{padding:1.6rem 1.8rem}
+
+/* RICH CONTENT STYLES */
+.v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
+  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
+.v2-ul li,.v2-ol li{margin-bottom:.3rem}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
+  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq p{margin:0;color:inherit}
+.v2-bq strong{font-style:normal}
+.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
+.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
+  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
+.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
+.v2-table tr:nth-child(even) td{background:#f8fafc}
+.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
+  padding:1px 5px;font-family:var(--M);font-size:.8em}
+.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.phase-body strong{color:var(--text)}
+
+/* CODE BLOCKS */
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
+.v2-dot{width:10px;height:10px;border-radius:50%}
+.v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
+.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
+.v2-code-body pre{margin:0}
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
+  white-space:pre;background:transparent;padding:0;border-radius:0}
+
+/* TASK BOX */
+.task-box{background:#fef9c3;border:2px dashed #d97706;
+  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
+.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
+  font-family:var(--M);font-size:.82em}
+
+/* UNLOCK BUTTON */
+.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
+  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
+  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
+  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
+.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
+
+/* BUILD IT */
+.build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
+.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
+.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-desc strong{color:#14532d}
+
+/* GITHUB ACCORDION */
+.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.gh-acc-body.open{display:block}
+.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
+  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+
+/* SESSION END */
+.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
 .session-end.visible{display:block}
 .session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
 .session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
-.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
-.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
+  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
+  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
+  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--acc);color:var(--acc)}
+.ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;
+  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
+  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
-  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
-  <span class="l-nav-lesson">Lesson 14 of 46</span>
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
+  <span class="l-nav-label">Lesson 14 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
 <div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+
 <div class="l-hero">
   <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 14 </div>
-    <h1>JS Functions</h1>
-    <div class="l-hero-tag">Define and call functions — declarations, expressions and arrow functions</div>
-    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Function Library</div>
+    <div class="l-badge">JavaScript · Lesson 14</div>
+    <h1>JavaScript Arrays: Creating · Accessing · Modifying · Searching · Sorting · Iterating Every Array</h1>
+    <div class="l-hero-sub">9 phases · Build: 🔵 Stage 1 — Setup: Store Data and Compute Basics</div>
   </div>
 </div>
-<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
   <h2>👋 Welcome to Lesson 14</h2>
-  <p>Define and call functions — declarations, expressions and arrow functions</p>
+  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
   <div class="welcome-meta">
-    <span>📚 2 phases</span>
-    <span>🏗️ Build: My Function Library</span>
-    
+    <span>📚 9 phases</span>
+    <span>🏗️ 🔵 Stage 1 — Setup: Store Data and Compute Basics</span>
   </div>
 </div></div>
 </section>
-<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+
+<main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
 <div class="phase" id="phase1">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Function declarations and expressions</div></div>
-    <div class="phase-check" id="check1"></div>
+    <div class="phase-num">Phase 1 of 9</div>
+    <div class="phase-title">1. Background: What Is an Array?</div>
+    <div class="phase-check" id="chk1"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><strong>Declaration</strong>: <code>function name() {}</code> — hoisted, can be called before definition. <strong>Expression</strong>: <code>const f = function() {}</code> — not hoisted. <strong>Arrow function</strong>: <code>const f = () => {}</code> — shorter, no own <code>this</code>. Parameters have default values: <code>function greet(name='World')</code>. Return a value with <code>return</code>; without return, functions return <code>undefined</code>.</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>// Function declaration (hoisted)
-greet(&#x27;Amina&#x27;);  // ✅ can call before definition
-function greet(name) {
-  console.log(&#x27;Hello, &#x27; + name + &#x27;!&#x27;);
-}
-
-// Function expression (not hoisted)
-const add = function(a, b) {
-  return a + b;
-};
-
-// Arrow function (concise)
-const multiply = (a, b) =&gt; a * b;      // implicit return
-const square   = n =&gt; n * n;           // one param, no parens
-const getPI    = () =&gt; 3.14159;        // no params
-
-// Default parameters
-function createUser(name, role = &#x27;student&#x27;, score = 0) {
-  return { name, role, score };
-}
-createUser(&#x27;Tunde&#x27;);               // {name:&#x27;Tunde&#x27;, role:&#x27;student&#x27;, score:0}
-createUser(&#x27;Amina&#x27;, &#x27;teacher&#x27;);    // {name:&#x27;Amina&#x27;, role:&#x27;teacher&#x27;, score:0}
-
-// Rest parameters
-function sum(...numbers) {
-  return numbers.reduce((total, n) =&gt; total + n, 0);
-}
-sum(1, 2, 3, 4, 5);  // 15</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Write 3 versions of the same function (declaration, expression, arrow): converts Celsius to Fahrenheit. Test all three return the same result for input 100.</p></div>
-    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+    <p class="v2-p">Imagine you're a teacher and you need to store the names of 30 students. Without arrays, you'd need 30 separate variables:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Without arrays — a nightmare
+let student1 = &quot;Amara&quot;;
+let student2 = &quot;Kwame&quot;;
+let student3 = &quot;Fatima&quot;;
+// ... 27 more lines!</code></pre></div></div>
+<p class="v2-p">With an array, you store them all in <strong>one variable</strong>:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ✅ With an array — clean and manageable
+const students = [&quot;Amara&quot;, &quot;Kwame&quot;, &quot;Fatima&quot;, &quot;Emeka&quot;, &quot;Priya&quot;];</code></pre></div></div>
+<p class="v2-p">An <strong>array</strong> is an ordered collection of values stored in a single variable. Each value (called an <strong>element</strong>) has a numbered position called an <strong>index</strong>, starting from <strong>0</strong>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>students = [&quot;Amara&quot;, &quot;Kwame&quot;, &quot;Fatima&quot;, &quot;Emeka&quot;, &quot;Priya&quot;]
+              ↑         ↑        ↑         ↑        ↑
+           index 0   index 1  index 2   index 3  index 4</code></pre></div></div>
+<h3 class="v2-h3">Why Arrays Are Essential</h3>
+<p class="v2-p">Arrays are one of the most important tools in programming. Almost every real application uses them:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Real-World Use</th><th>Array Example</th></tr></thead><tbody><tr><td>Shopping cart</td><td><code>["Book", "Pen", "Bag"]</code></td></tr><tr><td>Student gradebook</td><td><code>[85, 92, 78, 95, 88]</code></td></tr><tr><td>Menu items on a website</td><td><code>["Home", "About", "Contact"]</code></td></tr><tr><td>Search results</td><td><code>["Result 1", "Result 2", "Result 3"]</code></td></tr><tr><td>Photos in a gallery</td><td>Array of image URLs</td></tr><tr><td>Messages in a chat</td><td>Array of message objects</td></tr></tbody></table></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Every time you see a list of products on Amazon, a feed of posts on Instagram, or a table of transactions in a bank app — that data is stored and processed as an array on the server.</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>1. Background: What Is an Array?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
   </div>
 </div>
 <div class="phase locked" id="phase2">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Pure functions and return values</div></div>
-    <div class="phase-check" id="check2"></div>
+    <div class="phase-num">Phase 2 of 9</div>
+    <div class="phase-title">2. Topic 1 — Arrays: Basics &amp; Creation</div>
+    <div class="phase-check" id="chk2"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>A <strong>pure function</strong>: always returns the same output for the same input, no side effects (doesn't modify external state). Side effects: modifying global variables, DOM manipulation, console.log, API calls. Pure functions are easy to test and reason about. Impure is fine for UI — but separate logic from effects.</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>// Pure — same input, same output, no side effects
-function add(a, b) { return a + b; }
-function toUpperCase(str) { return str.toUpperCase(); }
-function getFullName(first, last) { return `${first} ${last}`; }
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<h3 class="v2-h3">Creating an Array: Array Literal (Recommended)</h3>
+<p class="v2-p">The simplest and most common way to create an array is with square brackets <code>[]</code>:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Empty array
+const empty = [];
 
-// Impure — side effects
-let total = 0;
-function addToTotal(n) {
-  total += n;   // modifies external state
-  return total;
-}
+// Array of strings
+const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
 
-// Multiple return values via destructuring
-function minMax(arr) {
-  return [Math.min(...arr), Math.max(...arr)];
-}
-const [min, max] = minMax([3, 1, 7, 2, 9]);
+// Array of numbers
+const scores = [78, 92, 65, 88, 71];
 
-// Functions as arguments (higher-order functions)
-const nums = [1, 2, 3, 4, 5];
-const doubled = nums.map(n =&gt; n * 2);   // [2,4,6,8,10]
-const evens   = nums.filter(n =&gt; n % 2 === 0); // [2,4]
-const total2  = nums.reduce((acc, n) =&gt; acc + n, 0); // 15</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Write a pure function <code>calculateGrade(score)</code> that returns an object with grade letter, GPA points, and description. Then test it with 10 different scores using <code>.map()</code>.</p></div>
-    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+// Array of mixed types (JavaScript allows this)
+const mixed = [&quot;Alice&quot;, 25, true, null];
+
+// Multi-line (easier to read for long arrays)
+const students = [
+  &quot;Amara&quot;,
+  &quot;Kwame&quot;,
+  &quot;Fatima&quot;,
+  &quot;Emeka&quot;
+];</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Always use the array literal <code>[]</code> to create arrays. Avoid <code>new Array()</code> — it behaves unexpectedly when passed a single number (explained below).</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Creating an Array: <code>new Array()</code> Constructor</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = new Array(&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;);
+console.log(fruits); // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT — The Single Number Trap:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const a = new Array(3);    // Creates 3 EMPTY slots, NOT [3]!
+console.log(a);            // [empty × 3]
+console.log(a.length);     // 3
+
+const b = [3];             // Creates array containing the number 3
+console.log(b);            // [3]
+console.log(b.length);     // 1</code></pre></div></div>
+<p class="v2-p">This is why array literal <code>[]</code> is always preferred.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Accessing Elements by Index</h3>
+<p class="v2-p">Use square bracket notation <code>array[index]</code> to read any element. <strong>Remember: first element is index 0, not 1!</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+console.log(fruits[0]); // &quot;Banana&quot;  ← first element
+console.log(fruits[1]); // &quot;Apple&quot;
+console.log(fruits[2]); // &quot;Mango&quot;   ← last element
+console.log(fruits[3]); // undefined ← index out of range</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Banana
+Apple
+Mango
+undefined</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🐛 <strong>COMMON MISTAKE:</strong> <code>fruits[1]</code> is the SECOND element, not the first. Index 0 is always the first. This trips up every beginner at least once.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Changing an Element</h3>
+<p class="v2-p">Use the same bracket notation to assign a new value:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+console.log(fruits[0]); // &quot;Banana&quot;
+
+fruits[0] = &quot;Kiwi&quot;;    // Replace &quot;Banana&quot; with &quot;Kiwi&quot;
+console.log(fruits[0]); // &quot;Kiwi&quot;
+console.log(fruits);    // [&quot;Kiwi&quot;, &quot;Apple&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Banana
+Kiwi
+[&quot;Kiwi&quot;, &quot;Apple&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">The <code>length</code> Property</h3>
+<p class="v2-p"><code>length</code> tells you how many elements are in the array. It is always <strong>one more than the last index</strong>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+console.log(fruits.length); // 3
+
+// Access last element using length:
+console.log(fruits[fruits.length - 1]); // &quot;Mango&quot;</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>3
+Mango</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> <code>fruits[fruits.length - 1]</code> is the classic way to get the last element. In modern JavaScript you can also use <code>fruits.at(-1)</code> (covered in Topic 3).</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Accessing the Last Element — Three Ways</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+// Way 1: length - 1
+console.log(fruits[fruits.length - 1]); // &quot;Mango&quot;
+
+// Way 2: at() with negative index (modern)
+console.log(fruits.at(-1));             // &quot;Mango&quot;
+
+// Way 3: at() is the same as bracket notation for positive indexes
+console.log(fruits.at(0));              // &quot;Banana&quot;
+console.log(fruits.at(-2));             // &quot;Apple&quot;</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Arrays Are Objects</h3>
+<p class="v2-p">In JavaScript, arrays are a special type of object. Their "keys" are the index numbers.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+console.log(typeof fruits); // &quot;object&quot;
+
+// You can check if something IS an array:
+console.log(Array.isArray(fruits)); // true
+console.log(Array.isArray(&quot;hello&quot;)); // false</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🐛 <strong>COMMON MISTAKE:</strong> Don't use <code>typeof</code> to check if something is an array — it returns <code>"object"</code> for both arrays and regular objects. Always use <code>Array.isArray()</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Arrays Can Contain Objects and Other Arrays (Nested Arrays)</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Array of objects — very common in real apps
+const students = [
+  { name: &quot;Amara&quot;, score: 85 },
+  { name: &quot;Kwame&quot;, score: 92 },
+  { name: &quot;Fatima&quot;, score: 78 }
+];
+
+console.log(students[0].name);  // &quot;Amara&quot;
+console.log(students[1].score); // 92
+
+// Nested array (array of arrays)
+const matrix = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9]
+];
+console.log(matrix[1][2]); // 6  (row 1, column 2)</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Amara
+92
+6</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> API responses almost always return arrays of objects — e.g. <code>[{id: 1, name: "Alice"}, {id: 2, name: "Bob"}]</code>. Knowing how to access <code>data[0].name</code> is essential for every web developer.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>toString()</code> and <code>join()</code> — Convert Array to String</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+// toString() joins with commas
+console.log(fruits.toString()); // &quot;Banana,Apple,Mango&quot;
+
+// join() lets you choose the separator
+console.log(fruits.join(&quot;, &quot;)); // &quot;Banana, Apple, Mango&quot;
+console.log(fruits.join(&quot; | &quot;)); // &quot;Banana | Apple | Mango&quot;
+console.log(fruits.join(&quot;&quot;));    // &quot;BananaAppleMango&quot;</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Banana,Apple,Mango
+Banana, Apple, Mango
+Banana | Apple | Mango
+BananaAppleMango</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>join()</code> is used to display tags, categories, or lists of items in a UI: <code>tags.join(", ")</code> → <code>"JavaScript, React, Node.js"</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Identifying an Array</h3>
+<p class="v2-p">Three ways to check if a variable is an array:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;];
+
+// Method 1: Array.isArray() — RECOMMENDED
+console.log(Array.isArray(fruits)); // true
+
+// Method 2: instanceof
+console.log(fruits instanceof Array); // true
+
+// Method 3: constructor check
+console.log(fruits.constructor === Array); // true</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Looping Through an Array: <code>for</code> Loop</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+for (let i = 0; i &lt; fruits.length; i++) {
+  console.log(i + &quot;: &quot; + fruits[i]);
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0: Banana
+1: Apple
+2: Mango</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>for...of</code> Loop (Modern, Clean)</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+for (const fruit of fruits) {
+  console.log(fruit);
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Banana
+Apple
+Mango</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Use <code>for...of</code> when you just need each value. Use a regular <code>for</code> loop when you also need the index.</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>2. Topic 1 — Arrays: Basics &amp; Creation</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
   </div>
 </div>
-<div class="project-box" id="build-it" style="display:none">
-  <div class="project-label">🏗️ Build It</div>
-  <div class="project-name">Function Library</div>
-  <div class="project-desc">An interactive function playground with live results.</div>
-  <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
-<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-&lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
-&lt;title&gt;JS Functions&lt;/title&gt;
-&lt;style&gt;
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  label{display:block;font-size:13px;font-weight:700;color:#92400e;margin-bottom:4px}
-  input,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px}
-  input:focus,select:focus{border-color:#d97706}
-  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px}
-  .btn:hover{background:#b45309}
-  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;margin-top:10px;white-space:pre-wrap;min-height:36px}
-  .fn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .fn-card{background:#fef9ee;border:1.5px solid #fde68a;border-radius:10px;padding:12px}
-  .fn-card h3{font-family:monospace;font-size:13px;color:#d97706;margin-bottom:4px}
-  .fn-card p{font-size:12px;color:#64748b}
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;⚡ JS Functions&lt;/h1&gt;
-&lt;h2&gt;Function Syntax Comparison&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;div class=&quot;fn-grid&quot;&gt;
-    &lt;div class=&quot;fn-card&quot;&gt;&lt;h3&gt;Declaration&lt;/h3&gt;&lt;p&gt;function add(a,b){return a+b}&lt;br&gt;Hoisted — call before definition&lt;/p&gt;&lt;/div&gt;
-    &lt;div class=&quot;fn-card&quot;&gt;&lt;h3&gt;Expression&lt;/h3&gt;&lt;p&gt;const add = function(a,b){return a+b}&lt;br&gt;Not hoisted&lt;/p&gt;&lt;/div&gt;
-    &lt;div class=&quot;fn-card&quot;&gt;&lt;h3&gt;Arrow&lt;/h3&gt;&lt;p&gt;const add = (a,b) =&amp;gt; a+b&lt;br&gt;Concise, no own &#x27;this&#x27;&lt;/p&gt;&lt;/div&gt;
-    &lt;div class=&quot;fn-card&quot;&gt;&lt;h3&gt;Default params&lt;/h3&gt;&lt;p&gt;function greet(name=&#x27;World&#x27;)&lt;br&gt;Used when arg is undefined&lt;/p&gt;&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;h2&gt;Temperature Converter&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;label&gt;Temperature&lt;/label&gt;
-  &lt;input type=&quot;number&quot; id=&quot;temp-in&quot; value=&quot;100&quot; oninput=&quot;convertTemp()&quot;&gt;
-  &lt;select id=&quot;temp-dir&quot; onchange=&quot;convertTemp()&quot;&gt;
-    &lt;option value=&quot;cToF&quot;&gt;Celsius → Fahrenheit&lt;/option&gt;
-    &lt;option value=&quot;fToC&quot;&gt;Fahrenheit → Celsius&lt;/option&gt;
-    &lt;option value=&quot;cToK&quot;&gt;Celsius → Kelvin&lt;/option&gt;
-  &lt;/select&gt;
-  &lt;div class=&quot;output&quot; id=&quot;temp-out&quot;&gt;100°C = 212°F&lt;/div&gt;
-&lt;/div&gt;
-&lt;h2&gt;Grade Calculator (Pure Function)&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;label&gt;Score (0–100)&lt;/label&gt;
-  &lt;input type=&quot;number&quot; id=&quot;grade-in&quot; value=&quot;85&quot; min=&quot;0&quot; max=&quot;100&quot; oninput=&quot;showGrade()&quot;&gt;
-  &lt;div class=&quot;output&quot; id=&quot;grade-out&quot;&gt;Grade: B&lt;/div&gt;
-&lt;/div&gt;
-&lt;h2&gt;Higher-Order Function Demo&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;button class=&quot;btn&quot; onclick=&quot;hofDemo()&quot;&gt;Run map / filter / reduce&lt;/button&gt;
-  &lt;div class=&quot;output&quot; id=&quot;hof-out&quot;&gt;Click to see higher-order functions in action&lt;/div&gt;
-&lt;/div&gt;
-&lt;script&gt;
-  // Three versions of the same function
-  function celsiusToFahrenheit(c) { return c * 9/5 + 32; }
-  const fToC = c =&gt; (c - 32) * 5/9;
-  const cToK = c =&gt; c + 273.15;
-  function convertTemp() {
-    const val = parseFloat(document.getElementById(&#x27;temp-in&#x27;).value) || 0;
-    const dir = document.getElementById(&#x27;temp-dir&#x27;).value;
-    let result, label;
-    switch(dir) {
-      case &#x27;cToF&#x27;: result = celsiusToFahrenheit(val); label = `${val}°C = ${result.toFixed(1)}°F`; break;
-      case &#x27;fToC&#x27;: result = fToC(val); label = `${val}°F = ${result.toFixed(1)}°C`; break;
-      case &#x27;cToK&#x27;: result = cToK(val); label = `${val}°C = ${result.toFixed(2)} K`; break;
-    }
-    document.getElementById(&#x27;temp-out&#x27;).textContent = label;
-  }
-  // Pure function
-  function calculateGrade(score) {
-    if (score &gt;= 70) return { grade:&#x27;A&#x27;, gpa:5.0, label:&#x27;Excellent&#x27; };
-    if (score &gt;= 60) return { grade:&#x27;B&#x27;, gpa:4.0, label:&#x27;Good&#x27; };
-    if (score &gt;= 50) return { grade:&#x27;C&#x27;, gpa:3.0, label:&#x27;Average&#x27; };
-    if (score &gt;= 45) return { grade:&#x27;D&#x27;, gpa:2.0, label:&#x27;Pass&#x27; };
-    return { grade:&#x27;F&#x27;, gpa:0.0, label:&#x27;Fail&#x27; };
-  }
-  function showGrade() {
-    const score = parseInt(document.getElementById(&#x27;grade-in&#x27;).value) || 0;
-    const {grade, gpa, label} = calculateGrade(score);
-    document.getElementById(&#x27;grade-out&#x27;).textContent =
-      `Score: ${score}
-Grade: ${grade}
-GPA:   ${gpa}
-Label: ${label}`;
-  }
-  showGrade();
-  function hofDemo() {
-    const scores = [92, 45, 78, 33, 88, 61, 55, 94, 72, 41];
-    const passed  = scores.filter(s =&gt; s &gt;= 45);
-    const grades  = scores.map(s =&gt; calculateGrade(s).grade);
-    const average = scores.reduce((sum, s) =&gt; sum + s, 0) / scores.length;
-    document.getElementById(&#x27;hof-out&#x27;).textContent =
-      &#x27;Original scores: [&#x27; + scores.join(&#x27;, &#x27;) + &#x27;]
-&#x27; +
-      &#x27;filter(s&gt;=45):   [&#x27; + passed.join(&#x27;, &#x27;) + &#x27;]
-&#x27; +
-      &#x27;map(→grade):     [&#x27; + grades.join(&#x27;, &#x27;) + &#x27;]
-&#x27; +
-      &#x27;reduce(average): &#x27; + average.toFixed(1);
-  }
-  convertTemp();
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre></div>
+<div class="phase locked" id="phase3">
+  <div class="phase-header">
+    <div class="phase-num">Phase 3 of 9</div>
+    <div class="phase-title">3. Topic 2 — Array `const`</div>
+    <div class="phase-check" id="chk3"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">Arrays are almost always declared with <code>const</code>. Understanding exactly what <code>const</code> means for arrays is crucial — it is one of the most misunderstood concepts for beginners.</p>
+<h3 class="v2-h3"><code>const</code> Does NOT Make the Array Immutable!</h3>
+<p class="v2-p"><code>const</code> means the <strong>variable binding cannot be reassigned</strong> — you cannot point that variable name to a different array. But the <strong>contents of the array can still be changed</strong> freely.</p>
+<p class="v2-p">Think of it like a labelled shelf. <code>const</code> means the label is permanently attached to this shelf. You cannot move the label to a different shelf. But you can freely add, remove, or rearrange items ON the shelf.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+// ✅ ALLOWED — changing elements inside the array
+fruits[0] = &quot;Kiwi&quot;;
+fruits.push(&quot;Orange&quot;);
+fruits.pop();
+console.log(fruits); // [&quot;Kiwi&quot;, &quot;Apple&quot;, &quot;Mango&quot;]
+
+// ❌ NOT ALLOWED — reassigning the variable to a different array
+// fruits = [&quot;Strawberry&quot;]; // TypeError: Assignment to constant variable</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[&quot;Kiwi&quot;, &quot;Apple&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>const</code> Requires Initialisation</h3>
+<p class="v2-p">Unlike <code>let</code> and <code>var</code>, a <code>const</code> array <strong>must be assigned a value when declared</strong>. You cannot declare it empty and assign later.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ WRONG — cannot declare const without value
+// const fruits;
+// fruits = [&quot;Banana&quot;]; // SyntaxError
+
+// ✅ CORRECT — declare and assign together
+const fruits = [&quot;Banana&quot;, &quot;Apple&quot;];
+
+// ✅ Also correct — empty array is still a value
+const empty = [];
+empty.push(&quot;Hello&quot;); // This works! const just means no reassignment</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>const</code> vs <code>let</code> for Arrays</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// With const: cannot reassign
+const a = [1, 2, 3];
+a.push(4);    // ✅ fine — modifying contents
+// a = [5, 6]; // ❌ TypeError
+
+// With let: can reassign
+let b = [1, 2, 3];
+b.push(4);    // ✅ fine
+b = [5, 6];   // ✅ also fine — let allows reassignment
+
+console.log(a); // [1, 2, 3, 4]
+console.log(b); // [5, 6]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[1, 2, 3, 4]
+[5, 6]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>const</code> Has Block Scope</h3>
+<p class="v2-p">Just like <code>let</code>, a <code>const</code> array declared inside a block <code>{}</code> is not accessible outside that block:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>{
+  const fruits = [&quot;Banana&quot;, &quot;Apple&quot;];
+  console.log(fruits[0]); // &quot;Banana&quot; ✅
+}
+// console.log(fruits); // ❌ ReferenceError: fruits is not defined</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Best Practice: Always Use <code>const</code> for Arrays</h3>
+<p class="v2-p">Unless you specifically need to reassign the variable to a completely different array, always use <code>const</code>. It makes your code safer and communicates intent clearly.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ✅ BEST PRACTICE
+const students = [];
+students.push(&quot;Alice&quot;);
+students.push(&quot;Bob&quot;);
+console.log(students); // [&quot;Alice&quot;, &quot;Bob&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> In professional codebases and frameworks like React, <code>const</code> is used for virtually all array declarations. Seeing <code>let arr = []</code> signals that the variable might be completely replaced later, which is a useful distinction.</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">const students = [];
+students.push("Alice");
+students.push("Bob");
+console.log(students); // ["Alice", "Bob"]
+`
+
+> 🏢 REAL WORLD: In professional codebases and frameworks like React, const is used for virtually all array declarations. Seeing let arr = [] signals that the variable might be completely replaced later, which is a useful distinction.
+
+---
+---</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
+  </div>
 </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
-    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+<div class="phase locked" id="phase4">
+  <div class="phase-header">
+    <div class="phase-num">Phase 4 of 9</div>
+    <div class="phase-title">4. Topic 3 — Array Methods (Modify &amp; Transform)</div>
+    <div class="phase-check" id="chk4"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">JavaScript arrays come with a rich set of built-in methods. This topic covers methods that <strong>add, remove, or transform</strong> elements. We split them into groups.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group A — Adding and Removing Elements</h3>
+<h4 class="v2-h4"><code>push()</code> — Add to the End</h4>
+<p class="v2-p">Adds one or more elements to the <strong>end</strong> of the array. Returns the new length.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;];
+const newLen = fruits.push(&quot;Mango&quot;);
+
+console.log(fruits);  // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;]
+console.log(newLen);  // 3</code></pre></div></div>
+<p class="v2-p">Add multiple at once:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;];
+fruits.push(&quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;);
+console.log(fruits); // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h4 class="v2-h4"><code>pop()</code> — Remove from the End</h4>
+<p class="v2-p">Removes the <strong>last</strong> element and returns it.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+const removed = fruits.pop();
+
+console.log(removed); // &quot;Mango&quot;
+console.log(fruits);  // [&quot;Banana&quot;, &quot;Apple&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Mango
+[&quot;Banana&quot;, &quot;Apple&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> <code>push()</code> and <code>pop()</code> work on the END of the array. Think of a stack of plates — you add (push) and remove (pop) from the top (end).</p></blockquote>
+<hr class="v2-hr">
+<h4 class="v2-h4"><code>unshift()</code> — Add to the Beginning</h4>
+<p class="v2-p">Adds one or more elements to the <strong>start</strong> of the array. Returns the new length.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Mango&quot;];
+fruits.unshift(&quot;Banana&quot;);
+
+console.log(fruits); // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT:</strong> <code>unshift()</code> is slower than <code>push()</code> for large arrays because every existing element must shift one position to the right.</p></blockquote>
+<hr class="v2-hr">
+<h4 class="v2-h4"><code>shift()</code> — Remove from the Beginning</h4>
+<p class="v2-p">Removes the <strong>first</strong> element and returns it.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+const removed = fruits.shift();
+
+console.log(removed); // &quot;Banana&quot;
+console.log(fruits);  // [&quot;Apple&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Banana
+[&quot;Apple&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h4 class="v2-h4">Summary: push/pop/shift/unshift</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>push    → Add to END        pop    → Remove from END
+unshift → Add to START      shift  → Remove from START</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr = [2, 3, 4];
+arr.push(5);     // [2, 3, 4, 5]
+arr.pop();       // [2, 3, 4]
+arr.unshift(1);  // [1, 2, 3, 4]
+arr.shift();     // [2, 3, 4]
+console.log(arr); // [2, 3, 4]</code></pre></div></div>
+<hr class="v2-hr">
+<h4 class="v2-h4"><code>delete</code> — Remove an Element (Leaves a Hole!)</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+delete fruits[1]; // ⚠️ Removes &quot;Apple&quot; but leaves an empty slot!
+
+console.log(fruits);        // [&quot;Banana&quot;, empty, &quot;Mango&quot;]
+console.log(fruits[1]);     // undefined
+console.log(fruits.length); // 3 ← length unchanged!</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🐛 <strong>COMMON MISTAKE:</strong> <code>delete</code> leaves an empty hole in the array and does NOT reduce <code>length</code>. Always use <code>splice()</code> instead to remove elements properly.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group B — <code>splice()</code> — The Swiss Army Knife</h3>
+<p class="v2-p"><code>splice()</code> can <strong>add, remove, or replace</strong> elements at any position. It <strong>modifies the original array</strong> and returns an array of removed elements.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// splice(startIndex, deleteCount, item1, item2, ...)</code></pre></div></div>
+<h4 class="v2-h4">Remove Elements with <code>splice()</code>:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;];
+
+// Remove 1 element at index 1
+const removed = fruits.splice(1, 1);
+
+console.log(removed); // [&quot;Apple&quot;]
+console.log(fruits);  // [&quot;Banana&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[&quot;Apple&quot;]
+[&quot;Banana&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;]</code></pre></div></div>
+<h4 class="v2-h4">Remove Multiple Elements:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;, &quot;Orange&quot;];
+const removed = fruits.splice(1, 3); // start at 1, remove 3
+
+console.log(removed); // [&quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;]
+console.log(fruits);  // [&quot;Banana&quot;, &quot;Orange&quot;]</code></pre></div></div>
+<h4 class="v2-h4">Insert Elements (Remove 0, Add Items):</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Kiwi&quot;];
+fruits.splice(1, 0, &quot;Apple&quot;, &quot;Mango&quot;); // at index 1, remove 0, add 2
+
+console.log(fruits); // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;]</code></pre></div></div>
+<h4 class="v2-h4">Replace Elements:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+fruits.splice(1, 1, &quot;Strawberry&quot;); // at index 1, remove 1, add &quot;Strawberry&quot;
+
+console.log(fruits); // [&quot;Banana&quot;, &quot;Strawberry&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> In a to-do app, when a user deletes task #3 from a list, you use <code>tasks.splice(2, 1)</code> (index 2 = 3rd item). When they insert a task at position 2, you use <code>tasks.splice(2, 0, newTask)</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group C — <code>toSpliced()</code> — Splice Without Mutating (Modern)</h3>
+<p class="v2-p"><code>toSpliced()</code> is the <strong>immutable version</strong> of <code>splice()</code>. It returns a new array and does not change the original.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;];
+
+// Remove 1 at index 1, add &quot;Orange&quot;
+const newFruits = fruits.toSpliced(1, 1, &quot;Orange&quot;);
+
+console.log(fruits);    // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;] ← unchanged!
+console.log(newFruits); // [&quot;Banana&quot;, &quot;Orange&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group D — <code>slice()</code> — Extract a Portion (Non-Destructive)</h3>
+<p class="v2-p"><code>slice(start, end)</code> extracts a section of the array into a <strong>new array</strong> without modifying the original. <code>end</code> is exclusive (not included).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;, &quot;Orange&quot;];
+
+// From index 1 to 3 (not including 3)
+const sliced = fruits.slice(1, 3);
+
+console.log(sliced); // [&quot;Apple&quot;, &quot;Mango&quot;]
+console.log(fruits); // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;, &quot;Orange&quot;] ← unchanged!</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[&quot;Apple&quot;, &quot;Mango&quot;]
+[&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;, &quot;Orange&quot;]</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// From index 2 to end
+console.log(fruits.slice(2));    // [&quot;Mango&quot;, &quot;Kiwi&quot;, &quot;Orange&quot;]
+
+// Negative: from 2nd-to-last to end
+console.log(fruits.slice(-2));   // [&quot;Kiwi&quot;, &quot;Orange&quot;]
+
+// Copy the whole array
+const copy = fruits.slice();
+console.log(copy); // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;, &quot;Orange&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> <code>splice()</code> MODIFIES the original array. <code>slice()</code> does NOT. A helpful memory trick: <strong>splic</strong>e = <strong>splic</strong>es up (cuts into) the original. <strong>slic</strong>e = takes a slice (copy) without touching the original.</p></blockquote>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Pagination — showing items 11–20 of a 100-item results array uses <code>results.slice(10, 20)</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group E — <code>concat()</code> — Merge Arrays</h3>
+<p class="v2-p"><code>concat()</code> merges two or more arrays into a <strong>new array</strong>. It does not change the originals.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr1 = [&quot;Banana&quot;, &quot;Apple&quot;];
+const arr2 = [&quot;Mango&quot;, &quot;Kiwi&quot;];
+const arr3 = [&quot;Orange&quot;];
+
+const merged = arr1.concat(arr2, arr3);
+console.log(merged); // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;, &quot;Orange&quot;]
+
+// Original arrays unchanged:
+console.log(arr1); // [&quot;Banana&quot;, &quot;Apple&quot;]
+console.log(arr2); // [&quot;Mango&quot;, &quot;Kiwi&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;, &quot;Orange&quot;]
+[&quot;Banana&quot;, &quot;Apple&quot;]
+[&quot;Mango&quot;, &quot;Kiwi&quot;]</code></pre></div></div>
+<p class="v2-p">Can also concat individual values:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const result = [&quot;a&quot;, &quot;b&quot;].concat(&quot;c&quot;, &quot;d&quot;, [&quot;e&quot;, &quot;f&quot;]);
+console.log(result); // [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Modern JavaScript also uses the <strong>spread operator</strong> <code>[...arr1, ...arr2]</code> to merge arrays — even cleaner:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const merged = [...arr1, ...arr2];</code></pre></div></div></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group F — <code>flat()</code> and <code>flatMap()</code></h3>
+<h4 class="v2-h4"><code>flat()</code> — Flatten Nested Arrays</h4>
+<p class="v2-p"><code>flat(depth)</code> creates a new array with sub-arrays flattened by <code>depth</code> levels (default = 1).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nested = [1, 2, [3, 4], [5, [6, 7]]];
+
+console.log(nested.flat());    // [1, 2, 3, 4, 5, [6, 7]]  ← depth 1
+console.log(nested.flat(2));   // [1, 2, 3, 4, 5, 6, 7]    ← depth 2
+
+// Flatten completely regardless of depth:
+console.log(nested.flat(Infinity)); // [1, 2, 3, 4, 5, 6, 7]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[1, 2, 3, 4, 5, [6, 7]]
+[1, 2, 3, 4, 5, 6, 7]
+[1, 2, 3, 4, 5, 6, 7]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> When an API returns data grouped by category (array of arrays), <code>flat()</code> merges all groups into one list for easy searching or rendering.</p></blockquote>
+<hr class="v2-hr">
+<h4 class="v2-h4"><code>flatMap()</code> — Map Then Flatten (1 Level)</h4>
+<p class="v2-p"><code>flatMap()</code> is exactly like calling <code>.map()</code> followed by <code>.flat(1)</code>. It maps each element to a new value and then flattens one level.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const sentences = [&quot;Hello World&quot;, &quot;Foo Bar&quot;];
+
+// map() gives nested arrays
+const words1 = sentences.map(s =&gt; s.split(&quot; &quot;));
+console.log(words1); // [[&quot;Hello&quot;, &quot;World&quot;], [&quot;Foo&quot;, &quot;Bar&quot;]]
+
+// flatMap() maps AND flattens
+const words2 = sentences.flatMap(s =&gt; s.split(&quot; &quot;));
+console.log(words2); // [&quot;Hello&quot;, &quot;World&quot;, &quot;Foo&quot;, &quot;Bar&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[[&quot;Hello&quot;, &quot;World&quot;], [&quot;Foo&quot;, &quot;Bar&quot;]]
+[&quot;Hello&quot;, &quot;World&quot;, &quot;Foo&quot;, &quot;Bar&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group G — <code>fill()</code> — Fill with a Value</h3>
+<p class="v2-p"><code>fill(value, start, end)</code> fills elements with a static value. Modifies the original array.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr = [1, 2, 3, 4, 5];
+
+arr.fill(0);           // Fill everything with 0
+console.log(arr);      // [0, 0, 0, 0, 0]
+
+const arr2 = [1, 2, 3, 4, 5];
+arr2.fill(9, 2, 4);   // Fill indices 2 and 3 with 9
+console.log(arr2);     // [1, 2, 9, 9, 5]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[0, 0, 0, 0, 0]
+[1, 2, 9, 9, 5]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group H — <code>copyWithin()</code> — Copy Elements Within the Array</h3>
+<p class="v2-p"><code>copyWithin(target, start, end)</code> copies elements from one position to another within the same array. Modifies the original.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr = [1, 2, 3, 4, 5];
+
+// Copy from index 3 to target index 0
+arr.copyWithin(0, 3);
+console.log(arr); // [4, 5, 3, 4, 5]</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr2 = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;];
+arr2.copyWithin(1, 3, 5); // copy items at 3-4 to position 1
+console.log(arr2); // [&quot;a&quot;, &quot;d&quot;, &quot;e&quot;, &quot;d&quot;, &quot;e&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group I — <code>at()</code> — Access by Index (Supports Negatives)</h3>
+<p class="v2-p"><code>at(index)</code> accesses an element by index. Negative values count from the end.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;];
+
+console.log(fruits.at(0));   // &quot;Banana&quot;  — first
+console.log(fruits.at(2));   // &quot;Mango&quot;
+console.log(fruits.at(-1));  // &quot;Kiwi&quot;   — last
+console.log(fruits.at(-2));  // &quot;Mango&quot;  — second from last</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Banana
+Mango
+Kiwi
+Mango</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> <code>at(-1)</code> is cleaner than <code>arr[arr.length - 1]</code> for getting the last element.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group J — <code>Array.from()</code> — Create from Anything Iterable</h3>
+<p class="v2-p"><code>Array.from()</code> creates a new array from any iterable (string, Set, Map, NodeList, etc.) or array-like object.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// From a string
+const chars = Array.from(&quot;HELLO&quot;);
+console.log(chars); // [&quot;H&quot;, &quot;E&quot;, &quot;L&quot;, &quot;L&quot;, &quot;O&quot;]
+
+// From a Set
+const unique = Array.from(new Set([1, 2, 2, 3, 3, 3]));
+console.log(unique); // [1, 2, 3]
+
+// With a mapping function
+const numbers = Array.from({ length: 5 }, (_, i) =&gt; i + 1);
+console.log(numbers); // [1, 2, 3, 4, 5]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[&quot;H&quot;, &quot;E&quot;, &quot;L&quot;, &quot;L&quot;, &quot;O&quot;]
+[1, 2, 3]
+[1, 2, 3, 4, 5]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>Array.from(document.querySelectorAll("p"))</code> converts a list of HTML elements (not a real array) into a true array so you can use <code>.map()</code>, <code>.filter()</code>, etc. on it.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group K — <code>with()</code> — Replace One Element Without Mutation (Modern)</h3>
+<p class="v2-p"><code>with(index, value)</code> returns a NEW array with one element replaced. The original is unchanged.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+const updated = fruits.with(1, &quot;Strawberry&quot;); // Replace index 1
+
+console.log(fruits);  // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;]  ← unchanged!
+console.log(updated); // [&quot;Banana&quot;, &quot;Strawberry&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Group L — <code>Array.of()</code> — Create Array from Arguments</h3>
+<p class="v2-p">Creates a new array from any number of arguments, regardless of type or count.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const a = Array.of(7);           // [7]  ← unlike new Array(7) which creates 7 empty slots!
+const b = Array.of(1, 2, 3);     // [1, 2, 3]
+const c = Array.of(&quot;a&quot;, &quot;b&quot;);    // [&quot;a&quot;, &quot;b&quot;]
+
+console.log(a); // [7]
+console.log(b); // [1, 2, 3]</code></pre></div></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>4. Topic 3 — Array Methods (Modify &amp; Transform)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase5">
+  <div class="phase-header">
+    <div class="phase-num">Phase 5 of 9</div>
+    <div class="phase-title">5. Topic 4 — Array Search Methods</div>
+    <div class="phase-check" id="chk5"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">Searching an array — finding whether an element exists, or finding its position — is extremely common. JavaScript provides many specialised search methods.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>indexOf()</code> — Find First Position of a Value</h3>
+<p class="v2-p">Returns the <strong>index</strong> of the first occurrence of a value, or <code>-1</code> if not found.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;, &quot;Banana&quot;, &quot;Kiwi&quot;];
+
+console.log(fruits.indexOf(&quot;Banana&quot;));     // 1  ← first occurrence
+console.log(fruits.indexOf(&quot;Banana&quot;, 2));  // 3  ← start searching from index 2
+console.log(fruits.indexOf(&quot;Orange&quot;));     // -1 ← not found
+
+// Common pattern — check if item exists:
+if (fruits.indexOf(&quot;Mango&quot;) !== -1) {
+  console.log(&quot;Mango found!&quot;);
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+3
+-1
+Mango found!</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT:</strong> <code>indexOf()</code> uses <strong>strict equality</strong> (<code>===</code>). It does not work for finding objects by content — use <code>findIndex()</code> for that.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>lastIndexOf()</code> — Find Last Position of a Value</h3>
+<p class="v2-p">Returns the index of the <strong>last</strong> occurrence of a value.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;, &quot;Banana&quot;, &quot;Kiwi&quot;];
+
+console.log(fruits.lastIndexOf(&quot;Banana&quot;)); // 3  ← last occurrence
+console.log(fruits.lastIndexOf(&quot;Orange&quot;)); // -1 ← not found</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>includes()</code> — Check If a Value Exists</h3>
+<p class="v2-p">Returns <code>true</code> or <code>false</code>. The simplest existence check.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+
+console.log(fruits.includes(&quot;Mango&quot;));   // true
+console.log(fruits.includes(&quot;Orange&quot;));  // false
+
+// With a start position:
+console.log(fruits.includes(&quot;Apple&quot;, 1)); // false ← Apple is at 0, not after 1</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+false
+false</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Use <code>includes()</code> when you only need a yes/no answer. Use <code>indexOf()</code> when you also need to know <em>where</em> the element is.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>find()</code> — Find the First Matching Element (By Condition)</h3>
+<p class="v2-p"><code>find()</code> runs a callback function on each element and returns the <strong>first element that passes the test</strong> (returns <code>true</code>). Returns <code>undefined</code> if none found.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [45, 62, 78, 95, 55];
+
+// Find the first score above 70
+const firstHigh = scores.find(score =&gt; score &gt; 70);
+console.log(firstHigh); // 78
+
+// Find a student object by name
+const students = [
+  { name: &quot;Amara&quot;,  score: 85 },
+  { name: &quot;Kwame&quot;,  score: 92 },
+  { name: &quot;Fatima&quot;, score: 78 },
+];
+
+const found = students.find(s =&gt; s.name === &quot;Kwame&quot;);
+console.log(found); // { name: &quot;Kwame&quot;, score: 92 }</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>78
+{ name: &quot;Kwame&quot;, score: 92 }</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> In an e-commerce app: <code>products.find(p =&gt; p.id === selectedId)</code> finds the product a user clicked on from a list.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>findIndex()</code> — Find the Index of the First Matching Element</h3>
+<p class="v2-p">Just like <code>find()</code> but returns the <strong>index</strong> instead of the value. Returns <code>-1</code> if not found.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [45, 62, 78, 95, 55];
+
+const idx = scores.findIndex(score =&gt; score &gt; 70);
+console.log(idx); // 2  (index of 78)
+
+const students = [
+  { name: &quot;Amara&quot;,  score: 85 },
+  { name: &quot;Kwame&quot;,  score: 92 },
+  { name: &quot;Fatima&quot;, score: 78 },
+];
+
+const idx2 = students.findIndex(s =&gt; s.name === &quot;Fatima&quot;);
+console.log(idx2); // 2</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>2
+2</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>findLast()</code> — Find the Last Matching Element</h3>
+<p class="v2-p">Like <code>find()</code> but searches <strong>from the end</strong> backward. Returns the last element matching the condition.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [45, 62, 78, 95, 55, 82];
+
+// Find last score above 70
+const lastHigh = scores.findLast(score =&gt; score &gt; 70);
+console.log(lastHigh); // 82  (the last score &gt; 70)</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>82</code></p>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>findLastIndex()</code> — Index of the Last Matching Element</h3>
+<p class="v2-p">Like <code>findIndex()</code> but searches from the end backward.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [45, 62, 78, 95, 55, 82];
+
+const idx = scores.findLastIndex(score =&gt; score &gt; 70);
+console.log(idx); // 5  (index of 82)</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>5</code></p>
+<hr class="v2-hr">
+<h3 class="v2-h3">Comparison: Search Methods at a Glance</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What it searches for</th><th>Returns</th></tr></thead><tbody><tr><td><code>indexOf(val)</code></td><td>Exact value (first)</td><td>Index or -1</td></tr><tr><td><code>lastIndexOf(val)</code></td><td>Exact value (last)</td><td>Index or -1</td></tr><tr><td><code>includes(val)</code></td><td>Exact value (any)</td><td><code>true</code> / <code>false</code></td></tr><tr><td><code>find(fn)</code></td><td>First element passing test</td><td>Element or <code>undefined</code></td></tr><tr><td><code>findIndex(fn)</code></td><td>Index of first passing element</td><td>Index or -1</td></tr><tr><td><code>findLast(fn)</code></td><td>Last element passing test</td><td>Element or <code>undefined</code></td></tr><tr><td><code>findLastIndex(fn)</code></td><td>Index of last passing element</td><td>Index or -1</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>5. Topic 4 — Array Search Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase6">
+  <div class="phase-header">
+    <div class="phase-num">Phase 6 of 9</div>
+    <div class="phase-title">6. Topic 5 — Array Sort &amp; Reverse</div>
+    <div class="phase-check" id="chk6"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">Sorting arrays is one of the most common and tricky operations. JavaScript's <code>sort()</code> has a famous gotcha with numbers that every developer must know.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>sort()</code> — Sort an Array (Alphabetically by Default)</h3>
+<p class="v2-p"><code>sort()</code> sorts the array <strong>in place</strong> (modifies the original) and returns the sorted array. By default, it converts elements to strings and sorts them alphabetically.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;];
+fruits.sort();
+console.log(fruits); // [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Kiwi&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>["Apple", "Banana", "Kiwi", "Mango"]</code></p>
+<hr class="v2-hr">
+<h3 class="v2-h3">⚠️ The Numeric Sort Gotcha</h3>
+<p class="v2-p">The default <code>sort()</code> converts numbers to strings, which causes wrong results for numeric arrays:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [10, 2, 100, 25, 5];
+nums.sort();
+console.log(nums); // [10, 100, 2, 25, 5]  ← WRONG!
+// &quot;10&quot; &lt; &quot;100&quot; &lt; &quot;2&quot; &lt; &quot;25&quot; &lt; &quot;5&quot; alphabetically</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>[10, 100, 2, 25, 5]</code> ← NOT what we wanted!</p>
+<blockquote class="v2-bq"><p class="v2-p">🐛 <strong>COMMON MISTAKE:</strong> This is the #1 most famous JavaScript sorting mistake. Sorting <code>[10, 2, 100]</code> with default <code>sort()</code> gives <code>[10, 100, 2]</code> because <code>"10" &lt; "100" &lt; "2"</code> alphabetically.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Sorting Numbers Correctly: Compare Function</h3>
+<p class="v2-p">Pass a <strong>compare function</strong> <code>(a, b) =&gt; a - b</code> to sort numerically:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [10, 2, 100, 25, 5];
+
+// Ascending (smallest first)
+nums.sort((a, b) =&gt; a - b);
+console.log(nums); // [2, 5, 10, 25, 100] ✅
+
+// Descending (largest first)
+nums.sort((a, b) =&gt; b - a);
+console.log(nums); // [100, 25, 10, 5, 2] ✅</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[2, 5, 10, 25, 100]
+[100, 25, 10, 5, 2]</code></pre></div></div>
+<h4 class="v2-h4">How the Compare Function Works</h4>
+<p class="v2-p">The compare function receives two elements <code>a</code> and <code>b</code>. The sort behaviour depends on what it returns:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Return value</th><th>Action</th></tr></thead><tbody><tr><td>Negative (a - b &lt; 0)</td><td><code>a</code> comes before <code>b</code> (ascending)</td></tr><tr><td>Positive (a - b &gt; 0)</td><td><code>b</code> comes before <code>a</code> (descending)</td></tr><tr><td>Zero</td><td>Same position</td></tr></tbody></table></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Visualising: sort([30, 10, 20]):
+// Compare 30 and 10: 30 - 10 = 20 (positive) → 10 before 30
+// Compare 10 and 20: 10 - 20 = -10 (negative) → 10 before 20
+// Result: [10, 20, 30] ✅</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Sorting Strings (Case-Insensitive)</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const names = [&quot;banana&quot;, &quot;Apple&quot;, &quot;mango&quot;, &quot;Kiwi&quot;];
+
+// Case-insensitive sort using localeCompare
+names.sort((a, b) =&gt; a.toLowerCase().localeCompare(b.toLowerCase()));
+console.log(names); // [&quot;Apple&quot;, &quot;banana&quot;, &quot;Kiwi&quot;, &quot;mango&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Sorting Objects by Property</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const students = [
+  { name: &quot;Amara&quot;,  score: 78 },
+  { name: &quot;Kwame&quot;,  score: 95 },
+  { name: &quot;Fatima&quot;, score: 62 },
+  { name: &quot;Emeka&quot;,  score: 88 },
+];
+
+// Sort by score ascending
+students.sort((a, b) =&gt; a.score - b.score);
+console.log(students.map(s =&gt; s.name + &quot;: &quot; + s.score));
+// [&quot;Fatima: 62&quot;, &quot;Amara: 78&quot;, &quot;Emeka: 88&quot;, &quot;Kwame: 95&quot;]
+
+// Sort by name alphabetically
+students.sort((a, b) =&gt; a.name.localeCompare(b.name));
+console.log(students.map(s =&gt; s.name));
+// [&quot;Amara&quot;, &quot;Emeka&quot;, &quot;Fatima&quot;, &quot;Kwame&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[&quot;Fatima: 62&quot;, &quot;Amara: 78&quot;, &quot;Emeka: 88&quot;, &quot;Kwame: 95&quot;]
+[&quot;Amara&quot;, &quot;Emeka&quot;, &quot;Fatima&quot;, &quot;Kwame&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Every sortable table in a web app (sort by price, name, date, rating) uses exactly this pattern with a compare function.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>toSorted()</code> — Sort Without Mutation (Modern)</h3>
+<p class="v2-p"><code>toSorted()</code> returns a new sorted array without changing the original.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [10, 2, 100, 25, 5];
+const sorted = nums.toSorted((a, b) =&gt; a - b);
+
+console.log(nums);   // [10, 2, 100, 25, 5]  ← original unchanged!
+console.log(sorted); // [2, 5, 10, 25, 100]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>reverse()</code> — Reverse an Array (In Place)</h3>
+<p class="v2-p"><code>reverse()</code> reverses the order of the array in place and returns it.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+fruits.reverse();
+console.log(fruits); // [&quot;Mango&quot;, &quot;Apple&quot;, &quot;Banana&quot;]</code></pre></div></div>
+<h4 class="v2-h4">Reverse-Sort a Number Array:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [2, 5, 10, 25, 100];
+nums.sort((a, b) =&gt; a - b); // Sort ascending first
+nums.reverse();              // Then reverse for descending
+
+console.log(nums); // [100, 25, 10, 5, 2]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>toReversed()</code> — Reverse Without Mutation (Modern)</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+const reversed = fruits.toReversed();
+
+console.log(fruits);   // [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;]  ← unchanged!
+console.log(reversed); // [&quot;Mango&quot;, &quot;Apple&quot;, &quot;Banana&quot;]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Fisher-Yates Shuffle — Randomise Array Order</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function shuffle(arr) {
+  const copy = [...arr]; // copy first to avoid mutating original
+  for (let i = copy.length - 1; i &gt; 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]]; // swap
+  }
+  return copy;
+}
+
+const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log(shuffle(cards)); // e.g. [7, 3, 10, 1, 5, 8, 2, 9, 4, 6]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Used in quiz apps (shuffle questions), card games, playlist shuffles, and random product recommendations.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Finding Min and Max with <code>Math.min/max</code> + Spread</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [45, 92, 78, 55, 88, 63];
+
+const min = Math.min(...scores);
+const max = Math.max(...scores);
+
+console.log(&quot;Min:&quot;, min); // 45
+console.log(&quot;Max:&quot;, max); // 92</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Min: 45
+Max: 92</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> The <code>...</code> spread operator unpacks the array elements as individual arguments to <code>Math.min()</code> and <code>Math.max()</code>.</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>6. Topic 5 — Array Sort &amp; Reverse</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase7">
+  <div class="phase-header">
+    <div class="phase-num">Phase 7 of 9</div>
+    <div class="phase-title">7. Topic 6 — Array Iteration Methods</div>
+    <div class="phase-check" id="chk7"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">Iteration methods process each element of an array. They are the most powerful and most-used array methods in modern JavaScript. All of them accept a <strong>callback function</strong> as an argument.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>forEach()</code> — Do Something for Each Element</h3>
+<p class="v2-p"><code>forEach()</code> calls a function for each element. It does NOT return anything (<code>undefined</code>). Use it when you want to perform an action (like printing) but don't need a new array back.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+fruits.forEach(function(fruit, index) {
+  console.log(index + &quot;: &quot; + fruit);
+});</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0: Banana
+1: Apple
+2: Mango</code></pre></div></div>
+<p class="v2-p">With arrow function (cleaner):</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>fruits.forEach((fruit, index) =&gt; console.log(index + &quot;: &quot; + fruit));</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Rendering a list of items in a web page: <code>products.forEach(p =&gt; renderProductCard(p))</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>map()</code> — Transform Each Element Into a New Array</h3>
+<p class="v2-p"><code>map()</code> creates a <strong>new array</strong> by applying a function to every element. The original array is unchanged.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [1, 2, 3, 4, 5];
+
+const doubled = nums.map(n =&gt; n * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+console.log(nums);    // [1, 2, 3, 4, 5]  ← unchanged!</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[2, 4, 6, 8, 10]
+[1, 2, 3, 4, 5]</code></pre></div></div>
+<p class="v2-p">Real-world example: extract names from an array of objects:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const students = [
+  { name: &quot;Amara&quot;, score: 85 },
+  { name: &quot;Kwame&quot;, score: 92 },
+  { name: &quot;Fatima&quot;, score: 78 },
+];
+
+const names = students.map(s =&gt; s.name);
+console.log(names); // [&quot;Amara&quot;, &quot;Kwame&quot;, &quot;Fatima&quot;]
+
+const scores = students.map(s =&gt; s.score);
+console.log(scores); // [85, 92, 78]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[&quot;Amara&quot;, &quot;Kwame&quot;, &quot;Fatima&quot;]
+[85, 92, 78]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>map()</code> is the cornerstone of React — <code>products.map(p =&gt; &lt;ProductCard key={p.id} {...p} /&gt;)</code> renders a list of UI components.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>filter()</code> — Keep Only Elements That Pass a Test</h3>
+<p class="v2-p"><code>filter()</code> creates a <strong>new array</strong> containing only elements where the callback returns <code>true</code>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [45, 92, 78, 55, 88, 63, 95];
+
+// Keep only passing scores (&gt;= 60)
+const passing = scores.filter(score =&gt; score &gt;= 60);
+console.log(passing); // [92, 78, 88, 63, 95]
+
+// Keep only failing scores
+const failing = scores.filter(score =&gt; score &lt; 60);
+console.log(failing); // [45, 55]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[92, 78, 88, 63, 95]
+[45, 55]</code></pre></div></div>
+<p class="v2-p">Filter objects:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const students = [
+  { name: &quot;Amara&quot;,  score: 85, grade: &quot;A&quot; },
+  { name: &quot;Kwame&quot;,  score: 92, grade: &quot;A&quot; },
+  { name: &quot;Fatima&quot;, score: 58, grade: &quot;F&quot; },
+  { name: &quot;Emeka&quot;,  score: 74, grade: &quot;C&quot; },
+];
+
+const topStudents = students.filter(s =&gt; s.score &gt;= 80);
+console.log(topStudents.map(s =&gt; s.name)); // [&quot;Amara&quot;, &quot;Kwame&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>["Amara", "Kwame"]</code></p>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Every filter on a shopping site (price range, category, rating) uses <code>.filter()</code> on a products array.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>reduce()</code> — Reduce to a Single Value</h3>
+<p class="v2-p"><code>reduce()</code> executes a function on each element, carrying an <strong>accumulator</strong> value through the iteration, and returns a single final value.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// reduce(callback, initialValue)
+// callback receives: (accumulator, currentValue, currentIndex, array)</code></pre></div></div>
+<h4 class="v2-h4">Sum of all numbers:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [1, 2, 3, 4, 5];
+const sum = nums.reduce((acc, curr) =&gt; acc + curr, 0);
+console.log(sum); // 15</code></pre></div></div>
+<p class="v2-p"><strong>How it works step by step:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Start: acc = 0
+Step 1: acc = 0 + 1 = 1
+Step 2: acc = 1 + 2 = 3
+Step 3: acc = 3 + 3 = 6
+Step 4: acc = 6 + 4 = 10
+Step 5: acc = 10 + 5 = 15
+Result: 15</code></pre></div></div>
+<h4 class="v2-h4">Find maximum value:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [45, 92, 78, 55, 88];
+const max = scores.reduce((acc, curr) =&gt; curr &gt; acc ? curr : acc, 0);
+console.log(max); // 92</code></pre></div></div>
+<h4 class="v2-h4">Count occurrences:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const grades = [&quot;A&quot;, &quot;B&quot;, &quot;A&quot;, &quot;C&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;A&quot;];
+const count = grades.reduce((acc, grade) =&gt; {
+  acc[grade] = (acc[grade] || 0) + 1;
+  return acc;
+}, {});
+console.log(count); // { A: 4, B: 2, C: 2 }</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>{ A: 4, B: 2, C: 2 }</code></p>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>reduce()</code> is used to calculate shopping cart totals, group data by category, build lookup objects from arrays, and compute statistics.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>reduceRight()</code> — Like reduce() but Right to Left</h3>
+<p class="v2-p">Works exactly like <code>reduce()</code> but processes elements from the <strong>last</strong> to the <strong>first</strong>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr = [[1, 2], [3, 4], [5, 6]];
+const flat = arr.reduceRight((acc, curr) =&gt; acc.concat(curr), []);
+console.log(flat); // [5, 6, 3, 4, 1, 2]</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>every()</code> — Do ALL Elements Pass the Test?</h3>
+<p class="v2-p">Returns <code>true</code> if <strong>every</strong> element passes the callback. Returns <code>false</code> as soon as one fails.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [78, 85, 92, 88, 76];
+
+const allPassing = scores.every(score =&gt; score &gt;= 60);
+console.log(allPassing); // true  ← all are ≥ 60
+
+const allAbove80 = scores.every(score =&gt; score &gt;= 80);
+console.log(allAbove80); // false ← 78 and 76 fail</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+false</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Before processing a form, check if all fields are valid: <code>fields.every(field =&gt; field.value.trim() !== "")</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>some()</code> — Does AT LEAST ONE Element Pass the Test?</h3>
+<p class="v2-p">Returns <code>true</code> if <strong>at least one</strong> element passes. Returns <code>false</code> only if all fail.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [45, 55, 82, 48, 53];
+
+const anyPassing = scores.some(score =&gt; score &gt;= 80);
+console.log(anyPassing); // true  ← 82 passes
+
+const anyAbove95 = scores.some(score =&gt; score &gt;= 95);
+console.log(anyAbove95); // false ← none are ≥ 95</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+false</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> <code>every()</code> = "Are ALL of them...?" — like a strict teacher. <code>some()</code> = "Is ANY one of them...?" — like a generous marker.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>keys()</code> — Iterate Index Numbers</h3>
+<p class="v2-p">Returns an Array Iterator that yields each index.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+for (const key of fruits.keys()) {
+  console.log(key); // 0, 1, 2
+}</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>entries()</code> — Iterate [Index, Value] Pairs</h3>
+<p class="v2-p">Returns an iterator of <code>[index, value]</code> pairs.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Banana&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+
+for (const [index, value] of fruits.entries()) {
+  console.log(index + &quot;: &quot; + value);
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0: Banana
+1: Apple
+2: Mango</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Use <code>entries()</code> when you need both the index AND the value in a <code>for...of</code> loop — without a manual counter.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Chaining — Combining Multiple Methods</h3>
+<p class="v2-p">One of the most powerful patterns in modern JavaScript is <strong>method chaining</strong> — combining multiple array methods in one expression.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const students = [
+  { name: &quot;Amara&quot;,  score: 85 },
+  { name: &quot;Kwame&quot;,  score: 92 },
+  { name: &quot;Fatima&quot;, score: 58 },
+  { name: &quot;Emeka&quot;,  score: 74 },
+  { name: &quot;Priya&quot;,  score: 95 },
+];
+
+// Get names of students scoring above 80, sorted alphabetically
+const result = students
+  .filter(s =&gt; s.score &gt; 80)      // Keep only scores &gt; 80
+  .sort((a, b) =&gt; a.score - b.score) // Sort by score ascending
+  .map(s =&gt; s.name);                 // Extract just the names
+
+console.log(result); // [&quot;Amara&quot;, &quot;Kwame&quot;, &quot;Priya&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>["Amara", "Kwame", "Priya"]</code></p>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Chaining is the standard way to process data in professional JavaScript. In a real app: <code>products.filter(inStock).sort(byPrice).slice(0, 10).map(toCard)</code> renders the first 10 in-stock products sorted by price.</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>7. Topic 6 — Array Iteration Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase8">
+  <div class="phase-header">
+    <div class="phase-num">Phase 8 of 9</div>
+    <div class="phase-title">8. Topic 7 — Complete Array Reference</div>
+    <div class="phase-check" id="chk8"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p">Your quick reference for every JavaScript Array method.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Static Methods</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Description</th><th>Returns</th></tr></thead><tbody><tr><td><code>Array.isArray(val)</code></td><td>Check if value is an array</td><td>Boolean</td></tr><tr><td><code>Array.from(iterable, mapFn?)</code></td><td>Create array from iterable</td><td>New Array</td></tr><tr><td><code>Array.of(...items)</code></td><td>Create array from arguments</td><td>New Array</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Methods That MODIFY the Original Array (Mutating)</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What It Does</th><th>Returns</th></tr></thead><tbody><tr><td><code>push(...items)</code></td><td>Add to end</td><td>New length</td></tr><tr><td><code>pop()</code></td><td>Remove from end</td><td>Removed element</td></tr><tr><td><code>unshift(...items)</code></td><td>Add to start</td><td>New length</td></tr><tr><td><code>shift()</code></td><td>Remove from start</td><td>Removed element</td></tr><tr><td><code>splice(start, del, ...items)</code></td><td>Add/remove/replace</td><td>Array of removed</td></tr><tr><td><code>sort(compareFn?)</code></td><td>Sort in place</td><td>Sorted array (same ref)</td></tr><tr><td><code>reverse()</code></td><td>Reverse in place</td><td>Reversed array (same ref)</td></tr><tr><td><code>fill(val, start?, end?)</code></td><td>Fill with value</td><td>Modified array</td></tr><tr><td><code>copyWithin(target, start?, end?)</code></td><td>Copy elements within</td><td>Modified array</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Methods That Return a NEW Array (Non-Mutating)</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What It Does</th><th>Returns</th></tr></thead><tbody><tr><td><code>slice(start?, end?)</code></td><td>Extract portion</td><td>New array</td></tr><tr><td><code>concat(...arrays)</code></td><td>Merge arrays</td><td>New array</td></tr><tr><td><code>flat(depth?)</code></td><td>Flatten nested</td><td>New array</td></tr><tr><td><code>flatMap(fn)</code></td><td>Map then flatten 1 level</td><td>New array</td></tr><tr><td><code>map(fn)</code></td><td>Transform elements</td><td>New array</td></tr><tr><td><code>filter(fn)</code></td><td>Keep matching elements</td><td>New array</td></tr><tr><td><code>toSorted(compareFn?)</code></td><td>Sort without mutating</td><td>New array</td></tr><tr><td><code>toReversed()</code></td><td>Reverse without mutating</td><td>New array</td></tr><tr><td><code>toSpliced(start, del, ...items)</code></td><td>Splice without mutating</td><td>New array</td></tr><tr><td><code>with(index, val)</code></td><td>Replace element without mutating</td><td>New array</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Methods That Return a Value (Not an Array)</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What It Does</th><th>Returns</th></tr></thead><tbody><tr><td><code>indexOf(val, start?)</code></td><td>Find first index of value</td><td>Index or -1</td></tr><tr><td><code>lastIndexOf(val, start?)</code></td><td>Find last index of value</td><td>Index or -1</td></tr><tr><td><code>includes(val, start?)</code></td><td>Check existence</td><td>Boolean</td></tr><tr><td><code>find(fn)</code></td><td>First element passing test</td><td>Element or undefined</td></tr><tr><td><code>findIndex(fn)</code></td><td>Index of first passing element</td><td>Index or -1</td></tr><tr><td><code>findLast(fn)</code></td><td>Last element passing test</td><td>Element or undefined</td></tr><tr><td><code>findLastIndex(fn)</code></td><td>Index of last passing element</td><td>Index or -1</td></tr><tr><td><code>every(fn)</code></td><td>All pass test?</td><td>Boolean</td></tr><tr><td><code>some(fn)</code></td><td>Any pass test?</td><td>Boolean</td></tr><tr><td><code>reduce(fn, init?)</code></td><td>Accumulate to single value</td><td>Any value</td></tr><tr><td><code>reduceRight(fn, init?)</code></td><td>Reduce right-to-left</td><td>Any value</td></tr><tr><td><code>join(sep?)</code></td><td>Join to string</td><td>String</td></tr><tr><td><code>toString()</code></td><td>Join with commas</td><td>String</td></tr><tr><td><code>at(index)</code></td><td>Access element (neg supported)</td><td>Element or undefined</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Methods That Return Iterators</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What It Does</th><th>Returns</th></tr></thead><tbody><tr><td><code>keys()</code></td><td>Iterate over indexes</td><td>Iterator</td></tr><tr><td><code>values()</code></td><td>Iterate over values</td><td>Iterator</td></tr><tr><td><code>entries()</code></td><td>Iterate over [index, value] pairs</td><td>Iterator</td></tr><tr><td><code>[Symbol.iterator]()</code></td><td>Used by <code>for...of</code></td><td>Iterator</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Properties</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Property</th><th>Description</th></tr></thead><tbody><tr><td><code>length</code></td><td>Number of elements (read/write)</td></tr><tr><td><code>constructor</code></td><td>Reference to Array function</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Mutable vs Immutable Quick Reference</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operation</th><th>Mutating Version</th><th>Immutable Version (new)</th></tr></thead><tbody><tr><td>Sort</td><td><code>sort()</code></td><td><code>toSorted()</code></td></tr><tr><td>Reverse</td><td><code>reverse()</code></td><td><code>toReversed()</code></td></tr><tr><td>Splice</td><td><code>splice()</code></td><td><code>toSpliced()</code></td></tr><tr><td>Set element</td><td><code>arr[i] = val</code></td><td><code>with(i, val)</code></td></tr></tbody></table></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>8. Topic 7 — Complete Array Reference</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase9">
+  <div class="phase-header">
+    <div class="phase-num">Phase 9 of 9</div>
+    <div class="phase-title">9. Applied Exercises</div>
+    <div class="phase-check" id="chk9"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 2 — Applied Exercises</strong></p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 1 — Array Builder &amp; Reader 🏗️</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice creating arrays, accessing elements, and using basic methods.</p>
+<p class="v2-p"><strong>Scenario:</strong> You're building a <strong>library catalogue system</strong>. Books are stored as arrays.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const books = [&quot;The Alchemist&quot;, &quot;Atomic Habits&quot;, &quot;Dune&quot;];
+
+console.log(&quot;First:&quot;, books[0]);                    // &quot;The Alchemist&quot;
+console.log(&quot;Last:&quot;, books[books.length - 1]);      // &quot;Dune&quot;
+console.log(&quot;Count:&quot;, books.length);                // 3</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>First: The Alchemist
+Last: Dune
+Count: 3</code></pre></div></div>
+<h4 class="v2-h4">Task A — Build the Catalogue</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Start with 3 books
+const catalogue = [&quot;The Alchemist&quot;, &quot;Atomic Habits&quot;, &quot;Dune&quot;];
+
+// 1. Add &quot;Sapiens&quot; to the end
+catalogue.push(&quot;Sapiens&quot;);
+
+// 2. Add &quot;1984&quot; to the beginning
+catalogue.unshift(&quot;1984&quot;);
+
+// 3. Remove the last book
+const removed = catalogue.pop();
+console.log(&quot;Removed:&quot;, removed); // &quot;Sapiens&quot;
+
+// 4. Display all books with their positions
+catalogue.forEach((book, i) =&gt; console.log((i + 1) + &quot;. &quot; + book));
+
+// 5. Check if &quot;Dune&quot; is in the catalogue
+console.log(&quot;Has Dune:&quot;, catalogue.includes(&quot;Dune&quot;));</code></pre></div></div>
+<p class="v2-p"><strong>Expected output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Removed: Sapiens
+1. 1984
+2. The Alchemist
+3. Atomic Habits
+4. Dune
+Has Dune: true</code></pre></div></div>
+<h4 class="v2-h4">Task B — Splice Operations</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const catalogue = [&quot;1984&quot;, &quot;The Alchemist&quot;, &quot;Atomic Habits&quot;, &quot;Dune&quot;];
+
+// 1. Remove &quot;The Alchemist&quot; (use splice)
+const taken = catalogue.splice(1, 1);
+console.log(&quot;Removed:&quot;, taken);       // [&quot;The Alchemist&quot;]
+console.log(&quot;Catalogue:&quot;, catalogue); // [&quot;1984&quot;, &quot;Atomic Habits&quot;, &quot;Dune&quot;]
+
+// 2. Insert &quot;Brave New World&quot; between &quot;1984&quot; and &quot;Atomic Habits&quot;
+catalogue.splice(1, 0, &quot;Brave New World&quot;);
+console.log(&quot;After insert:&quot;, catalogue);
+// [&quot;1984&quot;, &quot;Brave New World&quot;, &quot;Atomic Habits&quot;, &quot;Dune&quot;]
+
+// 3. Replace &quot;Dune&quot; with &quot;Foundation&quot; using splice
+catalogue.splice(catalogue.indexOf(&quot;Dune&quot;), 1, &quot;Foundation&quot;);
+console.log(&quot;After replace:&quot;, catalogue);
+// [&quot;1984&quot;, &quot;Brave New World&quot;, &quot;Atomic Habits&quot;, &quot;Foundation&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>What does <code>splice(2, 0, "X")</code> do? (Hint: 0 means delete nothing!)</li><li>What is the difference between <code>slice()</code> and <code>splice()</code>?</li><li>Why should you use <code>splice()</code> instead of <code>delete</code> to remove elements?</li></ul>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Playlist management apps use exactly these operations: add song at position, remove by index, swap songs.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 2 — Search &amp; Filter Challenge 🔍</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice <code>indexOf</code>, <code>includes</code>, <code>find</code>, <code>findIndex</code>, <code>filter</code>, and chaining.</p>
+<p class="v2-p"><strong>Scenario:</strong> You are a developer at a <strong>school results portal</strong>. Students' data is stored as an array of objects.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const results = [72, 45, 88, 56, 93, 61];
+const firstPass = results.find(r =&gt; r &gt;= 60);
+console.log(&quot;First passing score:&quot;, firstPass); // 72</code></pre></div></div>
+<h4 class="v2-h4">Task A — Find Students</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const students = [
+  { id: 1,  name: &quot;Amara&quot;,  score: 85, grade: &quot;B&quot; },
+  { id: 2,  name: &quot;Kwame&quot;,  score: 92, grade: &quot;A&quot; },
+  { id: 3,  name: &quot;Fatima&quot;, score: 58, grade: &quot;F&quot; },
+  { id: 4,  name: &quot;Emeka&quot;,  score: 74, grade: &quot;C&quot; },
+  { id: 5,  name: &quot;Priya&quot;,  score: 95, grade: &quot;A&quot; },
+  { id: 6,  name: &quot;Omar&quot;,   score: 61, grade: &quot;D&quot; },
+];
+
+// 1. Find student by ID
+const student = students.find(s =&gt; s.id === 3);
+console.log(&quot;Student 3:&quot;, student.name, &quot;-&quot;, student.score);
+
+// 2. Find index of Priya
+const priyaIdx = students.findIndex(s =&gt; s.name === &quot;Priya&quot;);
+console.log(&quot;Priya at index:&quot;, priyaIdx);
+
+// 3. Filter all A students
+const aStudents = students.filter(s =&gt; s.grade === &quot;A&quot;);
+console.log(&quot;A students:&quot;, aStudents.map(s =&gt; s.name));
+
+// 4. Filter students scoring above average
+const avg = students.reduce((sum, s) =&gt; sum + s.score, 0) / students.length;
+const aboveAvg = students.filter(s =&gt; s.score &gt; avg);
+console.log(&quot;Average:&quot;, avg.toFixed(1));
+console.log(&quot;Above average:&quot;, aboveAvg.map(s =&gt; s.name));
+
+// 5. Are ALL students passing (score &gt;= 50)?
+const allPass = students.every(s =&gt; s.score &gt;= 50);
+console.log(&quot;All passing:&quot;, allPass);
+
+// 6. Does ANY student have a perfect 100?
+const anyPerfect = students.some(s =&gt; s.score === 100);
+console.log(&quot;Any perfect 100:&quot;, anyPerfect);</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Student 3: Fatima - 58
+Priya at index: 4
+A students: [&quot;Kwame&quot;, &quot;Priya&quot;]
+Average: 77.5
+Above average: [&quot;Amara&quot;, &quot;Kwame&quot;, &quot;Priya&quot;]
+All passing: false
+Any perfect 100: false</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>What is the difference between <code>find()</code> and <code>filter()</code>?</li><li>When would you use <code>some()</code> vs <code>every()</code>?</li><li>Why does <code>findIndex()</code> return -1 when the item is not found?</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 3 — Sort, Reduce &amp; Chain 📊</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice <code>sort()</code>, <code>reduce()</code>, <code>map()</code>, and method chaining.</p>
+<p class="v2-p"><strong>Scenario:</strong> You're building a <strong>sales dashboard</strong>. Each sale is an object with a salesperson, region, and amount.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const sales = [500, 1200, 340, 890, 2100];
+const total = sales.reduce((acc, n) =&gt; acc + n, 0);
+console.log(&quot;Total sales: $&quot; + total); // Total sales: $5030</code></pre></div></div>
+<h4 class="v2-h4">Task A — Sales Analysis</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const salesData = [
+  { name: &quot;Alice&quot;,  region: &quot;North&quot;, amount: 4500 },
+  { name: &quot;Bob&quot;,    region: &quot;South&quot;, amount: 3200 },
+  { name: &quot;Carol&quot;,  region: &quot;North&quot;, amount: 5800 },
+  { name: &quot;David&quot;,  region: &quot;East&quot;,  amount: 2900 },
+  { name: &quot;Eve&quot;,    region: &quot;South&quot;, amount: 6100 },
+  { name: &quot;Frank&quot;,  region: &quot;East&quot;,  amount: 3750 },
+];
+
+// 1. Total sales
+const total = salesData.reduce((acc, s) =&gt; acc + s.amount, 0);
+console.log(&quot;Total: $&quot; + total);
+
+// 2. Top 3 salespeople by amount
+const top3 = salesData
+  .toSorted((a, b) =&gt; b.amount - a.amount)
+  .slice(0, 3)
+  .map(s =&gt; s.name + &quot;: $&quot; + s.amount);
+console.log(&quot;Top 3:&quot;, top3);
+
+// 3. Sales by region
+const byRegion = salesData.reduce((acc, s) =&gt; {
+  acc[s.region] = (acc[s.region] || 0) + s.amount;
+  return acc;
+}, {});
+console.log(&quot;By region:&quot;, byRegion);
+
+// 4. Names of everyone who sold over $4000, sorted alphabetically
+const highPerformers = salesData
+  .filter(s =&gt; s.amount &gt; 4000)
+  .map(s =&gt; s.name)
+  .sort();
+console.log(&quot;High performers:&quot;, highPerformers);</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Total: $26250
+Top 3: [&quot;Eve: $6100&quot;, &quot;Carol: $5800&quot;, &quot;Alice: $4500&quot;]
+By region: { North: 10300, South: 9300, East: 6650 }
+High performers: [&quot;Alice&quot;, &quot;Carol&quot;, &quot;Eve&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>Why does <code>toSorted()</code> not modify the original <code>salesData</code>?</li><li>How does <code>reduce()</code> build the <code>byRegion</code> object step by step?</li><li>What does chaining <code>.filter().map().sort()</code> mean about the order of operations?</li></ul>
+<p class="v2-p"><strong>Optional what-if challenge:</strong> Add a <code>commission</code> field to each object (10% of amount). Use <code>map()</code> to create a new array with commissions included.</p>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">---
+
+### Exercise 1 — Array Builder & Reader 🏗️
+
+Objective: Practice creating arrays, accessing elements, and using basic methods.
+
+Scenario: You're building a library catalogue system. Books are stored as arrays.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="build-box" id="build-it">
+  <div class="build-label">🏗️ Build It</div>
+  <div class="build-name">🔵 Stage 1 — Setup: Store Data and Compute Basics</div>
+  <div class="build-desc"><strong>Real-world scenario:</strong> You are a developer at an EdTech company. Build a <strong>Student Grade Analyser</strong> that stores student records, computes statistics, ranks students, categorises performance, and generates a printable report — using the full set of array methods.</div>
+  <div class="v2-code-wrap">
+    <div class="v2-code-bar">
+      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
+      <span class="v2-code-lang">starter.html</span>
+    </div>
+    <div class="v2-code-body"><pre><code>const scores = [78, 92, 65, 88, 45];
+const avg = scores.reduce((sum, s) =&gt; sum + s, 0) / scores.length;
+console.log(&quot;Average:&quot;, avg.toFixed(1)); // 73.6</code></pre></div>
+  </div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+    <button class="unlock-btn" onclick="downloadStarter(`const scores = [78, 92, 65, 88, 45];
+const avg = scores.reduce((sum, s) => sum + s, 0) / scores.length;
+console.log("Average:", avg.toFixed(1)); // 73.6`)"
+      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
       ⬇ Download starter.html
     </button>
-    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+    <button class="unlock-btn" onclick="showGithub()"
+      style="background:#0f172a;box-shadow:none">
       🐙 Push to GitHub →
     </button>
   </div>
-  <script>
-  const __code = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JS Functions</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  label{display:block;font-size:13px;font-weight:700;color:#92400e;margin-bottom:4px}
-  input,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px}
-  input:focus,select:focus{border-color:#d97706}
-  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px}
-  .btn:hover{background:#b45309}
-  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;margin-top:10px;white-space:pre-wrap;min-height:36px}
-  .fn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .fn-card{background:#fef9ee;border:1.5px solid #fde68a;border-radius:10px;padding:12px}
-  .fn-card h3{font-family:monospace;font-size:13px;color:#d97706;margin-bottom:4px}
-  .fn-card p{font-size:12px;color:#64748b}
-</style>
-</head>
-<body>
-<h1>⚡ JS Functions</h1>
-<h2>Function Syntax Comparison</h2>
-<div class="box">
-  <div class="fn-grid">
-    <div class="fn-card"><h3>Declaration</h3><p>function add(a,b){return a+b}<br>Hoisted — call before definition</p></div>
-    <div class="fn-card"><h3>Expression</h3><p>const add = function(a,b){return a+b}<br>Not hoisted</p></div>
-    <div class="fn-card"><h3>Arrow</h3><p>const add = (a,b) =&gt; a+b<br>Concise, no own 'this'</p></div>
-    <div class="fn-card"><h3>Default params</h3><p>function greet(name='World')<br>Used when arg is undefined</p></div>
+</div>
+<div class="gh-acc" id="gh-steps" style="display:none">
+  <div class="gh-acc-head" onclick="toggleGh(this)">
+    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
   </div>
-</div>
-<h2>Temperature Converter</h2>
-<div class="box">
-  <label>Temperature</label>
-  <input type="number" id="temp-in" value="100" oninput="convertTemp()">
-  <select id="temp-dir" onchange="convertTemp()">
-    <option value="cToF">Celsius → Fahrenheit</option>
-    <option value="fToC">Fahrenheit → Celsius</option>
-    <option value="cToK">Celsius → Kelvin</option>
-  </select>
-  <div class="output" id="temp-out">100°C = 212°F</div>
-</div>
-<h2>Grade Calculator (Pure Function)</h2>
-<div class="box">
-  <label>Score (0–100)</label>
-  <input type="number" id="grade-in" value="85" min="0" max="100" oninput="showGrade()">
-  <div class="output" id="grade-out">Grade: B</div>
-</div>
-<h2>Higher-Order Function Demo</h2>
-<div class="box">
-  <button class="btn" onclick="hofDemo()">Run map / filter / reduce</button>
-  <div class="output" id="hof-out">Click to see higher-order functions in action</div>
-</div>
-<script>
-  // Three versions of the same function
-  function celsiusToFahrenheit(c) { return c * 9/5 + 32; }
-  const fToC = c => (c - 32) * 5/9;
-  const cToK = c => c + 273.15;
-  function convertTemp() {
-    const val = parseFloat(document.getElementById('temp-in').value) || 0;
-    const dir = document.getElementById('temp-dir').value;
-    let result, label;
-    switch(dir) {
-      case 'cToF': result = celsiusToFahrenheit(val); label = \`${val}°C = ${result.toFixed(1)}°F\`; break;
-      case 'fToC': result = fToC(val); label = \`${val}°F = ${result.toFixed(1)}°C\`; break;
-      case 'cToK': result = cToK(val); label = \`${val}°C = ${result.toFixed(2)} K\`; break;
-    }
-    document.getElementById('temp-out').textContent = label;
-  }
-  // Pure function
-  function calculateGrade(score) {
-    if (score >= 70) return { grade:'A', gpa:5.0, label:'Excellent' };
-    if (score >= 60) return { grade:'B', gpa:4.0, label:'Good' };
-    if (score >= 50) return { grade:'C', gpa:3.0, label:'Average' };
-    if (score >= 45) return { grade:'D', gpa:2.0, label:'Pass' };
-    return { grade:'F', gpa:0.0, label:'Fail' };
-  }
-  function showGrade() {
-    const score = parseInt(document.getElementById('grade-in').value) || 0;
-    const {grade, gpa, label} = calculateGrade(score);
-    document.getElementById('grade-out').textContent =
-      \`Score: ${score}
-Grade: ${grade}
-GPA:   ${gpa}
-Label: ${label}\`;
-  }
-  showGrade();
-  function hofDemo() {
-    const scores = [92, 45, 78, 33, 88, 61, 55, 94, 72, 41];
-    const passed  = scores.filter(s => s >= 45);
-    const grades  = scores.map(s => calculateGrade(s).grade);
-    const average = scores.reduce((sum, s) => sum + s, 0) / scores.length;
-    document.getElementById('hof-out').textContent =
-      'Original scores: [' + scores.join(', ') + ']
-' +
-      'filter(s>=45):   [' + passed.join(', ') + ']
-' +
-      'map(→grade):     [' + grades.join(', ') + ']
-' +
-      'reduce(average): ' + average.toFixed(1);
-  }
-  convertTemp();
-</script>
-</body>
-</html>`;
-  function downloadStarter(){
-    const a=document.createElement('a');
-    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
-    a.download='starter.html'; a.click();
-  }
-  </script>
-</div>
-
-<div class="github-acc" id="github-steps" style="display:none">
-  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
-    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
-  </div>
-  <div class="github-acc-body">
-    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-14-js_functions</code>.</p></div>
-    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
-    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 14 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-14-js_functions/</code> in ~1 min! 🎉</p></div>
-    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  <div class="gh-acc-body">
+    <div class="gh-step"><div class="gh-step-n">1</div>
+    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-14-stage-1-setup-store-data-and-compute-bas</code>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">2</div>
+    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">3</div>
+    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
+    <div class="gh-step"><div class="gh-step-n">4</div>
+    <p>Commit message: <em>"Add JavaScript lesson 14 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">5</div>
+    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-14-stage-1-setup-store-data-and-compute-bas/</code> in about 1 minute! 🎉</p></div>
+    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
   </div>
 </div>
 <div class="session-end" id="session-end">
-  <h2>🎉 Great work! Lesson 14 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
-  <ul><li>✅ Function declarations and expressions</li><li>✅ Pure functions and return values</li></ul>
-  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
-    <a href="lesson_13.html" class="ln-btn">← Lesson 13</a>
-    <a href="lesson_15.html" class="ln-btn primary">Lesson 15 →</a>
-  </div>
+  <h2>🎉 Lesson 14 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
+  <ul><li>✅ 1. Background: What Is an Array?</li><li>✅ 2. Topic 1 — Arrays: Basics & Creation</li><li>✅ 3. Topic 2 — Array `const`</li><li>✅ 4. Topic 3 — Array Methods (Modify & Transform)</li><li>✅ 5. Topic 4 — Array Search Methods</li><li>✅ 6. Topic 5 — Array Sort & Reverse</li><li>✅ 7. Topic 6 — Array Iteration Methods</li><li>✅ 8. Topic 7 — Complete Array Reference</li></ul>
+  <div class="lesson-nav"><a href="lesson_13.html" class="ln-btn">← Lesson 13</a><a href="lesson_15.html" class="ln-btn primary">Lesson 15 →</a></div>
 </div>
 </main>
+
 <footer class="lesson-footer">
-  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 14 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+  Techbase Code Coach · JavaScript Course · Lesson 14 · © 2025 Techbase Consultant Services, Ibadan
 </footer>
 <script>
-const TOTAL=2, KEY='techbase_js_14_phase';
+const TOTAL=9,KEY='techbase_js_l14';
 let current=parseInt(localStorage.getItem(KEY)||'1');
 function init(){
-  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  for(let i=2;i<=current;i++) unlockPhase(i,false);
   updateBar();
 }
 function unlockNext(n){
-  document.getElementById('check'+n).classList.add('done');
-  document.getElementById('check'+n).textContent='✓';
-  localStorage.setItem(KEY,n+1);
-  current=n+1;
+  const chk=document.getElementById('chk'+n);
+  if(chk){chk.classList.add('done');chk.textContent='✓';}
+  localStorage.setItem(KEY,n+1); current=n+1;
   if(n===TOTAL){
     document.getElementById('build-it').style.display='block';
-    const cap=document.getElementById('capstone');
-    if(cap) cap.style.display='block';
     updateBar(100);
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  } else {
-    unlockPhase(n+1,true);
-    updateBar();
+  }else{
+    unlockPhase(n+1,true); updateBar();
   }
 }
 function unlockPhase(n,scroll){
   const el=document.getElementById('phase'+n);
-  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
 }
 function updateBar(pct){
-  const p=pct||Math.round((current-1)/TOTAL*95);
+  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
   document.getElementById('pbar').style.width=p+'%';
 }
 function showGithub(){
-  const g=document.getElementById('github-steps');
-  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+  const g=document.getElementById('gh-steps');
+  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
 }
 function showEnd(){
   const e=document.getElementById('session-end');
-  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
+}
+function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
+function downloadStarter(code){
+  const a=document.createElement('a');
+  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
+  a.download='starter.html';a.click();
 }
 init();
 </script>

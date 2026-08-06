@@ -2,516 +2,1190 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 15: JS Objects — Techbase JS Course</title>
-<meta name="description" content="Create and manipulate objects — properties, methods and the this keyword">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lesson 15: JavaScript Sets: Unique Values · Set Methods · Set Logic (Union/Intersection/Difference) · WeakSet · Full Reference — Techbase JavaScript</title>
+<meta name="description" content="JavaScript Sets: Unique Values · Set Methods · Set Logic (Union/Intersection/Difference) · WeakSet · Full Reference">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
-  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
-  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
+  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
   --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
   --text:#0f172a;--t2:#334155;--muted:#64748b;
   --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+
+/* NAV */
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
+  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
 .l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
-.l-nav-back:hover{color:var(--accent)}
-.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.l-nav-back:hover{color:var(--acc)}
+.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+
+/* PROGRESS */
 .progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
-.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:820px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
-.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
-.l-hero-build strong{color:var(--accent)}
-.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
-.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
-.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
-.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
-.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
+
+/* HERO */
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:860px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
+  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
+  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
+
+/* WELCOME BOX */
+.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
+.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
+.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
+.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
+  font-family:var(--M);font-size:.68rem;font-weight:500}
+
+/* PHASE */
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
+  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
+.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;
+  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--acc)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
+  flex:1;margin:0 .8rem}
+.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
+  transition:background .3s,color .3s}
 .phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.4rem}
-.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
-.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
-.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
-.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
-.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
-.code-dot{width:8px;height:8px;border-radius:50%}
-.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
-.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
-.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
-.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
-.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
-.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
-.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
-.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
-.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
-.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
-.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
-.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
-.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
-.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
-.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.github-acc-body.open{display:block}
-.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.phase-body{padding:1.6rem 1.8rem}
+
+/* RICH CONTENT STYLES */
+.v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
+  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
+.v2-ul li,.v2-ol li{margin-bottom:.3rem}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
+  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq p{margin:0;color:inherit}
+.v2-bq strong{font-style:normal}
+.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
+.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
+  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
+.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
+.v2-table tr:nth-child(even) td{background:#f8fafc}
+.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
+  padding:1px 5px;font-family:var(--M);font-size:.8em}
+.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.phase-body strong{color:var(--text)}
+
+/* CODE BLOCKS */
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
+.v2-dot{width:10px;height:10px;border-radius:50%}
+.v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
+.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
+.v2-code-body pre{margin:0}
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
+  white-space:pre;background:transparent;padding:0;border-radius:0}
+
+/* TASK BOX */
+.task-box{background:#fef9c3;border:2px dashed #d97706;
+  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
+.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
+  font-family:var(--M);font-size:.82em}
+
+/* UNLOCK BUTTON */
+.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
+  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
+  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
+  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
+.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
+
+/* BUILD IT */
+.build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
+.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
+.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-desc strong{color:#14532d}
+
+/* GITHUB ACCORDION */
+.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.gh-acc-body.open{display:block}
+.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
+  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+
+/* SESSION END */
+.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
 .session-end.visible{display:block}
 .session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
 .session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
-.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
-.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
+  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
+  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
+  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--acc);color:var(--acc)}
+.ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;
+  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
+  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
-  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
-  <span class="l-nav-lesson">Lesson 15 of 46</span>
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
+  <span class="l-nav-label">Lesson 15 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
 <div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+
 <div class="l-hero">
   <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 15 </div>
-    <h1>JS Objects</h1>
-    <div class="l-hero-tag">Create and manipulate objects — properties, methods and the this keyword</div>
-    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Object Explorer</div>
+    <div class="l-badge">JavaScript · Lesson 15</div>
+    <h1>JavaScript Sets: Unique Values · Set Methods · Set Logic (Union/Intersection/Difference) · WeakSet · Full Reference</h1>
+    <div class="l-hero-sub">7 phases · Build: 🔵 Stage 1 — Record Attendance</div>
   </div>
 </div>
-<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
   <h2>👋 Welcome to Lesson 15</h2>
-  <p>Create and manipulate objects — properties, methods and the this keyword</p>
+  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
   <div class="welcome-meta">
-    <span>📚 2 phases</span>
-    <span>🏗️ Build: My Object Explorer</span>
-    
+    <span>📚 7 phases</span>
+    <span>🏗️ 🔵 Stage 1 — Record Attendance</span>
   </div>
 </div></div>
 </section>
-<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+
+<main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
 <div class="phase" id="phase1">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Object literals and property access</div></div>
-    <div class="phase-check" id="check1"></div>
+    <div class="phase-num">Phase 1 of 7</div>
+    <div class="phase-title">1. Background: Why Sets Exist</div>
+    <div class="phase-check" id="chk1"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>Objects store key-value pairs. Create with <code>{}</code>. Access: dot notation <code>obj.name</code> or bracket notation <code>obj['name']</code> (use for dynamic keys). Add property: <code>obj.new = value</code>. Delete: <code>delete obj.prop</code>. Check existence: <code>'prop' in obj</code> or <code>obj.prop !== undefined</code>.</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>const student = {
-  name:   &#x27;Amina&#x27;,
-  score:  94,
-  course: &#x27;JavaScript&#x27;,
-  active: true,
-};
+    <p class="v2-p">Imagine you run a school event. Students scan their ID to enter. Some students try to scan twice. You only want to count each student <strong>once</strong>.</p>
+<p class="v2-p">With a regular array this is painful:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ With an array — you must manually check for duplicates
+const attended = [];
 
-// Dot notation (most common)
-console.log(student.name);   // &#x27;Amina&#x27;
-
-// Bracket notation (for dynamic keys)
-const field = &#x27;score&#x27;;
-console.log(student[field]); // 94
-
-// Add / modify / delete
-student.grade = &#x27;A&#x27;;         // add
-student.score = 95;          // modify
-delete student.active;       // delete
-
-// Check if property exists
-&#x27;name&#x27; in student;           // true
-&#x27;age&#x27; in student;            // false
-student.age !== undefined;   // false (another way)
-
-// Iterate properties
-for (const key in student) {
-  console.log(key, &#x27;:&#x27;, student[key]);
+function recordAttendance(id) {
+  if (!attended.includes(id)) {   // ← extra check every time
+    attended.push(id);
+  }
 }
 
-// Get keys, values, entries
-Object.keys(student);    // [&#x27;name&#x27;, &#x27;score&#x27;, &#x27;course&#x27;, &#x27;grade&#x27;]
-Object.values(student);  // [&#x27;Amina&#x27;, 95, &#x27;JavaScript&#x27;, &#x27;A&#x27;]
-Object.entries(student); // [[&#x27;name&#x27;,&#x27;Amina&#x27;], ...]</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Create a <code>course</code> object with properties: title, instructor, lessons, price. Add a method <code>describe()</code>. Use <code>for...in</code> to print all key-value pairs.</p></div>
-    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+recordAttendance(&quot;S001&quot;);
+recordAttendance(&quot;S002&quot;);
+recordAttendance(&quot;S001&quot;); // duplicate — must be blocked manually
+
+console.log(attended); // [&quot;S001&quot;, &quot;S002&quot;]</code></pre></div></div>
+<p class="v2-p">With a <strong>Set</strong>, duplicates are blocked automatically:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ✅ With a Set — duplicates ignored automatically
+const attended = new Set();
+
+attended.add(&quot;S001&quot;);
+attended.add(&quot;S002&quot;);
+attended.add(&quot;S001&quot;); // duplicate — silently ignored!
+
+console.log(attended.size); // 2
+console.log(attended);      // Set(2) { &quot;S001&quot;, &quot;S002&quot; }</code></pre></div></div>
+<p class="v2-p">A <strong>Set</strong> is a collection that stores <strong>unique values only</strong>. Every value in a Set appears exactly once — adding the same value a second time simply does nothing.</p>
+<h3 class="v2-h3">Key Differences: Set vs Array</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Feature</th><th>Array</th><th>Set</th></tr></thead><tbody><tr><td>Allows duplicates</td><td>✅ Yes</td><td>❌ No (unique only)</td></tr><tr><td>Keeps insertion order</td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td>Index-based access</td><td>✅ <code>arr[2]</code></td><td>❌ No index access</td></tr><tr><td>Fast <code>has()</code> check</td><td>❌ O(n) scan</td><td>✅ O(1) hash lookup</td></tr><tr><td>Iteration</td><td>✅ <code>for</code>, <code>forEach</code>, <code>map</code>...</td><td>✅ <code>for...of</code>, <code>forEach</code></td></tr><tr><td><code>size</code> / <code>length</code></td><td><code>.length</code></td><td><code>.size</code></td></tr><tr><td>Built-in maths (union, etc.)</td><td>❌ Manual only</td><td>✅ Native methods</td></tr></tbody></table></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Think of a Set like a guest list at a club — each name appears only once. No matter how many times the same person knocks, they are only counted once.</p></blockquote>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Sets are used for: tracking which users have viewed a post, storing unique tags on a blog article, removing duplicates from search results, permission systems (a user either has a permission or doesn't), and implementing mathematical set operations on data.</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>1. Background: Why Sets Exist</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
   </div>
 </div>
 <div class="phase locked" id="phase2">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Methods and this</div></div>
-    <div class="phase-check" id="check2"></div>
+    <div class="phase-num">Phase 2 of 7</div>
+    <div class="phase-title">2. Topic 1 — Sets: Basics &amp; Creation</div>
+    <div class="phase-check" id="chk2"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>A method is a function stored as an object property. Inside a method, <code>this</code> refers to the calling object. Arrow functions don't have their own <code>this</code> — they inherit from the surrounding scope. Shorthand method syntax: <code>greet() { }</code> (no function keyword).</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>const student = {
-  name:  &#x27;Amina&#x27;,
-  score: 94,
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<h3 class="v2-h3">Creating a Set</h3>
+<p class="v2-p">Use the <code>new Set()</code> constructor. You can pass any <strong>iterable</strong> (array, string, another Set) to initialise it.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Empty Set
+const s1 = new Set();
+console.log(s1); // Set(0) {}
 
-  // Method shorthand
-  greet() {
-    return `Hi, I&#x27;m ${this.name}!`; // &#x27;this&#x27; = student
-  },
+// From an array — duplicates are removed automatically
+const s2 = new Set([1, 2, 3, 2, 1, 4]);
+console.log(s2); // Set(4) { 1, 2, 3, 4 }
 
-  // Computed method
-  getGrade() {
-    if (this.score &gt;= 70) return &#x27;A&#x27;;
-    if (this.score &gt;= 60) return &#x27;B&#x27;;
-    return &#x27;C&#x27;;
-  },
-};
+// From a string — each CHARACTER becomes an element
+const s3 = new Set(&quot;HELLO&quot;);
+console.log(s3); // Set(4) { &quot;H&quot;, &quot;E&quot;, &quot;L&quot;, &quot;O&quot; }
+// &quot;L&quot; appeared twice but is stored only once!
 
-console.log(student.greet());    // &#x27;Hi, I&#x27;m Amina!&#x27;
-console.log(student.getGrade()); // &#x27;A&#x27;
+// From another Set
+const s4 = new Set(s2);
+console.log(s4); // Set(4) { 1, 2, 3, 4 }</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Set(0) {}
+Set(4) { 1, 2, 3, 4 }
+Set(4) { &quot;H&quot;, &quot;E&quot;, &quot;L&quot;, &quot;O&quot; }
+Set(4) { 1, 2, 3, 4 }</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🤔 <strong>THINK ABOUT IT:</strong> <code>new Set("HELLO")</code> gives <code>{"H", "E", "L", "O"}</code> — 4 elements, not 5. Why? Because "L" appears at position 2 and 3, but a Set only keeps one copy. Can you predict what <code>new Set("MISSISSIPPI").size</code> equals? Answer: <code>new Set("MISSISSIPPI")</code> → <code>{ "M", "I", "S", "P" }</code> → size 4.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">The <code>size</code> Property</h3>
+<p class="v2-p"><code>size</code> is the Set equivalent of <code>length</code> in arrays. It always reflects the count of <strong>unique</strong> values.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = new Set([&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;, &quot;Apple&quot;, &quot;Banana&quot;]);
 
-// Object spread — copy/merge objects
-const extra = { course: &#x27;JS&#x27;, year: 2025 };
-const full = { ...student, ...extra };
+console.log(fruits.size); // 3  ← only 3 unique values</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT:</strong> Sets use <code>.size</code>, not <code>.length</code>. Calling <code>.length</code> on a Set returns <code>undefined</code>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const s = new Set([1, 2, 3]);
+console.log(s.size);   // 3   ✅
+console.log(s.length); // undefined ❌</code></pre></div></div></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">What Types Can a Set Store?</h3>
+<p class="v2-p">A Set can store <strong>any JavaScript value</strong> — primitives AND objects:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const mixed = new Set();
 
-// Object.assign — alternative to spread
-const copy = Object.assign({}, student);
+mixed.add(42);
+mixed.add(&quot;hello&quot;);
+mixed.add(true);
+mixed.add(null);
+mixed.add(undefined);
+mixed.add({ name: &quot;Amara&quot; }); // objects by reference
+mixed.add([1, 2, 3]);         // arrays by reference
 
-// Computed property names
-const field = &#x27;email&#x27;;
-const profile = { [field]: &#x27;amina@test.com&#x27; }; // dynamic key</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Add 3 methods to your course object: <code>getSummary()</code>, <code>isAffordable(budget)</code>, <code>enroll(studentName)</code>. Each method should use <code>this</code> to access the object's properties.</p></div>
-    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+console.log(mixed.size); // 7</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Sets and Object Identity</h3>
+<p class="v2-p">For <strong>objects and arrays</strong>, Sets use <strong>reference equality</strong> — two objects with the same content are treated as different if they are not the same reference in memory.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const s = new Set();
+
+const obj1 = { name: &quot;Alice&quot; };
+const obj2 = { name: &quot;Alice&quot; }; // same content, DIFFERENT reference!
+const obj3 = obj1;              // SAME reference as obj1
+
+s.add(obj1);
+s.add(obj2); // Added! (different reference)
+s.add(obj3); // NOT added (same reference as obj1)
+
+console.log(s.size); // 2 — obj1 and obj2 (obj3 is same as obj1)</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>2</code></p>
+<blockquote class="v2-bq"><p class="v2-p">🐛 <strong>COMMON MISTAKE:</strong> <code>new Set([{a:1}, {a:1}]).size</code> returns <code>2</code>, not <code>1</code>. Objects are compared by reference (are they the <em>same object in memory</em>?), not by content. If you want unique objects by content, you need to compare serialised strings like <code>JSON.stringify(obj)</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Iterating a Set</h3>
+<p class="v2-p">Sets are <strong>iterable</strong> — you can loop through them in several ways. They always iterate in <strong>insertion order</strong>.</p>
+<h4 class="v2-h4"><code>for...of</code>:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = new Set([&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;]);
+
+for (const fruit of fruits) {
+  console.log(fruit);
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Apple
+Banana
+Mango</code></pre></div></div>
+<h4 class="v2-h4"><code>forEach(value, value, set)</code>:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>fruits.forEach((value) =&gt; {
+  console.log(value);
+});</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Notice the <code>forEach</code> callback receives <code>(value, value, set)</code> — the first and second arguments are BOTH the value (not index + value like arrays). This is intentional: Sets have no index concept, so the key IS the value to stay consistent with <code>Map</code>'s <code>forEach(value, key, map)</code> signature.</p></blockquote>
+<h4 class="v2-h4">Spread into an Array (very common pattern):</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruitsArray = [...fruits];
+console.log(fruitsArray); // [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<h4 class="v2-h4">Using <code>Array.from()</code>:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruitsArray2 = Array.from(fruits);
+console.log(fruitsArray2); // [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Converting a Set to an array (<code>[...mySet]</code>) is the standard way to use Set as a step in a pipeline — e.g. <code>[...new Set(arr)]</code> is the most common one-liner to <strong>deduplicate an array</strong> in modern JavaScript.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">The Fastest Way to Deduplicate an Array</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const raw = [1, 2, 3, 2, 4, 1, 5, 3];
+
+// One-liner deduplication using Set + spread
+const unique = [...new Set(raw)];
+console.log(unique); // [1, 2, 3, 4, 5]
+
+// Deduplicate an array of strings
+const tags = [&quot;js&quot;, &quot;web&quot;, &quot;js&quot;, &quot;html&quot;, &quot;css&quot;, &quot;web&quot;, &quot;js&quot;];
+const uniqueTags = [...new Set(tags)];
+console.log(uniqueTags); // [&quot;js&quot;, &quot;web&quot;, &quot;html&quot;, &quot;css&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[1, 2, 3, 4, 5]
+[&quot;js&quot;, &quot;web&quot;, &quot;html&quot;, &quot;css&quot;]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>[...new Set(arr)]</code> is one of the most commonly used JavaScript one-liners in professional code. It appears in React component rendering, API data deduplication, and tag/keyword processing everywhere.</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>2. Topic 1 — Sets: Basics &amp; Creation</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
   </div>
 </div>
-<div class="project-box" id="build-it" style="display:none">
-  <div class="project-label">🏗️ Build It</div>
-  <div class="project-name">Object Explorer</div>
-  <div class="project-desc">A contact book app using JS objects.</div>
-  <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
-<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-&lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
-&lt;title&gt;JS Objects&lt;/title&gt;
-&lt;style&gt;
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  input,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
-  input:focus,select:focus{border-color:#d97706}
-  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
-  .btn:hover{background:#b45309}.btn-red{background:#dc2626}.btn-red:hover{background:#b91c1c}
-  .contact-list{list-style:none;padding:0}
-  .contact-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #fef3c7;gap:10px}
-  .contact-item:last-child{border:none}
-  .c-avatar{width:40px;height:40px;border-radius:50%;background:#d97706;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0}
-  .c-info{flex:1}.c-name{font-weight:700;color:#1c1917;font-size:14px}.c-detail{font-size:12px;color:#64748b}
-  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:12px;color:#78350f;margin-top:10px;white-space:pre-wrap}
-  .empty{text-align:center;color:#94a3b8;padding:20px;font-size:14px}
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;⚡ JS Objects&lt;/h1&gt;
-&lt;h2&gt;Contact Book (Objects in Action)&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;input id=&quot;c-name&quot; placeholder=&quot;Full Name&quot; value=&quot;Amina Bello&quot;&gt;
-  &lt;input id=&quot;c-email&quot; placeholder=&quot;Email&quot; value=&quot;amina@example.com&quot;&gt;
-  &lt;input id=&quot;c-phone&quot; placeholder=&quot;Phone&quot; value=&quot;+234 801 234 5678&quot;&gt;
-  &lt;select id=&quot;c-course&quot;&gt;
-    &lt;option&gt;HTML&lt;/option&gt;&lt;option&gt;CSS&lt;/option&gt;&lt;option selected&gt;JavaScript&lt;/option&gt;&lt;option&gt;Python&lt;/option&gt;
-  &lt;/select&gt;
-  &lt;button class=&quot;btn&quot; onclick=&quot;addContact()&quot;&gt;Add Contact&lt;/button&gt;
-&lt;/div&gt;
-&lt;div class=&quot;box&quot; id=&quot;contact-list-wrap&quot;&gt;
-  &lt;ul class=&quot;contact-list&quot; id=&quot;contact-list&quot;&gt;
-    &lt;li class=&quot;empty&quot;&gt;No contacts yet — add one above!&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/div&gt;
-&lt;h2&gt;Inspect Object&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;button class=&quot;btn&quot; onclick=&quot;inspectObj()&quot;&gt;Inspect First Contact&lt;/button&gt;
-  &lt;div class=&quot;output&quot; id=&quot;inspect-out&quot;&gt;Add a contact first, then click Inspect&lt;/div&gt;
-&lt;/div&gt;
-&lt;script&gt;
-  const contacts = {};
-  let nextId = 1;
-  function addContact() {
-    const name   = document.getElementById(&#x27;c-name&#x27;).value.trim();
-    const email  = document.getElementById(&#x27;c-email&#x27;).value.trim();
-    const phone  = document.getElementById(&#x27;c-phone&#x27;).value.trim();
-    const course = document.getElementById(&#x27;c-course&#x27;).value;
-    if (!name) return alert(&#x27;Name is required!&#x27;);
-    const id = &#x27;contact_&#x27; + nextId++;
-    contacts[id] = {
-      id, name, email, phone, course,
-      createdAt: new Date().toLocaleDateString(),
-      getInitials() { return this.name.split(&#x27; &#x27;).map(n=&gt;n[0]).join(&#x27;&#x27;).toUpperCase(); },
-      getSummary() { return `${this.name} · ${this.course} · ${this.email}`; },
-    };
-    renderContacts();
-    document.getElementById(&#x27;c-name&#x27;).value = &#x27;&#x27;;
-    document.getElementById(&#x27;c-email&#x27;).value = &#x27;&#x27;;
-  }
-  function renderContacts() {
-    const ul = document.getElementById(&#x27;contact-list&#x27;);
-    const ids = Object.keys(contacts);
-    if (!ids.length) { ul.innerHTML = &#x27;&lt;li class=&quot;empty&quot;&gt;No contacts yet&lt;/li&gt;&#x27;; return; }
-    ul.innerHTML = ids.map(id =&gt; {
-      const c = contacts[id];
-      return `&lt;li class=&quot;contact-item&quot;&gt;
-        &lt;div class=&quot;c-avatar&quot;&gt;${c.getInitials()}&lt;/div&gt;
-        &lt;div class=&quot;c-info&quot;&gt;
-          &lt;div class=&quot;c-name&quot;&gt;${c.name}&lt;/div&gt;
-          &lt;div class=&quot;c-detail&quot;&gt;${c.course} · ${c.email}&lt;/div&gt;
-        &lt;/div&gt;
-        &lt;button class=&quot;btn btn-red&quot; style=&quot;padding:6px 12px;font-size:12px&quot; onclick=&quot;deleteContact(&#x27;${id}&#x27;)&quot;&gt;✕&lt;/button&gt;
-      &lt;/li&gt;`;
-    }).join(&#x27;&#x27;);
-  }
-  function deleteContact(id) {
-    delete contacts[id];
-    renderContacts();
-  }
-  function inspectObj() {
-    const ids = Object.keys(contacts);
-    if (!ids.length) { document.getElementById(&#x27;inspect-out&#x27;).textContent = &#x27;No contacts! Add one first.&#x27;; return; }
-    const c = contacts[ids[0]];
-    const lines = [
-      &#x27;Object.keys():   &#x27; + JSON.stringify(Object.keys(c).filter(k=&gt;typeof c[k]!==&#x27;function&#x27;)),
-      &#x27;Object.values(): &#x27; + JSON.stringify(Object.values(c).filter(v=&gt;typeof v!==&#x27;function&#x27;)),
-      &#x27;&#x27;,
-      &#x27;&#x27;name&#x27; in contact: &#x27; + (&#x27;name&#x27; in c),
-      &#x27;&#x27;age&#x27; in contact:  &#x27; + (&#x27;age&#x27; in c),
-      &#x27;&#x27;,
-      &#x27;contact.getSummary(): &quot;&#x27; + c.getSummary() + &#x27;&quot;&#x27;,
-      &#x27;contact.getInitials(): &quot;&#x27; + c.getInitials() + &#x27;&quot;&#x27;,
-      &#x27;&#x27;,
-      &#x27;Full object:
-&#x27; + JSON.stringify(c, (k,v)=&gt;typeof v===&#x27;function&#x27;?&#x27;[Function]&#x27;:v, 2),
-    ];
-    document.getElementById(&#x27;inspect-out&#x27;).textContent = lines.join(&#x27;
-&#x27;);
-  }
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre></div>
+<div class="phase locked" id="phase3">
+  <div class="phase-header">
+    <div class="phase-num">Phase 3 of 7</div>
+    <div class="phase-title">3. Topic 2 — Set Methods</div>
+    <div class="phase-check" id="chk3"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">Sets have a focused, clean API. Every method has one clear job.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>add(value)</code> — Add a Value</h3>
+<p class="v2-p">Adds a value to the Set. If the value already exists, nothing happens. Returns the <strong>Set itself</strong> (allowing chaining).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const s = new Set();
+
+s.add(1);
+s.add(2);
+s.add(3);
+s.add(2); // duplicate — silently ignored
+s.add(1); // duplicate — silently ignored
+
+console.log(s);      // Set(3) { 1, 2, 3 }
+console.log(s.size); // 3</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Set(3) { 1, 2, 3 }
+3</code></pre></div></div>
+<h4 class="v2-h4">Chaining <code>add()</code> calls:</h4>
+<p class="v2-p">Because <code>add()</code> returns the Set itself, you can chain:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const s = new Set();
+s.add(10).add(20).add(30).add(20); // 20 is a duplicate
+
+console.log(s); // Set(3) { 10, 20, 30 }</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>has(value)</code> — Check if a Value Exists</h3>
+<p class="v2-p">Returns <code>true</code> if the value is in the Set, <code>false</code> otherwise. This is <strong>very fast</strong> (O(1) hash lookup — doesn't have to scan every element like array <code>includes()</code>).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = new Set([&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;]);
+
+console.log(fruits.has(&quot;Banana&quot;)); // true
+console.log(fruits.has(&quot;Kiwi&quot;));   // false</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+false</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> For large collections, <code>Set.has()</code> is significantly faster than <code>Array.includes()</code>. If you're checking membership frequently on a large list, convert it to a Set first.</p></blockquote>
+<p class="v2-p"><strong>Performance comparison:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const bigArray = Array.from({ length: 100000 }, (_, i) =&gt; i);
+const bigSet   = new Set(bigArray);
+
+// Array.includes() — scans up to 100,000 elements (slow for last item)
+console.time(&quot;array&quot;);
+bigArray.includes(99999);
+console.timeEnd(&quot;array&quot;); // ~1–5ms
+
+// Set.has() — instant hash lookup regardless of size
+console.time(&quot;set&quot;);
+bigSet.has(99999);
+console.timeEnd(&quot;set&quot;); // ~0.01ms</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>delete(value)</code> — Remove a Value</h3>
+<p class="v2-p">Removes a value from the Set. Returns <code>true</code> if the value existed and was removed, <code>false</code> if it wasn't found.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = new Set([&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;]);
+
+const wasRemoved = fruits.delete(&quot;Banana&quot;);
+console.log(wasRemoved); // true
+console.log(fruits);     // Set(2) { &quot;Apple&quot;, &quot;Mango&quot; }
+
+const notFound = fruits.delete(&quot;Kiwi&quot;);
+console.log(notFound);   // false (wasn&#x27;t in the Set)
+console.log(fruits.size); // 2 (unchanged)</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+Set(2) { &quot;Apple&quot;, &quot;Mango&quot; }
+false
+2</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>clear()</code> — Remove All Values</h3>
+<p class="v2-p">Removes <strong>every</strong> element from the Set. The Set still exists but is now empty.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = new Set([&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;]);
+console.log(fruits.size); // 3
+
+fruits.clear();
+
+console.log(fruits.size); // 0
+console.log(fruits);      // Set(0) {}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>3
+0
+Set(0) {}</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>values()</code> — Iterator of All Values</h3>
+<p class="v2-p">Returns an iterator object that yields each value in insertion order. You can use this directly in <code>for...of</code>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = new Set([&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;]);
+
+const iterator = fruits.values();
+console.log(iterator.next().value); // &quot;Apple&quot;
+console.log(iterator.next().value); // &quot;Banana&quot;
+console.log(iterator.next().value); // &quot;Mango&quot;
+console.log(iterator.next().done);  // true (iterator exhausted)</code></pre></div></div>
+<p class="v2-p">More commonly used in <code>for...of</code>:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const val of fruits.values()) {
+  console.log(val);
+}
+// Apple
+// Banana
+// Mango</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>keys()</code> — Same as <code>values()</code> for Sets</h3>
+<p class="v2-p">For consistency with <code>Map</code>, Sets have a <code>keys()</code> method — but it behaves identically to <code>values()</code> since Sets have no separate keys.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = new Set([&quot;Apple&quot;, &quot;Banana&quot;]);
+
+for (const key of fruits.keys()) {
+  console.log(key); // &quot;Apple&quot;, then &quot;Banana&quot;
+}</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>entries()</code> — Iterator of [value, value] Pairs</h3>
+<p class="v2-p">Returns an iterator of <code>[value, value]</code> pairs — again for Map consistency. Both entries in each pair are the same value.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = new Set([&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;]);
+
+for (const [key, val] of fruits.entries()) {
+  console.log(key, &quot;→&quot;, val);
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Apple → Apple
+Banana → Banana
+Mango → Mango</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> You'll rarely use <code>entries()</code> on a Set directly. It exists so that code written for Maps can work with Sets too without modification.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Summary: All Set Methods</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What it does</th><th>Returns</th></tr></thead><tbody><tr><td><code>new Set(iterable?)</code></td><td>Create a Set</td><td>Set</td></tr><tr><td><code>.add(value)</code></td><td>Add a value (no-op if exists)</td><td>The Set (chainable)</td></tr><tr><td><code>.has(value)</code></td><td>Check existence</td><td>Boolean</td></tr><tr><td><code>.delete(value)</code></td><td>Remove a value</td><td>Boolean (was it there?)</td></tr><tr><td><code>.clear()</code></td><td>Remove all values</td><td><code>undefined</code></td></tr><tr><td><code>.values()</code></td><td>Iterator of values</td><td>SetIterator</td></tr><tr><td><code>.keys()</code></td><td>Same as values()</td><td>SetIterator</td></tr><tr><td><code>.entries()</code></td><td>Iterator of [val, val] pairs</td><td>SetIterator</td></tr><tr><td><code>.forEach(fn)</code></td><td>Run function for each value</td><td><code>undefined</code></td></tr><tr><td><code>.size</code></td><td>Count of unique elements</td><td>Number</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>3. Topic 2 — Set Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
+  </div>
 </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
-    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+<div class="phase locked" id="phase4">
+  <div class="phase-header">
+    <div class="phase-num">Phase 4 of 7</div>
+    <div class="phase-title">4. Topic 3 — Set Logic</div>
+    <div class="phase-check" id="chk4"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">One of the most powerful features of the modern JavaScript Set (introduced in ES2025 as native methods, and achievable with custom logic before that) is the ability to perform <strong>mathematical set operations</strong>:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operation</th><th>Question It Answers</th><th>Example</th></tr></thead><tbody><tr><td><strong>Union</strong></td><td>All elements from both sets</td><td>A ∪ B</td></tr><tr><td><strong>Intersection</strong></td><td>Elements in BOTH sets</td><td>A ∩ B</td></tr><tr><td><strong>Difference</strong></td><td>Elements in A but NOT in B</td><td>A − B</td></tr><tr><td><strong>Symmetric Difference</strong></td><td>Elements in ONE set but not both</td><td>A △ B</td></tr><tr><td><strong>isSubsetOf</strong></td><td>Is every element of A in B?</td><td>A ⊆ B</td></tr><tr><td><strong>isSupersetOf</strong></td><td>Does A contain all of B?</td><td>A ⊇ B</td></tr><tr><td><strong>isDisjointFrom</strong></td><td>Do A and B share no elements?</td><td>A ∩ B = ∅</td></tr></tbody></table></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> These operations appear constantly in real apps: "which users have BOTH permissions A and B?" (intersection), "show all products from either category" (union), "which students enrolled last year but NOT this year?" (difference).</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Visual Understanding First</h3>
+<p class="v2-p">Before any code, let's visualise with two sets:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Set A = { 1, 2, 3, 4, 5 }
+Set B = { 3, 4, 5, 6, 7 }
+
+              ┌──────────────────────────┐
+   ┌──────────┤                          ├──────────┐
+   │  1  2    │       3   4   5          │  6   7   │
+   │  (A only)│     (both A &amp; B)         │ (B only) │
+   └──────────┤                          ├──────────┘
+              └──────────────────────────┘
+
+Union A ∪ B        = { 1, 2, 3, 4, 5, 6, 7 }  (everything)
+Intersection A ∩ B = { 3, 4, 5 }               (overlap only)
+Difference A − B   = { 1, 2 }                   (A only)
+Difference B − A   = { 6, 7 }                   (B only)
+Symmetric Diff     = { 1, 2, 6, 7 }             (non-overlap)</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Native Set Methods (ES2025+)</h3>
+<p class="v2-p">Modern JavaScript now has these as <strong>native Set methods</strong>. Always use these when available:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([1, 2, 3, 4, 5]);
+const B = new Set([3, 4, 5, 6, 7]);</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>union(other)</code> — All Elements from Both Sets (A ∪ B)</h3>
+<p class="v2-p">Combines every element from both Sets into a new Set (no duplicates).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([1, 2, 3, 4, 5]);
+const B = new Set([3, 4, 5, 6, 7]);
+
+const unionAB = A.union(B);
+console.log(unionAB); // Set(7) { 1, 2, 3, 4, 5, 6, 7 }</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>Set(7) { 1, 2, 3, 4, 5, 6, 7 }</code></p>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> A school wants to email all students enrolled in <strong>either</strong> maths <strong>or</strong> science. <code>mathStudents.union(scienceStudents)</code> gives the complete list with no duplicates.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>intersection(other)</code> — Elements in BOTH Sets (A ∩ B)</h3>
+<p class="v2-p">Returns a new Set of only the elements that appear in <strong>both</strong> sets.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([1, 2, 3, 4, 5]);
+const B = new Set([3, 4, 5, 6, 7]);
+
+const intersectAB = A.intersection(B);
+console.log(intersectAB); // Set(3) { 3, 4, 5 }</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>Set(3) { 3, 4, 5 }</code></p>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Find users who have <strong>both</strong> the "admin" permission and the "editor" permission: <code>adminUsers.intersection(editorUsers)</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>difference(other)</code> — Elements in A but NOT in B (A − B)</h3>
+<p class="v2-p">Returns a new Set of elements that exist in the first set but are <strong>absent from the second</strong>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([1, 2, 3, 4, 5]);
+const B = new Set([3, 4, 5, 6, 7]);
+
+const diffAB = A.difference(B);  // In A but not B
+const diffBA = B.difference(A);  // In B but not A
+
+console.log(diffAB); // Set(2) { 1, 2 }
+console.log(diffBA); // Set(2) { 6, 7 }</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Set(2) { 1, 2 }
+Set(2) { 6, 7 }</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT:</strong> <code>A.difference(B)</code> ≠ <code>B.difference(A)</code>. The order matters! The first set is the "source", the second is the "exclude" list.</p></blockquote>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> "Which students attended last year but have NOT enrolled this year?" → <code>lastYearStudents.difference(thisYearStudents)</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>symmetricDifference(other)</code> — Elements in ONE but NOT BOTH (A △ B)</h3>
+<p class="v2-p">Returns a new Set of elements that are in <strong>either</strong> set but <strong>not in both</strong>. It is the opposite of intersection — everything that is NOT in the overlap.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([1, 2, 3, 4, 5]);
+const B = new Set([3, 4, 5, 6, 7]);
+
+const symDiff = A.symmetricDifference(B);
+console.log(symDiff); // Set(4) { 1, 2, 6, 7 }</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>Set(4) { 1, 2, 6, 7 }</code></p>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Symmetric Difference is the same as <code>(A ∪ B) - (A ∩ B)</code> — the union minus the overlap. It tells you "what is exclusive to each set, excluding the shared parts".</p></blockquote>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> "Which products changed between two inventory snapshots?" — items that were added OR removed (not the unchanged ones in both).</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>isSubsetOf(other)</code> — Is Every Element of A Found in B?</h3>
+<p class="v2-p">Returns <code>true</code> if <strong>all</strong> elements of the Set are also in the other Set.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([3, 4]);
+const B = new Set([1, 2, 3, 4, 5]);
+
+console.log(A.isSubsetOf(B)); // true  — 3 and 4 are both in B
+console.log(B.isSubsetOf(A)); // false — B has elements not in A</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+false</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> "Does this user have all the required permissions?" → <code>requiredPerms.isSubsetOf(userPerms)</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>isSupersetOf(other)</code> — Does A Contain ALL Elements of B?</h3>
+<p class="v2-p">The reverse of <code>isSubsetOf</code>. Returns <code>true</code> if A contains every element of B.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([1, 2, 3, 4, 5]);
+const B = new Set([3, 4]);
+
+console.log(A.isSupersetOf(B)); // true  — A contains all of B
+console.log(B.isSupersetOf(A)); // false — B doesn&#x27;t contain all of A</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+false</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> <code>A.isSubsetOf(B)</code> is always the mirror of <code>B.isSupersetOf(A)</code>. They answer the same question from opposite sides.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>isDisjointFrom(other)</code> — Do the Sets Share NO Common Elements?</h3>
+<p class="v2-p">Returns <code>true</code> if the two Sets have <strong>zero elements in common</strong> (empty intersection).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([1, 2, 3]);
+const B = new Set([4, 5, 6]);
+const C = new Set([3, 4, 5]);
+
+console.log(A.isDisjointFrom(B)); // true  — no shared elements
+console.log(A.isDisjointFrom(C)); // false — 3 is in both</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+false</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> "Are these two product categories completely separate?" → <code>categoryA.isDisjointFrom(categoryB)</code>. If <code>true</code>, they share no products.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Manual Implementations (for older environments without native methods)</h3>
+<p class="v2-p">If the native Set methods aren't available yet in your environment, here are the manual equivalents using spread and filter:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([1, 2, 3, 4, 5]);
+const B = new Set([3, 4, 5, 6, 7]);
+
+// Union: spread both into a new Set
+const union = new Set([...A, ...B]);
+console.log([...union]); // [1, 2, 3, 4, 5, 6, 7]
+
+// Intersection: keep elements of A that B also has
+const intersection = new Set([...A].filter(x =&gt; B.has(x)));
+console.log([...intersection]); // [3, 4, 5]
+
+// Difference A - B: keep elements of A that B does NOT have
+const difference = new Set([...A].filter(x =&gt; !B.has(x)));
+console.log([...difference]); // [1, 2]
+
+// Symmetric difference: elements in one but not both
+const symDiff = new Set([
+  ...[...A].filter(x =&gt; !B.has(x)),
+  ...[...B].filter(x =&gt; !A.has(x))
+]);
+console.log([...symDiff]); // [1, 2, 6, 7]
+
+// isSubset: every element of A is in B
+const isSubset = [...A].every(x =&gt; B.has(x));
+console.log(isSubset); // false
+
+// isDisjoint: no element of A is in B
+const isDisjoint = [...A].every(x =&gt; !B.has(x));
+console.log(isDisjoint); // false</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">All Set Logic Methods at a Glance</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const A = new Set([&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;]);
+const B = new Set([&quot;Bob&quot;, &quot;Carol&quot;, &quot;David&quot;]);
+
+console.log([...A.union(B)]);                // [&quot;Alice&quot;,&quot;Bob&quot;,&quot;Carol&quot;,&quot;David&quot;]
+console.log([...A.intersection(B)]);         // [&quot;Bob&quot;,&quot;Carol&quot;]
+console.log([...A.difference(B)]);           // [&quot;Alice&quot;]
+console.log([...B.difference(A)]);           // [&quot;David&quot;]
+console.log([...A.symmetricDifference(B)]); // [&quot;Alice&quot;,&quot;David&quot;]
+console.log(A.isSubsetOf(B));               // false
+console.log(A.isSupersetOf(new Set([&quot;Bob&quot;,&quot;Carol&quot;]))); // true
+console.log(A.isDisjointFrom(new Set([&quot;X&quot;,&quot;Y&quot;])));     // true</code></pre></div></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>4. Topic 3 — Set Logic</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase5">
+  <div class="phase-header">
+    <div class="phase-num">Phase 5 of 7</div>
+    <div class="phase-title">5. Topic 4 — WeakSet</div>
+    <div class="phase-check" id="chk5"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">A <code>WeakSet</code> is a special variant of Set with two important differences:</p>
+<ol class="v2-ol"><li>It can <strong>only store objects</strong> (not primitives like numbers or strings)</li><li>It holds its objects <strong>weakly</strong> — meaning the garbage collector can remove them from the WeakSet automatically if nothing else in the program holds a reference to that object</li></ol>
+<h3 class="v2-h3">What Does "Weakly Held" Mean?</h3>
+<p class="v2-p">Think of a regular Set like a strong grip — it holds onto objects and prevents them from being cleaned up. Think of a WeakSet like a sticky note — if the object it points to no longer exists anywhere else, the WeakSet's reference is automatically discarded. This prevents <strong>memory leaks</strong>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Regular Set:
+  Object ←──── strong reference ──── Set
+  (Object CANNOT be garbage collected while Set exists)
+
+WeakSet:
+  Object ←──── weak reference ──── WeakSet
+  (Object CAN be garbage collected even if WeakSet exists)</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Creating a WeakSet</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const ws = new WeakSet();
+
+const obj1 = { name: &quot;Alice&quot; };
+const obj2 = { name: &quot;Bob&quot; };
+
+ws.add(obj1);
+ws.add(obj2);
+ws.add(obj1); // duplicate — ignored
+
+console.log(ws.has(obj1)); // true
+console.log(ws.has(obj2)); // true</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+true</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">WeakSet Can ONLY Store Objects</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const ws = new WeakSet();
+
+// ❌ Primitives are NOT allowed
+try {
+  ws.add(42);        // TypeError!
+} catch (e) {
+  console.log(e.message); // &quot;Invalid value used in weak set&quot;
+}
+
+try {
+  ws.add(&quot;hello&quot;);   // TypeError!
+} catch (e) {
+  console.log(e.message);
+}
+
+// ✅ Only objects and arrays (which are objects)
+ws.add({ id: 1 });
+ws.add([1, 2, 3]);
+ws.add(function() {}); // functions are objects too</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">WeakSet Methods — Only Three!</h3>
+<p class="v2-p">WeakSet intentionally has a very limited API:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What it does</th><th>Returns</th></tr></thead><tbody><tr><td><code>.add(object)</code></td><td>Add an object</td><td>The WeakSet</td></tr><tr><td><code>.has(object)</code></td><td>Check if object is in the set</td><td>Boolean</td></tr><tr><td><code>.delete(object)</code></td><td>Remove an object</td><td>Boolean</td></tr></tbody></table></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT:</strong> WeakSet has <strong>NO</strong> <code>size</code>, <code>clear()</code>, <code>forEach()</code>, or iteration methods. You cannot loop over a WeakSet or check how many items it contains. This is intentional — because the garbage collector may remove items at any time, the count would be unreliable.</p></blockquote>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const ws = new WeakSet();
+const obj = { name: &quot;Test&quot; };
+
+ws.add(obj);
+console.log(ws.has(obj));  // true
+
+ws.delete(obj);
+console.log(ws.has(obj));  // false
+
+// ❌ These do NOT exist on WeakSet:
+// ws.size       → undefined
+// ws.clear()    → TypeError
+// for...of ws   → TypeError (not iterable)</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Automatic Memory Cleanup — The Key Benefit</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let obj = { name: &quot;Temporary&quot; };
+const ws = new WeakSet([obj]);
+
+console.log(ws.has(obj)); // true
+
+// When we clear the last reference to the object...
+obj = null; // ← nothing else references the object now
+
+// ...the garbage collector will eventually remove it from ws automatically
+// ws.has(obj) → false (once GC runs)</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> You cannot directly observe garbage collection in JavaScript — it happens automatically. The point is that WeakSet does NOT prevent it from happening, unlike regular Set.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">When to Use WeakSet — Practical Example</h3>
+<p class="v2-p">The most common real-world use of WeakSet is <strong>tracking objects without preventing their cleanup</strong>.</p>
+<h4 class="v2-h4">Example: Mark DOM elements that have been processed</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const processedElements = new WeakSet();
+
+function processElement(el) {
+  if (processedElements.has(el)) {
+    console.log(&quot;Already processed, skipping&quot;);
+    return;
+  }
+  // ... do processing ...
+  processedElements.add(el);
+  console.log(&quot;Processed:&quot;, el.id || &quot;element&quot;);
+}
+
+// When a DOM element is removed from the page,
+// processedElements automatically releases it — no memory leak!</code></pre></div></div>
+<h4 class="v2-h4">Example: Track which objects have been validated</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const validated = new WeakSet();
+
+function validate(user) {
+  // Run expensive validation once, cache the result
+  if (validated.has(user)) return true;
+
+  const isValid = user.name &amp;&amp; user.email; // simplified
+  if (isValid) validated.add(user);
+  return isValid;
+}
+
+const alice = { name: &quot;Alice&quot;, email: &quot;alice@example.com&quot; };
+console.log(validate(alice)); // true — runs full validation
+console.log(validate(alice)); // true — returns cached result</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> WeakSet is used in JavaScript frameworks and libraries to track which components or DOM nodes have been "seen" or "processed" — without creating memory leaks when those components are destroyed.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Set vs WeakSet — Full Comparison</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Feature</th><th><code>Set</code></th><th><code>WeakSet</code></th></tr></thead><tbody><tr><td>Value types</td><td>Any (primitives + objects)</td><td>Objects ONLY</td></tr><tr><td>Holds references</td><td>Strongly (prevents GC)</td><td>Weakly (allows GC)</td></tr><tr><td><code>size</code> property</td><td>✅ Yes</td><td>❌ No</td></tr><tr><td>Iterable (<code>for...of</code>)</td><td>✅ Yes</td><td>❌ No</td></tr><tr><td><code>forEach()</code></td><td>✅ Yes</td><td>❌ No</td></tr><tr><td><code>clear()</code></td><td>✅ Yes</td><td>❌ No</td></tr><tr><td><code>add()</code></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><code>has()</code></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td><code>delete()</code></td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td>Use case</td><td>General unique value storage</td><td>Track objects without memory leaks</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>5. Topic 4 — WeakSet</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase6">
+  <div class="phase-header">
+    <div class="phase-num">Phase 6 of 7</div>
+    <div class="phase-title">6. Topic 5 — Complete Set Reference</div>
+    <div class="phase-check" id="chk6"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p">Quick reference for every Set and WeakSet feature.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Set — Constructor</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>new Set()                 // empty set
+new Set(iterable)         // from array, string, another set, etc.</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Set — Properties</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>set.size</code></td><td>Number</td><td>Count of unique elements</td></tr><tr><td><code>set[Symbol.iterator]</code></td><td>Function</td><td>Makes Set iterable in <code>for...of</code></td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Set — Instance Methods</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead><tbody><tr><td><code>set.add(value)</code></td><td>Set</td><td>Add value; no-op if exists</td></tr><tr><td><code>set.has(value)</code></td><td>Boolean</td><td><code>true</code> if value is in set</td></tr><tr><td><code>set.delete(value)</code></td><td>Boolean</td><td>Remove value; <code>true</code> if found</td></tr><tr><td><code>set.clear()</code></td><td><code>undefined</code></td><td>Remove all values</td></tr><tr><td><code>set.values()</code></td><td>SetIterator</td><td>Iterate values</td></tr><tr><td><code>set.keys()</code></td><td>SetIterator</td><td>Same as <code>values()</code></td></tr><tr><td><code>set.entries()</code></td><td>SetIterator</td><td>Iterate <code>[value, value]</code> pairs</td></tr><tr><td><code>set.forEach(fn)</code></td><td><code>undefined</code></td><td>Run <code>fn(value, value, set)</code> for each</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Set — Logic Methods (ES2025 Native)</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead><tbody><tr><td><code>set.union(other)</code></td><td>New Set</td><td>A ∪ B — all elements from both</td></tr><tr><td><code>set.intersection(other)</code></td><td>New Set</td><td>A ∩ B — only elements in both</td></tr><tr><td><code>set.difference(other)</code></td><td>New Set</td><td>A − B — in A but not B</td></tr><tr><td><code>set.symmetricDifference(other)</code></td><td>New Set</td><td>A △ B — in one but not both</td></tr><tr><td><code>set.isSubsetOf(other)</code></td><td>Boolean</td><td>Is every element of A in B?</td></tr><tr><td><code>set.isSupersetOf(other)</code></td><td>Boolean</td><td>Does A contain all of B?</td></tr><tr><td><code>set.isDisjointFrom(other)</code></td><td>Boolean</td><td>Do A and B share no elements?</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Set — Common Conversion Patterns</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const s = new Set([1, 2, 3]);
+
+// Set → Array
+const arr1 = [...s];           // [1, 2, 3]
+const arr2 = Array.from(s);    // [1, 2, 3]
+
+// Array → Set (deduplicate)
+const unique = new Set([1, 2, 2, 3, 3]); // Set { 1, 2, 3 }
+
+// String → Set of unique characters
+const chars = new Set(&quot;hello&quot;); // Set { &quot;h&quot;, &quot;e&quot;, &quot;l&quot;, &quot;o&quot; }</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">WeakSet — Constructor</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>new WeakSet()             // empty
+new WeakSet(iterable)     // from iterable of objects</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">WeakSet — Instance Methods (Only Three)</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead><tbody><tr><td><code>ws.add(object)</code></td><td>WeakSet</td><td>Add an object (must be object)</td></tr><tr><td><code>ws.has(object)</code></td><td>Boolean</td><td>Check if object is in WeakSet</td></tr><tr><td><code>ws.delete(object)</code></td><td>Boolean</td><td>Remove object</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Set Operation Quick Reference — Visual Summary</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>A = { 1, 2, 3, 4 }     B = { 3, 4, 5, 6 }
+
+A.union(B)                     → { 1, 2, 3, 4, 5, 6 }
+A.intersection(B)               → { 3, 4 }
+A.difference(B)                 → { 1, 2 }
+B.difference(A)                 → { 5, 6 }
+A.symmetricDifference(B)       → { 1, 2, 5, 6 }
+A.isSubsetOf(B)                 → false
+new Set([3,4]).isSubsetOf(A)    → true
+A.isSupersetOf(new Set([1,2]))  → true
+A.isDisjointFrom(new Set([7]))  → true
+A.isDisjointFrom(B)             → false  (3 and 4 are shared)</code></pre></div></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>6. Topic 5 — Complete Set Reference</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase7">
+  <div class="phase-header">
+    <div class="phase-num">Phase 7 of 7</div>
+    <div class="phase-title">7. Applied Exercises</div>
+    <div class="phase-check" id="chk7"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 2 — Applied Exercises</strong></p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 1 — Unique Value Enforcer 🔒</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice creating Sets, using <code>add</code>, <code>has</code>, <code>delete</code>, and converting between Sets and arrays.</p>
+<p class="v2-p"><strong>Scenario:</strong> You're building a <strong>tag management system</strong> for a blog platform. Tags must be unique, case-insensitive, and stored efficiently.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const tags = new Set([&quot;javascript&quot;, &quot;web&quot;, &quot;javascript&quot;, &quot;css&quot;]);
+console.log(&quot;Tags:&quot;, [...tags]);  // [&quot;javascript&quot;, &quot;web&quot;, &quot;css&quot;]
+console.log(&quot;Count:&quot;, tags.size); // 3</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Tags: [&quot;javascript&quot;, &quot;web&quot;, &quot;css&quot;]
+Count: 3</code></pre></div></div>
+<h4 class="v2-h4">Task A — Build the Tag System</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Normalise tag: lowercase and trimmed
+function normaliseTag(tag) {
+  return tag.trim().toLowerCase();
+}
+
+class TagManager {
+  constructor() {
+    this.tags = new Set();
+  }
+
+  addTag(tag) {
+    const normalised = normaliseTag(tag);
+    if (this.tags.has(normalised)) {
+      console.log(`&quot;${normalised}&quot; already exists`);
+      return false;
+    }
+    this.tags.add(normalised);
+    console.log(`Added: &quot;${normalised}&quot;`);
+    return true;
+  }
+
+  removeTag(tag) {
+    const normalised = normaliseTag(tag);
+    const removed = this.tags.delete(normalised);
+    console.log(removed ? `Removed: &quot;${normalised}&quot;` : `&quot;${normalised}&quot; not found`);
+    return removed;
+  }
+
+  hasTag(tag) {
+    return this.tags.has(normaliseTag(tag));
+  }
+
+  getAll() {
+    return [...this.tags].sort();
+  }
+}
+
+const manager = new TagManager();
+manager.addTag(&quot;JavaScript&quot;);
+manager.addTag(&quot;  CSS  &quot;);      // spaces trimmed
+manager.addTag(&quot;javascript&quot;);   // duplicate (normalised)
+manager.addTag(&quot;React&quot;);
+manager.addTag(&quot;css&quot;);          // duplicate after normalise
+
+console.log(&quot;\nAll tags:&quot;, manager.getAll());
+console.log(&quot;Has &#x27;react&#x27;:&quot;, manager.hasTag(&quot;React&quot;));
+
+manager.removeTag(&quot;CSS&quot;);
+console.log(&quot;After removal:&quot;, manager.getAll());</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Added: &quot;javascript&quot;
+Added: &quot;css&quot;
+&quot;javascript&quot; already exists
+Added: &quot;react&quot;
+&quot;css&quot; already exists
+
+All tags: [&quot;css&quot;, &quot;javascript&quot;, &quot;react&quot;]
+Has &#x27;react&#x27;: true
+Removed: &quot;css&quot;
+After removal: [&quot;javascript&quot;, &quot;react&quot;]</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>Why is <code>Set.has()</code> preferred over <code>Array.includes()</code> for this use case?</li><li>What would happen if we used an array instead of a Set for <code>this.tags</code>?</li><li>Why do we normalise tags before adding them?</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 2 — Set Logic Challenge 🔢</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice all six set logic operations on real-world data.</p>
+<p class="v2-p"><strong>Scenario:</strong> You work at a <strong>university</strong>. Three subject sets exist: students enrolled in Maths, Computer Science, and Physics.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const mathsClass = new Set([&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;]);
+const scienceClass = new Set([&quot;Bob&quot;, &quot;Carol&quot;, &quot;David&quot;]);
+
+const both = mathsClass.intersection(scienceClass);
+console.log(&quot;In both:&quot;, [...both]); // [&quot;Bob&quot;, &quot;Carol&quot;]</code></pre></div></div>
+<h4 class="v2-h4">Task A — Enrolment Analysis</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const maths = new Set([&quot;Alice&quot;, &quot;Bob&quot;,   &quot;Carol&quot;, &quot;David&quot;, &quot;Eve&quot;  ]);
+const cs    = new Set([&quot;Bob&quot;,   &quot;Carol&quot;, &quot;Frank&quot;, &quot;Grace&quot;, &quot;Henry&quot;]);
+const phys  = new Set([&quot;Carol&quot;, &quot;David&quot;, &quot;Grace&quot;, &quot;Ivan&quot;,  &quot;Alice&quot;]);
+
+// 1. All students across all subjects
+const allStudents = maths.union(cs).union(phys);
+console.log(&quot;All students :&quot;, allStudents.size, &quot;→&quot;, [...allStudents].sort());
+
+// 2. Students in BOTH Maths AND CS
+const mathsAndCS = maths.intersection(cs);
+console.log(&quot;Maths &amp; CS   :&quot;, [...mathsAndCS]);
+
+// 3. Students in ALL THREE subjects
+const allThree = maths.intersection(cs).intersection(phys);
+console.log(&quot;All three    :&quot;, [...allThree]);
+
+// 4. Students ONLY in Maths (not CS, not Physics)
+const mathsOnly = maths.difference(cs).difference(phys);
+console.log(&quot;Maths only   :&quot;, [...mathsOnly]);
+
+// 5. Students in Maths OR CS but NOT both
+const mathsOrCSExclusive = maths.symmetricDifference(cs);
+console.log(&quot;Maths XOR CS :&quot;, [...mathsOrCSExclusive].sort());
+
+// 6. Is {Bob, Carol} a subset of maths?
+const checkSubset = new Set([&quot;Bob&quot;, &quot;Carol&quot;]);
+console.log(&quot;Bob+Carol ⊆ Maths:&quot;, checkSubset.isSubsetOf(maths)); // true
+
+// 7. Are Maths and Physics disjoint?
+console.log(&quot;Maths ∩ Phys = ∅:&quot;, maths.isDisjointFrom(phys)); // false (Alice, David, Carol overlap)</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>All students : 10 → [&quot;Alice&quot;,&quot;Bob&quot;,&quot;Carol&quot;,&quot;David&quot;,&quot;Eve&quot;,&quot;Frank&quot;,&quot;Grace&quot;,&quot;Henry&quot;,&quot;Ivan&quot;]
+Maths &amp; CS   : [&quot;Bob&quot;, &quot;Carol&quot;]
+All three    : [&quot;Carol&quot;]
+Maths only   : [&quot;Eve&quot;]
+Maths XOR CS : [&quot;Alice&quot;,&quot;David&quot;,&quot;Eve&quot;,&quot;Frank&quot;,&quot;Grace&quot;,&quot;Henry&quot;]
+Bob+Carol ⊆ Maths: true
+Maths ∩ Phys = ∅: false</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>What is the difference between <code>difference()</code> and <code>symmetricDifference()</code>?</li><li>Why is <code>A.isSubsetOf(B)</code> the mirror of <code>B.isSupersetOf(A)</code>?</li><li>What does it mean for two sets to be "disjoint"?</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 3 — WeakSet Validator ♻️</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice creating and using a WeakSet to track object state without memory leaks.</p>
+<p class="v2-p"><strong>Scenario:</strong> You're building a <strong>form validation system</strong>. Each form section is an object. You want to track which sections have been validated without keeping references that prevent cleanup.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const validatedSections = new WeakSet();
+const section = { id: &quot;personal&quot;, filled: true };
+
+validatedSections.add(section);
+console.log(validatedSections.has(section)); // true</code></pre></div></div>
+<h4 class="v2-h4">Task A — Section Validation Tracker</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const validatedSections = new WeakSet();
+const validationErrors  = new WeakSet();
+
+function validateSection(section) {
+  if (validatedSections.has(section)) {
+    return { cached: true, valid: !validationErrors.has(section) };
+  }
+
+  // Simulate validation: all required fields must be non-empty
+  const isValid = section.fields.every(f =&gt; f.value.trim() !== &quot;&quot;);
+
+  validatedSections.add(section);
+  if (!isValid) validationErrors.add(section);
+
+  return { cached: false, valid: isValid };
+}
+
+const nameSection = {
+  id: &quot;name&quot;,
+  fields: [{ name: &quot;firstName&quot;, value: &quot;Alice&quot; }, { name: &quot;lastName&quot;, value: &quot;Smith&quot; }]
+};
+const emailSection = {
+  id: &quot;email&quot;,
+  fields: [{ name: &quot;email&quot;, value: &quot;&quot; }] // empty!
+};
+const addressSection = {
+  id: &quot;address&quot;,
+  fields: [{ name: &quot;street&quot;, value: &quot;123 Main St&quot; }, { name: &quot;city&quot;, value: &quot;Lagos&quot; }]
+};
+
+let result;
+
+result = validateSection(nameSection);
+console.log(`Name    : valid=${result.valid}, cached=${result.cached}`);
+
+result = validateSection(emailSection);
+console.log(`Email   : valid=${result.valid}, cached=${result.cached}`);
+
+result = validateSection(nameSection); // second call — should be cached
+console.log(`Name(2) : valid=${result.valid}, cached=${result.cached}`);
+
+result = validateSection(addressSection);
+console.log(`Address : valid=${result.valid}, cached=${result.cached}`);
+
+// Check if all three sections passed
+const sections = [nameSection, emailSection, addressSection];
+const allValid = sections.every(s =&gt; !validationErrors.has(s));
+console.log(&quot;\nForm ready to submit:&quot;, allValid);
+
+// WeakSet characteristics
+console.log(&quot;\nWeakSet has no size:&quot;, typeof validatedSections.size); // undefined</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Name    : valid=true, cached=false
+Email   : valid=false, cached=false
+Name(2) : valid=true, cached=true
+Address : valid=true, cached=false
+
+Form ready to submit: false
+
+WeakSet has no size: undefined</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>Why can't WeakSet store primitive values like <code>42</code> or <code>"hello"</code>?</li><li>What would happen if we used a regular Set instead of WeakSet here?</li><li>Why does WeakSet have no <code>size</code> or <code>forEach</code>?</li></ul>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">---
+
+### Exercise 1 — Unique Value Enforcer 🔒
+
+Objective: Practice creating Sets, using add, has, delete, and converting between Sets and arrays.
+
+Scenario: You're building a tag management system for a blog platform. Tags must be unique, case-insensitive, and stored efficiently.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="build-box" id="build-it">
+  <div class="build-label">🏗️ Build It</div>
+  <div class="build-name">🔵 Stage 1 — Record Attendance</div>
+  <div class="build-desc"><strong>Real-world scenario:</strong> You are a developer at a school. Build an <strong>Attendance & Permission Tracker</strong> that:</div>
+  <div class="v2-code-wrap">
+    <div class="v2-code-bar">
+      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
+      <span class="v2-code-lang">starter.html</span>
+    </div>
+    <div class="v2-code-body"><pre><code>const morningRoll = new Set([&quot;S001&quot;, &quot;S002&quot;, &quot;S003&quot;]);
+const afternoonRoll = new Set([&quot;S002&quot;, &quot;S003&quot;, &quot;S004&quot;]);
+
+const fullDay = morningRoll.intersection(afternoonRoll);
+console.log(&quot;Full day:&quot;, [...fullDay]); // [&quot;S002&quot;, &quot;S003&quot;]</code></pre></div>
+  </div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+    <button class="unlock-btn" onclick="downloadStarter(`const morningRoll = new Set(["S001", "S002", "S003"]);
+const afternoonRoll = new Set(["S002", "S003", "S004"]);
+
+const fullDay = morningRoll.intersection(afternoonRoll);
+console.log("Full day:", [...fullDay]); // ["S002", "S003"]`)"
+      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
       ⬇ Download starter.html
     </button>
-    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+    <button class="unlock-btn" onclick="showGithub()"
+      style="background:#0f172a;box-shadow:none">
       🐙 Push to GitHub →
     </button>
   </div>
-  <script>
-  const __code = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JS Objects</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  input,select{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
-  input:focus,select:focus{border-color:#d97706}
-  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
-  .btn:hover{background:#b45309}.btn-red{background:#dc2626}.btn-red:hover{background:#b91c1c}
-  .contact-list{list-style:none;padding:0}
-  .contact-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #fef3c7;gap:10px}
-  .contact-item:last-child{border:none}
-  .c-avatar{width:40px;height:40px;border-radius:50%;background:#d97706;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0}
-  .c-info{flex:1}.c-name{font-weight:700;color:#1c1917;font-size:14px}.c-detail{font-size:12px;color:#64748b}
-  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:12px;color:#78350f;margin-top:10px;white-space:pre-wrap}
-  .empty{text-align:center;color:#94a3b8;padding:20px;font-size:14px}
-</style>
-</head>
-<body>
-<h1>⚡ JS Objects</h1>
-<h2>Contact Book (Objects in Action)</h2>
-<div class="box">
-  <input id="c-name" placeholder="Full Name" value="Amina Bello">
-  <input id="c-email" placeholder="Email" value="amina@example.com">
-  <input id="c-phone" placeholder="Phone" value="+234 801 234 5678">
-  <select id="c-course">
-    <option>HTML</option><option>CSS</option><option selected>JavaScript</option><option>Python</option>
-  </select>
-  <button class="btn" onclick="addContact()">Add Contact</button>
 </div>
-<div class="box" id="contact-list-wrap">
-  <ul class="contact-list" id="contact-list">
-    <li class="empty">No contacts yet — add one above!</li>
-  </ul>
-</div>
-<h2>Inspect Object</h2>
-<div class="box">
-  <button class="btn" onclick="inspectObj()">Inspect First Contact</button>
-  <div class="output" id="inspect-out">Add a contact first, then click Inspect</div>
-</div>
-<script>
-  const contacts = {};
-  let nextId = 1;
-  function addContact() {
-    const name   = document.getElementById('c-name').value.trim();
-    const email  = document.getElementById('c-email').value.trim();
-    const phone  = document.getElementById('c-phone').value.trim();
-    const course = document.getElementById('c-course').value;
-    if (!name) return alert('Name is required!');
-    const id = 'contact_' + nextId++;
-    contacts[id] = {
-      id, name, email, phone, course,
-      createdAt: new Date().toLocaleDateString(),
-      getInitials() { return this.name.split(' ').map(n=>n[0]).join('').toUpperCase(); },
-      getSummary() { return \`${this.name} · ${this.course} · ${this.email}\`; },
-    };
-    renderContacts();
-    document.getElementById('c-name').value = '';
-    document.getElementById('c-email').value = '';
-  }
-  function renderContacts() {
-    const ul = document.getElementById('contact-list');
-    const ids = Object.keys(contacts);
-    if (!ids.length) { ul.innerHTML = '<li class="empty">No contacts yet</li>'; return; }
-    ul.innerHTML = ids.map(id => {
-      const c = contacts[id];
-      return \`<li class="contact-item">
-        <div class="c-avatar">${c.getInitials()}</div>
-        <div class="c-info">
-          <div class="c-name">${c.name}</div>
-          <div class="c-detail">${c.course} · ${c.email}</div>
-        </div>
-        <button class="btn btn-red" style="padding:6px 12px;font-size:12px" onclick="deleteContact('${id}')">✕</button>
-      </li>\`;
-    }).join('');
-  }
-  function deleteContact(id) {
-    delete contacts[id];
-    renderContacts();
-  }
-  function inspectObj() {
-    const ids = Object.keys(contacts);
-    if (!ids.length) { document.getElementById('inspect-out').textContent = 'No contacts! Add one first.'; return; }
-    const c = contacts[ids[0]];
-    const lines = [
-      'Object.keys():   ' + JSON.stringify(Object.keys(c).filter(k=>typeof c[k]!=='function')),
-      'Object.values(): ' + JSON.stringify(Object.values(c).filter(v=>typeof v!=='function')),
-      '',
-      ''name' in contact: ' + ('name' in c),
-      ''age' in contact:  ' + ('age' in c),
-      '',
-      'contact.getSummary(): "' + c.getSummary() + '"',
-      'contact.getInitials(): "' + c.getInitials() + '"',
-      '',
-      'Full object:
-' + JSON.stringify(c, (k,v)=>typeof v==='function'?'[Function]':v, 2),
-    ];
-    document.getElementById('inspect-out').textContent = lines.join('
-');
-  }
-</script>
-</body>
-</html>`;
-  function downloadStarter(){
-    const a=document.createElement('a');
-    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
-    a.download='starter.html'; a.click();
-  }
-  </script>
-</div>
-
-<div class="github-acc" id="github-steps" style="display:none">
-  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
-    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+<div class="gh-acc" id="gh-steps" style="display:none">
+  <div class="gh-acc-head" onclick="toggleGh(this)">
+    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
   </div>
-  <div class="github-acc-body">
-    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-15-js_objects</code>.</p></div>
-    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
-    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 15 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-15-js_objects/</code> in ~1 min! 🎉</p></div>
-    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  <div class="gh-acc-body">
+    <div class="gh-step"><div class="gh-step-n">1</div>
+    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-15-stage-1-record-attendance</code>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">2</div>
+    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">3</div>
+    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
+    <div class="gh-step"><div class="gh-step-n">4</div>
+    <p>Commit message: <em>"Add JavaScript lesson 15 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">5</div>
+    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-15-stage-1-record-attendance/</code> in about 1 minute! 🎉</p></div>
+    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
   </div>
 </div>
 <div class="session-end" id="session-end">
-  <h2>🎉 Great work! Lesson 15 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
-  <ul><li>✅ Object literals and property access</li><li>✅ Methods and this</li></ul>
-  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
-    <a href="lesson_14.html" class="ln-btn">← Lesson 14</a>
-    <a href="lesson_16.html" class="ln-btn primary">Lesson 16 →</a>
-  </div>
+  <h2>🎉 Lesson 15 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
+  <ul><li>✅ 1. Background: Why Sets Exist</li><li>✅ 2. Topic 1 — Sets: Basics & Creation</li><li>✅ 3. Topic 2 — Set Methods</li><li>✅ 4. Topic 3 — Set Logic</li><li>✅ 5. Topic 4 — WeakSet</li><li>✅ 6. Topic 5 — Complete Set Reference</li><li>✅ 7. Applied Exercises</li></ul>
+  <div class="lesson-nav"><a href="lesson_14.html" class="ln-btn">← Lesson 14</a><a href="lesson_16.html" class="ln-btn primary">Lesson 16 →</a></div>
 </div>
 </main>
+
 <footer class="lesson-footer">
-  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 15 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+  Techbase Code Coach · JavaScript Course · Lesson 15 · © 2025 Techbase Consultant Services, Ibadan
 </footer>
 <script>
-const TOTAL=2, KEY='techbase_js_15_phase';
+const TOTAL=7,KEY='techbase_js_l15';
 let current=parseInt(localStorage.getItem(KEY)||'1');
 function init(){
-  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  for(let i=2;i<=current;i++) unlockPhase(i,false);
   updateBar();
 }
 function unlockNext(n){
-  document.getElementById('check'+n).classList.add('done');
-  document.getElementById('check'+n).textContent='✓';
-  localStorage.setItem(KEY,n+1);
-  current=n+1;
+  const chk=document.getElementById('chk'+n);
+  if(chk){chk.classList.add('done');chk.textContent='✓';}
+  localStorage.setItem(KEY,n+1); current=n+1;
   if(n===TOTAL){
     document.getElementById('build-it').style.display='block';
-    const cap=document.getElementById('capstone');
-    if(cap) cap.style.display='block';
     updateBar(100);
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  } else {
-    unlockPhase(n+1,true);
-    updateBar();
+  }else{
+    unlockPhase(n+1,true); updateBar();
   }
 }
 function unlockPhase(n,scroll){
   const el=document.getElementById('phase'+n);
-  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
 }
 function updateBar(pct){
-  const p=pct||Math.round((current-1)/TOTAL*95);
+  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
   document.getElementById('pbar').style.width=p+'%';
 }
 function showGithub(){
-  const g=document.getElementById('github-steps');
-  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+  const g=document.getElementById('gh-steps');
+  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
 }
 function showEnd(){
   const e=document.getElementById('session-end');
-  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
+}
+function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
+function downloadStarter(code){
+  const a=document.createElement('a');
+  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
+  a.download='starter.html';a.click();
 }
 init();
 </script>

@@ -2,502 +2,1278 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 18: JS String Methods — Techbase JS Course</title>
-<meta name="description" content="Use essential string methods: slice, includes, replace, split and more">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lesson 18: JavaScript Math &amp; Random: Math Properties · All Math Methods · Random Numbers · Full Reference — Techbase JavaScript</title>
+<meta name="description" content="JavaScript Math &amp; Random: Math Properties · All Math Methods · Random Numbers · Full Reference">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
-  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
-  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
+  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
   --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
   --text:#0f172a;--t2:#334155;--muted:#64748b;
   --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+
+/* NAV */
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
+  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
 .l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
-.l-nav-back:hover{color:var(--accent)}
-.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.l-nav-back:hover{color:var(--acc)}
+.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+
+/* PROGRESS */
 .progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
-.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:820px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
-.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
-.l-hero-build strong{color:var(--accent)}
-.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
-.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
-.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
-.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
-.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
+
+/* HERO */
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:860px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
+  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
+  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
+
+/* WELCOME BOX */
+.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
+.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
+.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
+.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
+  font-family:var(--M);font-size:.68rem;font-weight:500}
+
+/* PHASE */
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
+  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
+.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;
+  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--acc)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
+  flex:1;margin:0 .8rem}
+.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
+  transition:background .3s,color .3s}
 .phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.4rem}
-.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
-.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
-.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
-.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
-.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
-.code-dot{width:8px;height:8px;border-radius:50%}
-.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
-.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
-.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
-.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
-.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
-.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
-.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
-.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
-.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
-.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
-.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
-.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
-.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
-.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
-.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.github-acc-body.open{display:block}
-.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.phase-body{padding:1.6rem 1.8rem}
+
+/* RICH CONTENT STYLES */
+.v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
+  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
+.v2-ul li,.v2-ol li{margin-bottom:.3rem}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
+  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq p{margin:0;color:inherit}
+.v2-bq strong{font-style:normal}
+.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
+.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
+  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
+.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
+.v2-table tr:nth-child(even) td{background:#f8fafc}
+.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
+  padding:1px 5px;font-family:var(--M);font-size:.8em}
+.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.phase-body strong{color:var(--text)}
+
+/* CODE BLOCKS */
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
+.v2-dot{width:10px;height:10px;border-radius:50%}
+.v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
+.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
+.v2-code-body pre{margin:0}
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
+  white-space:pre;background:transparent;padding:0;border-radius:0}
+
+/* TASK BOX */
+.task-box{background:#fef9c3;border:2px dashed #d97706;
+  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
+.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
+  font-family:var(--M);font-size:.82em}
+
+/* UNLOCK BUTTON */
+.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
+  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
+  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
+  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
+.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
+
+/* BUILD IT */
+.build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
+.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
+.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-desc strong{color:#14532d}
+
+/* GITHUB ACCORDION */
+.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.gh-acc-body.open{display:block}
+.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
+  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+
+/* SESSION END */
+.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
 .session-end.visible{display:block}
 .session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
 .session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
-.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
-.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
+  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
+  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
+  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--acc);color:var(--acc)}
+.ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;
+  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
+  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
-  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
-  <span class="l-nav-lesson">Lesson 18 of 46</span>
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
+  <span class="l-nav-label">Lesson 18 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
 <div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+
 <div class="l-hero">
   <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 18 </div>
-    <h1>JS String Methods</h1>
-    <div class="l-hero-tag">Use essential string methods: slice, includes, replace, split and more</div>
-    <div class="l-hero-build"><strong>🏗️ Build:</strong> My String Methods Reference</div>
+    <div class="l-badge">JavaScript · Lesson 18</div>
+    <h1>JavaScript Math &amp; Random: Math Properties · All Math Methods · Random Numbers · Full Reference</h1>
+    <div class="l-hero-sub">9 phases · Build: 🔵 Stage 1 — Dice Engine</div>
   </div>
 </div>
-<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
   <h2>👋 Welcome to Lesson 18</h2>
-  <p>Use essential string methods: slice, includes, replace, split and more</p>
+  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
   <div class="welcome-meta">
-    <span>📚 2 phases</span>
-    <span>🏗️ Build: My String Methods Reference</span>
-    
+    <span>📚 9 phases</span>
+    <span>🏗️ 🔵 Stage 1 — Dice Engine</span>
   </div>
 </div></div>
 </section>
-<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+
+<main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
 <div class="phase" id="phase1">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Searching and extracting</div></div>
-    <div class="phase-check" id="check1"></div>
+    <div class="phase-num">Phase 1 of 9</div>
+    <div class="phase-title">1. Background: What Is the Math Object?</div>
+    <div class="phase-check" id="chk1"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><code>indexOf(str)</code> — first occurrence index (-1 if not found). <code>lastIndexOf()</code> — last occurrence. <code>includes(str)</code> — true/false. <code>startsWith()</code> / <code>endsWith()</code>. <code>slice(start, end)</code> — extract substring (negative counts from end). <code>substring(start, end)</code> — like slice but no negatives. <code>at(index)</code> — supports negative indices.</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>const str = &#x27;Techbase Academy — JavaScript Course&#x27;;
-
-// Searching
-str.indexOf(&#x27;Academy&#x27;);      // 10
-str.indexOf(&#x27;Python&#x27;);       // -1 (not found)
-str.includes(&#x27;JavaScript&#x27;);  // true
-str.startsWith(&#x27;Tech&#x27;);      // true
-str.endsWith(&#x27;Course&#x27;);      // true
-
-// Extracting
-str.slice(10, 17);     // &#x27;Academy&#x27;
-str.slice(-6);         // &#x27;Course&#x27; (from end)
-str.slice(0, 9);       // &#x27;Techbase&#x27;
-str.at(0);             // &#x27;T&#x27;
-str.at(-1);            // &#x27;e&#x27; (last character)
-str.substring(0, 9);   // &#x27;Techbase&#x27;
-
-// Splitting
-&#x27;apple,banana,mango&#x27;.split(&#x27;,&#x27;);    // [&#x27;apple&#x27;,&#x27;banana&#x27;,&#x27;mango&#x27;]
-&#x27;hello world&#x27;.split(&#x27; &#x27;);           // [&#x27;hello&#x27;, &#x27;world&#x27;]
-&#x27;hello&#x27;.split(&#x27;&#x27;);                  // [&#x27;h&#x27;,&#x27;e&#x27;,&#x27;l&#x27;,&#x27;l&#x27;,&#x27;o&#x27;]
-&#x27;a.b.c&#x27;.split(&#x27;.&#x27;, 2);             // [&#x27;a&#x27;, &#x27;b&#x27;] (limit)</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Write a function <code>getInitials(fullName)</code> that splits on spaces and takes the first letter of each word. Test with 'Amina Bello Okonkwo' → 'ABO'.</p></div>
-    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+    <p class="v2-p">In everyday life, you regularly need mathematical operations that go beyond simple <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>:</p>
+<ul class="v2-ul"><li>Rounding a price to 2 decimal places</li><li>Finding the largest value in a list</li><li>Calculating a square root for geometry</li><li>Generating a random number for a game</li><li>Working with angles for animations</li></ul>
+<p class="v2-p">JavaScript provides the <strong><code>Math</code> object</strong> — a built-in collection of mathematical constants and functions — ready to use without importing anything.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// No import needed — Math is always available
+console.log(Math.PI);          // 3.141592653589793
+console.log(Math.sqrt(16));    // 4
+console.log(Math.round(4.7));  // 5
+console.log(Math.random());    // e.g. 0.7362841...</code></pre></div></div>
+<h3 class="v2-h3">Key Facts About the Math Object</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Fact</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Type</strong></td><td>Static object — NOT a constructor</td></tr><tr><td><strong>Usage</strong></td><td><code>Math.methodName()</code> — never <code>new Math()</code></td></tr><tr><td><strong>Properties</strong></td><td>8 mathematical constants</td></tr><tr><td><strong>Methods</strong></td><td>30+ mathematical functions</td></tr><tr><td><strong>Number type</strong></td><td>All values are JavaScript 64-bit floats</td></tr></tbody></table></div>
+<blockquote class="v2-bq"><p class="v2-p">🐛 <strong>COMMON MISTAKE:</strong> <code>new Math()</code> throws a <code>TypeError</code>. Math is not a class — it is a plain object with static properties and methods. You never instantiate it.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const m = new Math(); // ❌ TypeError: Math is not a constructor
+const pi = Math.PI;   // ✅ correct</code></pre></div></div></blockquote>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Math methods appear in every domain of software: financial apps (rounding money), games (random events, physics), maps (distance calculations using trigonometry), data science (statistics), graphics (transformations), and UI animations (easing curves).</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>1. Background: What Is the Math Object?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
   </div>
 </div>
 <div class="phase locked" id="phase2">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">Transforming and cleaning</div></div>
-    <div class="phase-check" id="check2"></div>
+    <div class="phase-num">Phase 2 of 9</div>
+    <div class="phase-title">2. Topic 1 — Math Properties (Constants)</div>
+    <div class="phase-check" id="chk2"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p><code>toUpperCase()</code> / <code>toLowerCase()</code>. <code>trim()</code> — removes whitespace from both ends. <code>trimStart()</code> / <code>trimEnd()</code>. <code>replace(search, replacement)</code> — first match only. <code>replaceAll()</code> — all matches. <code>padStart(length, char)</code> / <code>padEnd()</code>. <code>repeat(n)</code>.</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>// Transforming
-&#x27;hello&#x27;.toUpperCase();       // &#x27;HELLO&#x27;
-&#x27;WORLD&#x27;.toLowerCase();       // &#x27;world&#x27;
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">The Math object has <strong>8 built-in constants</strong> — mathematical values that are used so frequently in real calculations that JavaScript provides them pre-computed to full precision.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.E);       // 2.718281828459045  — Euler&#x27;s number
+console.log(Math.PI);      // 3.141592653589793  — Pi
+console.log(Math.SQRT2);   // 1.4142135623730951 — Square root of 2
+console.log(Math.SQRT1_2); // 0.7071067811865476 — Square root of 1/2
+console.log(Math.LN2);     // 0.6931471805599453 — Natural log of 2
+console.log(Math.LN10);    // 2.302585092994046  — Natural log of 10
+console.log(Math.LOG2E);   // 1.4426950408889634 — Log base 2 of E
+console.log(Math.LOG10E);  // 0.4342944819032518 — Log base 10 of E</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>2.718281828459045
+3.141592653589793
+1.4142135623730951
+0.7071067811865476
+0.6931471805599453
+2.302585092994046
+1.4426950408889634
+0.4342944819032518</code></pre></div></div>
+<h3 class="v2-h3">The Most Important Constant: <code>Math.PI</code></h3>
+<p class="v2-p"><code>Math.PI</code> (π ≈ 3.14159…) is used in every circular and angular calculation:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Area of a circle: A = π × r²
+function circleArea(radius) {
+  return Math.PI * radius ** 2;
+}
+console.log(circleArea(5).toFixed(2));  // 78.54
 
-// Cleaning
-&#x27;  hello  &#x27;.trim();          // &#x27;hello&#x27;
-&#x27;  hello  &#x27;.trimStart();     // &#x27;hello  &#x27;
-&#x27;  hello  &#x27;.trimEnd();       // &#x27;  hello&#x27;
-
-// Replacing
-&#x27;cat cat cat&#x27;.replace(&#x27;cat&#x27;, &#x27;dog&#x27;);    // &#x27;dog cat cat&#x27;
-&#x27;cat cat cat&#x27;.replaceAll(&#x27;cat&#x27;, &#x27;dog&#x27;); // &#x27;dog dog dog&#x27;
-&#x27;hello&#x27;.replace(/l/g, &#x27;r&#x27;);            // &#x27;herro&#x27; (regex global)
-
-// Padding
-&#x27;5&#x27;.padStart(3, &#x27;0&#x27;);   // &#x27;005&#x27; (like &#x27;007&#x27;)
-&#x27;hi&#x27;.padEnd(5, &#x27;!&#x27;);    // &#x27;hi!!!&#x27;
-&#x27;42&#x27;.padStart(4);       // &#x27;  42&#x27; (space padding)
-
-// Chaining
-const result = &#x27;  Hello World  &#x27;
-  .trim()
-  .toLowerCase()
-  .replace(&#x27;hello&#x27;, &#x27;Hi&#x27;)
-  .split(&#x27; &#x27;)
-  .join(&#x27;-&#x27;);
-// &#x27;hi-world&#x27;</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Build a slug generator: takes a blog title like 'My First JS Post' and returns 'my-first-js-post'. Use <code>trim().toLowerCase().replace(/ /g, '-').replace(/[^a-z0-9-]/g, '')</code>.</p></div>
-    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+// Circumference: C = 2 × π × r
+function circumference(radius) {
+  return 2 * Math.PI * radius;
+}
+console.log(circumference(5).toFixed(2)); // 31.42</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>78.54
+31.42</code></pre></div></div>
+<h3 class="v2-h3"><code>Math.E</code> — Euler's Number</h3>
+<p class="v2-p"><code>Math.E</code> (e ≈ 2.71828…) is the base of the natural logarithm. It appears in compound interest, population growth, and probability:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Compound interest: A = P × e^(r × t)
+function continuousCompound(principal, rate, years) {
+  return principal * Math.E ** (rate * years);
+}
+// $1000 at 5% for 10 years
+console.log(continuousCompound(1000, 0.05, 10).toFixed(2)); // 1648.72</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong> <code>1648.72</code></p>
+<hr class="v2-hr">
+<h3 class="v2-h3">All 8 Math Constants at a Glance</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Constant</th><th>Value</th><th>Common Use</th></tr></thead><tbody><tr><td><code>Math.E</code></td><td>2.718...</td><td>Exponential growth, natural log</td></tr><tr><td><code>Math.PI</code></td><td>3.141...</td><td>Circles, angles, trigonometry</td></tr><tr><td><code>Math.SQRT2</code></td><td>1.414...</td><td>Diagonal of a unit square</td></tr><tr><td><code>Math.SQRT1_2</code></td><td>0.707...</td><td>Reciprocal of √2</td></tr><tr><td><code>Math.LN2</code></td><td>0.693...</td><td>Converting between log bases</td></tr><tr><td><code>Math.LN10</code></td><td>2.302...</td><td>Converting natural log to log₁₀</td></tr><tr><td><code>Math.LOG2E</code></td><td>1.442...</td><td>Log base 2 of Euler's number</td></tr><tr><td><code>Math.LOG10E</code></td><td>0.434...</td><td>Log base 10 of Euler's number</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>2. Topic 1 — Math Properties (Constants)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
   </div>
 </div>
-<div class="project-box" id="build-it" style="display:none">
-  <div class="project-label">🏗️ Build It</div>
-  <div class="project-name">String Methods Reference</div>
-  <div class="project-desc">A slug generator, word counter and email validator.</div>
-  <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
-<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-&lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
-&lt;title&gt;JS String Methods&lt;/title&gt;
-&lt;style&gt;
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  input,textarea{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
-  input:focus,textarea:focus{border-color:#d97706}
-  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
-  .btn:hover{background:#b45309}
-  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;margin-top:10px;white-space:pre-wrap;min-height:36px}
-  .result-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
-  .method-name{font-family:monospace;font-size:12px;color:#d97706;font-weight:700;min-width:150px}
-  .result-val{background:#fef3c7;border-radius:6px;padding:3px 10px;font-family:monospace;font-size:12px;color:#78350f}
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;⚡ JS String Methods&lt;/h1&gt;
-&lt;h2&gt;String Method Inspector&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;input id=&quot;str-in&quot; value=&quot;Techbase Academy — JavaScript&quot; oninput=&quot;inspectMethods()&quot;&gt;
-  &lt;div id=&quot;methods-out&quot;&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;h2&gt;URL Slug Generator&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;input id=&quot;slug-in&quot; placeholder=&quot;Blog post title&quot; value=&quot;My First JavaScript Post! 🚀&quot; oninput=&quot;makeSlug()&quot;&gt;
-  &lt;div class=&quot;output&quot; id=&quot;slug-out&quot;&gt;my-first-javascript-post&lt;/div&gt;
-&lt;/div&gt;
-&lt;h2&gt;Find &amp;amp; Replace&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;textarea id=&quot;fr-text&quot; rows=&quot;2&quot;&gt;The cat sat on the cat mat near the cat tree.&lt;/textarea&gt;
-  &lt;div style=&quot;display:flex;gap:8px&quot;&gt;
-    &lt;input id=&quot;fr-find&quot; placeholder=&quot;Find&quot; value=&quot;cat&quot; style=&quot;margin:0&quot;&gt;
-    &lt;input id=&quot;fr-replace&quot; placeholder=&quot;Replace with&quot; value=&quot;dog&quot; style=&quot;margin:0&quot;&gt;
-  &lt;/div&gt;
-  &lt;div style=&quot;display:flex;gap:8px;margin-top:8px&quot;&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;findReplace(false)&quot;&gt;Replace First&lt;/button&gt;
-    &lt;button class=&quot;btn&quot; onclick=&quot;findReplace(true)&quot;&gt;Replace All&lt;/button&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;output&quot; id=&quot;fr-out&quot;&gt;Result appears here&lt;/div&gt;
-&lt;/div&gt;
-&lt;h2&gt;Email Validator&lt;/h2&gt;
-&lt;div class=&quot;box&quot;&gt;
-  &lt;input id=&quot;email-in&quot; placeholder=&quot;Enter email&quot; value=&quot;amina@techbase.ng&quot; oninput=&quot;validateEmail()&quot;&gt;
-  &lt;div class=&quot;output&quot; id=&quot;email-out&quot;&gt;Type an email address&lt;/div&gt;
-&lt;/div&gt;
-&lt;script&gt;
-  function inspectMethods() {
-    const str = document.getElementById(&#x27;str-in&#x27;).value;
-    const container = document.getElementById(&#x27;methods-out&#x27;);
-    const methods = [
-      {name:&#x27;.length&#x27;,       val: str.length},
-      {name:&#x27;.toUpperCase()&#x27;, val: str.toUpperCase()},
-      {name:&#x27;.toLowerCase()&#x27;, val: str.toLowerCase()},
-      {name:&#x27;.trim()&#x27;,        val: str.trim()},
-      {name:&#x27;.slice(0,9)&#x27;,    val: str.slice(0,9)},
-      {name:&#x27;.at(-1)&#x27;,        val: str.at(-1)},
-      {name:&quot;.includes(&#x27;JS&#x27;)&quot;, val: str.includes(&#x27;JS&#x27;)},
-      {name:&quot;.startsWith(&#x27;Tech&#x27;)&quot;, val: str.startsWith(&#x27;Tech&#x27;)},
-      {name:&quot;.split(&#x27; &#x27;).length&quot;, val: str.split(&#x27; &#x27;).length + &#x27; words&#x27;},
-      {name:&quot;.replaceAll(&#x27; &#x27;,&#x27;-&#x27;)&quot;, val: str.replaceAll(&#x27; &#x27;,&#x27;-&#x27;)},
-    ];
-    container.innerHTML = methods.map(m =&gt;
-      `&lt;div class=&quot;result-row&quot;&gt;&lt;span class=&quot;method-name&quot;&gt;${m.name}&lt;/span&gt;&lt;span class=&quot;result-val&quot;&gt;${m.val}&lt;/span&gt;&lt;/div&gt;`
-    ).join(&#x27;&#x27;);
-  }
-  inspectMethods();
-  function makeSlug() {
-    const title = document.getElementById(&#x27;slug-in&#x27;).value;
-    const slug = title.trim().toLowerCase().replace(/[^a-z0-9\s-]/g,&#x27;&#x27;).replace(/\s+/g,&#x27;-&#x27;).replace(/-+/g,&#x27;-&#x27;).replace(/^-|-$/g,&#x27;&#x27;);
-    document.getElementById(&#x27;slug-out&#x27;).textContent = slug || &#x27;(empty)&#x27;;
-  }
-  makeSlug();
-  function findReplace(all) {
-    const text = document.getElementById(&#x27;fr-text&#x27;).value;
-    const find = document.getElementById(&#x27;fr-find&#x27;).value;
-    const rep  = document.getElementById(&#x27;fr-replace&#x27;).value;
-    if (!find) return;
-    const result = all ? text.replaceAll(find, rep) : text.replace(find, rep);
-    const count = (text.match(new RegExp(find.replace(/[.*+?^${}()|[\]\]/g,&#x27;\$&amp;&#x27;),&#x27;g&#x27;))||[]).length;
-    document.getElementById(&#x27;fr-out&#x27;).textContent = result + `
+<div class="phase locked" id="phase3">
+  <div class="phase-header">
+    <div class="phase-num">Phase 3 of 9</div>
+    <div class="phase-title">3. Topic 2 — Rounding Methods</div>
+    <div class="phase-check" id="chk3"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p">Rounding is one of the most frequently used mathematical operations in real apps — displaying prices, scores, ratings, and measurements all require rounding. JavaScript provides <strong>four distinct rounding methods</strong>, each with a specific behaviour.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">The Four Rounding Methods — Side by Side</h3>
+<p class="v2-p">Before diving in, see all four on the same number:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const n = 4.6;
 
-(${count} occurrence${count!==1?&#x27;s&#x27;:&#x27;&#x27;} found)`;
-  }
-  function validateEmail() {
-    const email = document.getElementById(&#x27;email-in&#x27;).value;
-    const hasAt  = email.includes(&#x27;@&#x27;);
-    const parts  = email.split(&#x27;@&#x27;);
-    const hasDot = parts.length === 2 &amp;&amp; parts[1].includes(&#x27;.&#x27;);
-    const noSpace = !email.includes(&#x27; &#x27;);
-    const ok = hasAt &amp;&amp; hasDot &amp;&amp; noSpace &amp;&amp; email.length &gt; 5;
-    document.getElementById(&#x27;email-out&#x27;).textContent =
-      (ok ? &#x27;✅ Valid-looking email
-&#x27; : &#x27;❌ Invalid email
-&#x27;) +
-      `includes &#x27;@&#x27;: ${hasAt}
-domain has &#x27;.&#x27;: ${hasDot}
-no spaces: ${noSpace}
-length &gt; 5: ${email.length &gt; 5}`;
-  }
-  validateEmail();
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre></div>
+console.log(Math.round(n));  // 5  — nearest integer (rounds .5 up)
+console.log(Math.floor(n));  // 4  — always rounds DOWN (toward -∞)
+console.log(Math.ceil(n));   // 5  — always rounds UP  (toward +∞)
+console.log(Math.trunc(n));  // 4  — always removes decimal (toward 0)</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>5
+4
+5
+4</code></pre></div></div>
+<p class="v2-p">Now watch how they differ for <strong>negative</strong> numbers — this is where beginners are often surprised:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const n = -4.6;
+
+console.log(Math.round(n));  // -5  — rounds to nearest (-4.6 → -5)
+console.log(Math.floor(n));  // -5  — DOWN means MORE negative
+console.log(Math.ceil(n));   // -4  — UP means LESS negative
+console.log(Math.trunc(n));  // -4  — just removes the decimal</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>-5
+-5
+-4
+-4</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🤔 <strong>THINK ABOUT IT:</strong> For negative numbers, "floor" (down) means more negative, and "ceil" (up) means less negative. Think of a number line — floor always goes left, ceil always goes right, trunc always goes toward zero.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.round(x)</code> — Round to Nearest Integer</h3>
+<p class="v2-p">Rounds to the nearest whole number. If the decimal is exactly <code>.5</code>, it rounds UP (away from zero for positive numbers).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.round(4.1));  // 4
+console.log(Math.round(4.5));  // 5  ← .5 rounds up
+console.log(Math.round(4.9));  // 5
+console.log(Math.round(-4.5)); // -4 ← .5 rounds TOWARD zero for negatives</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>4
+5
+5
+-4</code></pre></div></div>
+<h4 class="v2-h4">Real use — round to decimal places:</h4>
+<p class="v2-p">JavaScript's <code>Math.round</code> only rounds to whole numbers. To round to a specific number of decimal places, multiply, round, then divide:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Round to 2 decimal places
+function roundTo(value, decimals) {
+  const factor = 10 ** decimals;
+  return Math.round(value * factor) / factor;
+}
+
+console.log(roundTo(3.14159, 2)); // 3.14
+console.log(roundTo(2.5678,  1)); // 2.6
+console.log(roundTo(1.005,   2)); // 1.01 (note: floating-point edge case)</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> <code>toFixed(n)</code> is usually cleaner for displaying rounded numbers as strings:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log((3.14159).toFixed(2)); // &quot;3.14&quot;  ← returns a STRING
+console.log(+(3.14159).toFixed(2)); // 3.14   ← the + converts back to Number</code></pre></div></div></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.floor(x)</code> — Always Round Down</h3>
+<p class="v2-p">Rounds toward <strong>negative infinity</strong> — the largest integer less than or equal to x.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.floor(4.1));  // 4
+console.log(Math.floor(4.9));  // 4  ← still 4, not 5!
+console.log(Math.floor(4.0));  // 4
+console.log(Math.floor(-4.1)); // -5 ← goes MORE negative
+console.log(Math.floor(-4.9)); // -5</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>4
+4
+4
+-5
+-5</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>Math.floor</code> is the go-to for random integer generation (covered in Topic 6) and converting a time in seconds to whole minutes: <code>Math.floor(seconds / 60)</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.ceil(x)</code> — Always Round Up</h3>
+<p class="v2-p">Rounds toward <strong>positive infinity</strong> — the smallest integer greater than or equal to x.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.ceil(4.1));  // 5
+console.log(Math.ceil(4.9));  // 5
+console.log(Math.ceil(4.0));  // 4  ← already an integer, no change
+console.log(Math.ceil(-4.1)); // -4 ← goes LESS negative (toward zero)
+console.log(Math.ceil(-4.9)); // -4</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>5
+5
+4
+-4
+-4</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>Math.ceil</code> is used for pagination — "how many pages do I need for 97 items with 10 per page?" → <code>Math.ceil(97 / 10)</code> = 10 pages.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.trunc(x)</code> — Remove Decimal (Truncate Toward Zero)</h3>
+<p class="v2-p">Simply removes the fractional part — always rounds toward zero regardless of sign.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.trunc(4.9));  // 4   ← positive: rounds down
+console.log(Math.trunc(4.1));  // 4
+console.log(Math.trunc(-4.9)); // -4  ← negative: rounds up (toward zero)
+console.log(Math.trunc(-4.1)); // -4
+console.log(Math.trunc(0.9));  // 0</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>4
+4
+-4
+-4
+0</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> The difference between <code>Math.floor</code> and <code>Math.trunc</code> only matters for <strong>negative numbers</strong>:</p>
+<ul class="v2-ul"><li><code>Math.floor(-4.7)</code> → <code>-5</code> (goes more negative)</li><li><code>Math.trunc(-4.7)</code> → <code>-4</code> (goes toward zero)</li></ul>
+<p class="v2-p">For positive numbers they always give the same result.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Rounding Summary Table</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Positive 4.6</th><th>Positive 4.4</th><th>Negative -4.6</th><th>Negative -4.4</th><th>Rule</th></tr></thead><tbody><tr><td><code>round</code></td><td>5</td><td>4</td><td>-5</td><td>-4</td><td>Nearest (.5 → up)</td></tr><tr><td><code>floor</code></td><td>4</td><td>4</td><td>-5</td><td>-5</td><td>Always toward -∞</td></tr><tr><td><code>ceil</code></td><td>5</td><td>5</td><td>-4</td><td>-4</td><td>Always toward +∞</td></tr><tr><td><code>trunc</code></td><td>4</td><td>4</td><td>-4</td><td>-4</td><td>Always toward 0</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>3. Topic 2 — Rounding Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
+  </div>
 </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
-    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+<div class="phase locked" id="phase4">
+  <div class="phase-header">
+    <div class="phase-num">Phase 4 of 9</div>
+    <div class="phase-title">4. Topic 3 — Arithmetic &amp; Exponent Methods</div>
+    <div class="phase-check" id="chk4"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.abs(x)</code> — Absolute Value</h3>
+<p class="v2-p">Returns the <strong>positive</strong> (absolute) value of any number — removes the sign.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.abs(5));   //  5
+console.log(Math.abs(-5));  //  5
+console.log(Math.abs(0));   //  0
+console.log(Math.abs(-3.7)); // 3.7</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>5
+5
+0
+3.7</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Calculating distance between two values on a scale: <code>Math.abs(score - average)</code> — the difference doesn't depend on which is bigger. Also used in physics (speed is the absolute value of velocity).</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.sqrt(x)</code> — Square Root</h3>
+<p class="v2-p">Returns the square root of x. Returns <code>NaN</code> for negative numbers (complex numbers are not supported).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.sqrt(9));    // 3
+console.log(Math.sqrt(2));    // 1.4142135623730951
+console.log(Math.sqrt(0));    // 0
+console.log(Math.sqrt(-1));   // NaN  ← negative: no real square root
+console.log(Math.sqrt(144));  // 12</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>3
+1.4142135623730951
+0
+NaN
+12</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Distance between two points: <code>Math.sqrt((x2-x1)<strong>2 + (y2-y1)</strong>2)</code> — the Pythagorean theorem in code, used in maps, games, and physics engines.</p></blockquote>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function distance(x1, y1, x2, y2) {
+  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+}
+console.log(distance(0, 0, 3, 4).toFixed(2)); // 5.00  (3-4-5 triangle)</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.cbrt(x)</code> — Cube Root</h3>
+<p class="v2-p">Returns the cube root of x. Unlike <code>sqrt</code>, it works for negative numbers.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.cbrt(27));   // 3
+console.log(Math.cbrt(-27));  // -3  ← works for negatives!
+console.log(Math.cbrt(8));    // 2
+console.log(Math.cbrt(0));    // 0</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>3
+-3
+2
+0</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.pow(base, exponent)</code> — Power / Exponentiation</h3>
+<p class="v2-p">Raises <code>base</code> to the power of <code>exponent</code>. The <code>**</code> operator is the modern equivalent.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.pow(2, 10));  // 1024   (2^10)
+console.log(Math.pow(3, 3));   //   27   (3^3)
+console.log(Math.pow(9, 0.5)); //    3   (9^0.5 = √9)
+console.log(Math.pow(2, -1));  //  0.5   (1/2)
+
+// Modern equivalent using ** operator:
+console.log(2 ** 10); // 1024</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1024
+27
+3
+0.5
+1024</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.hypot(...values)</code> — Hypotenuse / Euclidean Length</h3>
+<p class="v2-p">Returns the square root of the sum of squares of all arguments. The cleanest way to compute distances and vector lengths.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Hypotenuse of 3-4-5 triangle
+console.log(Math.hypot(3, 4));      // 5
+
+// Distance in 3D space
+console.log(Math.hypot(2, 4, 4));   // 6  (√(4+16+16) = √36)
+
+// Length of a 2D vector
+console.log(Math.hypot(-5, 12));    // 13</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>5
+6
+13</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> <code>Math.hypot(a, b)</code> is cleaner and avoids overflow issues compared to <code>Math.sqrt(a<strong>2 + b</strong>2)</code>.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.sign(x)</code> — Sign of a Number</h3>
+<p class="v2-p">Returns <code>-1</code> (negative), <code>0</code> (zero), or <code>1</code> (positive). Useful to determine direction without caring about magnitude.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.sign(-7));  // -1
+console.log(Math.sign(0));   //  0
+console.log(Math.sign(3));   //  1
+console.log(Math.sign(-0));  // -0  (signed zero in JavaScript)</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>-1
+0
+1
+-0</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> In animation: <code>Math.sign(velocity)</code> tells you which direction an object is moving without needing to know the speed. In finance: <code>Math.sign(profit)</code> tells you gain vs loss.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.fround(x)</code> — Nearest 32-bit Float</h3>
+<p class="v2-p">Returns the nearest 32-bit (single precision) floating-point representation of x. Useful for WebGL and typed arrays that use 32-bit floats.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.fround(1.5));     // 1.5        (representable exactly)
+console.log(Math.fround(1.337));   // 1.3370000123977661 (precision loss!)</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.clz32(x)</code> — Count Leading Zeros (32-bit)</h3>
+<p class="v2-p">Returns the number of leading zero bits in the 32-bit integer representation. Used in low-level bit manipulation.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.clz32(1));  // 31  (00000000000000000000000000000001)
+console.log(Math.clz32(4));  // 29  (00000000000000000000000000000100)
+console.log(Math.clz32(0));  // 32  (all zeros)</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.imul(x, y)</code> — 32-bit Integer Multiplication</h3>
+<p class="v2-p">Performs C-style 32-bit integer multiplication. Important for large integer products that would overflow normal JavaScript arithmetic.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.imul(3, 4));                    // 12
+console.log(Math.imul(0xffffffff, 0xffffffff));  // 1  (wraps around!)</code></pre></div></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>4. Topic 3 — Arithmetic &amp; Exponent Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase5">
+  <div class="phase-header">
+    <div class="phase-num">Phase 5 of 9</div>
+    <div class="phase-title">5. Topic 4 — Min, Max &amp; Clamp</div>
+    <div class="phase-check" id="chk5"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.max(...values)</code> — Find the Largest Value</h3>
+<p class="v2-p">Returns the largest of zero or more numbers. Returns <code>-Infinity</code> if no arguments given. Returns <code>NaN</code> if any argument is not a number.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.max(3, 7, 1, 9, 4));   // 9
+console.log(Math.max(-3, -7, -1));       // -1
+console.log(Math.max());                 // -Infinity (no args)
+console.log(Math.max(1, &quot;abc&quot;, 3));      // NaN</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>9
+-1
+-Infinity
+NaN</code></pre></div></div>
+<h4 class="v2-h4">Find max in an array using spread:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [78, 92, 65, 88, 71, 95];
+console.log(Math.max(...scores)); // 95</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT:</strong> <code>Math.max(...arr)</code> works perfectly for small arrays. For very large arrays (100,000+ elements), the spread can cause a stack overflow. Use <code>arr.reduce((a, b) =&gt; Math.max(a, b))</code> instead.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3"><code>Math.min(...values)</code> — Find the Smallest Value</h3>
+<p class="v2-p">Returns the smallest of zero or more numbers. Returns <code>Infinity</code> if no arguments given.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.min(3, 7, 1, 9, 4));   // 1
+console.log(Math.min(-3, -7, -1));       // -7
+console.log(Math.min());                 // Infinity (no args)
+
+const scores = [78, 92, 65, 88, 71, 95];
+console.log(Math.min(...scores));        // 65</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+-7
+Infinity
+65</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🤔 <strong>THINK ABOUT IT:</strong> Why does <code>Math.max()</code> (no args) return <code>-Infinity</code> and <code>Math.min()</code> return <code>Infinity</code>? Because when comparing values, any real number is greater than <code>-Infinity</code> and less than <code>Infinity</code>. This makes the identity values work correctly when looping through values to find max/min.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Clamping a Value — Keep It Within a Range</h3>
+<p class="v2-p">A <strong>clamp</strong> function restricts a value to a specific range <code>[min, max]</code>. This is one of the most used utility functions in game development and UI.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+console.log(clamp(5,  0, 10));  // 5   — within range, unchanged
+console.log(clamp(-3, 0, 10));  // 0   — below min, clamped to min
+console.log(clamp(15, 0, 10));  // 10  — above max, clamped to max</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>5
+0
+10</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Clamping is everywhere in games and UIs — keeping a volume slider between 0 and 100, a health bar between 0 and 100 (cannot go negative or above max), or constraining a draggable element within its container's boundaries.</p></blockquote>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Game health system
+let health = 100;
+function takeDamage(amount)  { health = clamp(health - amount, 0, 100); }
+function heal(amount)        { health = clamp(health + amount, 0, 100); }
+
+takeDamage(30); console.log(health); // 70
+takeDamage(90); console.log(health); // 0   ← clamped — cannot go below 0
+heal(50);       console.log(health); // 50
+heal(200);      console.log(health); // 100 ← clamped — cannot exceed 100</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>70
+0
+50
+100</code></pre></div></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>5. Topic 4 — Min, Max &amp; Clamp</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase6">
+  <div class="phase-header">
+    <div class="phase-num">Phase 6 of 9</div>
+    <div class="phase-title">6. Topic 5 — Logarithm &amp; Trigonometry Methods</div>
+    <div class="phase-check" id="chk6"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Logarithm Methods</h3>
+<h4 class="v2-h4"><code>Math.log(x)</code> — Natural Logarithm (base e)</h4>
+<p class="v2-p">Returns the natural logarithm (base e) of x. Returns <code>NaN</code> for negative x and <code>-Infinity</code> for 0.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.log(1));         // 0          (e^0 = 1)
+console.log(Math.log(Math.E));    // 1          (e^1 = e)
+console.log(Math.log(Math.E**2)); // 2          (e^2)
+console.log(Math.log(0));         // -Infinity
+console.log(Math.log(-1));        // NaN</code></pre></div></div>
+<h4 class="v2-h4"><code>Math.log2(x)</code> — Logarithm Base 2</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.log2(1));   // 0   (2^0 = 1)
+console.log(Math.log2(2));   // 1   (2^1 = 2)
+console.log(Math.log2(8));   // 3   (2^3 = 8)
+console.log(Math.log2(1024)); // 10 (2^10 = 1024)</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>Math.log2</code> is used in computer science — calculating how many bits are needed to store n values: <code>Math.ceil(Math.log2(n))</code>.</p></blockquote>
+<h4 class="v2-h4"><code>Math.log10(x)</code> — Logarithm Base 10</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.log10(1));      // 0   (10^0 = 1)
+console.log(Math.log10(10));     // 1   (10^1 = 10)
+console.log(Math.log10(100));    // 2   (10^2 = 100)
+console.log(Math.log10(1000));   // 3</code></pre></div></div>
+<h4 class="v2-h4"><code>Math.expm1(x)</code> — e^x minus 1</h4>
+<p class="v2-p">More accurate than <code>Math.E**x - 1</code> for very small x values.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.expm1(1));   // 1.718...  (e^1 - 1)
+console.log(Math.expm1(0));   // 0         (e^0 - 1 = 0)</code></pre></div></div>
+<h4 class="v2-h4"><code>Math.log1p(x)</code> — Natural log of (1 + x)</h4>
+<p class="v2-p">More accurate than <code>Math.log(1 + x)</code> for very small x values.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.log1p(0));   // 0
+console.log(Math.log1p(1));   // 0.693... (= Math.LN2)</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Trigonometry Methods</h3>
+<p class="v2-p">All trigonometric functions in JavaScript work in <strong>radians</strong>, not degrees.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Degrees to Radians:  radians = degrees × (π / 180)
+Radians to Degrees:  degrees = radians × (180 / π)</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function toRad(deg) { return deg * (Math.PI / 180); }
+function toDeg(rad) { return rad * (180 / Math.PI); }
+
+console.log(toRad(180)); // 3.14159... (π)
+console.log(toRad(90));  // 1.5707... (π/2)
+console.log(toDeg(Math.PI)); // 180</code></pre></div></div>
+<h4 class="v2-h4"><code>Math.sin(x)</code> — Sine</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.sin(toRad(0)));   // 0
+console.log(Math.sin(toRad(30)));  // 0.5
+console.log(Math.sin(toRad(90)));  // 1     ← max value
+console.log(Math.sin(toRad(180))); // ~0    (floating point: 1.2246e-16)</code></pre></div></div>
+<h4 class="v2-h4"><code>Math.cos(x)</code> — Cosine</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.cos(toRad(0)));   // 1     ← max value
+console.log(Math.cos(toRad(90)));  // ~0    (floating point near-zero)
+console.log(Math.cos(toRad(180))); // -1    ← min value</code></pre></div></div>
+<h4 class="v2-h4"><code>Math.tan(x)</code> — Tangent</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.tan(toRad(0)));   //  0
+console.log(Math.tan(toRad(45)));  //  1
+console.log(Math.tan(toRad(90)));  //  16331239353195370 (very large — approaches ∞)</code></pre></div></div>
+<h4 class="v2-h4">Inverse Trigonometry</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(toDeg(Math.asin(0.5)));  // 30   (angle whose sine is 0.5)
+console.log(toDeg(Math.acos(0.5)));  // 60   (angle whose cosine is 0.5)
+console.log(toDeg(Math.atan(1)));    // 45   (angle whose tangent is 1)
+
+// atan2(y, x) — angle from origin to point (x,y), handles all quadrants
+console.log(toDeg(Math.atan2(1, 1)));  // 45
+console.log(toDeg(Math.atan2(1, -1))); // 135
+console.log(toDeg(Math.atan2(-1, 0))); // -90</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> <code>Math.atan2(y, x)</code> is used in game development and mapping to find the angle between two points — e.g., "which direction should the enemy face to look at the player?"</p></blockquote>
+<h4 class="v2-h4">Hyperbolic Functions</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.sinh(0));  // 0
+console.log(Math.cosh(0));  // 1
+console.log(Math.tanh(0));  // 0
+console.log(Math.tanh(1));  // 0.7615...
+
+// Inverse hyperbolic
+console.log(Math.asinh(1)); // 0.8813...
+console.log(Math.acosh(1)); // 0
+console.log(Math.atanh(0)); // 0</code></pre></div></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>6. Topic 5 — Logarithm &amp; Trigonometry Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase7">
+  <div class="phase-header">
+    <div class="phase-num">Phase 7 of 9</div>
+    <div class="phase-title">7. Topic 6 — Math.random() — Random Numbers</div>
+    <div class="phase-check" id="chk7"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<p class="v2-p"><code>Math.random()</code> is one of the most-used Math methods. It returns a <strong>pseudo-random floating-point number</strong> between 0 (inclusive) and 1 (exclusive):</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0 ≤ Math.random() &lt; 1</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.random()); // e.g. 0.7362841095
+console.log(Math.random()); // e.g. 0.1284956023
+console.log(Math.random()); // e.g. 0.9813740561</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> <code>Math.random()</code> always returns a value in <code>[0, 1)</code>. It will NEVER return exactly 1. Understanding this boundary is essential for all random number formulas.</p></blockquote>
+<blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT — Not Cryptographically Secure:</strong> <code>Math.random()</code> is a pseudo-random number generator — good enough for games, simulations, and UI randomness, but NOT suitable for cryptography, password generation, or security tokens. Use <code>crypto.getRandomValues()</code> for security-sensitive random values.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Random Float in a Range</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Random float between min (inclusive) and max (exclusive)
+function randomFloat(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+console.log(randomFloat(1, 10).toFixed(2));   // e.g. 7.43
+console.log(randomFloat(0, 100).toFixed(2));  // e.g. 62.15
+console.log(randomFloat(-5, 5).toFixed(2));   // e.g. -2.87</code></pre></div></div>
+<p class="v2-p"><strong>How the formula works:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Math.random()        → [0, 1)
+× (max - min)        → [0, max-min)
++ min                → [min, max)</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Random Integer — The Most Important Pattern</h3>
+<p class="v2-p">Generating a random whole number (integer) is the most common random operation.</p>
+<h4 class="v2-h4">Random integer from 0 to n (exclusive):</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Random integer: 0, 1, 2, ..., (n-1)
+function randomInt(n) {
+  return Math.floor(Math.random() * n);
+}
+
+console.log(randomInt(6));  // 0, 1, 2, 3, 4, or 5 (dice: 0-5)
+console.log(randomInt(10)); // 0 through 9</code></pre></div></div>
+<h4 class="v2-h4">Random integer in a range (inclusive on both ends):</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Random integer: min to max (both inclusive)
+function randomIntRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Dice roll (1 to 6)
+console.log(randomIntRange(1, 6));   // 1, 2, 3, 4, 5, or 6
+
+// Random score (50 to 100)
+console.log(randomIntRange(50, 100));
+
+// Coin flip
+console.log(randomIntRange(0, 1) === 0 ? &quot;Heads&quot; : &quot;Tails&quot;);</code></pre></div></div>
+<p class="v2-p"><strong>How <code>(max - min + 1)</code> works:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>For min=1, max=6:
+  Math.random()          → [0, 1)
+  × (6 - 1 + 1) = × 6   → [0, 6)
+  + 1                    → [1, 7)
+  Math.floor(...)        → 1, 2, 3, 4, 5, or 6 ✅</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🐛 <strong>COMMON MISTAKE:</strong> Using <code>Math.round</code> instead of <code>Math.floor</code> for random integers creates an unequal distribution — <code>Math.round(Math.random() * 5)</code> gives 0 and 5 only half the probability of 1, 2, 3, 4. Always use <code>Math.floor</code> for random integers.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Guaranteed Random Integer Functions — Reference Set</h3>
+<p class="v2-p">These four functions cover virtually every random integer need:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 1. Integer from 0 to (max - 1)
+const randBelow = max =&gt; Math.floor(Math.random() * max);
+
+// 2. Integer from min to max (both inclusive)
+const randRange = (min, max) =&gt; Math.floor(Math.random() * (max - min + 1)) + min;
+
+// 3. Random index for an array
+const randIndex = arr =&gt; Math.floor(Math.random() * arr.length);
+
+// 4. Random element from an array
+const randElement = arr =&gt; arr[Math.floor(Math.random() * arr.length)];
+
+// Usage:
+const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;, &quot;Kiwi&quot;, &quot;Orange&quot;];
+console.log(randBelow(10));           // 0–9
+console.log(randRange(1, 6));         // 1–6 (dice)
+console.log(randIndex(fruits));       // 0–4
+console.log(randElement(fruits));     // random fruit</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output (sample):</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>7
+4
+2
+Mango</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Random Boolean</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const randomBool = () =&gt; Math.random() &lt; 0.5;
+
+console.log(randomBool()); // true or false with equal probability
+
+// Weighted boolean — 70% chance of true
+const weighted = () =&gt; Math.random() &lt; 0.7;</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Shuffle an Array — Fisher-Yates Algorithm</h3>
+<p class="v2-p">The gold-standard way to randomly shuffle an array, giving every permutation equal probability:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function shuffle(array) {
+  const arr = [...array]; // copy — don&#x27;t mutate original
+  for (let i = arr.length - 1; i &gt; 0; i--) {
+    const j = randBelow(i + 1);          // random index 0 to i
+    [arr[i], arr[j]] = [arr[j], arr[i]]; // swap
+  }
+  return arr;
+}
+
+const deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log(shuffle(deck)); // e.g. [7, 3, 10, 1, 5, 8, 2, 9, 4, 6]</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Used in quiz apps (shuffle questions), playlist shuffling, card games, A/B testing (randomly assign users to groups), and generating test data.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Random Item from a Weighted List</h3>
+<p class="v2-p">Sometimes you need random selection where some items are more likely than others:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function weightedRandom(options) {
+  // options = [{ value, weight }, ...]
+  const totalWeight = options.reduce((sum, o) =&gt; sum + o.weight, 0);
+  let rand = Math.random() * totalWeight;
+
+  for (const option of options) {
+    rand -= option.weight;
+    if (rand &lt;= 0) return option.value;
+  }
+}
+
+const loot = [
+  { value: &quot;Common item&quot;,    weight: 60 },
+  { value: &quot;Uncommon item&quot;,  weight: 25 },
+  { value: &quot;Rare item&quot;,      weight: 10 },
+  { value: &quot;Legendary item&quot;, weight:  5 },
+];
+
+// Run 10 times to show distribution
+for (let i = 0; i &lt; 10; i++) {
+  console.log(weightedRandom(loot));
+}</code></pre></div></div>
+<p class="v2-p"><strong>▶ Expected Output (sample — varies):</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Common item
+Common item
+Uncommon item
+Common item
+Rare item
+Common item
+Common item
+Uncommon item
+Common item
+Legendary item</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Weighted random selection is used in loot boxes in games, recommendation engines, ad delivery systems, and generating synthetic test data with realistic distributions.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Random Color Generator</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Random hex color
+function randomHexColor() {
+  return &quot;#&quot; + Math.floor(Math.random() * 0xFFFFFF)
+    .toString(16)
+    .padStart(6, &quot;0&quot;);
+}
+
+// Random RGB color
+function randomRGBColor() {
+  const r = randBelow(256);
+  const g = randBelow(256);
+  const b = randBelow(256);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+console.log(randomHexColor()); // e.g. &quot;#a3f5c2&quot;
+console.log(randomRGBColor()); // e.g. &quot;rgb(173, 42, 201)&quot;</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Seeded Random (Reproducible Results)</h3>
+<p class="v2-p"><code>Math.random()</code> is non-deterministic — you cannot reproduce the same sequence. For reproducible results (testing, games with replay), use a seeded pseudo-random generator:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Simple mulberry32 seeded PRNG
+function createSeededRandom(seed) {
+  let s = seed;
+  return function() {
+    s |= 0; s = s + 0x6D2B79F5 | 0;
+    let t = Math.imul(s ^ s &gt;&gt;&gt; 15, 1 | s);
+    t = t + Math.imul(t ^ t &gt;&gt;&gt; 7, 61 | t) ^ t;
+    return ((t ^ t &gt;&gt;&gt; 14) &gt;&gt;&gt; 0) / 4294967296;
+  };
+}
+
+const rand = createSeededRandom(42);
+console.log(rand().toFixed(4)); // always the same for seed 42
+console.log(rand().toFixed(4)); // always the same next value
+console.log(rand().toFixed(4)); // always the same third value</code></pre></div></div>
+<blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Game developers use seeded random to generate the same world layout from the same seed — players can share a seed code to play the same map. Minecraft uses this concept extensively.</p></blockquote>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>7. Topic 6 — Math.random() — Random Numbers</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase8">
+  <div class="phase-header">
+    <div class="phase-num">Phase 8 of 9</div>
+    <div class="phase-title">8. Topic 7 — Complete Math Reference</div>
+    <div class="phase-check" id="chk8"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p">Your one-stop reference for every Math property and method.</p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Math Properties</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Property</th><th>Value</th><th>Description</th></tr></thead><tbody><tr><td><code>Math.E</code></td><td>2.718...</td><td>Euler's number</td></tr><tr><td><code>Math.PI</code></td><td>3.141...</td><td>Pi</td></tr><tr><td><code>Math.SQRT2</code></td><td>1.414...</td><td>Square root of 2</td></tr><tr><td><code>Math.SQRT1_2</code></td><td>0.707...</td><td>Square root of 1/2</td></tr><tr><td><code>Math.LN2</code></td><td>0.693...</td><td>Natural log of 2</td></tr><tr><td><code>Math.LN10</code></td><td>2.302...</td><td>Natural log of 10</td></tr><tr><td><code>Math.LOG2E</code></td><td>1.442...</td><td>Log₂(e)</td></tr><tr><td><code>Math.LOG10E</code></td><td>0.434...</td><td>Log₁₀(e)</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Rounding Methods</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Description</th><th>Example → Result</th></tr></thead><tbody><tr><td><code>Math.round(x)</code></td><td>Nearest integer (.5 → up)</td><td><code>Math.round(4.5)</code> → <code>5</code></td></tr><tr><td><code>Math.floor(x)</code></td><td>Toward -∞</td><td><code>Math.floor(-4.1)</code> → <code>-5</code></td></tr><tr><td><code>Math.ceil(x)</code></td><td>Toward +∞</td><td><code>Math.ceil(4.1)</code> → <code>5</code></td></tr><tr><td><code>Math.trunc(x)</code></td><td>Toward 0 (remove decimal)</td><td><code>Math.trunc(-4.9)</code> → <code>-4</code></td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Arithmetic Methods</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Description</th><th>Example → Result</th></tr></thead><tbody><tr><td><code>Math.abs(x)</code></td><td>Absolute value</td><td><code>Math.abs(-5)</code> → <code>5</code></td></tr><tr><td><code>Math.sqrt(x)</code></td><td>Square root</td><td><code>Math.sqrt(16)</code> → <code>4</code></td></tr><tr><td><code>Math.cbrt(x)</code></td><td>Cube root</td><td><code>Math.cbrt(-8)</code> → <code>-2</code></td></tr><tr><td><code>Math.pow(x, y)</code></td><td>x to the power of y</td><td><code>Math.pow(2, 8)</code> → <code>256</code></td></tr><tr><td><code>Math.hypot(...v)</code></td><td>√(sum of squares)</td><td><code>Math.hypot(3,4)</code> → <code>5</code></td></tr><tr><td><code>Math.sign(x)</code></td><td>-1, 0, or 1</td><td><code>Math.sign(-9)</code> → <code>-1</code></td></tr><tr><td><code>Math.fround(x)</code></td><td>Nearest 32-bit float</td><td><code>Math.fround(1.337)</code> → <code>1.337...</code></td></tr><tr><td><code>Math.clz32(x)</code></td><td>Count leading zeros (32-bit)</td><td><code>Math.clz32(1)</code> → <code>31</code></td></tr><tr><td><code>Math.imul(x, y)</code></td><td>32-bit integer multiply</td><td><code>Math.imul(3,4)</code> → <code>12</code></td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Min / Max</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Description</th><th>Example → Result</th></tr></thead><tbody><tr><td><code>Math.max(...v)</code></td><td>Largest value</td><td><code>Math.max(3,1,7)</code> → <code>7</code></td></tr><tr><td><code>Math.min(...v)</code></td><td>Smallest value</td><td><code>Math.min(3,1,7)</code> → <code>1</code></td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Logarithm Methods</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Description</th><th>Example → Result</th></tr></thead><tbody><tr><td><code>Math.log(x)</code></td><td>Natural log (base e)</td><td><code>Math.log(Math.E)</code> → <code>1</code></td></tr><tr><td><code>Math.log2(x)</code></td><td>Log base 2</td><td><code>Math.log2(8)</code> → <code>3</code></td></tr><tr><td><code>Math.log10(x)</code></td><td>Log base 10</td><td><code>Math.log10(1000)</code> → <code>3</code></td></tr><tr><td><code>Math.exp(x)</code></td><td>e raised to x</td><td><code>Math.exp(1)</code> → <code>2.718...</code></td></tr><tr><td><code>Math.expm1(x)</code></td><td>e^x - 1 (precise)</td><td><code>Math.expm1(0)</code> → <code>0</code></td></tr><tr><td><code>Math.log1p(x)</code></td><td>ln(1 + x) (precise)</td><td><code>Math.log1p(0)</code> → <code>0</code></td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Trigonometry Methods (all angles in radians)</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody><tr><td><code>Math.sin(x)</code></td><td>Sine</td></tr><tr><td><code>Math.cos(x)</code></td><td>Cosine</td></tr><tr><td><code>Math.tan(x)</code></td><td>Tangent</td></tr><tr><td><code>Math.asin(x)</code></td><td>Arc sine (returns radians)</td></tr><tr><td><code>Math.acos(x)</code></td><td>Arc cosine (returns radians)</td></tr><tr><td><code>Math.atan(x)</code></td><td>Arc tangent (returns radians)</td></tr><tr><td><code>Math.atan2(y, x)</code></td><td>Angle from origin to (x,y)</td></tr><tr><td><code>Math.sinh(x)</code></td><td>Hyperbolic sine</td></tr><tr><td><code>Math.cosh(x)</code></td><td>Hyperbolic cosine</td></tr><tr><td><code>Math.tanh(x)</code></td><td>Hyperbolic tangent</td></tr><tr><td><code>Math.asinh(x)</code></td><td>Inverse hyperbolic sine</td></tr><tr><td><code>Math.acosh(x)</code></td><td>Inverse hyperbolic cosine</td></tr><tr><td><code>Math.atanh(x)</code></td><td>Inverse hyperbolic tangent</td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Random</h3>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody><tr><td><code>Math.random()</code></td><td>Float in <code>[0, 1)</code></td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">Essential Random Recipes</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const rand    = (n)       =&gt; Math.floor(Math.random() * n);
+const randInt = (min,max) =&gt; Math.floor(Math.random() * (max - min + 1)) + min;
+const pick    = arr       =&gt; arr[Math.floor(Math.random() * arr.length)];
+const flip    = ()        =&gt; Math.random() &lt; 0.5;
+
+// Dice:  randInt(1, 6)
+// Card:  pick(deck)
+// Coin:  flip()
+// Pct:   Math.random() &lt; 0.30  → true ~30% of the time</code></pre></div></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>8. Topic 7 — Complete Math Reference</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase9">
+  <div class="phase-header">
+    <div class="phase-num">Phase 9 of 9</div>
+    <div class="phase-title">9. Applied Exercises</div>
+    <div class="phase-check" id="chk9"></div>
+  </div>
+  <div class="phase-body">
+    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 2 — Applied Exercises</strong></p></blockquote>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 1 — Math Toolkit Builder 🔧</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice core Math methods in real calculations.</p>
+<p class="v2-p"><strong>Scenario:</strong> You're building a <strong>geometry calculator</strong> for an architecture app.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Area of a circle with radius 7
+const area = Math.PI * 7 ** 2;
+console.log(&quot;Area:&quot;, area.toFixed(2)); // 153.94</code></pre></div></div>
+<h4 class="v2-h4">Task A — Shape Calculator</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function shapeCalculator() {
+  // 1. Circle — area and circumference
+  const r = 8;
+  const circleArea  = Math.PI * r ** 2;
+  const circlePerim = 2 * Math.PI * r;
+  console.log(`Circle (r=${r}):`);
+  console.log(`  Area         : ${circleArea.toFixed(4)}`);
+  console.log(`  Circumference: ${circlePerim.toFixed(4)}`);
+
+  // 2. Right triangle — hypotenuse
+  const a = 5, b = 12;
+  const hyp = Math.hypot(a, b);
+  console.log(`\nTriangle (a=${a}, b=${b}):`);
+  console.log(`  Hypotenuse   : ${hyp.toFixed(4)}`); // 13.0000
+
+  // 3. Sphere — volume V = (4/3)πr³
+  const rSphere = 6;
+  const sphereVol = (4 / 3) * Math.PI * rSphere ** 3;
+  console.log(`\nSphere (r=${rSphere}):`);
+  console.log(`  Volume       : ${sphereVol.toFixed(4)}`);
+
+  // 4. Distance between two 2D points
+  const p1 = { x: 2, y: 3 }, p2 = { x: 8, y: 11 };
+  const dist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+  console.log(`\nDistance (2,3)→(8,11): ${dist.toFixed(4)}`); // 10.0000
+
+  // 5. Rounding comparisons on price
+  const price = 19.555;
+  console.log(`\nRounding $${price}:`);
+  console.log(`  round : $${Math.round(price * 100) / 100}`);
+  console.log(`  floor : $${Math.floor(price * 100) / 100}`);
+  console.log(`  ceil  : $${Math.ceil(price  * 100) / 100}`);
+  console.log(`  trunc : $${Math.trunc(price * 100) / 100}`);
+}
+
+shapeCalculator();</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Circle (r=8):
+  Area         : 201.0619
+  Circumference: 50.2655
+
+Triangle (a=5, b=12):
+  Hypotenuse   : 13.0000
+
+Sphere (r=6):
+  Volume       : 904.7787
+
+Distance (2,3)→(8,11): 10.0000
+
+Rounding $19.555:
+  round : $19.56
+  floor : $19.55
+  ceil  : $19.56
+  trunc : $19.55</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>Why does <code>Math.round(19.555 * 100) / 100</code> sometimes give unexpected results?</li><li>What is the difference between <code>Math.floor</code> and <code>Math.trunc</code> for negative numbers?</li><li>When would you use <code>Math.hypot(a, b)</code> instead of <code>Math.sqrt(a<strong>2 + b</strong>2)</code>?</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 2 — Random Generator Suite 🎲</h3>
+<p class="v2-p"><strong>Objective:</strong> Practice all key random patterns — floats, integers, ranges, arrays, weighted.</p>
+<p class="v2-p"><strong>Scenario:</strong> You're building a <strong>test data generator</strong> for a school application. All student records need realistic random values.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const randInt = (min, max) =&gt; Math.floor(Math.random() * (max - min + 1)) + min;
+const pick    = arr =&gt; arr[Math.floor(Math.random() * arr.length)];
+
+console.log(&quot;Score:&quot;, randInt(40, 100)); // e.g. 73
+console.log(&quot;Grade:&quot;, pick([&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,&quot;F&quot;])); // e.g. B</code></pre></div></div>
+<h4 class="v2-h4">Task A — Generate Realistic Student Records</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const randInt     = (min, max) =&gt; Math.floor(Math.random() * (max - min + 1)) + min;
+const randFloat   = (min, max) =&gt; +(Math.random() * (max - min) + min).toFixed(2);
+const pick        = arr        =&gt; arr[Math.floor(Math.random() * arr.length)];
+const shuffle     = arr        =&gt; {
+  const a = [...arr];
+  for (let i = a.length - 1; i &gt; 0; i--) {
+    const j = randInt(0, i);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+
+function generateStudent(id) {
+  const firstNames = [&quot;Amara&quot;,&quot;Kwame&quot;,&quot;Fatima&quot;,&quot;Emeka&quot;,&quot;Priya&quot;,&quot;Omar&quot;,&quot;Sofia&quot;,&quot;Yuki&quot;,&quot;Carlos&quot;,&quot;Aisha&quot;];
+  const lastNames  = [&quot;Diallo&quot;,&quot;Asante&quot;,&quot;Rashid&quot;,&quot;Obi&quot;,&quot;Sharma&quot;,&quot;Hassan&quot;,&quot;Martini&quot;,&quot;Tanaka&quot;,&quot;Ruiz&quot;,&quot;Nkosi&quot;];
+  const cities     = [&quot;Lagos&quot;,&quot;Accra&quot;,&quot;Cairo&quot;,&quot;Nairobi&quot;,&quot;Casablanca&quot;,&quot;Tunis&quot;,&quot;Dakar&quot;];
+
+  const score      = randInt(40, 100);
+  const attendance = randFloat(60, 100);
+
+  const grade = score &gt;= 90 ? &quot;A&quot;
+              : score &gt;= 75 ? &quot;B&quot;
+              : score &gt;= 60 ? &quot;C&quot;
+              : score &gt;= 50 ? &quot;D&quot; : &quot;F&quot;;
+
+  return {
+    id:          `S${String(id).padStart(3, &quot;0&quot;)}`,
+    name:        `${pick(firstNames)} ${pick(lastNames)}`,
+    age:          randInt(16, 22),
+    city:         pick(cities),
+    score,
+    attendance:  `${attendance}%`,
+    grade,
+    status:      score &gt;= 60 ? &quot;Pass&quot; : &quot;Fail&quot;
+  };
+}
+
+console.log(&quot;=&quot;.repeat(55));
+console.log(&quot;   GENERATED STUDENT RECORDS (Sample of 5)&quot;);
+console.log(&quot;=&quot;.repeat(55));
+
+const students = Array.from({ length: 5 }, (_, i) =&gt; generateStudent(i + 1));
+students.forEach(s =&gt; {
+  console.log(`\n  ${s.id} | ${s.name}`);
+  console.log(`       Age: ${s.age}  City: ${s.city}`);
+  console.log(`       Score: ${s.score}  Grade: ${s.grade}  (${s.status})`);
+  console.log(`       Attendance: ${s.attendance}`);
+});
+
+// Shuffle and pick 2 for a committee
+const committee = shuffle(students).slice(0, 2);
+console.log(`\nRandomly selected committee:`);
+committee.forEach(s =&gt; console.log(`  → ${s.name} (${s.id})`));</code></pre></div></div>
+<p class="v2-p"><strong>Self-check questions:</strong></p>
+<ul class="v2-ul"><li>Why does the random integer formula use <code>Math.floor</code> and not <code>Math.round</code>?</li><li>What is the difference between <code>randomFloat(0, 100)</code> and <code>Math.random() * 100</code>?</li><li>How would you ensure no two generated students have the same name?</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">Exercise 3 — Statistics Calculator 📊</h3>
+<p class="v2-p"><strong>Objective:</strong> Use Math methods to compute real statistics on a dataset.</p>
+<p class="v2-p"><strong>Scenario:</strong> You're building a <strong>grade analysis dashboard</strong> for a teacher.</p>
+<h4 class="v2-h4">Warm-up Micro-Demo:</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [78, 92, 65, 88, 71];
+const sum    = scores.reduce((a, b) =&gt; a + b, 0);
+const avg    = sum / scores.length;
+console.log(&quot;Average:&quot;, avg.toFixed(1)); // 78.8</code></pre></div></div>
+<h4 class="v2-h4">Task A — Full Statistical Analysis</h4>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function analyse(scores) {
+  const n      = scores.length;
+  const sorted = [...scores].sort((a, b) =&gt; a - b);
+  const sum    = scores.reduce((a, b) =&gt; a + b, 0);
+  const mean   = sum / n;
+
+  // Median
+  const mid    = Math.floor(n / 2);
+  const median = n % 2 !== 0
+    ? sorted[mid]
+    : (sorted[mid - 1] + sorted[mid]) / 2;
+
+  // Standard deviation
+  const variance = scores.reduce((acc, s) =&gt; acc + (s - mean) ** 2, 0) / n;
+  const stdDev   = Math.sqrt(variance);
+
+  // Range
+  const max   = Math.max(...scores);
+  const min   = Math.min(...scores);
+  const range = max - min;
+
+  // Percentile rank helper
+  const percentile = (p) =&gt; {
+    const idx = Math.ceil((p / 100) * n) - 1;
+    return sorted[Math.max(0, idx)];
+  };
+
+  return { n, sum, mean, median, stdDev, max, min, range,
+           p25: percentile(25), p75: percentile(75) };
+}
+
+const classScores = [88, 45, 72, 95, 61, 78, 53, 90, 84, 67, 73, 58, 92, 86, 49];
+
+const stats = analyse(classScores);
+console.log(&quot;=&quot;.repeat(45));
+console.log(&quot;     CLASS SCORE STATISTICS&quot;);
+console.log(&quot;=&quot;.repeat(45));
+console.log(`Students    : ${stats.n}`);
+console.log(`Total       : ${stats.sum}`);
+console.log(`Mean        : ${stats.mean.toFixed(2)}`);
+console.log(`Median      : ${stats.median}`);
+console.log(`Std Dev     : ${stats.stdDev.toFixed(2)}`);
+console.log(`Min / Max   : ${stats.min} / ${stats.max}`);
+console.log(`Range       : ${stats.range}`);
+console.log(`25th pctile : ${stats.p25}`);
+console.log(`75th pctile : ${stats.p75}`);
+
+// Distribution by rounding to nearest 10
+const distribution = new Map();
+classScores.forEach(s =&gt; {
+  const bucket = Math.floor(s / 10) * 10;
+  distribution.set(bucket, (distribution.get(bucket) || 0) + 1);
+});
+console.log(&quot;\nScore Distribution:&quot;);
+[...distribution.entries()].sort((a,b) =&gt; a[0]-b[0]).forEach(([bucket, count]) =&gt; {
+  console.log(`  ${bucket}s: ${&quot;█&quot;.repeat(count)} (${count})`);
+});</code></pre></div></div>
+<p class="v2-p"><strong>Expected Output:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>=============================================
+     CLASS SCORE STATISTICS
+=============================================
+Students    : 15
+Total       : 1091
+Mean        : 72.73
+Median      : 73
+Std Dev     : 16.26
+Min / Max   : 45 / 95
+Range       : 50
+25th pctile : 58
+75th pctile : 88
+
+Score Distribution:
+  40s: ██ (2)
+  50s: ██ (2)
+  60s: ██ (2)
+  70s: ███ (3)
+  80s: ███ (3)
+  90s: ███ (3)</code></pre></div></div>
+<hr class="v2-hr">
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">---
+
+### Exercise 1 — Math Toolkit Builder 🔧
+
+Objective: Practice core Math methods in real calculations.
+
+Scenario: You're building a geometry calculator for an architecture app.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="build-box" id="build-it">
+  <div class="build-label">🏗️ Build It</div>
+  <div class="build-name">🔵 Stage 1 — Dice Engine</div>
+  <div class="build-desc"><strong>Real-world scenario:</strong> You're building a <strong>browser-based casino simulator</strong> to demonstrate probability and statistics. The system simulates dice rolls, tracks outcomes, verifies statistical laws, and generates visual reports — all using Math methods and <code>Math.random()</code>.</div>
+  <div class="v2-code-wrap">
+    <div class="v2-code-bar">
+      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
+      <span class="v2-code-lang">starter.html</span>
+    </div>
+    <div class="v2-code-body"><pre><code>const die = sides =&gt; Math.floor(Math.random() * sides) + 1;
+console.log(&quot;d6:&quot;, die(6)); // 1–6
+console.log(&quot;d20:&quot;, die(20)); // 1–20</code></pre></div>
+  </div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+    <button class="unlock-btn" onclick="downloadStarter(`const die = sides => Math.floor(Math.random() * sides) + 1;
+console.log("d6:", die(6)); // 1–6
+console.log("d20:", die(20)); // 1–20`)"
+      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
       ⬇ Download starter.html
     </button>
-    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+    <button class="unlock-btn" onclick="showGithub()"
+      style="background:#0f172a;box-shadow:none">
       🐙 Push to GitHub →
     </button>
   </div>
-  <script>
-  const __code = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JS String Methods</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .box{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:18px;margin-bottom:12px}
-  input,textarea{width:100%;padding:10px;border:1.5px solid #fde68a;border-radius:8px;font-size:14px;outline:none;margin-bottom:8px;font-family:inherit}
-  input:focus,textarea:focus{border-color:#d97706}
-  .btn{background:#d97706;color:white;padding:9px 20px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px;margin:3px;transition:.15s}
-  .btn:hover{background:#b45309}
-  .output{background:#fef3c7;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#78350f;margin-top:10px;white-space:pre-wrap;min-height:36px}
-  .result-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
-  .method-name{font-family:monospace;font-size:12px;color:#d97706;font-weight:700;min-width:150px}
-  .result-val{background:#fef3c7;border-radius:6px;padding:3px 10px;font-family:monospace;font-size:12px;color:#78350f}
-</style>
-</head>
-<body>
-<h1>⚡ JS String Methods</h1>
-<h2>String Method Inspector</h2>
-<div class="box">
-  <input id="str-in" value="Techbase Academy — JavaScript" oninput="inspectMethods()">
-  <div id="methods-out"></div>
 </div>
-<h2>URL Slug Generator</h2>
-<div class="box">
-  <input id="slug-in" placeholder="Blog post title" value="My First JavaScript Post! 🚀" oninput="makeSlug()">
-  <div class="output" id="slug-out">my-first-javascript-post</div>
-</div>
-<h2>Find &amp; Replace</h2>
-<div class="box">
-  <textarea id="fr-text" rows="2">The cat sat on the cat mat near the cat tree.</textarea>
-  <div style="display:flex;gap:8px">
-    <input id="fr-find" placeholder="Find" value="cat" style="margin:0">
-    <input id="fr-replace" placeholder="Replace with" value="dog" style="margin:0">
+<div class="gh-acc" id="gh-steps" style="display:none">
+  <div class="gh-acc-head" onclick="toggleGh(this)">
+    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
   </div>
-  <div style="display:flex;gap:8px;margin-top:8px">
-    <button class="btn" onclick="findReplace(false)">Replace First</button>
-    <button class="btn" onclick="findReplace(true)">Replace All</button>
-  </div>
-  <div class="output" id="fr-out">Result appears here</div>
-</div>
-<h2>Email Validator</h2>
-<div class="box">
-  <input id="email-in" placeholder="Enter email" value="amina@techbase.ng" oninput="validateEmail()">
-  <div class="output" id="email-out">Type an email address</div>
-</div>
-<script>
-  function inspectMethods() {
-    const str = document.getElementById('str-in').value;
-    const container = document.getElementById('methods-out');
-    const methods = [
-      {name:'.length',       val: str.length},
-      {name:'.toUpperCase()', val: str.toUpperCase()},
-      {name:'.toLowerCase()', val: str.toLowerCase()},
-      {name:'.trim()',        val: str.trim()},
-      {name:'.slice(0,9)',    val: str.slice(0,9)},
-      {name:'.at(-1)',        val: str.at(-1)},
-      {name:".includes('JS')", val: str.includes('JS')},
-      {name:".startsWith('Tech')", val: str.startsWith('Tech')},
-      {name:".split(' ').length", val: str.split(' ').length + ' words'},
-      {name:".replaceAll(' ','-')", val: str.replaceAll(' ','-')},
-    ];
-    container.innerHTML = methods.map(m =>
-      \`<div class="result-row"><span class="method-name">${m.name}</span><span class="result-val">${m.val}</span></div>\`
-    ).join('');
-  }
-  inspectMethods();
-  function makeSlug() {
-    const title = document.getElementById('slug-in').value;
-    const slug = title.trim().toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
-    document.getElementById('slug-out').textContent = slug || '(empty)';
-  }
-  makeSlug();
-  function findReplace(all) {
-    const text = document.getElementById('fr-text').value;
-    const find = document.getElementById('fr-find').value;
-    const rep  = document.getElementById('fr-replace').value;
-    if (!find) return;
-    const result = all ? text.replaceAll(find, rep) : text.replace(find, rep);
-    const count = (text.match(new RegExp(find.replace(/[.*+?^${}()|[\]\]/g,'\$&'),'g'))||[]).length;
-    document.getElementById('fr-out').textContent = result + \`
-
-(${count} occurrence${count!==1?'s':''} found)\`;
-  }
-  function validateEmail() {
-    const email = document.getElementById('email-in').value;
-    const hasAt  = email.includes('@');
-    const parts  = email.split('@');
-    const hasDot = parts.length === 2 && parts[1].includes('.');
-    const noSpace = !email.includes(' ');
-    const ok = hasAt && hasDot && noSpace && email.length > 5;
-    document.getElementById('email-out').textContent =
-      (ok ? '✅ Valid-looking email
-' : '❌ Invalid email
-') +
-      \`includes '@': ${hasAt}
-domain has '.': ${hasDot}
-no spaces: ${noSpace}
-length > 5: ${email.length > 5}\`;
-  }
-  validateEmail();
-</script>
-</body>
-</html>`;
-  function downloadStarter(){
-    const a=document.createElement('a');
-    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
-    a.download='starter.html'; a.click();
-  }
-  </script>
-</div>
-
-<div class="github-acc" id="github-steps" style="display:none">
-  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
-    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
-  </div>
-  <div class="github-acc-body">
-    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-18-js_string_methods</code>.</p></div>
-    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
-    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 18 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-18-js_string_methods/</code> in ~1 min! 🎉</p></div>
-    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  <div class="gh-acc-body">
+    <div class="gh-step"><div class="gh-step-n">1</div>
+    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-18-stage-1-dice-engine</code>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">2</div>
+    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">3</div>
+    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
+    <div class="gh-step"><div class="gh-step-n">4</div>
+    <p>Commit message: <em>"Add JavaScript lesson 18 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">5</div>
+    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-18-stage-1-dice-engine/</code> in about 1 minute! 🎉</p></div>
+    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
   </div>
 </div>
 <div class="session-end" id="session-end">
-  <h2>🎉 Great work! Lesson 18 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
-  <ul><li>✅ Searching and extracting</li><li>✅ Transforming and cleaning</li></ul>
-  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
-    <a href="lesson_17.html" class="ln-btn">← Lesson 17</a>
-    <a href="lesson_19.html" class="ln-btn primary">Lesson 19 →</a>
-  </div>
+  <h2>🎉 Lesson 18 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
+  <ul><li>✅ 1. Background: What Is the Math Object?</li><li>✅ 2. Topic 1 — Math Properties (Constants)</li><li>✅ 3. Topic 2 — Rounding Methods</li><li>✅ 4. Topic 3 — Arithmetic & Exponent Methods</li><li>✅ 5. Topic 4 — Min, Max & Clamp</li><li>✅ 6. Topic 5 — Logarithm & Trigonometry Methods</li><li>✅ 7. Topic 6 — Math.random() — Random Numbers</li><li>✅ 8. Topic 7 — Complete Math Reference</li></ul>
+  <div class="lesson-nav"><a href="lesson_17.html" class="ln-btn">← Lesson 17</a><a href="lesson_19.html" class="ln-btn primary">Lesson 19 →</a></div>
 </div>
 </main>
+
 <footer class="lesson-footer">
-  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 18 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+  Techbase Code Coach · JavaScript Course · Lesson 18 · © 2025 Techbase Consultant Services, Ibadan
 </footer>
 <script>
-const TOTAL=2, KEY='techbase_js_18_phase';
+const TOTAL=9,KEY='techbase_js_l18';
 let current=parseInt(localStorage.getItem(KEY)||'1');
 function init(){
-  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  for(let i=2;i<=current;i++) unlockPhase(i,false);
   updateBar();
 }
 function unlockNext(n){
-  document.getElementById('check'+n).classList.add('done');
-  document.getElementById('check'+n).textContent='✓';
-  localStorage.setItem(KEY,n+1);
-  current=n+1;
+  const chk=document.getElementById('chk'+n);
+  if(chk){chk.classList.add('done');chk.textContent='✓';}
+  localStorage.setItem(KEY,n+1); current=n+1;
   if(n===TOTAL){
     document.getElementById('build-it').style.display='block';
-    const cap=document.getElementById('capstone');
-    if(cap) cap.style.display='block';
     updateBar(100);
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  } else {
-    unlockPhase(n+1,true);
-    updateBar();
+  }else{
+    unlockPhase(n+1,true); updateBar();
   }
 }
 function unlockPhase(n,scroll){
   const el=document.getElementById('phase'+n);
-  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
 }
 function updateBar(pct){
-  const p=pct||Math.round((current-1)/TOTAL*95);
+  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
   document.getElementById('pbar').style.width=p+'%';
 }
 function showGithub(){
-  const g=document.getElementById('github-steps');
-  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+  const g=document.getElementById('gh-steps');
+  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
 }
 function showEnd(){
   const e=document.getElementById('session-end');
-  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
+}
+function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
+function downloadStarter(code){
+  const a=document.createElement('a');
+  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
+  a.download='starter.html';a.click();
 }
 init();
 </script>

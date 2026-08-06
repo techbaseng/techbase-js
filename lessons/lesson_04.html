@@ -2,496 +2,886 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lesson 04: JS Statements — Techbase JS Course</title>
-<meta name="description" content="Write JavaScript statements, semicolons and code blocks correctly">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lesson 04: JavaScript Operators: JS Operators · JS Arithmetic · JS Assignment · JS Comparisons — Techbase JavaScript</title>
+<meta name="description" content="JavaScript Operators: JS Operators · JS Arithmetic · JS Assignment · JS Comparisons">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --accent:#d97706;--accent-dark:#b45309;--accent-pale:#fffbeb;
-  --accent-border:rgba(217,119,6,.3);--accent-shadow:rgba(217,119,6,.28);
-  --hero-bg:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);
+  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
+  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
   --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
   --text:#0f172a;--t2:#334155;--muted:#64748b;
   --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.7;overflow-x:hidden}
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.88rem;color:var(--text);text-decoration:none}
+body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+
+/* NAV */
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
+  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
 .l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
-.l-nav-back:hover{color:var(--accent)}
-.l-nav-lesson{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+.l-nav-back:hover{color:var(--acc)}
+.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
+
+/* PROGRESS */
 .progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
-.l-hero{padding:88px 1.5rem 2rem;background:var(--hero-bg);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:820px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .8rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;border:1px solid;color:var(--accent);background:var(--accent-pale);border-color:var(--accent-border);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
-.l-hero-build{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;font-size:.88rem;max-width:520px}
-.l-hero-build strong{color:var(--accent)}
-.welcome-box{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;max-width:820px;margin:2rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.6rem}
-.welcome-box p{font-size:.9rem;line-height:1.75;opacity:.92}
-.welcome-meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.15);border-radius:6px;padding:.25rem .8rem;font-family:var(--M);font-size:.7rem;font-weight:500}
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s}
-.phase.locked{opacity:.4;pointer-events:none;filter:blur(1px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:1rem;color:var(--text)}
-.phase-check{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:background .3s}
+.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
+
+/* HERO */
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
+.l-hero-inner{max-width:860px;margin:0 auto}
+.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
+  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
+  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
+
+/* WELCOME BOX */
+.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
+.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
+.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
+.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
+.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
+  font-family:var(--M);font-size:.68rem;font-weight:500}
+
+/* PHASE */
+.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
+  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
+.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
+.phase-header{padding:1rem 1.4rem;background:#fef9ee;
+  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
+.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--acc)}
+.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
+  flex:1;margin:0 .8rem}
+.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
+  transition:background .3s,color .3s}
 .phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.4rem}
-.concept-box{background:#fffbeb;border-left:4px solid #d97706;border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
-.concept-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:.4rem}
-.concept-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.concept-box code{background:rgba(217,119,6,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em;color:#b45309}
-.code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b}
-.code-bar{background:#1e293b;padding:.6rem 1rem;display:flex;align-items:center;gap:.4rem}
-.code-dot{width:8px;height:8px;border-radius:50%}
-.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
-.code-filename{margin-left:.5rem;font-family:var(--M);font-size:.65rem;color:#64748b}
-.code-body{background:#0f172a;padding:1.2rem 1.4rem;overflow-x:auto}
-.code-body pre{font-family:var(--M);font-size:.78rem;line-height:1.9;color:#e2e8f0;margin:0;white-space:pre}
-.task-box{background:#fef9c3;border:1.5px dashed #ca8a04;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:.4rem}
-.task-box p{font-size:.92rem;color:#78350f;line-height:1.75}
-.task-box code{background:rgba(202,138,4,.12);border-radius:4px;padding:.1rem .4rem;font-family:var(--M);font-size:.82em}
-.next-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px var(--accent-shadow);margin-top:1rem}
-.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--accent-shadow)}
-.project-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.5rem;margin:2rem 0}
-.project-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.project-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.project-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.7}
-.capstone-box{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:16px;padding:1.5rem;margin:2rem 0;color:#fff}
-.capstone-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:.4rem}
-.capstone-name{font-family:var(--D);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
-.capstone-desc{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1.2rem;line-height:1.7}
-.github-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.github-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.github-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.github-acc-body.open{display:block}
-.github-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.github-step-n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-.github-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.session-end{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:16px;padding:1.5rem 1.8rem;margin:2rem 0;display:none}
+.phase-body{padding:1.6rem 1.8rem}
+
+/* RICH CONTENT STYLES */
+.v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
+  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
+.v2-ul li,.v2-ol li{margin-bottom:.3rem}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
+  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq p{margin:0;color:inherit}
+.v2-bq strong{font-style:normal}
+.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
+.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
+  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
+.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
+.v2-table tr:nth-child(even) td{background:#f8fafc}
+.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
+  padding:1px 5px;font-family:var(--M);font-size:.8em}
+.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.phase-body strong{color:var(--text)}
+
+/* CODE BLOCKS */
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
+.v2-dot{width:10px;height:10px;border-radius:50%}
+.v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
+.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
+.v2-code-body pre{margin:0}
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
+  white-space:pre;background:transparent;padding:0;border-radius:0}
+
+/* TASK BOX */
+.task-box{background:#fef9c3;border:2px dashed #d97706;
+  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
+.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
+.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
+  font-family:var(--M);font-size:.82em}
+
+/* UNLOCK BUTTON */
+.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
+  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
+  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
+  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
+.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
+
+/* BUILD IT */
+.build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
+.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
+.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
+.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-desc strong{color:#14532d}
+
+/* GITHUB ACCORDION */
+.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
+.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
+.gh-acc-body.open{display:block}
+.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
+  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
+  padding:1px 6px;font-family:var(--M);font-size:.82em}
+
+/* SESSION END */
+.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
+  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
 .session-end.visible{display:block}
 .session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
 .session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.92;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
-.ln-btn:hover{border-color:var(--accent);color:var(--accent)}
-.ln-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
+  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
+  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
+  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.ln-btn:hover{border-color:var(--acc);color:var(--acc)}
+.ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--border);margin-top:2rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;
+  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
+  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
-  <a href="../index.html" class="l-nav-logo">⚡ Techbase JS</a>
-  <span class="l-nav-lesson">Lesson 04 of 46</span>
+  <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
+  <span class="l-nav-label">Lesson 04 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
 <div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+
 <div class="l-hero">
   <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 04 </div>
-    <h1>JS Statements</h1>
-    <div class="l-hero-tag">Write JavaScript statements, semicolons and code blocks correctly</div>
-    <div class="l-hero-build"><strong>🏗️ Build:</strong> My Statement Explorer</div>
+    <div class="l-badge">JavaScript · Lesson 04</div>
+    <h1>JavaScript Operators: JS Operators · JS Arithmetic · JS Assignment · JS Comparisons</h1>
+    <div class="l-hero-sub">7 phases · Build: Project Overview</div>
   </div>
 </div>
-<section style="background:var(--hero-bg);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
+
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
   <h2>👋 Welcome to Lesson 04</h2>
-  <p>Write JavaScript statements, semicolons and code blocks correctly</p>
+  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
   <div class="welcome-meta">
-    <span>📚 2 phases</span>
-    <span>🏗️ Build: My Statement Explorer</span>
-    
+    <span>📚 7 phases</span>
+    <span>🏗️ Project Overview</span>
   </div>
 </div></div>
 </section>
-<main style="max-width:820px;margin:0 auto;padding:2rem 1.5rem 5rem">
+
+<main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
 <div class="phase" id="phase1">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 1 of 2</div><div class="phase-title">Statements and semicolons</div></div>
-    <div class="phase-check" id="check1"></div>
+    <div class="phase-num">Phase 1 of 7</div>
+    <div class="phase-title">Chapter 1: What Is an Operator?</div>
+    <div class="phase-check" id="chk1"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>A JavaScript <strong>statement</strong> is a single instruction. Statements end with a semicolon (<code>;</code>) — technically optional due to ASI (Automatic Semicolon Insertion) but always recommended. Multiple statements can be on one line separated by semicolons. A block <code>{ }</code> groups statements together — used in functions, if/else, loops.</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>// Each line is a statement
-let x = 5;
-let y = 10;
-let z = x + y;
-
-// Multiple statements on one line (avoid — hard to read)
-let a = 1; let b = 2; let c = a + b;
-
-// Code block — groups statements
-if (x &gt; 3) {
-  let message = &#x27;x is big&#x27;;
-  console.log(message);      // two statements in one block
-}
-
-// Statement types:
-let name = &#x27;Tunde&#x27;;          // declaration
-name = &#x27;Amina&#x27;;              // assignment
-console.log(name);           // expression statement
-// if (name) { ... }         // control flow
-// function greet() { ... }  // function declaration</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Write 5 consecutive statements: declare a variable <code>score</code>, assign it 100, declare a bonus of 25, create a total = score + bonus, then log it. Semi-colons on every line!</p></div>
-    <button class="next-btn" onclick="unlockNext(1)">Start Coding ✓</button>
+    <h3 class="v2-h3">What Is It?</h3>
+<p class="v2-p">An <strong>operator</strong> is a special symbol that tells JavaScript to perform a specific action on one or more values.</p>
+<p class="v2-p">Think of operators as <strong>verbs in a sentence</strong>. In English, "Add the apples" — <em>add</em> is the verb. In JavaScript, <code>+</code> is the operator.</p>
+<p class="v2-p"><strong>Relatable Comparison:</strong> A calculator has buttons like <code>+</code>, <code>-</code>, <code>×</code>, <code>÷</code>. Each button is an operator — it tells the calculator what to do with the numbers you type. JavaScript operators work exactly the same way, but inside your code.</p>
+<h3 class="v2-h3">Why Do Operators Exist?</h3>
+<p class="v2-p">Without operators, JavaScript would just be a list of stored values with no way to interact with them. Operators are what give code its <strong>power</strong> — they let us compute totals, update quantities, compare values, and make decisions.</p>
+<p class="v2-p">In a real job (e.g., software developer, data analyst, web designer), you use operators every single day — to calculate prices, check if a user is old enough to sign up, update a shopping cart total, etc.</p>
+<h3 class="v2-h3">The Two Key Words: Operand and Operator</h3>
+<p class="v2-p">In an arithmetic expression like <code>100 + 50</code>:</p>
+<ul class="v2-ul"><li><code>100</code> and <code>50</code> are called <strong>operands</strong> — the numbers being worked on.</li><li><code>+</code> is the <strong>operator</strong> — the instruction that says what to do.</li></ul>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Operand   Operator   Operand
+  100         +        50</code></pre></div></div>
+<p class="v2-p">The result of <code>100 + 50</code> is <code>150</code>. JavaScript computes that for you automatically.</p>
+<h3 class="v2-h3">Types of JavaScript Operators (Overview)</h3>
+<p class="v2-p">JavaScript has several families of operators. This lesson covers the three most essential for beginners:</p>
+<ol class="v2-ol"><li><strong>Arithmetic Operators</strong> — do math (<code>+</code>, <code>-</code>, <code><em></code>, <code>/</code>, <code>%</code>, <code></em>*</code>, <code>++</code>, <code>--</code>)</li><li><strong>Assignment Operators</strong> — store or update a value in a variable (<code>=</code>, <code>+=</code>, <code>-=</code>, etc.)</li><li><strong>Comparison Operators</strong> — compare two values and return <code>true</code> or <code>false</code> (<code>==</code>, <code>===</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, etc.)</li></ol>
+<p class="v2-p">There are also Logical Operators (<code>&amp;&amp;</code>, <code>||</code>, <code>!</code>) which are covered in a later lesson.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>Chapter 1: What Is an Operator?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
   </div>
 </div>
 <div class="phase locked" id="phase2">
   <div class="phase-header">
-    <div><div class="phase-num">Phase 2 of 2</div><div class="phase-title">White space and line length</div></div>
-    <div class="phase-check" id="check2"></div>
+    <div class="phase-num">Phase 2 of 7</div>
+    <div class="phase-title">Chapter 2: JavaScript Arithmetic Operators</div>
+    <div class="phase-check" id="chk2"></div>
   </div>
   <div class="phase-body">
-    <div class="concept-box"><div class="concept-label">📖 Concept</div><p>JS ignores extra whitespace — use it for readability. Convention: 2 or 4 spaces for indentation. Lines should be under 80 characters. Separate logical sections with blank lines. Consistent style matters in team projects — tools like Prettier autoformat code automatically.</p></div>
-    <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">script.js</span></div>
-<div class="code-body"><pre>// Bad — cramped and hard to read
-function add(a,b){return a+b;}
+    <h3 class="v2-h3">What Are Arithmetic Operators?</h3>
+<p class="v2-p">Arithmetic operators perform <strong>math operations</strong> on numbers. They work just like the math you learned in school.</p>
+<p class="v2-p">There are <strong>8 arithmetic operators</strong> in JavaScript:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Name</th><th>Example</th><th>Result</th></tr></thead><tbody><tr><td><code>+</code></td><td>Addition</td><td><code>5 + 2</code></td><td><code>7</code></td></tr><tr><td><code>-</code></td><td>Subtraction</td><td><code>5 - 2</code></td><td><code>3</code></td></tr><tr><td><code>*</code></td><td>Multiplication</td><td><code>5 * 2</code></td><td><code>10</code></td></tr><tr><td><code>/</code></td><td>Division</td><td><code>5 / 2</code></td><td><code>2.5</code></td></tr><tr><td><code>%</code></td><td>Modulus (Remainder)</td><td><code>5 % 2</code></td><td><code>1</code></td></tr><tr><td><code>**</code></td><td>Exponentiation</td><td><code>5 ** 2</code></td><td><code>25</code></td></tr><tr><td><code>++</code></td><td>Increment (add 1)</td><td><code>x++</code></td><td>x becomes x + 1</td></tr><tr><td><code>--</code></td><td>Decrement (subtract 1)</td><td><code>x--</code></td><td>x becomes x - 1</td></tr></tbody></table></div>
+<p class="v2-p">Let's learn each one carefully.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.1 — Addition (<code>+</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Adds two numbers together.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Adding items in a shopping cart, calculating a total score, combining numbers from a form.</p>
+<p class="v2-p"><strong>Simple Example:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+let y = 2;
+let z = x + y;
+// Expected output: z = 7</code></pre></div></div>
+<p class="v2-p">Step by step:</p>
+<ul class="v2-ul"><li><code>let x = 5</code> → stores the number 5 in a box called <code>x</code></li><li><code>let y = 2</code> → stores the number 2 in a box called <code>y</code></li><li><code>let z = x + y</code> → adds them together and stores the result in <code>z</code></li><li>Result: <code>z</code> holds the value <code>7</code></li></ul>
+<p class="v2-p"><strong>Another form — using plain numbers (literals):</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let z = 100 + 50;
+// Expected output: z = 150</code></pre></div></div>
+<p class="v2-p"><strong>Thinking Question:</strong> What happens if <code>x = 0</code> and <code>y = 0</code>? What would <code>z</code> be?</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.2 — Subtraction (<code>-</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Subtracts the second number from the first.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Calculating change from a purchase, finding the difference between two scores, deducting a penalty.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+let y = 2;
+let z = x - y;
+// Expected output: z = 3</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.3 — Multiplication (<code>*</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Multiplies two numbers.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Calculating the total price of multiple items (price × quantity), finding area (width × height).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+let y = 2;
+let z = x * y;
+// Expected output: z = 10</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.4 — Division (<code>/</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Divides the first number by the second.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Splitting a restaurant bill equally, finding the average of values, calculating speed (distance ÷ time).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+let y = 2;
+let z = x / y;
+// Expected output: z = 2.5</code></pre></div></div>
+<p class="v2-p">Notice that JavaScript gives you the decimal answer <code>2.5</code> — it doesn't round down like some languages.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.5 — Modulus / Remainder (<code>%</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Returns the <strong>remainder</strong> after division — what's left over.</p>
+<p class="v2-p">Think of it like dividing oranges into boxes: if you have 5 oranges and each box holds 2, you fill 2 boxes and have <strong>1 orange left over</strong>. That leftover is the modulus.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Checking if a number is even or odd, determining if a year is a leap year, distributing items evenly.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+let y = 2;
+let z = x % y;
+// 5 ÷ 2 = 2 remainder 1
+// Expected output: z = 1</code></pre></div></div>
+<p class="v2-p"><strong>Thinking Question:</strong> What would <code>10 % 5</code> give? What about <code>10 % 3</code>?</p>
+<ul class="v2-ul"><li><code>10 % 5</code> = 0 (10 divides evenly by 5, no remainder)</li><li><code>10 % 3</code> = 1 (3 goes into 10 three times = 9, with 1 left)</li></ul>
+<p class="v2-p"><strong>Common Beginner Mistake:</strong> Confusing <code>%</code> with "percentage". In JavaScript, <code>%</code> is NOT percentage. It gives the leftover after division.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.6 — Exponentiation (<code>**</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Raises a number to the power of another number. <code>x ** y</code> means "x to the power of y".</p>
+<p class="v2-p"><strong>Reminder:</strong> <code>5 <strong> 2</code> means 5 × 5 = 25. <code>5 </strong> 3</code> means 5 × 5 × 5 = 125.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Scientific calculations, compound interest formulas, calculating areas of squares, computing pixel grids.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+let z = x ** 2;
+// Expected output: z = 25</code></pre></div></div>
+<p class="v2-p">This is the same as using JavaScript's built-in math method:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let z = Math.pow(5, 2);
+// Expected output: z = 25</code></pre></div></div>
+<p class="v2-p">Both give the same result! The <code>**</code> operator (introduced in ES2016) is just a shorter, cleaner way to write it.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.7 — Increment (<code>++</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Adds 1 to a number. It's a shortcut for <code>x = x + 1</code>.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Counting visitors to a page, moving to the next step, tracking loop repetitions.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+x++;          // Same as: x = x + 1
+let z = x;
+// Expected output: z = 6</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.8 — Decrement (<code>--</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Subtracts 1 from a number. It's a shortcut for <code>x = x - 1</code>.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Counting down a timer, reducing stock quantity, going backward through steps.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+x--;          // Same as: x = x - 1
+let z = x;
+// Expected output: z = 4</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.9 — IMPORTANT: The <code>+</code> Operator with Strings (Concatenation)</h3>
+<p class="v2-p">The <code>+</code> operator has a <strong>special second job</strong>: when used with text (called <strong>strings</strong> in JavaScript), it joins (concatenates) them together.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Building a full name from first and last name, creating a personalized greeting, combining address parts.</p>
+<p class="v2-p"><strong>Simple example:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text1 = &quot;John&quot;;
+let text2 = &quot;Doe&quot;;
+let text3 = text1 + &quot; &quot; + text2;
+// Expected output: &quot;John Doe&quot;</code></pre></div></div>
+<p class="v2-p">Notice <code>" "</code> is a space — we added it between the names so they don't stick together as <code>"JohnDoe"</code>.</p>
+<p class="v2-p"><strong>Using <code>+=</code> with strings:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text1 = &quot;What a very &quot;;
+text1 += &quot;nice day&quot;;
+// Expected output: &quot;What a very nice day&quot;</code></pre></div></div>
+<p class="v2-p"><code>+=</code> here means "add <code>"nice day"</code> to the end of <code>text1</code>".</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">⚠️ CRITICAL BEGINNER MISTAKE — Adding a Number and a String</h3>
+<p class="v2-p">This is one of the most common surprises for beginners. What happens when you add a <strong>number</strong> and a <strong>string</strong> using <code>+</code>?</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5 + 5;       // Both numbers → addition
+let y = &quot;5&quot; + 5;     // String + number → string joining!
+let z = &quot;Hello&quot; + 5; // String + number → string joining!
 
-// Good — spaced and readable
-function add(a, b) {
-  return a + b;
-}
+// x = 10      (number)
+// y = &quot;55&quot;    (string, not 55 the number!)
+// z = &quot;Hello5&quot; (string)</code></pre></div></div>
+<p class="v2-p"><strong>Why?</strong> JavaScript sees a string and says: "I'll treat this whole thing as text." So instead of adding 5 + 5 mathematically, it pastes them together as characters.</p>
+<p class="v2-p"><strong>Rule to remember:</strong> If even ONE side of the <code>+</code> is a string, the result will be a <strong>string</strong>, not a number.</p>
+<p class="v2-p"><strong>Thinking Question:</strong> What would <code>"10" + "5"</code> produce? What about <code>"10" - "5"</code>?</p>
+<ul class="v2-ul"><li><code>"10" + "5"</code> = <code>"105"</code> (string joining)</li><li><code>"10" - "5"</code> = <code>5</code> (number! The <code>-</code> operator always tries to do math, so it converts the strings to numbers)</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">2.10 — Operator Precedence (Order of Operations)</h3>
+<p class="v2-p"><strong>What is it?</strong> When you write an expression with multiple operators, JavaScript needs to decide which one to calculate first. This order is called <strong>operator precedence</strong>.</p>
+<p class="v2-p">This is exactly like the math rule BODMAS / PEMDAS you learned in school: multiplication and division happen before addition and subtraction.</p>
+<p class="v2-p"><strong>Example:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 100 + 50 * 3;
+// Expected output: x = 250 (NOT 450)</code></pre></div></div>
+<p class="v2-p">Why 250 and not 450?</p>
+<ul class="v2-ul"><li><code>*</code> has higher precedence than <code>+</code></li><li>So JavaScript first does <code>50 * 3 = 150</code></li><li>Then <code>100 + 150 = 250</code></li></ul>
+<p class="v2-p"><strong>Using parentheses to change the order:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = (100 + 50) * 3;
+// Expected output: x = 450</code></pre></div></div>
+<p class="v2-p">Now JavaScript calculates <code>(100 + 50)</code> first because parentheses have the <strong>highest precedence</strong>.</p>
+<p class="v2-p"><strong>Same precedence — left to right:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 100 + 50 - 3;
+// = 150 - 3 = 147 (left to right)
 
-// Long expressions — break onto multiple lines
-const result = firstValue
-  + secondValue
-  + thirdValue;
-
-// Object literal formatting
-const student = {
-  name:    &#x27;Amina&#x27;,
-  course:  &#x27;JavaScript&#x27;,
-  lessons: 46,
-};
-
-// Chain methods — each on its own line
-const output = [1, 2, 3, 4, 5]
-  .filter(n =&gt; n &gt; 2)
-  .map(n =&gt; n * 2)
-  .join(&#x27;, &#x27;);</pre></div>
-</div>
-    <div class="task-box"><div class="task-label">✏️ Your Task</div><p>Reformat a messy single-line function into a well-indented multi-line version. Then use Prettier (prettier.io/playground) to autoformat — see how a professional tool handles it.</p></div>
-    <button class="next-btn" onclick="unlockNext(2)">Next Phase ✓</button>
+let x = 100 / 50 * 3;
+// = 2 * 3 = 6 (left to right)</code></pre></div></div>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>Chapter 2: JavaScript Arithmetic Operators</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
   </div>
 </div>
-<div class="project-box" id="build-it" style="display:none">
-  <div class="project-label">🏗️ Build It</div>
-  <div class="project-name">Statement Explorer</div>
-  <div class="project-desc">A code playground that evaluates JS statements live.</div>
-  <div class="code-wrap">
-<div class="code-bar"><span class="code-dot r"></span><span class="code-dot y"></span><span class="code-dot g"></span><span class="code-filename">index.html</span></div>
-<div class="code-body"><pre>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-&lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-&lt;title&gt;JS Statements&lt;/title&gt;
-&lt;style&gt;
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .editor-wrap{background:#0f172a;border-radius:12px;overflow:hidden;margin-bottom:12px}
-  .editor-bar{background:#1e293b;padding:10px 14px;font-family:monospace;font-size:12px;color:#64748b;display:flex;justify-content:space-between;align-items:center}
-  textarea{width:100%;background:#0f172a;color:#e2e8f0;font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:13px;line-height:1.8;padding:16px;border:none;outline:none;resize:vertical;min-height:160px}
-  .run-btn{background:#d97706;color:white;padding:8px 18px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px}
-  .run-btn:hover{background:#b45309}
-  .output{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:16px;min-height:80px;font-family:monospace;font-size:13px;color:#78350f}
-  .log-line{padding:3px 0;border-bottom:1px solid #fef3c7;display:flex;gap:8px}
-  .log-line:last-child{border:none}
-  .log-type{font-size:10px;font-weight:700;min-width:50px;padding-top:2px}
-  .log-log{color:#15803d}.log-warn{color:#d97706}.log-err{color:#dc2626}
-  .examples{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-  .ex-btn{padding:6px 12px;background:#fef3c7;border:1.5px solid #fde68a;border-radius:7px;font-size:12px;font-weight:600;color:#92400e;cursor:pointer}
-  .ex-btn:hover{background:#fde68a}
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;⚡ JS Statements&lt;/h1&gt;
-&lt;h2&gt;Live JS Playground&lt;/h2&gt;
-&lt;p style=&quot;font-size:13px;color:#64748b;margin-bottom:12px&quot;&gt;Write JS statements and run them. Use console.log() to see output.&lt;/p&gt;
-&lt;div class=&quot;examples&quot;&gt;
-  &lt;button class=&quot;ex-btn&quot; onclick=&quot;loadExample(0)&quot;&gt;Declarations&lt;/button&gt;
-  &lt;button class=&quot;ex-btn&quot; onclick=&quot;loadExample(1)&quot;&gt;Expressions&lt;/button&gt;
-  &lt;button class=&quot;ex-btn&quot; onclick=&quot;loadExample(2)&quot;&gt;Code Block&lt;/button&gt;
-  &lt;button class=&quot;ex-btn&quot; onclick=&quot;loadExample(3)&quot;&gt;Formatting&lt;/button&gt;
-&lt;/div&gt;
-&lt;div class=&quot;editor-wrap&quot;&gt;
-  &lt;div class=&quot;editor-bar&quot;&gt;&lt;span&gt;script.js&lt;/span&gt;&lt;button class=&quot;run-btn&quot; onclick=&quot;runCode()&quot;&gt;▶ Run&lt;/button&gt;&lt;/div&gt;
-  &lt;textarea id=&quot;editor&quot; spellcheck=&quot;false&quot;&gt;// Write JS here and click Run
-let name = &#x27;Techbase&#x27;;
-let year = 2025;
-console.log(&#x27;Welcome to &#x27; + name + &#x27; — year &#x27; + year);
-&lt;/textarea&gt;
-&lt;/div&gt;
-&lt;div class=&quot;output&quot; id=&quot;output&quot;&gt;&lt;em style=&quot;color:#94a3b8&quot;&gt;Output appears here…&lt;/em&gt;&lt;/div&gt;
-&lt;script&gt;
-const examples = [
-`// Variable declarations
-let score = 100;
-let bonus = 25;
-let total = score + bonus;
-console.log(&#x27;Score:&#x27;, score);
-console.log(&#x27;Bonus:&#x27;, bonus);
-console.log(&#x27;Total:&#x27;, total);`,
-`// Expression statements
-let x = 5;
-x = x + 3;       // assignment expression
-x++;              // increment
-console.log(x);  // 9
-console.log(typeof x);  // &quot;number&quot;`,
-`// Code block — groups statements
-let temp = 35;
-if (temp &gt; 30) {
-  let status = &#x27;Hot!&#x27;;
-  console.log(&#x27;Temperature:&#x27;, temp);
-  console.log(&#x27;Status:&#x27;, status);
-}`,
-`// Well-formatted code
-const student = {
-  name:   &#x27;Amina&#x27;,
-  course: &#x27;JavaScript&#x27;,
-  score:  92,
-};
+<div class="phase locked" id="phase3">
+  <div class="phase-header">
+    <div class="phase-num">Phase 3 of 7</div>
+    <div class="phase-title">Chapter 3: JavaScript Assignment Operators</div>
+    <div class="phase-check" id="chk3"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">What Are Assignment Operators?</h3>
+<p class="v2-p">An <strong>assignment operator</strong> puts a value <strong>into</strong> a variable. It's like writing a label on a jar and filling it.</p>
+<p class="v2-p">The most basic one is <code>=</code>. But there are many shortcut versions that let you update a variable more quickly.</p>
+<p class="v2-p"><strong>Important:</strong> The <code>=</code> in programming is NOT the same as <code>=</code> in math. In math, <code>x = 5</code> means "x equals 5." In JavaScript, <code>x = 5</code> means "<strong>store</strong> the value 5 inside the variable x."</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.1 — The Simple Assignment Operator (<code>=</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Assigns (stores) a value in a variable.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;
+// x now holds the value 10
 
-const result = [10, 20, 30]
-  .map(n =&gt; n * 2)
-  .filter(n =&gt; n &gt; 20)
-  .join(&#x27;, &#x27;);
+let x = 10 + y;
+// x now holds whatever 10 + y evaluates to</code></pre></div></div>
+<p class="v2-p"><strong>For strings:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;Hello&quot;;
+// text now holds the string &quot;Hello&quot;</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.2 — The Full List of Assignment Operators</h3>
+<p class="v2-p">Given that <code>x = 10</code> and <code>y = 5</code>, here's what each operator does:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Example</th><th>What It Means</th><th>Result</th></tr></thead><tbody><tr><td><code>=</code></td><td><code>x = y</code></td><td>store y's value in x</td><td><code>x = 5</code></td></tr><tr><td><code>+=</code></td><td><code>x += y</code></td><td>same as <code>x = x + y</code></td><td><code>x = 15</code></td></tr><tr><td><code>-=</code></td><td><code>x -= y</code></td><td>same as <code>x = x - y</code></td><td><code>x = 5</code></td></tr><tr><td><code>*=</code></td><td><code>x *= y</code></td><td>same as <code>x = x * y</code></td><td><code>x = 50</code></td></tr><tr><td><code>**=</code></td><td><code>x **= y</code></td><td>same as <code>x = x ** y</code></td><td><code>x = 100000</code></td></tr><tr><td><code>/=</code></td><td><code>x /= y</code></td><td>same as <code>x = x / y</code></td><td><code>x = 2</code></td></tr><tr><td><code>%=</code></td><td><code>x %= y</code></td><td>same as <code>x = x % y</code></td><td><code>x = 0</code></td></tr></tbody></table></div>
+<p class="v2-p">Let's look at each one individually.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.3 — Addition Assignment (<code>+=</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Adds a value TO an existing variable. Updates the variable in place.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Adding points to a game score, adding an item's price to a running cart total.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;
+x += 5;
+// Same as: x = x + 5 = 10 + 5
+// Expected output: x = 15</code></pre></div></div>
+<p class="v2-p"><strong>With strings:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;Hello&quot;;
+text += &quot; World&quot;;
+// Expected output: &quot;Hello World&quot;</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.4 — Subtraction Assignment (<code>-=</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Subtracts a value FROM an existing variable.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Deducting points, reducing inventory count.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;
+x -= 5;
+// Same as: x = x - 5
+// Expected output: x = 5</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.5 — Multiplication Assignment (<code>*=</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Multiplies a variable by a value.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Applying a 2x bonus multiplier to a score, doubling quantities.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;
+x *= 5;
+// Same as: x = x * 5
+// Expected output: x = 50</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.6 — Exponentiation Assignment (<code>**=</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Raises a variable to the power of a value.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;
+x **= 5;
+// Same as: x = x ** 5 = 10 * 10 * 10 * 10 * 10
+// Expected output: x = 100000</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.7 — Division Assignment (<code>/=</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Divides a variable by a value.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Splitting a group evenly, halving a quantity.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;
+x /= 5;
+// Same as: x = x / 5
+// Expected output: x = 2</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.8 — Remainder Assignment (<code>%=</code>)</h3>
+<p class="v2-p"><strong>What it does:</strong> Replaces the variable with the remainder of dividing by a value.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;
+x %= 5;
+// Same as: x = x % 5 = 10 % 5
+// 10 ÷ 5 = 2 with remainder 0
+// Expected output: x = 0</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.9 — Logical Assignment Operators (ES2020)</h3>
+<p class="v2-p">These are newer, more advanced assignment operators. They combine logical conditions with assignment.</p>
+<p class="v2-p"><strong>The <code>&amp;&amp;=</code> (Logical AND Assignment):</strong> If the first value is <strong>truthy</strong> (true, a non-zero number, a non-empty string), assign the second value.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = true;
+let y = x &amp;&amp;= 10;
+// x is true (truthy), so 10 gets assigned
+// Expected output: x = 10, y = 10
 
-console.log(student);
-console.log(&#x27;Result:&#x27;, result);`
-];
-function loadExample(i) {
-  document.getElementById(&#x27;editor&#x27;).value = examples[i];
-}
-function runCode() {
-  const out = document.getElementById(&#x27;output&#x27;);
-  out.innerHTML = &#x27;&#x27;;
-  const logs = [];
-  const orig = {log: console.log, warn: console.warn, error: console.error};
-  [&#x27;log&#x27;,&#x27;warn&#x27;,&#x27;error&#x27;].forEach(t =&gt; {
-    console[t] = (...args) =&gt; {
-      logs.push({type:t, msg:args.map(a=&gt;typeof a===&#x27;object&#x27;?JSON.stringify(a,null,2):String(a)).join(&#x27; &#x27;)});
-    };
-  });
-  try { eval(document.getElementById(&#x27;editor&#x27;).value); }
-  catch(e) { logs.push({type:&#x27;error&#x27;, msg:e.message}); }
-  [&#x27;log&#x27;,&#x27;warn&#x27;,&#x27;error&#x27;].forEach(t =&gt; console[t] = orig[t]);
-  if (!logs.length) { out.innerHTML = &#x27;&lt;em style=&quot;color:#94a3b8&quot;&gt;No output — use console.log() to display values&lt;/em&gt;&#x27;; return; }
-  logs.forEach(({type,msg}) =&gt; {
-    const d = document.createElement(&#x27;div&#x27;);
-    d.className = &#x27;log-line&#x27;;
-    d.innerHTML = `&lt;span class=&quot;log-type log-${type}&quot;&gt;${type}&lt;/span&gt;&lt;span&gt;${msg.replace(/&lt;/g,&#x27;&amp;lt;&#x27;)}&lt;/span&gt;`;
-    out.appendChild(d);
-  });
-}
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre></div>
+let x = false;
+let y = x &amp;&amp;= 10;
+// x is false (falsy), so nothing happens
+// Expected output: x = false, y = false
+
+let x = 1;
+let y = x &amp;&amp;= 10;
+// 1 is truthy, so 10 gets assigned
+// Expected output: x = 10, y = 10
+
+let x = 0;
+let y = x &amp;&amp;= 10;
+// 0 is falsy, so nothing happens
+// Expected output: x = 0, y = 0</code></pre></div></div>
+<p class="v2-p"><strong>The <code>||=</code> (Logical OR Assignment):</strong> If the first value is <strong>falsy</strong> (false, 0, null, undefined), assign the second value.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = false;
+let y = x ||= 10;
+// x is false (falsy), so 10 gets assigned
+// Expected output: x = 10, y = 10
+
+let x = true;
+let y = x ||= 10;
+// x is true (truthy), so nothing happens
+// Expected output: x = true, y = true
+
+let x = null;
+let y = x ||= 10;
+// null is falsy, so 10 gets assigned
+// Expected output: x = 10, y = 10</code></pre></div></div>
+<p class="v2-p"><strong>The <code>??=</code> (Nullish Coalescing Assignment):</strong> Only assigns if the variable is <strong><code>undefined</code></strong> or <strong><code>null</code></strong> specifically.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x;           // x is undefined
+x ??= 10;
+// Expected output: x = 10
+
+let x = 0;
+x ??= 10;
+// 0 is NOT null or undefined, so nothing changes
+// Expected output: x = 0   ← Notice: this is different from ||=!
+
+let x = null;
+x ??= 10;
+// Expected output: x = 10</code></pre></div></div>
+<p class="v2-p"><strong>Key difference between <code>||=</code> and <code>??=</code>:</strong> <code>||=</code> treats <code>0</code>, <code>""</code>, <code>false</code> as "assign the new value." <code>??=</code> does NOT — it only triggers on <code>null</code>/<code>undefined</code>. This matters when <code>0</code> or <code>""</code> (empty string) are valid values you want to keep.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">3.10 — The Spread Operator (<code>...</code>)</h3>
+<p class="v2-p">The spread operator (<code>...</code>) takes something that contains multiple items (like a string of characters or an array) and <strong>splits it into individual elements</strong>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;12345&quot;;
+let min = Math.min(...text);
+let max = Math.max(...text);
+// ...text spreads &quot;12345&quot; into 1, 2, 3, 4, 5
+// Expected output: min = 1, max = 5</code></pre></div></div>
+<p class="v2-p">This is an ES6 feature used widely in modern JavaScript for working with arrays, objects, and function arguments.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>Chapter 3: JavaScript Assignment Operators</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
+  </div>
 </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
-    <button class="next-btn" onclick="downloadStarter()" style="background:#10b981;box-shadow:0 4px 12px rgba(16,185,129,.3)">
+<div class="phase locked" id="phase4">
+  <div class="phase-header">
+    <div class="phase-num">Phase 4 of 7</div>
+    <div class="phase-title">Chapter 4: JavaScript Comparison Operators</div>
+    <div class="phase-check" id="chk4"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">What Are Comparison Operators?</h3>
+<p class="v2-p">Comparison operators <strong>compare two values</strong> and always return either <code>true</code> or <code>false</code>. There is no in-between — it's a yes/no answer.</p>
+<p class="v2-p"><strong>Real-life analogy:</strong> Imagine a bouncer at a club checking IDs. They ask: "Is this person 18 or older?" The answer is either yes (<code>true</code>) or no (<code>false</code>). Comparison operators work exactly like that.</p>
+<p class="v2-p"><strong>Real-life use:</strong> Deciding whether a user is logged in, checking if a product is in stock, validating form inputs, determining game outcomes (who won?).</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">4.1 — The Full Comparison Operators Table</h3>
+<p class="v2-p">Given <code>x = 5</code>:</p>
+<div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Description</th><th>Example</th><th>Result</th></tr></thead><tbody><tr><td><code>==</code></td><td>Equal to (value only)</td><td><code>x == 5</code></td><td><code>true</code></td></tr><tr><td></td><td></td><td><code>x == "5"</code></td><td><code>true</code> (converts type!)</td></tr><tr><td></td><td></td><td><code>x == 8</code></td><td><code>false</code></td></tr><tr><td><code>===</code></td><td>Strictly equal (value AND type)</td><td><code>x === 5</code></td><td><code>true</code></td></tr><tr><td></td><td></td><td><code>x === "5"</code></td><td><code>false</code> (different type)</td></tr><tr><td><code>!=</code></td><td>Not equal (value only)</td><td><code>x != 8</code></td><td><code>true</code></td></tr><tr><td><code>!==</code></td><td>Strictly not equal</td><td><code>x !== "5"</code></td><td><code>true</code></td></tr><tr><td></td><td></td><td><code>x !== 5</code></td><td><code>false</code></td></tr><tr><td><code>&gt;</code></td><td>Greater than</td><td><code>x &gt; 8</code></td><td><code>false</code></td></tr><tr><td><code>&lt;</code></td><td>Less than</td><td><code>x &lt; 8</code></td><td><code>true</code></td></tr><tr><td><code>&gt;=</code></td><td>Greater than or equal to</td><td><code>x &gt;= 5</code></td><td><code>true</code></td></tr><tr><td><code>&lt;=</code></td><td>Less than or equal to</td><td><code>x &lt;= 8</code></td><td><code>true</code></td></tr></tbody></table></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">4.2 — Equal To (<code>==</code>) vs Strictly Equal To (<code>===</code>)</h3>
+<p class="v2-p">This is the <strong>most important distinction</strong> in comparison operators. Many beginners get burned by this one.</p>
+<p class="v2-p"><strong><code>==</code> (Loose Equality — compares values, ignores type):</strong> JavaScript will try to convert the types before comparing.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+
+console.log(x == 5);    // true  (5 equals 5)
+console.log(x == &quot;5&quot;);  // true  (JavaScript converts &quot;5&quot; to 5 first)
+console.log(x == 8);    // false (5 does not equal 8)</code></pre></div></div>
+<p class="v2-p"><strong><code>===</code> (Strict Equality — compares BOTH value AND data type):</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+
+console.log(x === 5);    // true  (5 is a number, 5 is a number — match!)
+console.log(x === &quot;5&quot;);  // false (5 is a number, &quot;5&quot; is a string — NO match!)</code></pre></div></div>
+<p class="v2-p"><strong>Real-life analogy:</strong> <code>==</code> is like asking "Do these two boxes weigh the same?" It doesn't care what's inside. <code>===</code> is like asking "Are these two boxes exactly identical — same weight AND same contents?"</p>
+<p class="v2-p"><strong>Best Practice for beginners:</strong> Always prefer <code>===</code> (strict equality) to avoid unexpected type-conversion surprises. Most professional developers use <code>===</code> by default.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">4.3 — Not Equal (<code>!=</code>) and Strictly Not Equal (<code>!==</code>)</h3>
+<p class="v2-p">These work the same way but in reverse — they check if things are <strong>different</strong>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+
+console.log(x != 8);    // true  (5 is NOT equal to 8)
+console.log(x !== 5);   // false (5 IS equal to 5, so NOT-not-equal is false)
+console.log(x !== &quot;5&quot;); // true  (5 the number is NOT the same type as &quot;5&quot; the string)
+console.log(x !== 8);   // true  (5 is not equal to 8)</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">4.4 — Greater Than and Less Than</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+
+console.log(x &gt; 8);   // false (5 is not greater than 8)
+console.log(x &lt; 8);   // true  (5 IS less than 8)
+console.log(x &gt;= 5);  // true  (5 is equal to 5, so &quot;greater than OR equal to&quot; is true)
+console.log(x &gt;= 8);  // false (5 is neither greater than nor equal to 8)
+console.log(x &lt;= 8);  // true  (5 is less than 8)</code></pre></div></div>
+<p class="v2-p"><strong>Thinking Question:</strong> Is <code>x &gt;= 5</code> the same as <code>x &gt; 4</code> when x is a whole number? Yes — for integers, these produce the same result. But they behave differently for decimals!</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">4.5 — Using Comparison Operators in Real Code</h3>
+<p class="v2-p">Comparison operators are almost always used with <strong>if-statements</strong> to make decisions:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let age = 16;
+if (age &lt; 18) {
+    text = &quot;Too young to buy alcohol&quot;;
+}
+// Since 16 &lt; 18 is true, text becomes &quot;Too young to buy alcohol&quot;</code></pre></div></div>
+<hr class="v2-hr">
+<h3 class="v2-h3">4.6 — String Comparisons</h3>
+<p class="v2-p">All comparison operators work on strings too! JavaScript compares them <strong>alphabetically</strong> (by their position in the alphabet).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text1 = &quot;A&quot;;
+let text2 = &quot;B&quot;;
+let result = text1 &lt; text2;
+// Expected output: true (&quot;A&quot; comes before &quot;B&quot; alphabetically)</code></pre></div></div>
+<p class="v2-p"><strong>Tricky example:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text1 = &quot;20&quot;;
+let text2 = &quot;5&quot;;
+let result = text1 &lt; text2;
+// Expected output: true (NOT false!)</code></pre></div></div>
+<p class="v2-p">Why? Because "20" and "5" are being compared as <strong>strings</strong>, not as numbers. JavaScript looks at the first character: <code>"2"</code> vs <code>"5"</code>. The character <code>"2"</code> comes before <code>"5"</code> in alphabetical order, so "20" is considered "less than" "5" as strings!</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">4.7 — Comparing Different Types (Number vs String)</h3>
+<p class="v2-p">When you compare a <strong>string</strong> with a <strong>number</strong> using <code>&lt;</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, JavaScript <strong>converts the string to a number</strong> first:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(2 &lt; 12);      // true  (normal number comparison)
+console.log(2 &lt; &quot;12&quot;);    // true  (&quot;12&quot; is converted to 12, then 2 &lt; 12)
+console.log(2 &lt; &quot;John&quot;);  // false (&quot;John&quot; can&#x27;t be a number → NaN, always false)
+console.log(2 &gt; &quot;John&quot;);  // false (same reason)
+console.log(2 == &quot;John&quot;); // false</code></pre></div></div>
+<p class="v2-p"><strong>But when two STRINGS are compared with <code>&lt;</code>, <code>&gt;</code>, they stay as strings:</strong></p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(&quot;2&quot; &lt; &quot;12&quot;);  // false (string comparison! &quot;2&quot; &gt; &quot;1&quot; alphabetically)
+console.log(&quot;2&quot; &gt; &quot;12&quot;);  // true  (the first character &quot;2&quot; &gt; &quot;1&quot;)
+console.log(&quot;2&quot; == &quot;12&quot;); // false</code></pre></div></div>
+<p class="v2-p">This is a common source of bugs. To avoid it, always convert your values to the right type before comparing:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Safe comparison after converting to number:
+let age = Number(age);
+if (isNaN(age)) {
+    voteable = &quot;Input is not a number&quot;;
+} else {
+    voteable = (age &lt; 18) ? &quot;Too young&quot; : &quot;Old enough&quot;;
+}</code></pre></div></div>
+<p class="v2-p"><code>Number()</code> converts a string to a number. <code>isNaN()</code> checks if something is "Not a Number" (catches cases where conversion fails, like <code>Number("John")</code> which gives <code>NaN</code>).</p>
+<hr class="v2-hr">
+<hr class="v2-hr">
+<p class="v2-p"># 🛠️ SECTION 2 — APPLIED EXERCISES</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>Chapter 4: JavaScript Comparison Operators</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase5">
+  <div class="phase-header">
+    <div class="phase-num">Phase 5 of 7</div>
+    <div class="phase-title">Exercise 1: Arithmetic Operators — The Coffee Shop Calculator</div>
+    <div class="phase-check" id="chk5"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">Warm-Up Mini-Example</h3>
+<p class="v2-p">Before we start, here's a small preview of what we're building:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let price = 4.50;
+let quantity = 3;
+let total = price * quantity;
+// Expected output: total = 13.5</code></pre></div></div>
+<h3 class="v2-h3">Objective</h3>
+<p class="v2-p">Practice all arithmetic operators in a realistic setting: running totals, discounts, and change at a coffee shop counter.</p>
+<h3 class="v2-h3">Scenario</h3>
+<p class="v2-p">You work at "JavaBean Café." Every morning you calculate orders, apply discounts, and figure out change. Use JavaScript to help.</p>
+<h3 class="v2-h3">Step-by-Step Instructions</h3>
+<p class="v2-p"><strong>Step 1:</strong> A customer orders 3 coffees at $4.50 each. Calculate the total.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let coffeePrice = 4.50;
+let quantity = 3;
+let total = coffeePrice * quantity;
+// Expected output: 13.5</code></pre></div></div>
+<p class="v2-p"><strong>Step 2:</strong> They also want 2 muffins at $2.25 each. Add that to the total.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let muffinPrice = 2.25;
+let muffinQty = 2;
+total += muffinPrice * muffinQty;
+// total was 13.5, now total = 13.5 + 4.5 = 18</code></pre></div></div>
+<p class="v2-p"><strong>Step 3:</strong> They have a $2 discount coupon. Subtract it.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>total -= 2;
+// Expected output: total = 16</code></pre></div></div>
+<p class="v2-p"><strong>Step 4:</strong> They pay with a $20 bill. How much change do they get?</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let paid = 20;
+let change = paid - total;
+// Expected output: change = 4</code></pre></div></div>
+<p class="v2-p"><strong>Step 5:</strong> The shop has 100 muffins. They just sold 2. Update the stock.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let muffinStock = 100;
+muffinStock -= 2;
+// Expected output: muffinStock = 98</code></pre></div></div>
+<p class="v2-p"><strong>Step 6 (Bonus — Modulus):</strong> The café packs muffins into boxes of 6. How many full boxes can they make from 98 muffins? How many are left over?</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let fullBoxes = Math.floor(98 / 6);  // Math.floor rounds down to nearest whole number
+let leftover = 98 % 6;
+// Expected output: fullBoxes = 16, leftover = 2</code></pre></div></div>
+<h3 class="v2-h3">Hints</h3>
+<ul class="v2-ul"><li>Remember <code>*=</code> is a shortcut for updating multiplication</li><li><code>%</code> gives the remainder — think of it as "what's left over after dividing"</li><li><code>+=</code> is the shortcut for adding onto an existing variable</li></ul>
+<h3 class="v2-h3">Self-Check Questions</h3>
+<ol class="v2-ol"><li>What is <code>7 % 2</code>? What does this tell you about whether 7 is even or odd?</li><li>If <code>total = 50</code> and you write <code>total -= 10</code>, what does total become?</li><li>What does <code>2 ** 10</code> evaluate to?</li></ol>
+<p class="v2-p"><strong>What-If Challenge:</strong> What if the coffee price increases by 15%? How would you use the multiplication assignment operator to update <code>coffeePrice</code> directly?</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">### Scenario
+
+You work at "JavaBean Café." Every morning you calculate orders, apply discounts, and figure out change. Use JavaScript to help.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase6">
+  <div class="phase-header">
+    <div class="phase-num">Phase 6 of 7</div>
+    <div class="phase-title">Exercise 2: Assignment Operators — Student Grade Tracker</div>
+    <div class="phase-check" id="chk6"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">Warm-Up Mini-Example</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 60;
+score += 10;   // Student got bonus marks
+// Expected output: score = 70</code></pre></div></div>
+<h3 class="v2-h3">Objective</h3>
+<p class="v2-p">Use assignment operators to track and update a student's score throughout the semester.</p>
+<h3 class="v2-h3">Scenario</h3>
+<p class="v2-p">You're building a simple grade tracker for a class of students. A student named "Alex" earns scores in different subjects, and you use JavaScript to update their running total.</p>
+<h3 class="v2-h3">Step-by-Step Instructions</h3>
+<p class="v2-p"><strong>Step 1:</strong> Start Alex with a base score of 0.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let alexScore = 0;</code></pre></div></div>
+<p class="v2-p"><strong>Step 2:</strong> Alex scores 85 on the first test. Assign it.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>alexScore = 85;
+// Expected output: alexScore = 85</code></pre></div></div>
+<p class="v2-p"><strong>Step 3:</strong> Alex gets 10 bonus points for perfect attendance. Use <code>+=</code>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>alexScore += 10;
+// Expected output: alexScore = 95</code></pre></div></div>
+<p class="v2-p"><strong>Step 4:</strong> A late penalty of 5 points is applied. Use <code>-=</code>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>alexScore -= 5;
+// Expected output: alexScore = 90</code></pre></div></div>
+<p class="v2-p"><strong>Step 5:</strong> The teacher doubles all scores for a special event. Use <code>*=</code>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>alexScore *= 2;
+// Expected output: alexScore = 180</code></pre></div></div>
+<p class="v2-p"><strong>Step 6:</strong> The maximum possible score is 200. Check what percentage Alex has:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let percentage = (alexScore / 200) * 100;
+// Expected output: percentage = 90</code></pre></div></div>
+<p class="v2-p"><strong>Step 7 — Logical Assignment:</strong> If a student has no score recorded (<code>null</code>), assign a default of 50. Use <code>??=</code>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let newStudent = null;
+newStudent ??= 50;
+// Expected output: newStudent = 50</code></pre></div></div>
+<h3 class="v2-h3">Self-Check Questions</h3>
+<ol class="v2-ol"><li>What's the difference between <code>x = 5</code> and <code>x += 5</code>?</li><li>If <code>score = 80</code> and you write <code>score **= 2</code>, what does score become?</li><li>Why would you use <code>??=</code> instead of <code>||=</code> when 0 is a valid score?</li></ol>
+<p class="v2-p"><strong>Professional Application:</strong> In a real grade-management system built with JavaScript, you'd use these operators constantly — adding new quiz scores, applying penalties, computing averages, and validating whether a field has been filled in.</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>Exercise 2: Assignment Operators — Student Grade Tracker</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="phase locked" id="phase7">
+  <div class="phase-header">
+    <div class="phase-num">Phase 7 of 7</div>
+    <div class="phase-title">Exercise 3: Comparison Operators — Login Validation System</div>
+    <div class="phase-check" id="chk7"></div>
+  </div>
+  <div class="phase-body">
+    <h3 class="v2-h3">Warm-Up Mini-Example</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let enteredAge = 17;
+let isAdult = enteredAge &gt;= 18;
+// Expected output: isAdult = false</code></pre></div></div>
+<h3 class="v2-h3">Objective</h3>
+<p class="v2-p">Use comparison operators to simulate a simple user login and validation system.</p>
+<h3 class="v2-h3">Scenario</h3>
+<p class="v2-p">You're building a basic webpage that checks if a user meets certain criteria before letting them proceed.</p>
+<h3 class="v2-h3">Step-by-Step Instructions</h3>
+<p class="v2-p"><strong>Step 1:</strong> Check if the entered username matches the stored one (value AND type).</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let storedUser = &quot;admin&quot;;
+let enteredUser = &quot;admin&quot;;
+let isMatch = enteredUser === storedUser;
+// Expected output: isMatch = true</code></pre></div></div>
+<p class="v2-p"><strong>Step 2:</strong> Check if the entered password is WRONG.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let storedPassword = 1234;
+let enteredPassword = &quot;1234&quot;;     // User typed it as text
+let isWrongPassword = storedPassword !== enteredPassword;
+// Expected output: isWrongPassword = true
+// (1234 number !== &quot;1234&quot; string because of different types)</code></pre></div></div>
+<p class="v2-p">Why <code>true</code>? Because <code>1234</code> (number) and <code>"1234"</code> (string) are different types. <code>!==</code> catches that difference. This is why using <code>===</code> and <code>!==</code> is so important — it prevents bugs where "1234" the text is accepted as 1234 the number.</p>
+<p class="v2-p"><strong>Step 3:</strong> Check if a user's age allows them to vote.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let userAge = 17;
+let canVote = userAge &gt;= 18;
+// Expected output: canVote = false</code></pre></div></div>
+<p class="v2-p"><strong>Step 4:</strong> String comparison — check if a username comes before another alphabetically.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let user1 = &quot;Alice&quot;;
+let user2 = &quot;Bob&quot;;
+let result = user1 &lt; user2;
+// Expected output: true (&quot;A&quot; comes before &quot;B&quot;)</code></pre></div></div>
+<p class="v2-p"><strong>Step 5:</strong> Type-safe number comparison — user entered their age as a string from a form.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let enteredAge = &quot;25&quot;;   // Came from a text input field
+let safeAge = Number(enteredAge);   // Convert to number first!
+let canDrink = safeAge &gt;= 21;
+// Expected output: canDrink = true</code></pre></div></div>
+<h3 class="v2-h3">Self-Check Questions</h3>
+<ol class="v2-ol"><li>Why does <code>5 == "5"</code> return <code>true</code> but <code>5 === "5"</code> return <code>false</code>?</li><li>What does <code>"Banana" &gt; "Apple"</code> return? Why?</li><li>In a real login system, should you use <code>==</code> or <code>===</code> to compare passwords? Why?</li></ol>
+<p class="v2-p"><strong>Professional Application:</strong> Front-end developers use comparison operators constantly when validating forms, checking login status, filtering data, and controlling what a user sees on the screen.</p>
+<hr class="v2-hr">
+<hr class="v2-hr">
+<p class="v2-p"># 🏗️ SECTION 3 — PROJECT SIMULATION</p>
+<hr class="v2-hr">
+    <div class="task-box">
+      <div class="task-label">✏️ Your Task</div>
+      <div class="task-body">Now practise what you just learned about <strong>Exercise 3: Comparison Operators — Login Validation System</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
+    </div>
+    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
+  </div>
+</div>
+<div class="build-box" id="build-it">
+  <div class="build-label">🏗️ Build It</div>
+  <div class="build-name">Project Overview</div>
+  <div class="build-desc">You will build a <strong>shopping cart calculator</strong> that applies all four operator families together. This is a real-world tool used in every e-commerce website on the internet.</div>
+  <div class="v2-code-wrap">
+    <div class="v2-code-bar">
+      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
+      <span class="v2-code-lang">starter.html</span>
+    </div>
+    <div class="v2-code-body"><pre><code>let item1 = 25.00;  // T-Shirt
+let qty1 = 2;
+let subtotal = item1 * qty1;
+// Expected output: subtotal = 50</code></pre></div>
+  </div>
+  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
+    <button class="unlock-btn" onclick="downloadStarter(`let item1 = 25.00;  // T-Shirt
+let qty1 = 2;
+let subtotal = item1 * qty1;
+// Expected output: subtotal = 50`)"
+      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
       ⬇ Download starter.html
     </button>
-    <button class="next-btn" onclick="showGithub()" style="background:#0f172a;box-shadow:none">
+    <button class="unlock-btn" onclick="showGithub()"
+      style="background:#0f172a;box-shadow:none">
       🐙 Push to GitHub →
     </button>
   </div>
-  <script>
-  const __code = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JS Statements</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fffbeb;padding:24px;max-width:700px;margin:0 auto;color:#1c1917}
-  h1{color:#d97706;margin-bottom:4px}h2{color:#92400e;margin:20px 0 10px;border-bottom:2px solid #fde68a;padding-bottom:6px}
-  .editor-wrap{background:#0f172a;border-radius:12px;overflow:hidden;margin-bottom:12px}
-  .editor-bar{background:#1e293b;padding:10px 14px;font-family:monospace;font-size:12px;color:#64748b;display:flex;justify-content:space-between;align-items:center}
-  textarea{width:100%;background:#0f172a;color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;padding:16px;border:none;outline:none;resize:vertical;min-height:160px}
-  .run-btn{background:#d97706;color:white;padding:8px 18px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:13px}
-  .run-btn:hover{background:#b45309}
-  .output{background:white;border:1.5px solid #fde68a;border-radius:12px;padding:16px;min-height:80px;font-family:monospace;font-size:13px;color:#78350f}
-  .log-line{padding:3px 0;border-bottom:1px solid #fef3c7;display:flex;gap:8px}
-  .log-line:last-child{border:none}
-  .log-type{font-size:10px;font-weight:700;min-width:50px;padding-top:2px}
-  .log-log{color:#15803d}.log-warn{color:#d97706}.log-err{color:#dc2626}
-  .examples{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-  .ex-btn{padding:6px 12px;background:#fef3c7;border:1.5px solid #fde68a;border-radius:7px;font-size:12px;font-weight:600;color:#92400e;cursor:pointer}
-  .ex-btn:hover{background:#fde68a}
-</style>
-</head>
-<body>
-<h1>⚡ JS Statements</h1>
-<h2>Live JS Playground</h2>
-<p style="font-size:13px;color:#64748b;margin-bottom:12px">Write JS statements and run them. Use console.log() to see output.</p>
-<div class="examples">
-  <button class="ex-btn" onclick="loadExample(0)">Declarations</button>
-  <button class="ex-btn" onclick="loadExample(1)">Expressions</button>
-  <button class="ex-btn" onclick="loadExample(2)">Code Block</button>
-  <button class="ex-btn" onclick="loadExample(3)">Formatting</button>
 </div>
-<div class="editor-wrap">
-  <div class="editor-bar"><span>script.js</span><button class="run-btn" onclick="runCode()">▶ Run</button></div>
-  <textarea id="editor" spellcheck="false">// Write JS here and click Run
-let name = 'Techbase';
-let year = 2025;
-console.log('Welcome to ' + name + ' — year ' + year);
-</textarea>
-</div>
-<div class="output" id="output"><em style="color:#94a3b8">Output appears here…</em></div>
-<script>
-const examples = [
-\`// Variable declarations
-let score = 100;
-let bonus = 25;
-let total = score + bonus;
-console.log('Score:', score);
-console.log('Bonus:', bonus);
-console.log('Total:', total);\`,
-\`// Expression statements
-let x = 5;
-x = x + 3;       // assignment expression
-x++;              // increment
-console.log(x);  // 9
-console.log(typeof x);  // "number"\`,
-\`// Code block — groups statements
-let temp = 35;
-if (temp > 30) {
-  let status = 'Hot!';
-  console.log('Temperature:', temp);
-  console.log('Status:', status);
-}\`,
-\`// Well-formatted code
-const student = {
-  name:   'Amina',
-  course: 'JavaScript',
-  score:  92,
-};
-
-const result = [10, 20, 30]
-  .map(n => n * 2)
-  .filter(n => n > 20)
-  .join(', ');
-
-console.log(student);
-console.log('Result:', result);\`
-];
-function loadExample(i) {
-  document.getElementById('editor').value = examples[i];
-}
-function runCode() {
-  const out = document.getElementById('output');
-  out.innerHTML = '';
-  const logs = [];
-  const orig = {log: console.log, warn: console.warn, error: console.error};
-  ['log','warn','error'].forEach(t => {
-    console[t] = (...args) => {
-      logs.push({type:t, msg:args.map(a=>typeof a==='object'?JSON.stringify(a,null,2):String(a)).join(' ')});
-    };
-  });
-  try { eval(document.getElementById('editor').value); }
-  catch(e) { logs.push({type:'error', msg:e.message}); }
-  ['log','warn','error'].forEach(t => console[t] = orig[t]);
-  if (!logs.length) { out.innerHTML = '<em style="color:#94a3b8">No output — use console.log() to display values</em>'; return; }
-  logs.forEach(({type,msg}) => {
-    const d = document.createElement('div');
-    d.className = 'log-line';
-    d.innerHTML = \`<span class="log-type log-${type}">${type}</span><span>${msg.replace(/</g,'&lt;')}</span>\`;
-    out.appendChild(d);
-  });
-}
-</script>
-</body>
-</html>`;
-  function downloadStarter(){
-    const a=document.createElement('a');
-    a.href='data:text/html;charset=utf-8,'+encodeURIComponent(__code);
-    a.download='starter.html'; a.click();
-  }
-  </script>
-</div>
-
-<div class="github-acc" id="github-steps" style="display:none">
-  <div class="github-acc-head" onclick="this.nextElementSibling.classList.toggle('open')">
-    🐙 GitHub Setup — Push your project online &nbsp;<span>▼</span>
+<div class="gh-acc" id="gh-steps" style="display:none">
+  <div class="gh-acc-head" onclick="toggleGh(this)">
+    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
   </div>
-  <div class="github-acc-body">
-    <div class="github-step"><div class="github-step-n">1</div><p>Go to <strong>github.com</strong> → New repository → name it <code>js-lesson-04-js_statements</code>.</p></div>
-    <div class="github-step"><div class="github-step-n">2</div><p>Leave it <strong>Public</strong>, tick <strong>Add a README</strong>, click <strong>Create repository</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">3</div><p>Click <strong>Add file → Upload files</strong>. Rename your starter to <code>index.html</code> and upload it.</p></div>
-    <div class="github-step"><div class="github-step-n">4</div><p>Commit message: <em>"Add JS lesson 04 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="github-step"><div class="github-step-n">5</div><p><strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Live at <code>https://YOUR-NAME.github.io/js-lesson-04-js_statements/</code> in ~1 min! 🎉</p></div>
-    <button class="next-btn" onclick="showEnd()" style="margin-top:.5rem">I'm done! Finish session ✅</button>
+  <div class="gh-acc-body">
+    <div class="gh-step"><div class="gh-step-n">1</div>
+    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-04-project-overview</code>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">2</div>
+    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">3</div>
+    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
+    <div class="gh-step"><div class="gh-step-n">4</div>
+    <p>Commit message: <em>"Add JavaScript lesson 04 project"</em> → click <strong>Commit changes</strong>.</p></div>
+    <div class="gh-step"><div class="gh-step-n">5</div>
+    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-04-project-overview/</code> in about 1 minute! 🎉</p></div>
+    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
   </div>
 </div>
 <div class="session-end" id="session-end">
-  <h2>🎉 Great work! Lesson 04 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">Today you learned:</p>
-  <ul><li>✅ Statements and semicolons</li><li>✅ White space and line length</li></ul>
-  <div class="lesson-nav" style="margin-top:1.5rem;border-color:rgba(255,255,255,.2)">
-    <a href="lesson_03.html" class="ln-btn">← Lesson 03</a>
-    <a href="lesson_05.html" class="ln-btn primary">Lesson 05 →</a>
-  </div>
+  <h2>🎉 Lesson 04 complete!</h2>
+  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
+  <ul><li>✅ Chapter 1: What Is an Operator?</li><li>✅ Chapter 2: JavaScript Arithmetic Operators</li><li>✅ Chapter 3: JavaScript Assignment Operators</li><li>✅ Chapter 4: JavaScript Comparison Operators</li><li>✅ Exercise 1: Arithmetic Operators — The Coffee Shop Calculator</li><li>✅ Exercise 2: Assignment Operators — Student Grade Tracker</li><li>✅ Exercise 3: Comparison Operators — Login Validation System</li></ul>
+  <div class="lesson-nav"><a href="lesson_03.html" class="ln-btn">← Lesson 03</a><a href="lesson_05.html" class="ln-btn primary">Lesson 05 →</a></div>
 </div>
 </main>
+
 <footer class="lesson-footer">
-  <p>Techbase Code Coach &nbsp;·&nbsp; JavaScript Course Lesson 04 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</p>
+  Techbase Code Coach · JavaScript Course · Lesson 04 · © 2025 Techbase Consultant Services, Ibadan
 </footer>
 <script>
-const TOTAL=2, KEY='techbase_js_04_phase';
+const TOTAL=7,KEY='techbase_js_l04';
 let current=parseInt(localStorage.getItem(KEY)||'1');
 function init(){
-  for(let i=1;i<=current;i++) if(i>1) unlockPhase(i,false);
+  for(let i=2;i<=current;i++) unlockPhase(i,false);
   updateBar();
 }
 function unlockNext(n){
-  document.getElementById('check'+n).classList.add('done');
-  document.getElementById('check'+n).textContent='✓';
-  localStorage.setItem(KEY,n+1);
-  current=n+1;
+  const chk=document.getElementById('chk'+n);
+  if(chk){chk.classList.add('done');chk.textContent='✓';}
+  localStorage.setItem(KEY,n+1); current=n+1;
   if(n===TOTAL){
     document.getElementById('build-it').style.display='block';
-    const cap=document.getElementById('capstone');
-    if(cap) cap.style.display='block';
     updateBar(100);
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  } else {
-    unlockPhase(n+1,true);
-    updateBar();
+  }else{
+    unlockPhase(n+1,true); updateBar();
   }
 }
 function unlockPhase(n,scroll){
   const el=document.getElementById('phase'+n);
-  if(el){ el.classList.remove('locked'); if(scroll) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150); }
+  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
 }
 function updateBar(pct){
-  const p=pct||Math.round((current-1)/TOTAL*95);
+  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
   document.getElementById('pbar').style.width=p+'%';
 }
 function showGithub(){
-  const g=document.getElementById('github-steps');
-  if(g){ g.style.display='block'; setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150); }
+  const g=document.getElementById('gh-steps');
+  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
 }
 function showEnd(){
   const e=document.getElementById('session-end');
-  if(e){ e.classList.add('visible'); setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150); }
+  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
+}
+function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
+function downloadStarter(code){
+  const a=document.createElement('a');
+  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
+  a.download='starter.html';a.click();
 }
 init();
 </script>
