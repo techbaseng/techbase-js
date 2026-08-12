@@ -1,205 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 30: JavaScript Projects: Five Beginner-Friendly Projects: Counter · Event Listener · To-Do List · Modal Popup · Form Validation — Techbase JavaScript</title>
-<meta name="description" content="JavaScript Projects: Five Beginner-Friendly Projects: Counter · Event Listener · To-Do List · Modal Popup · Form Validation">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 30 of 46</span>
+  <span class="l-nav-lbl">Lesson 30 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 30</div>
-    <h1>JavaScript Projects: Five Beginner-Friendly Projects: Counter · Event Listener · To-Do List · Modal Popup · Form Validation</h1>
-    <div class="l-hero-sub">16 phases · Build: Lesson 30 JS Project</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 30</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 16 phases</span>
-    <span>🏗️ Lesson 30 JS Project</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 30</div>
+  <h1>JavaScript Projects: Five Beginner-Friendly Projects: Counter · Event Listener · To-Do List · Modal Popup · Form Validation</h1>
+  <div class="l-hero-sub">16 phases &nbsp;·&nbsp; Build: Lesson 30 Project</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 30</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 16 phases</span><span>🏗️ Lesson 30 Project</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 16</div>
-    <div class="phase-title">PHASE 1 — CONCEPTUAL UNDERSTANDING</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Is a Counter?</h3>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/16</div><div class="pt">PHASE 1 — CONCEPTUAL UNDERSTANDING</div><div class="pc" id="chk1"></div></div><div class="pb2"><h3 class="v2-h3">What Is a Counter?</h3>
 <p class="v2-p">A <strong>counter</strong> is a simple interactive program that keeps track of a number and lets the user change it by clicking buttons. You see counters everywhere in real life:</p>
 <ul class="v2-ul"><li>A shopping cart showing "3 items"</li><li>A YouTube like button showing the like count</li><li>A fitness app counting your reps</li><li>An online ticket booking page counting how many seats you've selected</li></ul>
 <p class="v2-p">In JavaScript terms, a counter project teaches you three fundamental skills:</p>
@@ -207,12 +141,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 1 — Variables: Storing a Number in Memory</h3>
 <p class="v2-p">A <strong>variable</strong> is like a labelled box. You put a value inside it, and you can open the box later to read or change the value.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>let count = 0;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let count = 0;</code></pre></div></div>
 <p class="v2-p"><strong>Line-by-line explanation:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Part</th><th>Meaning</th></tr></thead><tbody><tr><td><code>let</code></td><td>Declares a variable that can be changed later</td></tr><tr><td><code>count</code></td><td>The name of the box (you choose this name)</td></tr><tr><td><code>=</code></td><td>The assignment operator — "put this value into the box"</td></tr><tr><td><code>0</code></td><td>The starting value (zero, because nothing has been counted yet)</td></tr></tbody></table></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Why <code>let</code> and not <code>const</code>?</strong> Use <code>const</code> when the value will never change (e.g., the number of days in a week). Use <code>let</code> when the value will change — and a counter's value definitely changes every time someone clicks. Using <code>const</code> for a counter would cause an error.</p></blockquote>
 <p class="v2-p"><strong>Micro-demo — changing a variable:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>let count = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let count = 0;
 console.log(count);  // Output: 0
 
 count = count + 1;   // Add 1 to whatever is already inside count
@@ -222,7 +156,7 @@ count = count + 1;
 console.log(count);  // Output: 2</code></pre></div></div>
 <p class="v2-p"><code>count = count + 1</code> is a very common pattern. It means: "take the current value of <code>count</code>, add 1 to it, and store the result back in <code>count</code>."</p>
 <p class="v2-p">You will also see this written as the <strong>increment shorthand:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>count++;    // Exactly the same as count = count + 1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>count++;    // Exactly the same as count = count + 1
 count--;    // Exactly the same as count = count - 1</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> What would happen if you wrote <code>count = 1</code> instead of <code>count = count + 1</code> inside a click handler? What would be different about how the counter behaves?</p></blockquote>
 <hr class="v2-hr">
@@ -230,12 +164,12 @@ count--;    // Exactly the same as count = count - 1</code></pre></div></div>
 <p class="v2-p"><strong>DOM</strong> stands for <strong>Document Object Model</strong>. When a browser loads an HTML page, it creates a live "model" of every element on that page — every heading, paragraph, button, and div — as a JavaScript object. You can use JavaScript to read and change any of those objects.</p>
 <p class="v2-p">Think of the DOM like a live blueprint of your house. You can look at it and say "change the colour of the living room wall" and the actual room updates instantly.</p>
 <p class="v2-p"><strong>How to grab an element from the DOM:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const display = document.getElementById(&quot;counter-display&quot;);</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const display = document.getElementById(&quot;counter-display&quot;);</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Part</th><th>Meaning</th></tr></thead><tbody><tr><td><code>document</code></td><td>The whole HTML page</td></tr><tr><td><code>.getElementById()</code></td><td>A built-in method that searches the page for an element with a matching <code>id</code></td></tr><tr><td><code>"counter-display"</code></td><td>The id we're looking for — it must match the <code>id</code> in the HTML exactly</td></tr><tr><td><code>const display</code></td><td>We store the found element in a variable so we can use it later</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Micro-demo — reading and writing to the DOM:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!-- HTML --&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!-- HTML --&gt;
 &lt;p id=&quot;message&quot;&gt;Hello&lt;/p&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// JavaScript
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// JavaScript
 const msg = document.getElementById(&quot;message&quot;);
 console.log(msg.innerText);   // Output: Hello
 
@@ -245,7 +179,7 @@ msg.innerText = &quot;Goodbye&quot;;
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 3 — Functions: Reusable Blocks of Instructions</h3>
 <p class="v2-p">A <strong>function</strong> is a named set of instructions. Instead of writing the same code every time, you write it once inside a function and call it whenever needed.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function increment() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function increment() {
   count++;
   display.innerText = count;
 }</code></pre></div></div>
@@ -253,7 +187,7 @@ msg.innerText = &quot;Goodbye&quot;;
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Line</th><th>Meaning</th></tr></thead><tbody><tr><td><code>function increment()</code></td><td>Declare a function named <code>increment</code></td></tr><tr><td><code>count++</code></td><td>Add 1 to the variable <code>count</code></td></tr><tr><td><code>display.innerText = count</code></td><td>Update the text on the page to show the new value</td></tr><tr><td><code>}</code></td><td>End of the function</td></tr></tbody></table></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Real-world analogy:</strong> A function is like a vending machine button. You press "B3" (call the function) and the machine always does the same thing (dispenses the drink). You don't need to understand the internal mechanics every time.</p></blockquote>
 <p class="v2-p"><strong>Micro-demo — calling a function multiple times:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>let count = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let count = 0;
 
 function increment() {
   count++;
@@ -266,13 +200,13 @@ increment();  // Output: Count is now: 3</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 4 — Event Listeners: Responding to Clicks</h3>
 <p class="v2-p">An <strong>event listener</strong> watches an element and runs a function when something happens to it — like a click, a key press, or a mouse hover.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;increment-btn&quot;).addEventListener(&quot;click&quot;, increment);</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;increment-btn&quot;).addEventListener(&quot;click&quot;, increment);</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Part</th><th>Meaning</th></tr></thead><tbody><tr><td><code>document.getElementById("increment-btn")</code></td><td>Find the button on the page</td></tr><tr><td><code>.addEventListener()</code></td><td>Attach a listener to this element</td></tr><tr><td><code>"click"</code></td><td>The event we're listening for</td></tr><tr><td><code>increment</code></td><td>The function to call when the click happens — no parentheses here!</td></tr></tbody></table></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Common Mistake: Don't write <code>increment()</code> with parentheses</strong> Writing <code>addEventListener("click", increment)</code> says "when clicked, run <code>increment</code>." Writing <code>addEventListener("click", increment())</code> says "run <code>increment</code> right now, and pass its return value to the listener." This means the function fires immediately when the page loads — not on click. Always omit the parentheses when passing a function as a callback.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">Putting It All Together — The Full Counter Project</h3>
 <p class="v2-p"><strong>HTML structure:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;Counter&lt;/title&gt;
@@ -290,7 +224,7 @@ increment();  // Output: Count is now: 3</code></pre></div></div>
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript (counter.js):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Step 1: Create a variable to store the count
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Step 1: Create a variable to store the count
 let count = 0;
 
 // Step 2: Grab the display element from the page
@@ -321,7 +255,7 @@ document.getElementById(&quot;reset-btn&quot;).addEventListener(&quot;click&quot
 <hr class="v2-hr">
 <h3 class="v2-h3">Enhancements — Colour Coding the Counter</h3>
 <p class="v2-p">A real-world counter often changes colour to show negative, zero, or positive states. This is done by changing the element's <code>style</code> property:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function updateDisplay() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function updateDisplay() {
   display.innerText = count;
 
   if (count &gt; 0) {
@@ -349,26 +283,12 @@ function reset() {
 }</code></pre></div></div>
 <p class="v2-p"><strong>What changed:</strong> Instead of repeating <code>display.innerText = count</code> in every function, we created a helper function <code>updateDisplay()</code> that handles both updating the text and changing the colour. This avoids <strong>code duplication</strong> — a key principle in real software development.</p>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> What would you need to change if the designer decided the positive colour should be blue instead of green? Where would you make that change?</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 1 — CONCEPTUAL UNDERSTANDING</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 16</div>
-    <div class="phase-title">PHASE 2 — APPLIED EXERCISES</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Exercise 1 — Fitness Rep Counter</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 1 — CONCEPTUAL UNDERSTANDING</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/16</div><div class="pt">PHASE 2 — APPLIED EXERCISES</div><div class="pc" id="chk2"></div></div><div class="pb2"><h3 class="v2-h3">Exercise 1 — Fitness Rep Counter</h3>
 <p class="v2-p"><strong>Objective:</strong> Build a counter that tracks workout repetitions, prevents the count from going below zero, and shows a motivational message at specific milestones.</p>
 <p class="v2-p"><strong>Scenario:</strong> You're building a fitness app. Users tap a button every time they complete a rep. The counter should never show a negative number (you can't do −2 reps). When the user hits 10 reps, show "Great set! Rest now." When they hit 20, show "Amazing! That's two sets!"</p>
 <p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// How to prevent a number from going below zero:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// How to prevent a number from going below zero:
 function decrement() {
   if (count &gt; 0) {
     count--;
@@ -393,31 +313,17 @@ function decrement() {
 <p class="v2-p">``<code>js    const counts = { apple: 0, banana: 0, cherry: 0 };    </code>``</p>
 <ol class="v2-ol"><li>Use <code>event.target.dataset.product</code> inside your click handler to know which product was clicked.</li><li>After every change, loop through <code>counts</code> and sum the values to update a "Total Items" display.</li></ol>
 <p class="v2-p"><strong>Hint — summing an object's values:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>let total = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let total = 0;
 for (let key in counts) {
   total += counts[key];
 }
 document.getElementById(&quot;total&quot;).innerText = total;</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 2 — APPLIED EXERCISES</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 16</div>
-    <div class="phase-title">PHASE 3 — PROJECT SIMULATION</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Project: Score Tracker for a Two-Player Game</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 2 — APPLIED EXERCISES</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/16</div><div class="pt">PHASE 3 — PROJECT SIMULATION</div><div class="pc" id="chk3"></div></div><div class="pb2"><h3 class="v2-h3">Project: Score Tracker for a Two-Player Game</h3>
 <p class="v2-p"><strong>Scenario:</strong> Build a score tracker for a two-player card game. Each player has their own score displayed on screen. Buttons allow each player to add or subtract points. A "Winner" banner appears when a player reaches 10 points.</p>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Stage 1 — Setup &amp; Core Logic</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;h1&gt;Card Game Score Tracker&lt;/h1&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;h1&gt;Card Game Score Tracker&lt;/h1&gt;
 
 &lt;div class=&quot;player&quot; id=&quot;player1-section&quot;&gt;
   &lt;h2&gt;Player 1&lt;/h2&gt;
@@ -435,7 +341,7 @@ document.getElementById(&quot;total&quot;).innerText = total;</code></pre></div>
 
 &lt;p id=&quot;winner-message&quot;&gt;&lt;/p&gt;
 &lt;button id=&quot;reset-game&quot;&gt;Reset Game&lt;/button&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>let score1 = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score1 = 0;
 let score2 = 0;
 const WIN_SCORE = 10;   // Using a constant makes it easy to change the win condition later
 
@@ -458,7 +364,7 @@ function checkWinner() {
 <p class="v2-p"><strong>Expected output at Stage 1:</strong> Two independent score displays that update when buttons are clicked, with a winner message appearing at 10 points.</p>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Stage 2 — Adding Features</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Prevent scores from going below 0
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Prevent scores from going below 0
 document.getElementById(&quot;sub1&quot;).addEventListener(&quot;click&quot;, function() {
   if (score1 &gt; 0) score1--;
   updateScores();
@@ -480,7 +386,7 @@ document.getElementById(&quot;add2&quot;).addEventListener(&quot;click&quot;, fu
 });</code></pre></div></div>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Stage 3 — Reset and Polish</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;reset-game&quot;).addEventListener(&quot;click&quot;, function() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;reset-game&quot;).addEventListener(&quot;click&quot;, function() {
   score1 = 0;
   score2 = 0;
   updateScores();
@@ -492,32 +398,29 @@ document.getElementById(&quot;add2&quot;).addEventListener(&quot;click&quot;, fu
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PROJECT 2 – EVENT LISTENER</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 3 — PROJECT SIMULATION</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 16</div>
-    <div class="phase-title">PHASE 1 — CONCEPTUAL UNDERSTANDING</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Is an Event Listener?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Reflection questions:
+1. How would you extend this to support 3 or 4 players without rewriting most of the code?
+2. In a real multiplayer game app, where would the scores be stored so they persist if the page reloads?
+3. What happens right now if both players reach 10 at the same time? How would you handle that?
+
+---
+
+---
+
+# PROJECT 2 – EVENT LISTENER
+
+---</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/16</div><div class="pt">PHASE 1 — CONCEPTUAL UNDERSTANDING</div><div class="pc" id="chk4"></div></div><div class="pb2"><h3 class="v2-h3">What Is an Event Listener?</h3>
 <p class="v2-p">An <strong>event listener</strong> is a mechanism that waits — quietly, in the background — for something to happen on the page, and then runs a specific function in response.</p>
 <p class="v2-p">Think of it like a smoke detector. The detector doesn't do anything until there's smoke. When smoke appears (the event), it triggers the alarm (the function). You don't have to keep checking manually.</p>
 <p class="v2-p"><strong>Events that JavaScript can listen for:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Event</th><th>Triggered When...</th></tr></thead><tbody><tr><td><code>click</code></td><td>User clicks an element</td></tr><tr><td><code>mouseover</code></td><td>Mouse pointer moves over an element</td></tr><tr><td><code>mouseout</code></td><td>Mouse pointer moves away from an element</td></tr><tr><td><code>keydown</code></td><td>A keyboard key is pressed down</td></tr><tr><td><code>keyup</code></td><td>A keyboard key is released</td></tr><tr><td><code>input</code></td><td>The value of an input field changes</td></tr><tr><td><code>submit</code></td><td>A form is submitted</td></tr><tr><td><code>load</code></td><td>The page finishes loading</td></tr><tr><td><code>resize</code></td><td>The browser window is resized</td></tr><tr><td><code>scroll</code></td><td>The user scrolls the page</td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 1 — <code>addEventListener()</code> Syntax</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>element.addEventListener(eventType, callbackFunction);</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>element.addEventListener(eventType, callbackFunction);</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Part</th><th>Meaning</th></tr></thead><tbody><tr><td><code>element</code></td><td>The HTML element you're watching</td></tr><tr><td><code>addEventListener</code></td><td>The built-in method to attach a listener</td></tr><tr><td><code>eventType</code></td><td>A string: the name of the event (<code>"click"</code>, <code>"mouseover"</code>, etc.)</td></tr><tr><td><code>callbackFunction</code></td><td>The function to run when the event fires</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Micro-demo — basic click:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const btn = document.getElementById(&quot;my-button&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const btn = document.getElementById(&quot;my-button&quot;);
 
 btn.addEventListener(&quot;click&quot;, function() {
   console.log(&quot;Button was clicked!&quot;);
@@ -528,12 +431,12 @@ btn.addEventListener(&quot;click&quot;, function() {
 <h3 class="v2-h3">Concept 2 — Anonymous Functions vs Named Functions</h3>
 <p class="v2-p">You can pass the callback in two ways:</p>
 <p class="v2-p"><strong>Way 1 — Anonymous function (inline):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>btn.addEventListener(&quot;click&quot;, function() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>btn.addEventListener(&quot;click&quot;, function() {
   console.log(&quot;Clicked!&quot;);
 });</code></pre></div></div>
 <p class="v2-p">The function has no name. It exists only inside <code>addEventListener</code>. This is convenient for short, one-off actions.</p>
 <p class="v2-p"><strong>Way 2 — Named function (defined separately):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function handleClick() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function handleClick() {
   console.log(&quot;Clicked!&quot;);
 }
 
@@ -543,13 +446,13 @@ btn.addEventListener(&quot;click&quot;, handleClick);  // No parentheses!</code>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 3 — The <code>event</code> Object</h3>
 <p class="v2-p">When an event fires, JavaScript automatically creates an <strong>event object</strong> and passes it to your callback. This object contains information about what happened.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>btn.addEventListener(&quot;click&quot;, function(event) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>btn.addEventListener(&quot;click&quot;, function(event) {
   console.log(event.type);    // Output: click
   console.log(event.target);  // Output: the button element that was clicked
 });</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Property</th><th>What it contains</th></tr></thead><tbody><tr><td><code>event.type</code></td><td>The type of event (<code>"click"</code>, <code>"keydown"</code>, etc.)</td></tr><tr><td><code>event.target</code></td><td>The specific element that triggered the event</td></tr><tr><td><code>event.key</code></td><td>(For keyboard events) Which key was pressed</td></tr><tr><td><code>event.clientX</code>, <code>event.clientY</code></td><td>(For mouse events) Mouse cursor position</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Micro-demo — detecting which key was pressed:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>document.addEventListener(&quot;keydown&quot;, function(event) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document.addEventListener(&quot;keydown&quot;, function(event) {
   console.log(&quot;You pressed: &quot; + event.key);
 });
 // Press &#x27;a&#x27; → Output: You pressed: a
@@ -558,7 +461,7 @@ btn.addEventListener(&quot;click&quot;, handleClick);  // No parentheses!</code>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 4 — Removing an Event Listener</h3>
 <p class="v2-p">Sometimes you want a listener to stop working — for example, after a button has been clicked once.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function handleOnce() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function handleOnce() {
   console.log(&quot;This runs only once!&quot;);
   btn.removeEventListener(&quot;click&quot;, handleOnce);  // Remove itself
 }
@@ -568,7 +471,7 @@ btn.addEventListener(&quot;click&quot;, handleOnce);</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 5 — Multiple Listeners on One Element</h3>
 <p class="v2-p">You can attach multiple listeners to the same element:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const box = document.getElementById(&quot;hover-box&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const box = document.getElementById(&quot;hover-box&quot;);
 
 box.addEventListener(&quot;mouseover&quot;, function() {
   box.style.backgroundColor = &quot;yellow&quot;;
@@ -584,12 +487,12 @@ box.addEventListener(&quot;mouseout&quot;, function() {
 <h3 class="v2-h3">Concept 6 — Event Delegation</h3>
 <p class="v2-p"><strong>Event delegation</strong> is a powerful technique where, instead of adding a listener to every child element, you add one listener to a parent and let events "bubble up."</p>
 <p class="v2-p"><strong>The problem without delegation:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// If you have 100 buttons, this creates 100 separate listeners — inefficient
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// If you have 100 buttons, this creates 100 separate listeners — inefficient
 document.querySelectorAll(&quot;.item-btn&quot;).forEach(function(btn) {
   btn.addEventListener(&quot;click&quot;, handleClick);
 });</code></pre></div></div>
 <p class="v2-p"><strong>The solution with delegation:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// One listener on the parent handles ALL button clicks
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// One listener on the parent handles ALL button clicks
 document.getElementById(&quot;button-container&quot;).addEventListener(&quot;click&quot;, function(event) {
   if (event.target.classList.contains(&quot;item-btn&quot;)) {
     console.log(&quot;Item button clicked: &quot; + event.target.innerText);
@@ -600,7 +503,7 @@ document.getElementById(&quot;button-container&quot;).addEventListener(&quot;cli
 <hr class="v2-hr">
 <h3 class="v2-h3">The Full Event Listener Project</h3>
 <p class="v2-p">This project demonstrates click, mouseover, mouseout, and keydown events working together on a single page.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;body&gt;
 
@@ -615,7 +518,7 @@ document.getElementById(&quot;button-container&quot;).addEventListener(&quot;cli
   &lt;script src=&quot;events.js&quot;&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// --- Click Event ---
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// --- Click Event ---
 const colorBtn = document.getElementById(&quot;color-btn&quot;);
 const title = document.getElementById(&quot;page-title&quot;);
 const colors = [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;orange&quot;, &quot;purple&quot;];
@@ -648,26 +551,12 @@ document.addEventListener(&quot;keydown&quot;, function(event) {
 <p class="v2-p"><strong>Expected behaviour:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Action</th><th>Result</th></tr></thead><tbody><tr><td>Click "Change Colour" button</td><td>Title colour cycles: red → green → blue → orange → purple → red...</td></tr><tr><td>Hover over the box</td><td>Box turns coral and text changes</td></tr><tr><td>Move mouse away</td><td>Box returns to light blue</td></tr><tr><td>Press any key</td><td>Display shows which key was pressed</td></tr></tbody></table></div>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> The colour cycling uses <code>(colorIndex + 1) % colors.length</code>. What does the <code>%</code> operator do here? What would happen without it after the last colour?</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 1 — CONCEPTUAL UNDERSTANDING</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 16</div>
-    <div class="phase-title">PHASE 2 — APPLIED EXERCISES</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Exercise 3 — Interactive Image Gallery</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 1 — CONCEPTUAL UNDERSTANDING</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/16</div><div class="pt">PHASE 2 — APPLIED EXERCISES</div><div class="pc" id="chk5"></div></div><div class="pb2"><h3 class="v2-h3">Exercise 3 — Interactive Image Gallery</h3>
 <p class="v2-p"><strong>Objective:</strong> Build a simple image gallery where clicking thumbnail buttons changes the main displayed image, and hovering over thumbnails shows a preview label.</p>
 <p class="v2-p"><strong>Scenario:</strong> A photography portfolio site. Five small labelled buttons represent photo categories. Clicking one updates the main <code>&lt;div&gt;</code> to show a description of that photo. Hovering shows a tooltip.</p>
 <p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Updating text content when a button is clicked:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Updating text content when a button is clicked:
 btn.addEventListener(&quot;click&quot;, function() {
   document.getElementById(&quot;main-display&quot;).innerText = &quot;You selected: Landscape&quot;;
 });</code></pre></div></div>
@@ -683,26 +572,12 @@ btn.addEventListener(&quot;click&quot;, function() {
 <ol class="v2-ol"><li>Create an <code>&lt;input id="search"&gt;</code> and a <code>&lt;ul id="name-list"&gt;</code> with 10 <code>&lt;li&gt;</code> elements.</li><li>Add an <code>input</code> event listener to the search field.</li><li>Inside the handler:</li></ol>
 <p class="v2-p">``<code>js    const query = event.target.value.toLowerCase();    const items = document.querySelectorAll("#name-list li");    items.forEach(function(item) {      const name = item.innerText.toLowerCase();      item.style.display = name.includes(query) ? "" : "none";    });    </code>``</p>
 <p class="v2-p"><strong>Hint:</strong> <code>"".includes()</code> returns <code>true</code> when <code>query</code> is empty, so all items show when the search box is blank.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 2 — APPLIED EXERCISES</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 16</div>
-    <div class="phase-title">PHASE 3 — PROJECT SIMULATION</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Project: Interactive Keyboard Colour Painter</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 2 — APPLIED EXERCISES</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/16</div><div class="pt">PHASE 3 — PROJECT SIMULATION</div><div class="pc" id="chk6"></div></div><div class="pb2"><h3 class="v2-h3">Project: Interactive Keyboard Colour Painter</h3>
 <p class="v2-p"><strong>Scenario:</strong> Build a page with a grid of 16 coloured boxes. Pressing number keys 1–4 selects an active colour. Hovering over a box while holding the mouse button "paints" it with the selected colour.</p>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Stage 1 — Grid Setup</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;palette&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;palette&quot;&gt;
   &lt;button class=&quot;color-swatch&quot; data-color=&quot;#FF6B6B&quot; style=&quot;background:#FF6B6B&quot;&gt;1&lt;/button&gt;
   &lt;button class=&quot;color-swatch&quot; data-color=&quot;#4ECDC4&quot; style=&quot;background:#4ECDC4&quot;&gt;2&lt;/button&gt;
   &lt;button class=&quot;color-swatch&quot; data-color=&quot;#45B7D1&quot; style=&quot;background:#45B7D1&quot;&gt;3&lt;/button&gt;
@@ -711,7 +586,7 @@ btn.addEventListener(&quot;click&quot;, function() {
 
 &lt;div id=&quot;canvas&quot;&gt;&lt;/div&gt;
 &lt;p&gt;Selected colour: &lt;span id=&quot;selected-colour&quot;&gt;None&lt;/span&gt;&lt;/p&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Create 16 boxes dynamically
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Create 16 boxes dynamically
 const canvas = document.getElementById(&quot;canvas&quot;);
 for (let i = 0; i &lt; 16; i++) {
   const box = document.createElement(&quot;div&quot;);
@@ -719,7 +594,7 @@ for (let i = 0; i &lt; 16; i++) {
   canvas.appendChild(box);
 }</code></pre></div></div>
 <p class="v2-p"><strong>Stage 2 — Colour Selection</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>let selectedColor = null;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let selectedColor = null;
 let isMouseDown = false;
 
 document.addEventListener(&quot;mousedown&quot;, () =&gt; isMouseDown = true);
@@ -733,7 +608,7 @@ document.getElementById(&quot;palette&quot;).addEventListener(&quot;click&quot;,
   }
 });</code></pre></div></div>
 <p class="v2-p"><strong>Stage 3 — Painting</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>canvas.addEventListener(&quot;mouseover&quot;, function(event) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>canvas.addEventListener(&quot;mouseover&quot;, function(event) {
   if (isMouseDown &amp;&amp; selectedColor &amp;&amp; event.target.classList.contains(&quot;paint-box&quot;)) {
     event.target.style.backgroundColor = selectedColor;
   }
@@ -743,34 +618,20 @@ document.getElementById(&quot;palette&quot;).addEventListener(&quot;click&quot;,
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PROJECT 3 – TO-DO LIST</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 3 — PROJECT SIMULATION</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 16</div>
-    <div class="phase-title">PHASE 1 — CONCEPTUAL UNDERSTANDING</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Is a To-Do List App?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 3 — PROJECT SIMULATION</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/16</div><div class="pt">PHASE 1 — CONCEPTUAL UNDERSTANDING</div><div class="pc" id="chk7"></div></div><div class="pb2"><h3 class="v2-h3">What Is a To-Do List App?</h3>
 <p class="v2-p">A <strong>to-do list</strong> is one of the most common beginner JavaScript projects because it combines almost every fundamental skill in one place:</p>
 <ul class="v2-ul"><li>Creating new HTML elements with JavaScript</li><li>Reading values from an input field</li><li>Adding and removing elements from the DOM</li><li>Responding to events (clicking "Add", clicking "Delete", pressing Enter)</li></ul>
 <p class="v2-p">To-do apps exist in every workplace — project management (Jira, Asana), note-taking apps (Notion), and personal productivity tools. Understanding how to build one teaches you the core skills behind all of them.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 1 — Getting Input Values</h3>
 <p class="v2-p">A text input's current value is read using its <code>.value</code> property.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;task-input&quot; placeholder=&quot;Enter a task...&quot; /&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const input = document.getElementById(&quot;task-input&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;task-input&quot; placeholder=&quot;Enter a task...&quot; /&gt;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const input = document.getElementById(&quot;task-input&quot;);
 const userText = input.value;  // Whatever the user typed
 console.log(userText);</code></pre></div></div>
 <p class="v2-p"><strong>Micro-demo — reading and clearing an input:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const input = document.getElementById(&quot;task-input&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const input = document.getElementById(&quot;task-input&quot;);
 const btn = document.getElementById(&quot;add-btn&quot;);
 
 btn.addEventListener(&quot;click&quot;, function() {
@@ -783,13 +644,13 @@ btn.addEventListener(&quot;click&quot;, function() {
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 2 — Creating New HTML Elements with JavaScript</h3>
 <p class="v2-p"><code>document.createElement()</code> creates a new HTML element entirely in JavaScript — it doesn't exist in the original HTML file.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const li = document.createElement(&quot;li&quot;);    // Create a &lt;li&gt; element
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const li = document.createElement(&quot;li&quot;);    // Create a &lt;li&gt; element
 li.innerText = &quot;Buy groceries&quot;;             // Set its text
 document.getElementById(&quot;task-list&quot;).appendChild(li);  // Add it to the list</code></pre></div></div>
 <p class="v2-p"><strong>Step-by-step explanation:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Step</th><th>Code</th><th>What Happens</th></tr></thead><tbody><tr><td>1</td><td><code>document.createElement("li")</code></td><td>Creates a new <code>&lt;li&gt;</code> element in memory (not on page yet)</td></tr><tr><td>2</td><td><code>li.innerText = "Buy groceries"</code></td><td>Sets the text content of the new element</td></tr><tr><td>3</td><td><code>list.appendChild(li)</code></td><td>Inserts the element as the last child of <code>#task-list</code></td></tr></tbody></table></div>
 <p class="v2-p"><strong>Micro-demo — building a list dynamically:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Cherry&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Cherry&quot;];
 const ul = document.getElementById(&quot;fruit-list&quot;);
 
 fruits.forEach(function(fruit) {
@@ -804,7 +665,7 @@ fruits.forEach(function(fruit) {
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 3 — Removing Elements from the DOM</h3>
 <p class="v2-p">To remove an element, use <code>.remove()</code> on the element itself, or use <code>.removeChild()</code> on its parent.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Method 1: remove() - simpler, modern
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Method 1: remove() - simpler, modern
 const item = document.getElementById(&quot;task-1&quot;);
 item.remove();
 
@@ -813,7 +674,7 @@ const list = document.getElementById(&quot;task-list&quot;);
 const item = document.getElementById(&quot;task-1&quot;);
 list.removeChild(item);</code></pre></div></div>
 <p class="v2-p"><strong>How to set up a delete button for each task:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function createTask(taskText) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function createTask(taskText) {
   const li = document.createElement(&quot;li&quot;);
 
   const span = document.createElement(&quot;span&quot;);
@@ -833,7 +694,7 @@ list.removeChild(item);</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 4 — Toggling a Task as Complete</h3>
 <p class="v2-p">A common feature is clicking a task to mark it as done. This is achieved by toggling a CSS class.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// CSS:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// CSS:
 // .completed { text-decoration: line-through; color: grey; }
 
 li.addEventListener(&quot;click&quot;, function() {
@@ -841,7 +702,7 @@ li.addEventListener(&quot;click&quot;, function() {
 });</code></pre></div></div>
 <p class="v2-p"><code>classList.toggle("completed")</code> adds the class if it's not there, removes it if it is. One line handles both marking as done and un-marking.</p>
 <p class="v2-p"><strong>Micro-demo:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const li = document.createElement(&quot;li&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const li = document.createElement(&quot;li&quot;);
 li.innerText = &quot;Walk the dog&quot;;
 
 li.addEventListener(&quot;click&quot;, function() {
@@ -851,7 +712,7 @@ li.addEventListener(&quot;click&quot;, function() {
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 5 — Triggering "Add" on Enter Key</h3>
 <p class="v2-p">Users expect to press Enter after typing a task, not just click the button.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const input = document.getElementById(&quot;task-input&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const input = document.getElementById(&quot;task-input&quot;);
 
 input.addEventListener(&quot;keydown&quot;, function(event) {
   if (event.key === &quot;Enter&quot;) {
@@ -861,7 +722,7 @@ input.addEventListener(&quot;keydown&quot;, function(event) {
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 6 — Input Validation</h3>
 <p class="v2-p">Before adding a task, check that the input isn't empty or just spaces:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function addTask() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function addTask() {
   const text = input.value.trim();  // .trim() removes leading/trailing spaces
 
   if (text === &quot;&quot;) {
@@ -877,7 +738,7 @@ input.addEventListener(&quot;keydown&quot;, function(event) {
 <hr class="v2-hr">
 <h3 class="v2-h3">The Full To-Do List Project</h3>
 <p class="v2-p"><strong>HTML:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;To-Do List&lt;/title&gt;
@@ -902,7 +763,7 @@ input.addEventListener(&quot;keydown&quot;, function(event) {
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript (todo.js):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const input = document.getElementById(&quot;task-input&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const input = document.getElementById(&quot;task-input&quot;);
 const addBtn = document.getElementById(&quot;add-btn&quot;);
 const taskList = document.getElementById(&quot;task-list&quot;);
 const taskCount = document.getElementById(&quot;task-count&quot;);
@@ -961,10 +822,7 @@ input.addEventListener(&quot;keydown&quot;, function(event) {
 });</code></pre></div></div>
 <p class="v2-p"><strong>Expected behaviour:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Action</th><th>Result</th></tr></thead><tbody><tr><td>Type "Buy milk" and click Add</td><td>Item appears in the list; count shows 1 task remaining</td></tr><tr><td>Click the task text</td><td>Item gets strikethrough; count decreases</td></tr><tr><td>Click the ✕ button</td><td>Item is removed; count updates</td></tr><tr><td>Try to add an empty task</td><td>Alert: "Please enter a task."</td></tr><tr><td>Press Enter after typing</td><td>Same as clicking Add</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Micro-demo — building a list dynamically:
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Micro-demo — building a list dynamically:
 
 `js
 const fruits = ["Apple", "Banana", "Cherry"];
@@ -981,22 +839,11 @@ fruits.forEach(function(fruit) {
 // • Cherry
 `
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 16</div>
-    <div class="phase-title">PHASE 2 — APPLIED EXERCISES</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Exercise 5 — Priority To-Do List</h3>
+---</div></div><button class="ub" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/16</div><div class="pt">PHASE 2 — APPLIED EXERCISES</div><div class="pc" id="chk8"></div></div><div class="pb2"><h3 class="v2-h3">Exercise 5 — Priority To-Do List</h3>
 <p class="v2-p"><strong>Objective:</strong> Extend the to-do list so that each task has a priority level (High / Medium / Low) and is colour-coded accordingly.</p>
 <p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Setting a background colour based on a dropdown value:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Setting a background colour based on a dropdown value:
 const priority = document.getElementById(&quot;priority-select&quot;).value;
 if (priority === &quot;high&quot;)   li.style.borderLeft = &quot;4px solid red&quot;;
 if (priority === &quot;medium&quot;) li.style.borderLeft = &quot;4px solid orange&quot;;
@@ -1010,33 +857,19 @@ if (priority === &quot;low&quot;)    li.style.borderLeft = &quot;4px solid green
 <p class="v2-p"><strong>Objective:</strong> When the page loads, show a message telling the user how many tasks were added in the "current session."</p>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>Declare a <code>sessionCount</code> variable at the top of your script.</li><li>Increment it inside <code>createTask()</code> every time a task is added.</li><li>Add a <code>&lt;p id="session-info"&gt;</code> that always shows: "You've added X tasks this session."</li><li>Update this message from within <code>createTask()</code>.</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">3. Apply a left border colour based on priority.
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">3. Apply a left border colour based on priority.
 4. Add a data-priority attribute to each <li> for future sorting features.
 
 Self-check questions:
 1. What would happen if you forgot to read the select value before clearing the form?
 2. How would you add a feature to filter the list to show only "High" priority tasks?
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 16</div>
-    <div class="phase-title">PHASE 3 — PROJECT SIMULATION</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Project: Daily Planner App</h3>
+---</div></div><button class="ub" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/16</div><div class="pt">PHASE 3 — PROJECT SIMULATION</div><div class="pc" id="chk9"></div></div><div class="pb2"><h3 class="v2-h3">Project: Daily Planner App</h3>
 <p class="v2-p"><strong>Scenario:</strong> Build a planner that organises tasks into three columns: "Morning", "Afternoon", and "Evening." Each column has its own input and task list.</p>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Stage 1 — Three-Column Layout</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div class=&quot;planner&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div class=&quot;planner&quot;&gt;
   &lt;div class=&quot;time-block&quot; id=&quot;morning-block&quot;&gt;
     &lt;h2&gt;☀️ Morning&lt;/h2&gt;
     &lt;input class=&quot;task-input&quot; placeholder=&quot;Add morning task...&quot; /&gt;
@@ -1059,7 +892,7 @@ Self-check questions:
   &lt;/div&gt;
 &lt;/div&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Stage 2 — Shared Logic with Event Delegation</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Because all three blocks have the same structure, one function handles them all
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Because all three blocks have the same structure, one function handles them all
 document.querySelector(&quot;.planner&quot;).addEventListener(&quot;click&quot;, function(event) {
   const block = event.target.closest(&quot;.time-block&quot;);
   if (!block) return;
@@ -1089,10 +922,7 @@ document.querySelector(&quot;.planner&quot;).addEventListener(&quot;click&quot;,
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PROJECT 4 – MODAL POPUP</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Reflection questions:
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Reflection questions:
 1. How does using .closest(".time-block") make the code work for all three columns without repeating yourself?
 2. What would you need to change to add a fourth time block ("Late Night") with zero code duplication?
 3. In a real productivity app, how would tasks be stored so they're still there after closing the browser?
@@ -1103,31 +933,20 @@ document.querySelector(&quot;.planner&quot;).addEventListener(&quot;click&quot;,
 
 # PROJECT 4 – MODAL POPUP
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase10">
-  <div class="phase-header">
-    <div class="phase-num">Phase 10 of 16</div>
-    <div class="phase-title">PHASE 1 — CONCEPTUAL UNDERSTANDING</div>
-    <div class="phase-check" id="chk10"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Is a Modal Popup?</h3>
+---</div></div><button class="ub" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase10"><div class="ph"><div class="pn">Phase 10/16</div><div class="pt">PHASE 1 — CONCEPTUAL UNDERSTANDING</div><div class="pc" id="chk10"></div></div><div class="pb2"><h3 class="v2-h3">What Is a Modal Popup?</h3>
 <p class="v2-p">A <strong>modal</strong> is a dialog box that appears on top of the current page, requiring the user to interact with it before returning to the page behind it. The background page is typically dimmed to draw attention to the modal.</p>
 <p class="v2-p">You encounter modals constantly:</p>
 <ul class="v2-ul"><li>"Are you sure you want to delete this file?" confirmation dialogs</li><li>Login/signup forms that appear over the current page</li><li>Image lightboxes on portfolio sites</li><li>Cookie consent banners</li><li>Terms and conditions dialogs</li></ul>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 1 — How Modals Work: Show and Hide</h3>
 <p class="v2-p">A modal is just a regular HTML element that is <strong>hidden by default</strong> and <strong>made visible</strong> when triggered.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!-- Hidden by default via CSS --&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!-- Hidden by default via CSS --&gt;
 &lt;div id=&quot;my-modal&quot; style=&quot;display: none;&quot;&gt;
   &lt;p&gt;This is the modal content.&lt;/p&gt;
   &lt;button id=&quot;close-btn&quot;&gt;Close&lt;/button&gt;
 &lt;/div&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Show the modal
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Show the modal
 document.getElementById(&quot;my-modal&quot;).style.display = &quot;block&quot;;
 
 // Hide the modal
@@ -1137,7 +956,7 @@ document.getElementById(&quot;my-modal&quot;).style.display = &quot;none&quot;;<
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 2 — The Overlay (Background Dim)</h3>
 <p class="v2-p">A proper modal dims everything behind it. This is done with a full-screen overlay element:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">css</span></div><div class="v2-code-body"><pre><code>/* CSS */
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">css</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>/* CSS */
 .overlay {
   position: fixed;       /* Fixed to the viewport — doesn&#x27;t scroll with the page */
   top: 0;
@@ -1160,13 +979,13 @@ document.getElementById(&quot;my-modal&quot;).style.display = &quot;none&quot;;<
   display: none;
 }</code></pre></div></div>
 <p class="v2-p"><strong>Micro-demo — understanding z-index:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Stacking order (highest z-index = on top):
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Stacking order (highest z-index = on top):
   z-index: 101 → Modal box (visible, on top)
   z-index: 100 → Overlay (below modal, above page)
   z-index: 0   → Normal page content (at the bottom)</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 3 — Opening and Closing a Modal</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const overlay = document.getElementById(&quot;overlay&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const overlay = document.getElementById(&quot;overlay&quot;);
 const modal = document.getElementById(&quot;modal-box&quot;);
 const openBtn = document.getElementById(&quot;open-btn&quot;);
 const closeBtn = document.getElementById(&quot;close-btn&quot;);
@@ -1186,17 +1005,17 @@ closeBtn.addEventListener(&quot;click&quot;, closeModal);</code></pre></div></di
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 4 — Closing the Modal by Clicking the Overlay</h3>
 <p class="v2-p">Users expect to be able to dismiss a modal by clicking outside of it (on the dim overlay). This is a very common UX pattern.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>overlay.addEventListener(&quot;click&quot;, closeModal);</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>overlay.addEventListener(&quot;click&quot;, closeModal);</code></pre></div></div>
 <p class="v2-p">Because the overlay covers the entire screen behind the modal, clicking anywhere outside the modal box clicks the overlay — triggering <code>closeModal</code>.</p>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Gotcha:</strong> Make sure clicking inside the modal does not also close it. This works automatically because the modal box sits on top of the overlay and clicking on it does not "pass through" to the overlay. However, if you structure your HTML with the modal inside the overlay div, you need <code>event.stopPropagation()</code>:</p></blockquote>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// If modal is inside the overlay div:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// If modal is inside the overlay div:
 modal.addEventListener(&quot;click&quot;, function(event) {
   event.stopPropagation();  // Prevent the click from reaching the overlay
 });</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 5 — Closing with the Escape Key</h3>
 <p class="v2-p">Professional modals also close when the user presses Escape.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>document.addEventListener(&quot;keydown&quot;, function(event) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document.addEventListener(&quot;keydown&quot;, function(event) {
   if (event.key === &quot;Escape&quot;) {
     closeModal();
   }
@@ -1204,11 +1023,11 @@ modal.addEventListener(&quot;click&quot;, function(event) {
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 6 — Preventing Background Scroll</h3>
 <p class="v2-p">When a modal is open, users should not be able to scroll the background page. This is done by adding a CSS class to the <code>&lt;body&gt;</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">css</span></div><div class="v2-code-body"><pre><code>/* CSS */
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">css</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>/* CSS */
 body.modal-open {
   overflow: hidden;
 }</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function openModal() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function openModal() {
   overlay.style.display = &quot;block&quot;;
   modal.style.display = &quot;block&quot;;
   document.body.classList.add(&quot;modal-open&quot;);     // Lock scroll
@@ -1222,7 +1041,7 @@ function closeModal() {
 <hr class="v2-hr">
 <h3 class="v2-h3">The Full Modal Popup Project</h3>
 <p class="v2-p"><strong>HTML:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;Modal Popup&lt;/title&gt;
@@ -1261,7 +1080,7 @@ function closeModal() {
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript (modal.js):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const overlay = document.getElementById(&quot;overlay&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const overlay = document.getElementById(&quot;overlay&quot;);
 const modalBox = document.getElementById(&quot;modal-box&quot;);
 
 function openModal() {
@@ -1293,25 +1112,11 @@ document.addEventListener(&quot;keydown&quot;, function(event) {
 });</code></pre></div></div>
 <p class="v2-p"><strong>Expected behaviour:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Action</th><th>Result</th></tr></thead><tbody><tr><td>Click "Open Modal"</td><td>Overlay appears; modal box appears centred</td></tr><tr><td>Click "Close" button</td><td>Modal and overlay disappear</td></tr><tr><td>Click outside the modal</td><td>Modal closes</td></tr><tr><td>Press Escape</td><td>Modal closes</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 1 — CONCEPTUAL UNDERSTANDING</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase11">
-  <div class="phase-header">
-    <div class="phase-num">Phase 11 of 16</div>
-    <div class="phase-title">PHASE 2 — APPLIED EXERCISES</div>
-    <div class="phase-check" id="chk11"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Exercise 7 — Image Lightbox</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 1 — CONCEPTUAL UNDERSTANDING</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase11"><div class="ph"><div class="pn">Phase 11/16</div><div class="pt">PHASE 2 — APPLIED EXERCISES</div><div class="pc" id="chk11"></div></div><div class="pb2"><h3 class="v2-h3">Exercise 7 — Image Lightbox</h3>
 <p class="v2-p"><strong>Objective:</strong> Build an image gallery where clicking a thumbnail opens a larger version of the image in a modal.</p>
 <p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Setting an image source dynamically:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Setting an image source dynamically:
 const modalImg = document.getElementById(&quot;modal-image&quot;);
 modalImg.src = &quot;photo1.jpg&quot;;</code></pre></div></div>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
@@ -1324,33 +1129,19 @@ modalImg.src = &quot;photo1.jpg&quot;;</code></pre></div></div>
 <p class="v2-p"><strong>Scenario:</strong> A delete button on a page. When clicked, instead of using the ugly browser <code>confirm()</code>, a custom modal appears asking "Are you sure you want to delete this item?" with "Yes, Delete" and "Cancel" buttons.</p>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>Create a modal with two buttons: one with <code>id="confirm-yes"</code> and one with <code>id="confirm-no"</code>.</li><li>When the main "Delete" button is clicked, open the modal.</li><li>Clicking "Yes, Delete" performs the deletion (e.g., removes an element from the page) and closes the modal.</li><li>Clicking "Cancel" just closes the modal.</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 2 — APPLIED EXERCISES</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase12">
-  <div class="phase-header">
-    <div class="phase-num">Phase 12 of 16</div>
-    <div class="phase-title">PHASE 3 — PROJECT SIMULATION</div>
-    <div class="phase-check" id="chk12"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Project: Multi-Modal Product Detail Viewer</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 2 — APPLIED EXERCISES</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase12"><div class="ph"><div class="pn">Phase 12/16</div><div class="pt">PHASE 3 — PROJECT SIMULATION</div><div class="pc" id="chk12"></div></div><div class="pb2"><h3 class="v2-h3">Project: Multi-Modal Product Detail Viewer</h3>
 <p class="v2-p"><strong>Scenario:</strong> Build a product listing page with 4 products. Clicking "View Details" on any product opens a modal showing that product's full description, price, and a simulated "Add to Cart" button.</p>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Stage 1 — Data and Structure</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const products = [
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const products = [
   { id: 1, name: &quot;Wireless Headphones&quot;, price: &quot;$59.99&quot;, description: &quot;Noise-cancelling, 30hr battery, Bluetooth 5.0&quot; },
   { id: 2, name: &quot;Mechanical Keyboard&quot;, price: &quot;$89.99&quot;, description: &quot;TKL layout, blue switches, RGB backlight&quot; },
   { id: 3, name: &quot;USB-C Hub&quot;,           price: &quot;$34.99&quot;, description: &quot;7-in-1 adapter: HDMI, USB 3.0 x3, SD, PD&quot; },
   { id: 4, name: &quot;Webcam 1080p&quot;,        price: &quot;$49.99&quot;, description: &quot;Auto-focus, built-in mic, plug &amp; play&quot; },
 ];</code></pre></div></div>
 <p class="v2-p"><strong>Stage 2 — Generate Product Cards and Populate Modal</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const grid = document.getElementById(&quot;product-grid&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const grid = document.getElementById(&quot;product-grid&quot;);
 
 products.forEach(function(product) {
   const card = document.createElement(&quot;div&quot;);
@@ -1377,7 +1168,7 @@ grid.addEventListener(&quot;click&quot;, function(event) {
   }
 });</code></pre></div></div>
 <p class="v2-p"><strong>Stage 3 — Add to Cart Feedback</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;cart-btn&quot;).addEventListener(&quot;click&quot;, function() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;cart-btn&quot;).addEventListener(&quot;click&quot;, function() {
   const name = document.getElementById(&quot;modal-name&quot;).innerText;
   closeModal();
   alert(name + &quot; added to cart!&quot;);  // In a real app, update a cart counter instead
@@ -1387,39 +1178,25 @@ grid.addEventListener(&quot;click&quot;, function(event) {
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PROJECT 5 – FORM VALIDATION</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 3 — PROJECT SIMULATION</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase13">
-  <div class="phase-header">
-    <div class="phase-num">Phase 13 of 16</div>
-    <div class="phase-title">PHASE 1 — CONCEPTUAL UNDERSTANDING</div>
-    <div class="phase-check" id="chk13"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Is Form Validation?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 3 — PROJECT SIMULATION</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase13"><div class="ph"><div class="pn">Phase 13/16</div><div class="pt">PHASE 1 — CONCEPTUAL UNDERSTANDING</div><div class="pc" id="chk13"></div></div><div class="pb2"><h3 class="v2-h3">What Is Form Validation?</h3>
 <p class="v2-p"><strong>Form validation</strong> is the process of checking that a user has filled out a form correctly before it is submitted. It protects the application from bad data and helps users fix mistakes.</p>
 <p class="v2-p">There are two types:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Type</th><th>When It Runs</th><th>Example</th></tr></thead><tbody><tr><td><strong>Client-side</strong> (JavaScript)</td><td>In the browser, before data is sent</td><td>"Email must contain @"</td></tr><tr><td><strong>Server-side</strong> (back-end)</td><td>After data is received on the server</td><td>"This email is already registered"</td></tr></tbody></table></div>
 <p class="v2-p">Client-side validation is faster (no server round-trip needed) and gives immediate feedback. However, it is not sufficient alone — users can disable JavaScript. Always validate on the server too.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 1 — Reading Form Field Values</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot;     id=&quot;username&quot; /&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot;     id=&quot;username&quot; /&gt;
 &lt;input type=&quot;email&quot;    id=&quot;email&quot; /&gt;
 &lt;input type=&quot;password&quot; id=&quot;password&quot; /&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const username = document.getElementById(&quot;username&quot;).value;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const username = document.getElementById(&quot;username&quot;).value;
 const email    = document.getElementById(&quot;email&quot;).value;
 const password = document.getElementById(&quot;password&quot;).value;</code></pre></div></div>
 <p class="v2-p">All input values come back as <strong>strings</strong>, even if the input type is <code>number</code>. Always account for this in your validation logic.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 2 — The <code>submit</code> Event and <code>preventDefault()</code></h3>
 <p class="v2-p">By default, submitting a form causes the page to reload (or navigate to the URL in the <code>action</code> attribute). In a JavaScript-validated form, you need to <strong>prevent this default behaviour</strong> so you can handle it yourself.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const form = document.getElementById(&quot;my-form&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const form = document.getElementById(&quot;my-form&quot;);
 
 form.addEventListener(&quot;submit&quot;, function(event) {
   event.preventDefault();  // Stop the page from reloading
@@ -1430,13 +1207,13 @@ form.addEventListener(&quot;submit&quot;, function(event) {
 <h3 class="v2-h3">Concept 3 — Displaying Error Messages</h3>
 <p class="v2-p">Rather than using <code>alert()</code> (which is intrusive and blocks the page), professional forms display inline error messages next to each field.</p>
 <p class="v2-p"><strong>HTML pattern:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div class=&quot;field-group&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div class=&quot;field-group&quot;&gt;
   &lt;label for=&quot;username&quot;&gt;Username&lt;/label&gt;
   &lt;input type=&quot;text&quot; id=&quot;username&quot; /&gt;
   &lt;span class=&quot;error&quot; id=&quot;username-error&quot;&gt;&lt;/span&gt;
 &lt;/div&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript pattern:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function showError(fieldId, message) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function showError(fieldId, message) {
   const errorSpan = document.getElementById(fieldId + &quot;-error&quot;);
   errorSpan.innerText = message;
   errorSpan.style.display = &quot;block&quot;;
@@ -1448,7 +1225,7 @@ function clearError(fieldId) {
   document.getElementById(fieldId).classList.remove(&quot;invalid&quot;);
 }</code></pre></div></div>
 <p class="v2-p"><strong>CSS:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">css</span></div><div class="v2-code-body"><pre><code>.error {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">css</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>.error {
   color: red;
   font-size: 0.85em;
   display: none;
@@ -1464,17 +1241,17 @@ input.valid {
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 4 — Validation Rules</h3>
 <p class="v2-p"><strong>Rule 1 — Required field (not empty):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>if (username.trim() === &quot;&quot;) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>if (username.trim() === &quot;&quot;) {
   showError(&quot;username&quot;, &quot;Username is required.&quot;);
   isValid = false;
 }</code></pre></div></div>
 <p class="v2-p"><strong>Rule 2 — Minimum length:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>if (password.length &lt; 8) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>if (password.length &lt; 8) {
   showError(&quot;password&quot;, &quot;Password must be at least 8 characters.&quot;);
   isValid = false;
 }</code></pre></div></div>
 <p class="v2-p"><strong>Rule 3 — Email format (using Regular Expression):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 if (!emailRegex.test(email)) {
   showError(&quot;email&quot;, &quot;Please enter a valid email address.&quot;);
@@ -1483,7 +1260,7 @@ if (!emailRegex.test(email)) {
 <p class="v2-p"><strong>Breaking down the email regex:</strong> <code>/^[^\s@]+@[^\s@]+\.[^\s@]+$/</code></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Part</th><th>Meaning</th></tr></thead><tbody><tr><td><code>^</code></td><td>Start of string</td></tr><tr><td><code>[^\s@]+</code></td><td>One or more characters that are NOT a space or <code>@</code></td></tr><tr><td><code>@</code></td><td>Literal <code>@</code> symbol</td></tr><tr><td><code>[^\s@]+</code></td><td>One or more characters that are NOT a space or <code>@</code></td></tr><tr><td><code>\.</code></td><td>Literal <code>.</code> dot</td></tr><tr><td><code>[^\s@]+</code></td><td>One or more characters that are NOT a space or <code>@</code></td></tr><tr><td><code>$</code></td><td>End of string</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Rule 4 — Password confirmation match:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const password = document.getElementById(&quot;password&quot;).value;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const password = document.getElementById(&quot;password&quot;).value;
 const confirm  = document.getElementById(&quot;confirm-password&quot;).value;
 
 if (password !== confirm) {
@@ -1493,7 +1270,7 @@ if (password !== confirm) {
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 5 — Real-Time (Live) Validation</h3>
 <p class="v2-p">Instead of only validating on submit, you can validate each field as the user types or moves away from it:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Validate when the user leaves the field (blur event)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Validate when the user leaves the field (blur event)
 document.getElementById(&quot;email&quot;).addEventListener(&quot;blur&quot;, function() {
   validateEmail();
 });
@@ -1507,7 +1284,7 @@ document.getElementById(&quot;password&quot;).addEventListener(&quot;input&quot;
 <hr class="v2-hr">
 <h3 class="v2-h3">Concept 6 — A Validation Helper Pattern</h3>
 <p class="v2-p">To avoid repeating validation logic, create a reusable helper function:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function validate(value, rules) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function validate(value, rules) {
   for (const rule of rules) {
     if (!rule.test(value)) {
       return rule.message;  // Return the first failing message
@@ -1525,7 +1302,7 @@ const usernameError = validate(username, [
 <hr class="v2-hr">
 <h3 class="v2-h3">The Full Form Validation Project</h3>
 <p class="v2-p"><strong>HTML:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;Form Validation&lt;/title&gt;
@@ -1577,7 +1354,7 @@ const usernameError = validate(username, [
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript (validation.js):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const form = document.getElementById(&quot;signup-form&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const form = document.getElementById(&quot;signup-form&quot;);
 
 // --- Helper functions ---
 
@@ -1701,25 +1478,11 @@ form.addEventListener(&quot;submit&quot;, function(event) {
 <p class="v2-p"><strong>Expected behaviour:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Scenario</th><th>Result</th></tr></thead><tbody><tr><td>Submit empty form</td><td>All four fields show red error messages</td></tr><tr><td>Type "ab" in username and tab away</td><td>"Must be at least 3 characters" appears immediately</td></tr><tr><td>Type an email without <code>@</code></td><td>"Please enter a valid email address."</td></tr><tr><td>Passwords don't match</td><td>"Passwords do not match."</td></tr><tr><td>All fields valid and submitted</td><td>Success message; form clears</td></tr></tbody></table></div>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> The <code>validateConfirmPassword</code> listener on <code>input</code> only runs if the field already has the "invalid" class. Why is this a better UX approach than validating on every keystroke from the beginning?</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 1 — CONCEPTUAL UNDERSTANDING</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase14">
-  <div class="phase-header">
-    <div class="phase-num">Phase 14 of 16</div>
-    <div class="phase-title">PHASE 2 — APPLIED EXERCISES</div>
-    <div class="phase-check" id="chk14"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Exercise 9 — Password Strength Indicator</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 1 — CONCEPTUAL UNDERSTANDING</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase14"><div class="ph"><div class="pn">Phase 14/16</div><div class="pt">PHASE 2 — APPLIED EXERCISES</div><div class="pc" id="chk14"></div></div><div class="pb2"><h3 class="v2-h3">Exercise 9 — Password Strength Indicator</h3>
 <p class="v2-p"><strong>Objective:</strong> As the user types in the password field, show a live strength indicator (Weak / Medium / Strong) based on the password's complexity.</p>
 <p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>function getStrength(password) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function getStrength(password) {
   let score = 0;
   if (password.length &gt;= 8)            score++;
   if (/[A-Z]/.test(password))          score++;  // Has uppercase
@@ -1740,34 +1503,20 @@ form.addEventListener(&quot;submit&quot;, function(event) {
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>Create three <code>&lt;div class="step"&gt;</code> sections, initially only the first is visible.</li><li>The "Next" button validates the current step's fields. If valid, hide the current step and show the next.</li><li>Add a "Previous" button that goes back without re-validating.</li><li>Step 3 displays all entered values as a summary.</li></ol>
 <p class="v2-p"><strong>Hint — showing/hiding steps:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>let currentStep = 1;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let currentStep = 1;
 
 function goToStep(n) {
   document.getElementById(&quot;step&quot; + currentStep).style.display = &quot;none&quot;;
   currentStep = n;
   document.getElementById(&quot;step&quot; + currentStep).style.display = &quot;block&quot;;
 }</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>PHASE 2 — APPLIED EXERCISES</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase15">
-  <div class="phase-header">
-    <div class="phase-num">Phase 15 of 16</div>
-    <div class="phase-title">PHASE 3 — PROJECT SIMULATION</div>
-    <div class="phase-check" id="chk15"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Project: Job Application Form with Full Validation</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>PHASE 2 — APPLIED EXERCISES</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase15"><div class="ph"><div class="pn">Phase 15/16</div><div class="pt">PHASE 3 — PROJECT SIMULATION</div><div class="pc" id="chk15"></div></div><div class="pb2"><h3 class="v2-h3">Project: Job Application Form with Full Validation</h3>
 <p class="v2-p"><strong>Scenario:</strong> Build a job application form for a fictional company. The form collects: Full Name, Email, Phone, LinkedIn URL (optional), Cover Letter (textarea), and Agreement to Terms (checkbox). Every required field must be validated before submission.</p>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Stage 1 — HTML Structure</strong></p>
 <p class="v2-p">Include these field types:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot;     id=&quot;fullname&quot; /&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot;     id=&quot;fullname&quot; /&gt;
 &lt;input type=&quot;email&quot;    id=&quot;app-email&quot; /&gt;
 &lt;input type=&quot;tel&quot;      id=&quot;phone&quot; /&gt;
 &lt;input type=&quot;url&quot;      id=&quot;linkedin&quot; /&gt;    &lt;!-- Optional --&gt;
@@ -1777,24 +1526,24 @@ function goToStep(n) {
 <p class="v2-p"><strong>Stage 2 — Validation Rules</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Field</th><th>Rules</th></tr></thead><tbody><tr><td>Full Name</td><td>Required; at least 2 words (first + last)</td></tr><tr><td>Email</td><td>Required; valid format</td></tr><tr><td>Phone</td><td>Required; 7–15 digits, can include spaces and <code>+</code></td></tr><tr><td>LinkedIn</td><td>Optional; if filled in, must start with <code>https://linkedin.com/</code></td></tr><tr><td>Cover Letter</td><td>Required; at least 50 characters</td></tr><tr><td>Terms</td><td>Must be checked</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Phone number regex:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const phoneRegex = /^[+\d][\d\s\-]{6,14}$/;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const phoneRegex = /^[+\d][\d\s\-]{6,14}$/;</code></pre></div></div>
 <p class="v2-p"><strong>At-least-two-words check:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const words = fullname.trim().split(/\s+/);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const words = fullname.trim().split(/\s+/);
 if (words.length &lt; 2) {
   showError(&quot;fullname&quot;, &quot;Please enter your first and last name.&quot;);
 }</code></pre></div></div>
 <p class="v2-p"><strong>Optional URL validation:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const linkedin = document.getElementById(&quot;linkedin&quot;).value.trim();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const linkedin = document.getElementById(&quot;linkedin&quot;).value.trim();
 if (linkedin !== &quot;&quot; &amp;&amp; !linkedin.startsWith(&quot;https://linkedin.com/&quot;)) {
   showError(&quot;linkedin&quot;, &quot;LinkedIn URL must start with https://linkedin.com/&quot;);
 }</code></pre></div></div>
 <p class="v2-p"><strong>Checkbox validation:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>if (!document.getElementById(&quot;terms&quot;).checked) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>if (!document.getElementById(&quot;terms&quot;).checked) {
   showError(&quot;terms&quot;, &quot;You must agree to the terms to apply.&quot;);
 }</code></pre></div></div>
 <p class="v2-p"><strong>Stage 3 — Submission Summary</strong></p>
 <p class="v2-p">On successful validation, hide the form and show a <code>&lt;div id="confirmation"&gt;</code> with:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Thank you, [Full Name]! Your application has been received.
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Thank you, [Full Name]! Your application has been received.
 We&#x27;ll be in touch at [email] within 5 business days.</code></pre></div></div>
 <p class="v2-p"><strong>Reflection questions:</strong></p>
 <ol class="v2-ol"><li>Why is client-side validation not enough on its own for a real job application system?</li><li>How would you handle the case where the same email has already applied (information only available from the server)?</li><li>If a user fills in 4 of the 6 fields and the page reloads, all their data is lost. What browser API would you use to temporarily save their progress?</li></ol>
@@ -1802,153 +1551,99 @@ We&#x27;ll be in touch at [email] within 5 business days.</code></pre></div></di
 <hr class="v2-hr">
 <p class="v2-p"># COMPLETION CHECKLIST</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>#</th><th>Requirement</th><th>✓</th></tr></thead><tbody><tr><td>1</td><td>All main ideas are fully explained with simple language</td><td>✓</td></tr><tr><td>2</td><td>Every concept includes at least one micro-demo with expected output</td><td>✓</td></tr><tr><td>3</td><td>Common beginner errors are highlighted and corrected</td><td>✓</td></tr><tr><td>4</td><td>Each project has at least two practice exercises</td><td>✓</td></tr><tr><td>5</td><td>Each project culminates in a full mini-project simulation</td><td>✓</td></tr><tr><td>6</td><td>Projects increase in complexity from Counter → Form Validation</td><td>✓</td></tr><tr><td>7</td><td>Reflection questions are included at each project's end</td><td>✓</td></tr><tr><td>8</td><td>Real-world relevance is shown for every major concept</td><td>✓</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">| 5 | Each project culminates in a full mini-project simulation | ✓ |
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">| 5 | Each project culminates in a full mini-project simulation | ✓ |
 | 6 | Projects increase in complexity from Counter → Form Validation | ✓ |
 | 7 | Reflection questions are included at each project's end | ✓ |
 | 8 | Real-world relevance is shown for every major concept | ✓ |
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase16">
-  <div class="phase-header">
-    <div class="phase-num">Phase 16 of 16</div>
-    <div class="phase-title">One-Sentence Summary</div>
-    <div class="phase-check" id="chk16"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p">These five projects — Counter, Event Listener, To-Do List, Modal Popup, and Form Validation — cover the complete foundation of interactive JavaScript: storing state in variables, reading and updating the DOM, responding to user events, creating and removing elements dynamically, and protecting applications from bad input.</p></blockquote>
+---</div></div><button class="ub" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase16"><div class="ph"><div class="pn">Phase 16/16</div><div class="pt">One-Sentence Summary</div><div class="pc" id="chk16"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p">These five projects — Counter, Event Listener, To-Do List, Modal Popup, and Form Validation — cover the complete foundation of interactive JavaScript: storing state in variables, reading and updating the DOM, responding to user events, creating and removing elements dynamically, and protecting applications from bad input.</p></blockquote>
 <hr class="v2-hr">
-<p class="v2-p"><em>Tutorial generated by AI_TUTORIAL_GENERATOR · Source curriculum: W3Schools JavaScript Projects</em></p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>One-Sentence Summary</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(16)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Lesson 30 JS Project</div>
-  <div class="build-desc"></div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<p class="v2-p"><em>Tutorial generated by AI_TUTORIAL_GENERATOR · Source curriculum: W3Schools JavaScript Projects</em></p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>One-Sentence Summary</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(16)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Lesson 30 Project</div><div class="build-req"><p class="v2-p">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;title&gt;My JS Project&lt;/title&gt;
+&lt;title&gt;Project&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;</p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Project&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;!-- Write your HTML here --&gt;
-  &lt;script&gt;
-    // Write your JavaScript here
-  &lt;/script&gt;
+&lt;!-- Your code here --&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`<!DOCTYPE html>
+&lt;/html&gt;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My JS Project</title>
+<title>Project</title>
 </head>
 <body>
-  <!-- Write your HTML here -->
-  <script>
-    // Write your JavaScript here
-  </script>
+<!-- Your code here -->
 </body>
-</html>`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+</html>`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-30-lesson-30-js-project</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 30 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-30-lesson-30-js-project/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 30 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ PHASE 1 — CONCEPTUAL UNDERSTANDING</li><li>✅ PHASE 2 — APPLIED EXERCISES</li><li>✅ PHASE 3 — PROJECT SIMULATION</li><li>✅ PHASE 1 — CONCEPTUAL UNDERSTANDING</li><li>✅ PHASE 2 — APPLIED EXERCISES</li><li>✅ PHASE 3 — PROJECT SIMULATION</li><li>✅ PHASE 1 — CONCEPTUAL UNDERSTANDING</li><li>✅ PHASE 2 — APPLIED EXERCISES</li></ul>
-  <div class="lesson-nav"><a href="lesson_29.html" class="ln-btn">← Lesson 29</a><a href="lesson_31.html" class="ln-btn primary">Lesson 31 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-30-lesson-30-project</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 30 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-30-lesson-30-project/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 30 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ PHASE 1 — CONCEPTUAL UNDERSTANDING</li><li>✅ PHASE 2 — APPLIED EXERCISES</li><li>✅ PHASE 3 — PROJECT SIMULATION</li><li>✅ PHASE 1 — CONCEPTUAL UNDERSTANDING</li><li>✅ PHASE 2 — APPLIED EXERCISES</li><li>✅ PHASE 3 — PROJECT SIMULATION</li><li>✅ PHASE 1 — CONCEPTUAL UNDERSTANDING</li><li>✅ PHASE 2 — APPLIED EXERCISES</li></ul><div class="ln"><a href="lesson_29.html" class="ln-btn">← Lesson 29</a><a href="lesson_31.html" class="ln-btn primary">Lesson 31 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 30 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 30 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=16,KEY='techbase_js_l30';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

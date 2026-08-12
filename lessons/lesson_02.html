@@ -1,205 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 02: JavaScript Syntax, Statements &amp; Comments — Techbase JavaScript</title>
-<meta name="description" content="JavaScript Syntax, Statements &amp; Comments">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 02 of 46</span>
+  <span class="l-nav-lbl">Lesson 02 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 02</div>
-    <h1>JavaScript Syntax, Statements &amp; Comments</h1>
-    <div class="l-hero-sub">6 phases · Build: Stage 1 — Setup &amp; Core Logic</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 02</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 6 phases</span>
-    <span>🏗️ Stage 1 — Setup &amp; Core Logic</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 02</div>
+  <h1>JavaScript Syntax, Statements &amp; Comments</h1>
+  <div class="l-hero-sub">6 phases &nbsp;·&nbsp; Build: Stage 1 — Setup &amp; Core Logic</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 02</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 6 phases</span><span>🏗️ Stage 1 — Setup &amp; Core Logic</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 6</div>
-    <div class="phase-title">TOPIC 1: JavaScript Syntax</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <hr class="v2-hr">
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/6</div><div class="pt">TOPIC 1: JavaScript Syntax</div><div class="pc" id="chk1"></div></div><div class="pb2"><hr class="v2-hr">
 <h3 class="v2-h3">1.1 What Is Syntax?</h3>
 <p class="v2-p">Think of syntax like the grammar rules of a language.</p>
 <p class="v2-p">In English, the sentence <em>"I going to store the"</em> is made of valid words — but it is wrong because it breaks grammar rules. Similarly, even if you type real JavaScript words, if they are arranged incorrectly the browser won't understand you.</p>
@@ -214,14 +148,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p">A <strong>literal</strong> is a value you type directly into code. It is fixed — it doesn't change.</p>
 <p class="v2-p">There are two kinds:</p>
 <p class="v2-p"><strong>Numbers</strong> — written with or without decimal points. No quotes needed:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>10.50    // a decimal number — like a price
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>10.50    // a decimal number — like a price
 1001     // a whole number — like a year</code></pre></div></div>
 <p class="v2-p"><strong>Strings</strong> — written in single or double quotes. These are pieces of text:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>&quot;John Doe&quot;    // using double quotes
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&quot;John Doe&quot;    // using double quotes
 &#x27;John Doe&#x27;    // using single quotes — both work the same way</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 The quotes tell JavaScript: <em>this is text, not a command.</em> Without them, JavaScript would think <code>John</code> is a variable name it doesn't recognise.</p></blockquote>
 <p class="v2-p"><strong>Micro-Demo — Spotting Literals:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>&quot;Hello&quot;          // String literal
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&quot;Hello&quot;          // String literal
 42               // Number literal
 3.14             // Number literal (decimal)
 &#x27;Lagos, Nigeria&#x27; // String literal</code></pre></div></div>
@@ -230,14 +164,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <h4 class="v2-h4">Type 2 — Variables (Values That Change)</h4>
 <p class="v2-p">A <strong>variable</strong> is a labelled container that stores a value. Unlike a literal, the value inside it can change over the life of the program.</p>
 <p class="v2-p">Analogy: Imagine a labelled box. The label (<code>price</code>) stays the same, but what is inside the box can be swapped at any time.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let price = 50;    // the box is labelled &quot;price&quot; and holds the number 50
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let price = 50;    // the box is labelled &quot;price&quot; and holds the number 50
 price = 75;        // we changed what&#x27;s inside the box — now it holds 75</code></pre></div></div>
 <p class="v2-p">We will go much deeper into variables in the next lesson. For now, just understand that variables store values that can be looked up or changed later.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.3 JavaScript Keywords</h3>
 <p class="v2-p"><strong>Keywords</strong> are special reserved words that JavaScript already knows. They tell the browser to perform specific actions. You cannot use them as your own variable names because they already have a specific meaning.</p>
 <p class="v2-p">Two of the most important keywords for creating variables are <code>let</code> and <code>const</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;              // &quot;let&quot; tells JavaScript: create a changeable variable called x
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 5;              // &quot;let&quot; tells JavaScript: create a changeable variable called x
 const fname = &quot;John&quot;;   // &quot;const&quot; tells JavaScript: create a permanent variable called fname</code></pre></div></div>
 <p class="v2-p"><strong><code>let</code></strong> = short for "let there be a variable." The value can change later. <strong><code>const</code></strong> = short for "constant." The value is set once and never changes.</p>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Critical Note — Case Sensitivity:</strong> JavaScript keywords are <strong>case-sensitive.</strong> The browser only recognises them in lowercase. Writing <code>LET</code> or <code>Let</code> instead of <code>let</code> will cause an error. Always write keywords in all lowercase.</p></blockquote>
@@ -248,7 +182,7 @@ const fname = &quot;John&quot;;   // &quot;const&quot; tells JavaScript: create 
 <p class="v2-p"><strong>Rules for naming identifiers:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Rule</th><th>Example of Following It</th><th>Example of Breaking It</th></tr></thead><tbody><tr><td>Must start with a letter, <code>_</code>, or <code>$</code></td><td><code>score</code>, <code>_total</code>, <code>$price</code></td><td><code>1score</code> ❌</td></tr><tr><td>Can contain digits after the first character</td><td><code>score1</code>, <code>player2</code></td><td>Cannot start with a digit</td></tr><tr><td>Cannot be a reserved keyword</td><td><code>myLet</code>, <code>constValue</code></td><td><code>let</code>, <code>const</code>, <code>if</code> ❌</td></tr><tr><td>Are case-sensitive</td><td><code>Score</code> and <code>score</code> are different</td><td>—</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Micro-Demo:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let studentName = &quot;Alice&quot;;  // Valid — starts with a letter
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let studentName = &quot;Alice&quot;;  // Valid — starts with a letter
 let _count = 0;             // Valid — starts with underscore
 let $price = 9.99;          // Valid — starts with $
 // let 1stPlace = &quot;Gold&quot;;   // INVALID — starts with a number (this would crash)</code></pre></div></div>
@@ -257,39 +191,39 @@ let $price = 9.99;          // Valid — starts with $
 <p class="v2-p"><strong>Operators</strong> are symbols that tell JavaScript to perform an action on values.</p>
 <p class="v2-p">There are two main types you need to know right now:</p>
 <p class="v2-p"><strong>Assignment Operator (<code>=</code>)</strong> — stores a value into a variable:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;    // The = sign puts the value 5 into x
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 5;    // The = sign puts the value 5 into x
 let y = 6;    // The = sign puts the value 6 into y</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Beginner Mistake:</strong> <code>=</code> in JavaScript does <strong>not</strong> mean "equal to" like in maths. It means "assign this value to this container." To check if two things are equal, you use <code>==</code> or <code>===</code> (you will learn these later).</p></blockquote>
 <p class="v2-p"><strong>Arithmetic Operators</strong> — perform maths: <code>+</code> (add), <code>-</code> (subtract), <code>*</code> (multiply), <code>/</code> (divide):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>5 * 10      // multiply: result is 50
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>5 * 10      // multiply: result is 50
 10 + 3      // add: result is 13
 10 - 4      // subtract: result is 6
 20 / 4      // divide: result is 5</code></pre></div></div>
 <p class="v2-p"><strong>Micro-Demo:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let price = 100;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let price = 100;
 let discount = 20;
 let finalPrice = price - discount;   // finalPrice holds 80</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.6 JavaScript Expressions</h3>
 <p class="v2-p">An <strong>expression</strong> is any piece of code that produces a value when evaluated. Think of it like a maths problem that the browser solves — it always produces an answer.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>(5 + 6) * 10    // evaluates to 110</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>(5 + 6) * 10    // evaluates to 110</code></pre></div></div>
 <p class="v2-p">How the browser reads this: First, it solves the brackets: 5 + 6 = 11. Then it multiplies: 11 * 10 = 110. The result is 110.</p>
 <p class="v2-p"><strong>Expressions can use variables:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 10;
 x * 10    // evaluates to 100 (because x holds 10)</code></pre></div></div>
 <p class="v2-p"><strong>Expressions can work with strings (text):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>&quot;John&quot; + &quot; &quot; + &quot;Doe&quot;    // evaluates to &quot;John Doe&quot;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&quot;John&quot; + &quot; &quot; + &quot;Doe&quot;    // evaluates to &quot;John Doe&quot;</code></pre></div></div>
 <p class="v2-p">When you use <code>+</code> with strings, it joins (concatenates) them instead of adding numbers. The browser is smart enough to know the difference based on context.</p>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> What do you think <code>"5" + 5</code> would produce? A number (10) or text ("55")? Try to reason it out before the next lesson reveals the answer.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.7 JavaScript Is Case Sensitive</h3>
 <p class="v2-p">This is one of the most common causes of beginner errors, and it is important enough to highlight on its own.</p>
 <p class="v2-p">In JavaScript, <strong>every letter matters.</strong> An uppercase and a lowercase letter are completely different characters to the browser.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let lastName = &quot;Doe&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let lastName = &quot;Doe&quot;;
 let lastname = &quot;Peterson&quot;;</code></pre></div></div>
 <p class="v2-p">These are <strong>two entirely different variables.</strong> One has a capital <code>N</code> and one doesn't. The browser treats them as completely separate boxes with no relationship to each other.</p>
 <p class="v2-p"><strong>Common case-sensitive mistakes:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Correct
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Correct
 document.getElementById(&quot;demo&quot;).innerHTML = &quot;Hello&quot;;
 
 // Wrong — JavaScript doesn&#x27;t know &quot;getElementbyid&quot;
@@ -302,27 +236,13 @@ document.getElementbyid(&quot;demo&quot;).innerHTML = &quot;Hello&quot;;  // ❌
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Style</th><th>Example</th><th>Used In</th></tr></thead><tbody><tr><td><strong>Hyphens</strong></td><td><code>first-name</code></td><td>NOT allowed in JavaScript (means subtraction)</td></tr><tr><td><strong>Underscore</strong></td><td><code>first_name</code></td><td>Used in Python, databases</td></tr><tr><td><strong>Upper CamelCase / PascalCase</strong></td><td><code>FirstName</code></td><td>Used for classes in JavaScript</td></tr><tr><td><strong>Lower camelCase</strong></td><td><code>firstName</code></td><td><strong>Standard for JavaScript variables</strong></td></tr></tbody></table></div>
 <p class="v2-p"><strong>Lower camelCase</strong> means:</p>
 <ul class="v2-ul"><li>The first word is all lowercase</li><li>Every following word starts with an uppercase letter</li><li>No spaces or symbols between words</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let firstName = &quot;James&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let firstName = &quot;James&quot;;
 let totalSaleAmount = 5000;
 let numberOfStudentsEnrolled = 42;</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 Why camelCase? Because the uppercase letters in the middle of the word look like the humps of a camel. Professional JavaScript developers use this style consistently — it makes code look clean and readable across teams.</p></blockquote>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>TOPIC 1: JavaScript Syntax</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 6</div>
-    <div class="phase-title">TOPIC 2: JavaScript Statements</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <hr class="v2-hr">
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>TOPIC 1: JavaScript Syntax</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/6</div><div class="pt">TOPIC 2: JavaScript Statements</div><div class="pc" id="chk2"></div></div><div class="pb2"><hr class="v2-hr">
 <h3 class="v2-h3">2.1 What Is a Statement?</h3>
 <p class="v2-p">If syntax is the grammar, then a <strong>statement</strong> is a complete sentence — one full instruction you give the computer.</p>
 <p class="v2-p">A <strong>statement</strong> tells the browser to perform one specific action. It is composed of values, operators, expressions, keywords, and comments.</p>
@@ -332,7 +252,7 @@ let numberOfStudentsEnrolled = 42;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.2 What Makes Up a Statement?</h3>
 <p class="v2-p">A statement is composed of one or more of these ingredients:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x, y, z;    // Statement 1 — declares three variables
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x, y, z;    // Statement 1 — declares three variables
 x = 5;          // Statement 2 — assigns value 5 to x
 y = 6;          // Statement 3 — assigns value 6 to y
 z = x + y;      // Statement 4 — adds x and y and stores result in z</code></pre></div></div>
@@ -343,42 +263,42 @@ z = x + y;      // Statement 4 — adds x and y and stores result in z</code></p
 <hr class="v2-hr">
 <h3 class="v2-h3">2.3 A Statement That Talks to the Page</h3>
 <p class="v2-p">A statement can also interact with HTML on the page:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;demo&quot;).innerHTML = &quot;Hello Dolly.&quot;;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;demo&quot;).innerHTML = &quot;Hello Dolly.&quot;;</code></pre></div></div>
 <p class="v2-p">This single statement:</p>
 <ol class="v2-ol"><li>Searches the page for an element with <code>id="demo"</code></li><li>Takes everything inside it</li><li>Replaces it with the text <code>"Hello Dolly."</code></li></ol>
 <p class="v2-p">This is one complete instruction — one statement.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.4 Semicolons — The Full Stop of JavaScript</h3>
 <p class="v2-p">A <strong>semicolon (<code>;</code>)</strong> in JavaScript works like a full stop (period) in English. It marks the end of one complete statement.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let a, b, c;    // Statement ends here
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let a, b, c;    // Statement ends here
 a = 5;          // Statement ends here
 b = 6;          // Statement ends here
 c = a + b;      // Statement ends here — c now holds 11</code></pre></div></div>
 <p class="v2-p">You can even write multiple statements on a single line, separated by semicolons:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>a = 5; b = 6; c = a + b;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>a = 5; b = 6; c = a + b;</code></pre></div></div>
 <p class="v2-p"><strong>Expected output:</strong> Same result — c holds 11. Both ways are valid.</p>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Important note from W3Schools:</strong> Ending statements with a semicolon is not strictly required in JavaScript — the browser will often guess where statements end. However, it is <strong>highly recommended</strong> to always add them. Leaving them out can cause subtle, hard-to-find bugs. Professional developers always use semicolons.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.5 Whitespace — JavaScript Ignores Extra Spaces</h3>
 <p class="v2-p">JavaScript ignores extra spaces between code elements. This means you can add spacing to make your code more readable without affecting how it runs.</p>
 <p class="v2-p">These two lines do exactly the same thing:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let person = &quot;Hege&quot;;    // with spaces around =
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let person = &quot;Hege&quot;;    // with spaces around =
 let person=&quot;Hege&quot;;      // without spaces</code></pre></div></div>
 <p class="v2-p"><strong>Best practice:</strong> Always put spaces around operators. It makes your code far easier to read:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = y + z;      // Readable ✅
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = y + z;      // Readable ✅
 let x=y+z;          // Harder to read ❌</code></pre></div></div>
 <p class="v2-p">In a professional workplace, readable code is just as important as working code — your teammates have to read and understand your code too.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.6 Line Length and Line Breaks</h3>
 <p class="v2-p">For readability, it is recommended to keep code lines under <strong>80 characters</strong> wide. If a statement is too long, break it after an operator:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;demo&quot;).innerHTML =
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document.getElementById(&quot;demo&quot;).innerHTML =
 &quot;Hello Dolly!&quot;;</code></pre></div></div>
 <p class="v2-p">JavaScript treats both lines as one statement because the browser knows a line ending after an operator (<code>=</code>) means the statement isn't finished yet.</p>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Beginner Mistake:</strong> Breaking a line at the wrong place can split the statement unexpectedly. The safest breakpoint is always after an operator (<code>=</code>, <code>+</code>, etc.) or a comma.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.7 Code Blocks — Grouping Statements Together</h3>
 <p class="v2-p">Sometimes you need multiple statements to work together as a group. JavaScript lets you wrap them inside <strong>curly brackets <code>{}</code></strong> to create a <strong>code block</strong>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function myFunction() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function myFunction() {
   document.getElementById(&quot;demo1&quot;).innerHTML = &quot;Hello Dolly!&quot;;
   document.getElementById(&quot;demo2&quot;).innerHTML = &quot;How are you?&quot;;
 }</code></pre></div></div>
@@ -393,29 +313,15 @@ let x=y+z;          // Harder to read ❌</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Keyword</th><th>What It Does</th><th>Simple Example</th></tr></thead><tbody><tr><td><code>var</code></td><td>Declares a variable (older style)</td><td><code>var age = 25;</code></td></tr><tr><td><code>let</code></td><td>Declares a changeable variable</td><td><code>let score = 0;</code></td></tr><tr><td><code>const</code></td><td>Declares a permanent variable</td><td><code>const PI = 3.14;</code></td></tr><tr><td><code>if</code></td><td>Runs code only if a condition is true</td><td><code>if (score &gt; 50) { ... }</code></td></tr><tr><td><code>switch</code></td><td>Runs different code for different cases</td><td><code>switch (day) { ... }</code></td></tr><tr><td><code>for</code></td><td>Runs a block of code repeatedly</td><td><code>for (let i = 0; i &lt; 5; i++) { ... }</code></td></tr><tr><td><code>function</code></td><td>Creates a named group of statements</td><td><code>function greet() { ... }</code></td></tr><tr><td><code>return</code></td><td>Exits a function and sends back a value</td><td><code>return total;</code></td></tr><tr><td><code>try</code></td><td>Wraps code that might fail safely</td><td><code>try { riskyCode(); }</code></td></tr></tbody></table></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Important Rule:</strong> Keywords are <strong>reserved words.</strong> You cannot use them as variable names. <code>let let = 5;</code> would cause an error — JavaScript already uses the word <code>let</code> for its own purpose.</p></blockquote>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">`javascript
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">`javascript
 let x = y + z;      // Readable ✅
 let x=y+z;          // Harder to read ❌
 `
 
 In a professional workplace, readable code is just as important as working code — your teammates have to read and understand your code too.
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 6</div>
-    <div class="phase-title">TOPIC 3: JavaScript Comments</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <hr class="v2-hr">
+---</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/6</div><div class="pt">TOPIC 3: JavaScript Comments</div><div class="pc" id="chk3"></div></div><div class="pb2"><hr class="v2-hr">
 <h3 class="v2-h3">3.1 What Is a Comment?</h3>
 <p class="v2-p">A <strong>comment</strong> is text inside your code that JavaScript completely ignores when running the program. It is only there for humans to read.</p>
 <p class="v2-p">Why would you want to write something the computer ignores? Several very important reasons:</p>
@@ -425,13 +331,13 @@ In a professional workplace, readable code is just as important as working code 
 <h3 class="v2-h3">3.2 Single Line Comments (<code>//</code>)</h3>
 <p class="v2-p">A <strong>single line comment</strong> starts with two forward slashes <code>//</code>. Everything from <code>//</code> to the end of that line is ignored by JavaScript.</p>
 <p class="v2-p"><strong>Style 1 — Comment above the code:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Change the heading:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Change the heading:
 document.getElementById(&quot;myH&quot;).innerHTML = &quot;My First Page&quot;;
 
 // Change the paragraph:
 document.getElementById(&quot;myP&quot;).innerHTML = &quot;My first paragraph.&quot;;</code></pre></div></div>
 <p class="v2-p"><strong>Style 2 — Comment at the end of the same line:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;      // Declare x, give it the value of 5
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 5;      // Declare x, give it the value of 5
 let y = x + 2;  // Declare y, give it the value of x + 2</code></pre></div></div>
 <p class="v2-p">Both styles are correct. Style 2 is useful for short, quick notes. Style 1 is better for longer explanations.</p>
 <p class="v2-p"><strong>Expected output:</strong> The comments have no effect on what the page shows. Only the JavaScript code runs.</p>
@@ -439,7 +345,7 @@ let y = x + 2;  // Declare y, give it the value of x + 2</code></pre></div></div
 <hr class="v2-hr">
 <h3 class="v2-h3">3.3 Multi-line Comments (<code>/<em> ... </em>/</code>)</h3>
 <p class="v2-p">A <strong>multi-line comment</strong> starts with <code>/<em></code> and ends with <code></em>/</code>. Everything between those symbols — even if it spans many lines — is ignored.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>/*
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>/*
 The code below will change
 the heading with id = &quot;myH&quot;
 and the paragraph with id = &quot;myP&quot;
@@ -454,11 +360,11 @@ document.getElementById(&quot;myP&quot;).innerHTML = &quot;My first paragraph.&q
 <h3 class="v2-h3">3.4 Using Comments to Prevent Code from Running</h3>
 <p class="v2-p">This is one of the most powerful practical uses of comments for beginners. Imagine you have two versions of a line of code and you want to test one without deleting the other. You simply comment out the one you don't want to run:</p>
 <p class="v2-p"><strong>Single line — commenting out one line:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// document.getElementById(&quot;myH&quot;).innerHTML = &quot;My First Page&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// document.getElementById(&quot;myH&quot;).innerHTML = &quot;My First Page&quot;;
 document.getElementById(&quot;myP&quot;).innerHTML = &quot;My first paragraph.&quot;;</code></pre></div></div>
 <p class="v2-p"><strong>Expected output:</strong> Only the paragraph changes. The heading line is disabled because <code>//</code> is in front of it. The heading line still exists — you can re-enable it anytime by removing the <code>//</code>.</p>
 <p class="v2-p"><strong>Multi-line — commenting out multiple lines:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>/*
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>/*
 document.getElementById(&quot;myH&quot;).innerHTML = &quot;My First Page&quot;;
 document.getElementById(&quot;myP&quot;).innerHTML = &quot;My first paragraph.&quot;;
 */</code></pre></div></div>
@@ -466,7 +372,7 @@ document.getElementById(&quot;myP&quot;).innerHTML = &quot;My first paragraph.&q
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Real-world use:</strong> Professional developers use this constantly during debugging. Instead of deleting code they're not sure about, they comment it out. If the old version turns out to be better, they just remove the <code>//</code> or <code>/<em> </em>/</code> and it runs again.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.5 Summary — Comment Styles Side by Side</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// I am a single-line comment. I explain the next line of code.
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// I am a single-line comment. I explain the next line of code.
 
 let total = price + tax;  // I can also appear after code on the same line.
 
@@ -484,26 +390,11 @@ let total = price + tax;  // I can also appear after code on the same line.
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 2 — APPLIED EXERCISES</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>TOPIC 3: JavaScript Comments</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 6</div>
-    <div class="phase-title">Exercise 1 — Reading and Writing Syntax</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Identify and write correct JavaScript syntax elements.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>TOPIC 3: JavaScript Comments</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/6</div><div class="pt">Exercise 1 — Reading and Writing Syntax</div><div class="pc" id="chk4"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Identify and write correct JavaScript syntax elements.</p>
 <p class="v2-p"><strong>Scenario:</strong> You are a junior developer reviewing some code before it goes live. Your job is to read through it, understand each part, and add comments explaining what each line does.</p>
 <hr class="v2-hr">
-<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let productName = &quot;Laptop&quot;;   // string variable
+<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 1 — Reading and Writing Syntax</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let productName = &quot;Laptop&quot;;   // string variable
 let productPrice = 1200;      // number variable
 let discount = 100;           // number variable
 let finalPrice = productPrice - discount;  // expression: 1200 - 100 = 1100</code></pre></div></div>
@@ -511,7 +402,7 @@ let finalPrice = productPrice - discount;  // expression: 1200 - 100 = 1100</cod
 <hr class="v2-hr">
 <p class="v2-p"><strong>Your Exercise:</strong></p>
 <p class="v2-p"><strong>Step 1</strong> — Look at this code carefully:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let firstName = &quot;Amara&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let firstName = &quot;Amara&quot;;
 let lastName = &quot;Okonkwo&quot;;
 let age = 28;
 let city = &quot;Abuja&quot;;
@@ -522,7 +413,7 @@ document.getElementById(&quot;output&quot;).innerHTML = greeting;</code></pre></
 <p class="v2-p"><strong>Step 2</strong> — In your notebook or code editor, add a <code>//</code> comment at the end of every single line, explaining what that line does.</p>
 <p class="v2-p"><strong>Step 3</strong> — Add a multi-line comment at the very top of the code block describing what the entire program does.</p>
 <p class="v2-p"><strong>Step 4</strong> — Create the matching HTML:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;body&gt;
     &lt;p id=&quot;output&quot;&gt;&lt;/p&gt;
@@ -530,30 +421,19 @@ document.getElementById(&quot;output&quot;).innerHTML = greeting;</code></pre></
   &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Expected page output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Hello, Amara Okonkwo! You are 28 years old.</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Hello, Amara Okonkwo! You are 28 years old.</code></pre></div></div>
 <p class="v2-p"><strong>Self-Check Questions:</strong></p>
 <ol class="v2-ol"><li>How many statements does this code contain?</li><li>Which word is the keyword in <code>let firstName = "Amara"</code>?</li><li>Is <code>"Amara"</code> a literal or a variable?</li><li>What would happen if you wrote <code>Let firstName</code> instead of <code>let firstName</code>?</li><li>Why is <code>fullName</code> written in camelCase rather than <code>full_name</code> or <code>FullName</code>?</li></ol>
 <p class="v2-p"><strong>Optional What-If Challenge:</strong> Comment out the <code>greeting</code> line and instead build the greeting directly inside <code>innerHTML</code>. Does it still work?</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 1 — Reading and Writing Syntax</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 6</div>
-    <div class="phase-title">Exercise 2 — Statements, Semicolons, and Blocks</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Write and arrange statements correctly, use semicolons, and understand code blocks.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(4)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/6</div><div class="pt">Exercise 2 — Statements, Semicolons, and Blocks</div><div class="pc" id="chk5"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Write and arrange statements correctly, use semicolons, and understand code blocks.</p>
 <p class="v2-p"><strong>Scenario:</strong> You are building a small score calculator for a student quiz system. Each student gets marks for three subjects and the program calculates a total.</p>
 <hr class="v2-hr">
-<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let mathScore = 85;
+<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">4. What would you change to calculate the score for a different student?
+
+Optional What-If Challenge: Add a fourth subject — art — and update the total and average calculations. Also add a comment above the calculations block explaining what it does.
+
+---</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let mathScore = 85;
 let englishScore = 72;
 let totalScore = mathScore + englishScore;
 document.getElementById(&quot;result&quot;).innerHTML = &quot;Total: &quot; + totalScore;</code></pre></div></div>
@@ -561,7 +441,7 @@ document.getElementById(&quot;result&quot;).innerHTML = &quot;Total: &quot; + to
 <hr class="v2-hr">
 <p class="v2-p"><strong>Your Exercise:</strong></p>
 <p class="v2-p"><strong>Step 1</strong> — Build <code>quiz.html</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;body&gt;
     &lt;h2&gt;Student Score Card&lt;/h2&gt;
@@ -573,7 +453,7 @@ document.getElementById(&quot;result&quot;).innerHTML = &quot;Total: &quot; + to
   &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Step 2</strong> — Build <code>quiz.js</code> with these instructions:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Student information
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Student information
 let name = &quot;Fatima Bello&quot;;
 let mathScore = 88;
 let scienceScore = 76;
@@ -589,7 +469,7 @@ document.getElementById(&quot;scores&quot;).innerHTML = &quot;Math: &quot; + mat
 document.getElementById(&quot;total&quot;).innerHTML = &quot;Total: &quot; + totalScore;
 document.getElementById(&quot;average&quot;).innerHTML = &quot;Average: &quot; + averageScore;</code></pre></div></div>
 <p class="v2-p"><strong>Expected page output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Student: Fatima Bello
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Student: Fatima Bello
 Math: 88 | Science: 76 | English: 91
 Total: 255
 Average: 85</code></pre></div></div>
@@ -597,30 +477,11 @@ Average: 85</code></pre></div></div>
 <p class="v2-p"><strong>Self-Check Questions:</strong></p>
 <ol class="v2-ol"><li>How many statements are in <code>quiz.js</code>?</li><li>Which lines are expressions?</li><li>If you removed all the semicolons, would the code still work? Try it and observe.</li><li>What would you change to calculate the score for a different student?</li></ol>
 <p class="v2-p"><strong>Optional What-If Challenge:</strong> Add a fourth subject — art — and update the total and average calculations. Also add a comment above the calculations block explaining what it does.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">4. What would you change to calculate the score for a different student?
-
-Optional What-If Challenge: Add a fourth subject — art — and update the total and average calculations. Also add a comment above the calculations block explaining what it does.
-
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 6</div>
-    <div class="phase-title">Exercise 3 — Comments in Action</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Use both types of comments purposefully, and practice disabling code with comments.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(5)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/6</div><div class="pt">Exercise 3 — Comments in Action</div><div class="pc" id="chk6"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Use both types of comments purposefully, and practice disabling code with comments.</p>
 <p class="v2-p"><strong>Scenario:</strong> You are testing two different welcome messages for a website. You want to switch between them without deleting either.</p>
 <hr class="v2-hr">
-<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Version 1 — currently active
+<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 3 — Comments in Action</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Version 1 — currently active
 document.getElementById(&quot;msg&quot;).innerHTML = &quot;Welcome back!&quot;;
 
 // Version 2 — currently disabled
@@ -629,7 +490,7 @@ document.getElementById(&quot;msg&quot;).innerHTML = &quot;Welcome back!&quot;;
 <hr class="v2-hr">
 <p class="v2-p"><strong>Your Exercise:</strong></p>
 <p class="v2-p"><strong>Step 1</strong> — Build the HTML:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;body&gt;
     &lt;h1 id=&quot;headline&quot;&gt;&lt;/h1&gt;
@@ -639,7 +500,7 @@ document.getElementById(&quot;msg&quot;).innerHTML = &quot;Welcome back!&quot;;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Step 2</strong> — Build <code>comments.js</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>/*
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>/*
   File: comments.js
   Purpose: Display a welcome message on the homepage.
   Author: [Your Name]
@@ -661,7 +522,7 @@ document.getElementById(&quot;message&quot;).innerHTML = &quot;This website help
   document.getElementById(&quot;footer&quot;).innerHTML = &quot;© 2025 LearnJS Academy&quot;;
 */</code></pre></div></div>
 <p class="v2-p"><strong>Expected page output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Welcome to LearnJS!
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Welcome to LearnJS!
 This website helps beginners learn JavaScript step by step.
 [footer is blank — that code is commented out]</code></pre></div></div>
 <p class="v2-p"><strong>Step 3</strong> — Switch the active headline: comment out Version 1 and un-comment Version 2. Observe the change.</p>
@@ -670,111 +531,75 @@ This website helps beginners learn JavaScript step by step.
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 3 — PROJECT SIMULATION</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(6)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Stage 1 — Setup &amp; Core Logic</div><div class="build-req"><p class="v2-p"><strong>Project Overview:</strong> You will build a simple student report card page that uses correct JavaScript syntax, clean statements, meaningful variable names, and well-placed comments. This simulates the kind of small data-display task a junior front-end developer might receive in their first week on the job.</p>
 <hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 3 — Comments in Action</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Stage 1 — Setup &amp; Core Logic</div>
-  <div class="build-desc"><strong>Goal:</strong> Declare all data variables using correct syntax and display them on the page.</div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>let subject = &quot;Mathematics&quot;;
+<h3 class="v2-h3">Stage 1 — Setup &amp; Core Logic</h3>
+<p class="v2-p"><strong>Goal:</strong> Declare all data variables using correct syntax and display them on the page.</p>
+<p class="v2-p"><strong>Illustrative Preview:</strong></p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let subject = &quot;Mathematics&quot;;
 let score = 87;
-document.getElementById(&quot;sub1&quot;).innerHTML = subject + &quot;: &quot; + score;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`let subject = "Mathematics";
+document.getElementById(&quot;sub1&quot;).innerHTML = subject + &quot;: &quot; + score;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`let subject = "Mathematics";
 let score = 87;
-document.getElementById("sub1").innerHTML = subject + ": " + score;`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+document.getElementById("sub1").innerHTML = subject + ": " + score;`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-02-stage-1-setup-core-logic</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 02 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-02-stage-1-setup-core-logic/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 02 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ TOPIC 1: JavaScript Syntax</li><li>✅ TOPIC 2: JavaScript Statements</li><li>✅ TOPIC 3: JavaScript Comments</li><li>✅ Exercise 1 — Reading and Writing Syntax</li><li>✅ Exercise 2 — Statements, Semicolons, and Blocks</li><li>✅ Exercise 3 — Comments in Action</li></ul>
-  <div class="lesson-nav"><a href="lesson_01.html" class="ln-btn">← Lesson 01</a><a href="lesson_03.html" class="ln-btn primary">Lesson 03 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-02-stage-1-setup-core-logic</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 02 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-02-stage-1-setup-core-logic/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 02 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ TOPIC 1: JavaScript Syntax</li><li>✅ TOPIC 2: JavaScript Statements</li><li>✅ TOPIC 3: JavaScript Comments</li><li>✅ Exercise 1 — Reading and Writing Syntax</li><li>✅ Exercise 2 — Statements, Semicolons, and Blocks</li><li>✅ Exercise 3 — Comments in Action</li></ul><div class="ln"><a href="lesson_01.html" class="ln-btn">← Lesson 01</a><a href="lesson_03.html" class="ln-btn primary">Lesson 03 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 02 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 02 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=6,KEY='techbase_js_l02';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

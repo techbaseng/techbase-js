@@ -1,205 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 27: JavaScript History, Versions &amp; The Foundation: ES3 · ES5 · ES6 · Browser Compatibility — Techbase JavaScript</title>
-<meta name="description" content="JavaScript History, Versions &amp; The Foundation: ES3 · ES5 · ES6 · Browser Compatibility">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 27 of 46</span>
+  <span class="l-nav-lbl">Lesson 27 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 27</div>
-    <h1>JavaScript History, Versions &amp; The Foundation: ES3 · ES5 · ES6 · Browser Compatibility</h1>
-    <div class="l-hero-sub">11 phases · Build: Lesson 27 JS Project</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 27</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 11 phases</span>
-    <span>🏗️ Lesson 27 JS Project</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 27</div>
+  <h1>JavaScript History, Versions &amp; The Foundation: ES3 · ES5 · ES6 · Browser Compatibility</h1>
+  <div class="l-hero-sub">11 phases &nbsp;·&nbsp; Build: Lesson 27 Project</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 27</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 11 phases</span><span>🏗️ Lesson 27 Project</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 11</div>
-    <div class="phase-title">1. The Complete JavaScript Version History</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">1.1 Why Version History Matters</h3>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/11</div><div class="pt">1. The Complete JavaScript Version History</div><div class="pc" id="chk1"></div></div><div class="pb2"><h3 class="v2-h3">1.1 Why Version History Matters</h3>
 <p class="v2-p">When you write JavaScript today, you are writing inside a language that is 30 years old. Every line you type uses concepts introduced at specific points in time by specific people solving specific problems. Understanding the history:</p>
 <ul class="v2-ul"><li>Explains <em>why</em> JavaScript has odd behaviours (like <code>typeof null === "object"</code>)</li><li>Helps you read older codebases that use <code>var</code>, <code>arguments</code>, and <code>prototype</code> patterns</li><li>Makes you a better debugger — you know what was possible when each piece of code was written</li><li>Prepares you for technical interviews where history and compatibility questions are common</li></ul>
 <p class="v2-p"><strong>Real-world analogy:</strong> Understanding the history of roads helps a traffic engineer understand why some city layouts are efficient and others are not. The constraints and decisions of the past shaped what exists today.</p>
@@ -210,7 +144,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">1.3 The Three Eras of JavaScript</h3>
 <p class="v2-p">It helps to think of JavaScript's history in three distinct eras:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>ERA 1 — THE WILD WEST (1995–2009)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>ERA 1 — THE WILD WEST (1995–2009)
 ────────────────────────────────
 ES1, ES2, ES3 — language is born
 No standard way to handle errors, no JSON, no strict mode
@@ -230,22 +164,8 @@ ES6/ES2015 transforms the language fundamentally
 Annual releases add features steadily
 TypeScript, React, Vue, Angular — all built on modern ES6+ foundations
 JavaScript becomes the world&#x27;s most-used programming language</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1. The Complete JavaScript Version History</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 11</div>
-    <div class="phase-title">2. The Story of JavaScript</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">2.1 Birth: Ten Days in May 1995</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1. The Complete JavaScript Version History</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/11</div><div class="pt">2. The Story of JavaScript</div><div class="pc" id="chk2"></div></div><div class="pb2"><h3 class="v2-h3">2.1 Birth: Ten Days in May 1995</h3>
 <p class="v2-p">In May 1995, a programmer named <strong>Brendan Eich</strong> at <strong>Netscape Communications</strong> was given a task: create a scripting language for the Netscape Navigator browser. The deadline: <strong>ten days</strong>.</p>
 <p class="v2-p">The result was a language originally called <strong>Mocha</strong>, then renamed <strong>LiveScript</strong>, and finally <strong>JavaScript</strong> — a marketing decision capitalising on the popularity of the Java programming language, despite the two languages being fundamentally different.</p>
 <p class="v2-p"><strong>The critical design decisions made in those ten days:</strong></p>
@@ -284,22 +204,8 @@ JavaScript becomes the world&#x27;s most-used programming language</code></pre><
 <p class="v2-p">After ES6, TC39 adopted the annual release model (covered in the ES2016–ES2026 tutorial). JavaScript has been growing steadily and safely ever since.</p>
 <p class="v2-p">Today, JavaScript:</p>
 <ul class="v2-ul"><li>Runs in every web browser on earth</li><li>Powers servers via Node.js and Deno</li><li>Builds mobile apps via React Native</li><li>Controls desktop apps via Electron (VS Code, Discord, Slack are all built on it)</li><li>Powers IoT devices</li><li>Runs machine learning models in the browser via TensorFlow.js</li></ul>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2. The Story of JavaScript</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 11</div>
-    <div class="phase-title">3. ES3 (1999) — The Foundation That Ran for a Decade</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">3.1 Why Study ES3?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2. The Story of JavaScript</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/11</div><div class="pt">3. ES3 (1999) — The Foundation That Ran for a Decade</div><div class="pc" id="chk3"></div></div><div class="pb2"><h3 class="v2-h3">3.1 Why Study ES3?</h3>
 <p class="v2-p">ES3 is the version of JavaScript that shipped in <strong>Internet Explorer 6</strong> in 2001 and formed the baseline for web development through the mid-2000s. You will encounter ES3 patterns in:</p>
 <ul class="v2-ul"><li>Legacy corporate codebases</li><li>Old WordPress themes and plugins</li><li>jQuery source code (written to support IE)</li><li>Any codebase that targeted IE8 or earlier</li></ul>
 <p class="v2-p">Understanding ES3 also illuminates <em>why</em> ES5 and ES6 made the choices they did — each feature was a direct response to an ES3 limitation.</p>
@@ -307,7 +213,7 @@ JavaScript becomes the world&#x27;s most-used programming language</code></pre><
 <h3 class="v2-h3">3.2 What ES3 Introduced</h3>
 <p class="v2-p">ES3 (December 1999) added the core features that made JavaScript a real programming language:</p>
 <p class="v2-p"><strong>Regular Expressions:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 — first official support for regex
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 — first official support for regex
 var email = &quot;tunde@example.com&quot;;
 var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 console.log(pattern.test(email)); // true
@@ -316,7 +222,7 @@ var text = &quot;The price is 1500 naira and 2500 naira&quot;;
 var amounts = text.match(/\d+/g);
 console.log(amounts); // [&quot;1500&quot;, &quot;2500&quot;]</code></pre></div></div>
 <p class="v2-p"><strong><code>try</code>/<code>catch</code>/<code>finally</code> — Error Handling:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 — first proper error handling
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 — first proper error handling
 try {
   var result = riskyOperation();
 } catch (e) {
@@ -326,19 +232,19 @@ try {
   cleanup();
 }</code></pre></div></div>
 <p class="v2-p"><strong><code>do...while</code> loop:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var attempts = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var attempts = 0;
 do {
   attempts++;
   var result = tryConnect();
 } while (!result &amp;&amp; attempts &lt; 3);</code></pre></div></div>
 <p class="v2-p"><strong><code>switch</code> statement:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>switch (day) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>switch (day) {
   case 0: console.log(&quot;Sunday&quot;);  break;
   case 1: console.log(&quot;Monday&quot;);  break;
   default: console.log(&quot;Weekday&quot;);
 }</code></pre></div></div>
 <p class="v2-p"><strong>String methods — <code>split()</code>, <code>replace()</code>, <code>search()</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var csv = &quot;alice,bob,carol,david&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var csv = &quot;alice,bob,carol,david&quot;;
 var names = csv.split(&quot;,&quot;);      // [&quot;alice&quot;,&quot;bob&quot;,&quot;carol&quot;,&quot;david&quot;]
 
 var text = &quot;Hello World&quot;;
@@ -346,7 +252,7 @@ var result = text.replace(&quot;World&quot;, &quot;JavaScript&quot;); // &quot;H
 <hr class="v2-hr">
 <h3 class="v2-h3">3.3 ES3's Biggest Limitations (Which ES5+ Fixed)</h3>
 <p class="v2-p"><strong>1. No <code>let</code> or <code>const</code> — only <code>var</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 — var is function-scoped, not block-scoped
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 — var is function-scoped, not block-scoped
 var x = 10;
 if (true) {
   var x = 20; // This OVERWRITES the outer x!
@@ -360,14 +266,14 @@ var x = 10;
 })();
 console.log(x); // 10 — outer x is protected</code></pre></div></div>
 <p class="v2-p"><strong>2. No JSON support — required third-party libraries:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 — no JSON.parse() or JSON.stringify() built in!
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 — no JSON.parse() or JSON.stringify() built in!
 // Developers loaded json2.js (Douglas Crockford&#x27;s library)
 
 // Dangerous workaround that was widely used (but terrible for security):
 var jsonString = &#x27;{&quot;name&quot;: &quot;Tunde&quot;, &quot;age&quot;: 28}&#x27;;
 var obj = eval(&quot;(&quot; + jsonString + &quot;)&quot;); // eval! Huge security risk</code></pre></div></div>
 <p class="v2-p"><strong>3. No <code>forEach</code>, <code>map</code>, <code>filter</code>, <code>reduce</code> — only manual loops:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 — no array iteration methods
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 — no array iteration methods
 var numbers = [1, 2, 3, 4, 5];
 
 // Had to write all processing manually with for loops
@@ -383,14 +289,14 @@ Array.prototype.forEach = function(callback) {
   }
 };</code></pre></div></div>
 <p class="v2-p"><strong>4. No strict mode — silent failures everywhere:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 — this silently creates a global variable
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 — this silently creates a global variable
 function broken() {
   x = 10; // No var, no let, no const — ES3 creates a global
 }
 broken();
 console.log(x); // 10 — surprise global!</code></pre></div></div>
 <p class="v2-p"><strong>5. No <code>Object.create()</code>, <code>Object.keys()</code>, property descriptors:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 — simulating classical inheritance was complex and fragile
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 — simulating classical inheritance was complex and fragile
 function Animal(name) {
   this.name = name;
 }
@@ -409,7 +315,7 @@ Dog.prototype.speak = function() {
 <hr class="v2-hr">
 <h3 class="v2-h3">3.4 The IIFE Pattern — ES3's Block Scope Workaround</h3>
 <p class="v2-p">Because <code>var</code> leaks out of blocks, ES3 developers used <strong>IIFEs</strong> (Immediately Invoked Function Expressions) to create scope boundaries.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// IIFE syntax — a function that defines and calls itself immediately
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// IIFE syntax — a function that defines and calls itself immediately
 (function() {
   var privateVar = &quot;I&#x27;m hidden from the outside world&quot;;
   var counter = 0;
@@ -433,7 +339,7 @@ console.log(window.myModule.count()); // 2</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.5 The <code>arguments</code> Object — ES3's Rest Parameters</h3>
 <p class="v2-p">Before ES6 rest parameters (<code>...args</code>), ES3 functions had access to a special <code>arguments</code> object containing all the values passed in.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 — arguments object
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 — arguments object
 function sum() {
   var total = 0;
   for (var i = 0; i &lt; arguments.length; i++) {
@@ -452,35 +358,21 @@ arguments.forEach(…); // TypeError in ES3!
 // ES3 workaround — convert arguments to a real array:
 var args = Array.prototype.slice.call(arguments);
 args.forEach(function(arg) { console.log(arg); }); // Now works</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES6 — rest parameters replaced this pattern cleanly
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES6 — rest parameters replaced this pattern cleanly
 function sum(...numbers) {
   return numbers.reduce((total, n) =&gt; total + n, 0);
 }
 console.log(sum(1, 2, 3, 4)); // 10
 // numbers is a real Array — all Array methods available</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3. ES3 (1999) — The Foundation That Ran for a Decade</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 11</div>
-    <div class="phase-title">4. ES5 (2009) — The Reliability Revolution</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">4.1 The Context: Why ES5 Was Needed</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3. ES3 (1999) — The Foundation That Ran for a Decade</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/11</div><div class="pt">4. ES5 (2009) — The Reliability Revolution</div><div class="pc" id="chk4"></div></div><div class="pb2"><h3 class="v2-h3">4.1 The Context: Why ES5 Was Needed</h3>
 <p class="v2-p">By 2009, JavaScript was being used for applications far more complex than its original design intended. Google Maps, Gmail, and early social networks were running thousands of lines of JavaScript. The problems were becoming critical:</p>
 <ul class="v2-ul"><li>Accidental global variables caused mysterious bugs</li><li>No native JSON parsing was a security and performance nightmare</li><li>Working with object properties was primitive</li><li>No standard way to protect object properties from modification</li><li>Arrays lacked the functional methods that made code clean</li></ul>
 <p class="v2-p">ES5 addressed all of these without breaking existing code — everything in ES5 is backward-compatible with ES3.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.2 <code>"use strict"</code> — Opt-In to Safer JavaScript</h3>
 <p class="v2-p">Strict mode is applied by adding the string <code>"use strict"</code> at the top of a file or function. It activates a stricter interpretation of the code and converts many silent errors into thrown exceptions.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>&quot;use strict&quot;; // File-level strict mode
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&quot;use strict&quot;; // File-level strict mode
 
 // Now these cause errors instead of silent failures:
 x = 10;           // ReferenceError: x is not defined (no var/let/const)
@@ -506,7 +398,7 @@ function normalFunction() {
 <p class="v2-p">Before ES5, JSON (JavaScript Object Notation) had no native browser support. Developers either used <code>eval()</code> (dangerous) or loaded Crockford's <code>json2.js</code> library.</p>
 <p class="v2-p">ES5 built JSON handling directly into the language.</p>
 <p class="v2-p"><strong><code>JSON.stringify()</code> — JavaScript value → JSON string:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Simple object
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Simple object
 let user = { name: &quot;Tunde&quot;, age: 28, city: &quot;Lagos&quot; };
 let json = JSON.stringify(user);
 console.log(json);
@@ -535,7 +427,7 @@ let order = {
 };
 console.log(JSON.stringify(order, null, 2));</code></pre></div></div>
 <p class="v2-p"><strong>What <code>JSON.stringify()</code> cannot handle:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let obj = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let obj = {
   name:     &quot;Tunde&quot;,
   fn:       function() {},        // Functions → omitted
   undef:    undefined,            // undefined → omitted
@@ -546,7 +438,7 @@ console.log(JSON.stringify(order, null, 2));</code></pre></div></div>
 console.log(JSON.stringify(obj));
 // &#x27;{&quot;name&quot;:&quot;Tunde&quot;}&#x27; ← only serialisable properties remain</code></pre></div></div>
 <p class="v2-p"><strong><code>JSON.parse()</code> — JSON string → JavaScript value:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let jsonString = &#x27;{&quot;name&quot;:&quot;Tunde&quot;,&quot;age&quot;:28,&quot;scores&quot;:[85,92,78]}&#x27;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let jsonString = &#x27;{&quot;name&quot;:&quot;Tunde&quot;,&quot;age&quot;:28,&quot;scores&quot;:[85,92,78]}&#x27;;
 let parsed = JSON.parse(jsonString);
 
 console.log(parsed.name);       // &quot;Tunde&quot;
@@ -562,7 +454,7 @@ let result = JSON.parse(withDates, (key, value) =&gt; {
 console.log(result.joined instanceof Date); // true
 console.log(result.joined.getFullYear());   // 2024</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use — API communication:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Every API call uses these methods
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Every API call uses these methods
 async function saveUser(user) {
   let response = await fetch(&quot;/api/users&quot;, {
     method: &quot;POST&quot;,
@@ -576,7 +468,7 @@ async function saveUser(user) {
 <h3 class="v2-h3">4.4 ES5 Array Methods — The Functional Revolution</h3>
 <p class="v2-p">Before ES5, processing arrays required manual <code>for</code> loops. ES5 added ten methods that made array processing declarative and expressive.</p>
 <p class="v2-p"><strong><code>Array.forEach()</code> — Iterate with a callback:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 — manual loop
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 — manual loop
 var names = [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;];
 for (var i = 0; i &lt; names.length; i++) {
   console.log(names[i]);
@@ -588,7 +480,7 @@ names.forEach(function(name, index) {
 });
 // 0: Alice  1: Bob  2: Carol</code></pre></div></div>
 <p class="v2-p"><strong><code>Array.map()</code> — Transform each element:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var prices = [100, 250, 80, 310];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var prices = [100, 250, 80, 310];
 
 // Increase all prices by 10%
 var increased = prices.map(function(price) {
@@ -599,7 +491,7 @@ console.log(increased); // [110, 275, 88, 341]
 // Note: map() does NOT modify the original array
 console.log(prices); // [100, 250, 80, 310] — unchanged</code></pre></div></div>
 <p class="v2-p"><strong><code>Array.filter()</code> — Keep matching elements:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var products = [
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var products = [
   { name: &quot;Laptop&quot;,   price: 450000, inStock: true  },
   { name: &quot;Mouse&quot;,    price: 8000,   inStock: true  },
   { name: &quot;Monitor&quot;,  price: 180000, inStock: false },
@@ -612,7 +504,7 @@ var affordable = products.filter(function(p) {
 console.log(affordable.map(function(p) { return p.name; }));
 // [&quot;Mouse&quot;, &quot;Keyboard&quot;]</code></pre></div></div>
 <p class="v2-p"><strong><code>Array.reduce()</code> — Accumulate to a single value:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var cart = [
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var cart = [
   { name: &quot;Laptop&quot;,   price: 450000, qty: 1 },
   { name: &quot;Mouse&quot;,    price: 8000,   qty: 2 },
   { name: &quot;Keyboard&quot;, price: 12000,  qty: 1 }
@@ -624,14 +516,14 @@ var total = cart.reduce(function(accumulator, item) {
 
 console.log(&quot;Total: ₦&quot; + total.toLocaleString()); // Total: ₦478,000</code></pre></div></div>
 <p class="v2-p"><strong><code>Array.indexOf()</code> — Find element position:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var fruits = [&quot;mango&quot;, &quot;pear&quot;, &quot;pineapple&quot;, &quot;mango&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var fruits = [&quot;mango&quot;, &quot;pear&quot;, &quot;pineapple&quot;, &quot;mango&quot;];
 
 console.log(fruits.indexOf(&quot;pear&quot;));      // 1
 console.log(fruits.indexOf(&quot;mango&quot;));     // 0 — first occurrence
 console.log(fruits.indexOf(&quot;guava&quot;));     // -1 — not found
 console.log(fruits.lastIndexOf(&quot;mango&quot;)); // 3 — last occurrence</code></pre></div></div>
 <p class="v2-p"><strong><code>Array.every()</code> and <code>Array.some()</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var scores = [75, 82, 90, 68, 88];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var scores = [75, 82, 90, 68, 88];
 
 // every() — true only if ALL elements pass
 var allPassed = scores.every(function(score) { return score &gt;= 60; });
@@ -641,7 +533,7 @@ console.log(allPassed); // true — all scores are 60 or above
 var anyExcellent = scores.some(function(score) { return score &gt;= 90; });
 console.log(anyExcellent); // true — 90 exists in the array</code></pre></div></div>
 <p class="v2-p"><strong><code>Array.isArray()</code> — Reliably check for arrays:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Before ES5 — typeof [] returns &quot;object&quot;, making it hard to check
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Before ES5 — typeof [] returns &quot;object&quot;, making it hard to check
 console.log(typeof []);         // &quot;object&quot; — not helpful!
 console.log(typeof {});         // &quot;object&quot; — same as array!
 
@@ -650,13 +542,13 @@ console.log(Array.isArray([]));   // true
 console.log(Array.isArray({}));   // false
 console.log(Array.isArray(&quot;hi&quot;)); // false</code></pre></div></div>
 <p class="v2-p"><strong><code>Array.indexOf()</code> for strings:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var text = &quot;Hello, JavaScript World!&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var text = &quot;Hello, JavaScript World!&quot;;
 console.log(text.indexOf(&quot;JavaScript&quot;)); // 7  — position of first char
 console.log(text.indexOf(&quot;Python&quot;));     // -1 — not found</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.5 <code>Object.create()</code> — Cleaner Prototype-Based Inheritance</h3>
 <p class="v2-p"><code>Object.create(proto)</code> creates a new object whose prototype is the specified object. This enables clean prototypal inheritance without <code>new</code> constructors.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES3 prototype inheritance — clunky
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES3 prototype inheritance — clunky
 function Animal(name) {
   this.name = name;
 }
@@ -687,7 +579,7 @@ pureObj.key = &quot;value&quot;;
 <h3 class="v2-h3">4.6 Property Descriptors — Fine-Grained Object Control</h3>
 <p class="v2-p">ES5 introduced the ability to define objects with controlled properties — making some read-only, non-enumerable, or non-configurable.</p>
 <p class="v2-p"><strong><code>Object.defineProperty()</code> — Define or modify a single property:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var user = {};
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var user = {};
 
 Object.defineProperty(user, &quot;id&quot;, {
   value: 42,
@@ -719,7 +611,7 @@ temperature.celsius = 25;
 console.log(temperature.celsius); // 25
 temperature.celsius = -300;       // RangeError: Temperature below absolute zero!</code></pre></div></div>
 <p class="v2-p"><strong><code>Object.freeze()</code> — Make an object immutable:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var config = Object.freeze({
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var config = Object.freeze({
   apiUrl:  &quot;https://api.example.com&quot;,
   timeout: 3000,
   retries: 3
@@ -731,7 +623,7 @@ console.log(config.apiUrl); // &quot;https://api.example.com&quot; — unchanged
 console.log(Object.isFrozen(config));   // true</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Note:</strong> <code>Object.freeze()</code> is <strong>shallow</strong> — only the top level is frozen. Nested objects can still be modified. For deep freezing, you need a recursive function.</p></blockquote>
 <p class="v2-p"><strong><code>Object.keys()</code> — Get an array of enumerable own property names:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var car = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var car = {
   brand: &quot;Toyota&quot;,
   model: &quot;Camry&quot;,
   year:  2023
@@ -745,7 +637,7 @@ Object.keys(car).forEach(function(key) {
 });
 // brand: Toyota  model: Camry  year: 2023</code></pre></div></div>
 <p class="v2-p"><strong><code>Object.seal()</code> — Allow updates, prevent structure changes:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Object.seal() prevents adding or deleting properties,
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Object.seal() prevents adding or deleting properties,
 // but existing properties can still be changed
 
 var settings = Object.seal({
@@ -761,7 +653,7 @@ console.log(settings); // { theme: &quot;dark&quot;, lang: &quot;en&quot; }</cod
 <hr class="v2-hr">
 <h3 class="v2-h3">4.7 ES5 <code>Function.bind()</code> — Fix the <code>this</code> Problem</h3>
 <p class="v2-p">One of JavaScript's most confusing behaviours was the unpredictable value of <code>this</code> inside functions. <code>bind()</code> permanently attaches a <code>this</code> context to a function.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var user = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var user = {
   name: &quot;Tunde&quot;,
   greet: function() {
     return &quot;Hello, I am &quot; + this.name;
@@ -785,7 +677,7 @@ console.log(double(5));  // 10
 console.log(double(8));  // 16
 console.log(double(15)); // 30</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use — event handlers in ES5 OOP:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function Counter() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function Counter() {
   this.count = 0;
   this.increment = this.increment.bind(this); // Fix `this` for event use
 }
@@ -801,7 +693,7 @@ document.getElementById(&quot;btn&quot;).addEventListener(&quot;click&quot;, cou
 <hr class="v2-hr">
 <h3 class="v2-h3">4.8 ES5 <code>String</code> and <code>Date</code> Improvements</h3>
 <p class="v2-p"><strong><code>String.trim()</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var input = &quot;   Hello World   &quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var input = &quot;   Hello World   &quot;;
 console.log(input.trim()); // &quot;Hello World&quot;
 
 // Essential for processing form input
@@ -809,7 +701,7 @@ function processFormInput(raw) {
   return raw.trim();
 }</code></pre></div></div>
 <p class="v2-p"><strong><code>Date.now()</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES5 — simpler way to get current timestamp in milliseconds
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES5 — simpler way to get current timestamp in milliseconds
 var timestamp = Date.now();
 console.log(timestamp); // e.g., 1700000000000
 
@@ -818,28 +710,14 @@ var old = new Date().getTime(); // Same result, more verbose</code></pre></div><
 <hr class="v2-hr">
 <h3 class="v2-h3">4.9 ES5 Feature Summary</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Feature</th><th>What It Does</th></tr></thead><tbody><tr><td><code>"use strict"</code></td><td>Strict mode — catches silent errors as exceptions</td></tr><tr><td><code>JSON.parse()</code></td><td>JSON string → JavaScript value</td></tr><tr><td><code>JSON.stringify()</code></td><td>JavaScript value → JSON string</td></tr><tr><td><code>Array.forEach()</code></td><td>Execute callback for each element</td></tr><tr><td><code>Array.map()</code></td><td>Transform array elements</td></tr><tr><td><code>Array.filter()</code></td><td>Keep matching elements</td></tr><tr><td><code>Array.reduce()</code></td><td>Accumulate to a single value</td></tr><tr><td><code>Array.indexOf()</code></td><td>Find element position</td></tr><tr><td><code>Array.every()</code></td><td>True if all elements match</td></tr><tr><td><code>Array.some()</code></td><td>True if any element matches</td></tr><tr><td><code>Array.isArray()</code></td><td>Reliably detect arrays</td></tr><tr><td><code>Object.create()</code></td><td>Create object with specified prototype</td></tr><tr><td><code>Object.keys()</code></td><td>Array of own enumerable property names</td></tr><tr><td><code>Object.defineProperty()</code></td><td>Fine-grained property control</td></tr><tr><td><code>Object.freeze()</code></td><td>Make object immutable</td></tr><tr><td><code>Object.seal()</code></td><td>Allow updates, prevent structural changes</td></tr><tr><td><code>Function.bind()</code></td><td>Fix <code>this</code> context permanently</td></tr><tr><td><code>String.trim()</code></td><td>Remove surrounding whitespace</td></tr><tr><td><code>Date.now()</code></td><td>Current timestamp in milliseconds</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>4. ES5 (2009) — The Reliability Revolution</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 11</div>
-    <div class="phase-title">5. ES6 / ES2015 — The Modern Language Transformation</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">5.1 Why ES6 Was the Biggest Release Ever</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>4. ES5 (2009) — The Reliability Revolution</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/11</div><div class="pt">5. ES6 / ES2015 — The Modern Language Transformation</div><div class="pc" id="chk5"></div></div><div class="pb2"><h3 class="v2-h3">5.1 Why ES6 Was the Biggest Release Ever</h3>
 <p class="v2-p">ES6 (June 2015) was the result of six years of work reconciling the failed ES4 proposal with what the web actually needed. It contained more new features than all previous versions combined. It didn't just add to JavaScript — it fundamentally changed how JavaScript is written and taught.</p>
 <p class="v2-p">Every modern JavaScript tutorial, every React component, every Node.js server uses ES6+ syntax. If ES5 was JavaScript "growing up," ES6 was JavaScript becoming a modern, professional-grade language.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.2 <code>let</code> and <code>const</code> — Fixing Variable Scope</h3>
 <p class="v2-p"><code>let</code> and <code>const</code> provide <strong>block-level scoping</strong> — the behaviour developers expected from day one but didn't get with <code>var</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// var — function scoped, hoisted, re-declarable (the source of many bugs)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// var — function scoped, hoisted, re-declarable (the source of many bugs)
 function varDemo() {
   console.log(x); // undefined — hoisted!
   var x = 10;
@@ -873,7 +751,7 @@ config = {};            // ❌ TypeError — the binding cannot change</code></p
 <hr class="v2-hr">
 <h3 class="v2-h3">5.3 Arrow Functions <code>=&gt;</code> — Concise and Lexically Scoped <code>this</code></h3>
 <p class="v2-p">Arrow functions provide a shorter syntax and — critically — inherit <code>this</code> from their enclosing scope rather than having their own <code>this</code> context.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES5 function
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES5 function
 var double = function(x) { return x * 2; };
 
 // ES6 arrow function
@@ -892,7 +770,7 @@ const processUser = (user) =&gt; {
 // No parameters — empty parentheses
 const getTimestamp = () =&gt; Date.now();</code></pre></div></div>
 <p class="v2-p"><strong>The critical <code>this</code> difference:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES5 — `this` problem in callbacks
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES5 — `this` problem in callbacks
 function Timer() {
   this.seconds = 0;
   var self = this; // Classic ES5 workaround — save `this` reference
@@ -913,7 +791,7 @@ function Timer2() {
   }, 1000);
 }</code></pre></div></div>
 <p class="v2-p"><strong>Arrow functions in array methods:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const products = [
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const products = [
   { name: &quot;Laptop&quot;,   price: 450000 },
   { name: &quot;Mouse&quot;,    price: 8000   },
   { name: &quot;Keyboard&quot;, price: 12000  }
@@ -934,7 +812,7 @@ console.log(total);  // 470000</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.4 Template Literals — String Interpolation</h3>
 <p class="v2-p">Template literals (backtick strings) allow embedded expressions and multi-line strings.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const name    = &quot;Tunde&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const name    = &quot;Tunde&quot;;
 const balance = 50000;
 const date    = &quot;2024-01-15&quot;;
 
@@ -955,7 +833,7 @@ console.log(`${a} + ${b} = ${a + b}`);   // 10 + 3 = 13
 console.log(`${a} &gt; ${b}: ${a &gt; b}`);    // 10 &gt; 3: true
 console.log(`${name.toUpperCase()}`);    // TUNDE</code></pre></div></div>
 <p class="v2-p"><strong>Tagged template literals — advanced:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// A tag function receives the template parts and values separately
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// A tag function receives the template parts and values separately
 function highlight(strings, ...values) {
   return strings.reduce((result, str, i) =&gt; {
     return result + str + (values[i] !== undefined ? `&lt;b&gt;${values[i]}&lt;/b&gt;` : &quot;&quot;);
@@ -970,7 +848,7 @@ console.log(html);
 <hr class="v2-hr">
 <h3 class="v2-h3">5.5 Destructuring — Extract Values Cleanly</h3>
 <p class="v2-p"><strong>Array destructuring:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES5
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES5
 var arr = [10, 20, 30];
 var first  = arr[0];
 var second = arr[1];
@@ -997,7 +875,7 @@ console.log(x, y); // 10 5
 function getCoordinates() { return [51.5074, -0.1278]; }
 const [latitude, longitude] = getCoordinates();</code></pre></div></div>
 <p class="v2-p"><strong>Object destructuring:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const user = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const user = {
   id:    1,
   name:  &quot;Tunde&quot;,
   email: &quot;tunde@example.com&quot;,
@@ -1033,7 +911,7 @@ function displayUser({ name, role, address: { city } = {} }) {
 displayUser(user); // &quot;Tunde (admin) — Lagos&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.6 Default Parameters</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES5 — manual default handling
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES5 — manual default handling
 function greet(name, greeting) {
   name     = name     || &quot;Guest&quot;;
   greeting = greeting || &quot;Hello&quot;;
@@ -1059,7 +937,7 @@ console.log(createRange(5, 100));  // { start: 5, end: 100 }</code></pre></div><
 <hr class="v2-hr">
 <h3 class="v2-h3">5.7 Rest and Spread Operators</h3>
 <p class="v2-p"><strong>Rest <code>...</code> — collect remaining arguments/elements:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Rest in function parameters
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Rest in function parameters
 function sum(first, second, ...rest) {
   console.log(&quot;First:&quot;, first);
   console.log(&quot;Second:&quot;, second);
@@ -1077,7 +955,7 @@ const { name, ...details } = { name: &quot;Tunde&quot;, age: 28, city: &quot;Lag
 console.log(name);    // &quot;Tunde&quot;
 console.log(details); // { age: 28, city: &quot;Lagos&quot; }</code></pre></div></div>
 <p class="v2-p"><strong>Spread <code>...</code> — expand iterable into individual elements:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Spread in function calls
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Spread in function calls
 const numbers = [3, 1, 4, 1, 5, 9, 2, 6];
 console.log(Math.max(...numbers)); // 9 — spread as individual arguments
 
@@ -1094,7 +972,7 @@ const config = { ...defaults, ...overrides }; // { theme: &quot;dark&quot;, lang
 <hr class="v2-hr">
 <h3 class="v2-h3">5.8 Classes — Cleaner OOP Syntax</h3>
 <p class="v2-p">ES6 classes provide clean syntax over JavaScript's prototype system. They are syntactic sugar — under the hood, prototypes still do the work.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES5 — prototype-based OOP (verbose and fragile)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES5 — prototype-based OOP (verbose and fragile)
 function Animal(name, sound) {
   this.name  = name;
   this.sound = sound;
@@ -1139,7 +1017,7 @@ console.log(rex instanceof Animal); // true — inheritance chain works</code></
 <hr class="v2-hr">
 <h3 class="v2-h3">5.9 Promises — Structured Asynchronous Code</h3>
 <p class="v2-p">Promises represent a value that may be available now, later, or never. They replaced callback hell with a chainable pattern.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// A Promise has three states: pending → fulfilled OR rejected
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// A Promise has three states: pending → fulfilled OR rejected
 function fetchData(url) {
   return new Promise((resolve, reject) =&gt; {
     setTimeout(() =&gt; {
@@ -1171,7 +1049,7 @@ fetchUser(1)
 <hr class="v2-hr">
 <h3 class="v2-h3">5.10 Modules — Official Import/Export</h3>
 <p class="v2-p">ES6 modules allow splitting code across files with a clear interface contract.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// math.js — named exports
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// math.js — named exports
 export const PI = 3.14159;
 export function area(r) { return PI * r * r; }
 export function circumference(r) { return 2 * PI * r; }
@@ -1193,7 +1071,7 @@ console.log(MathUtils.circumference(5));  // 31.4159
 console.log(formatCurrency(50000));       // &quot;NGN 50,000&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.11 <code>Map</code> and <code>Set</code> — Purpose-Built Data Structures</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Map — key-value pairs with ANY key type
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Map — key-value pairs with ANY key type
 const userSessions = new Map();
 const user1 = { id: 1, name: &quot;Tunde&quot; };
 const user2 = { id: 2, name: &quot;Alice&quot; };
@@ -1228,7 +1106,7 @@ console.log(uniqueIds); // [1, 2, 3, 4, 5]</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.12 Symbols — Unique Identifiers</h3>
 <p class="v2-p"><code>Symbol</code> creates a guaranteed-unique value. No two symbols are ever equal, even if they have the same description.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const id1 = Symbol(&quot;id&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const id1 = Symbol(&quot;id&quot;);
 const id2 = Symbol(&quot;id&quot;);
 
 console.log(id1 === id2);           // false — always unique
@@ -1277,7 +1155,7 @@ for (let n of new Range(1, 5)) {
 <hr class="v2-hr">
 <h3 class="v2-h3">5.13 Generators — Pausable Functions</h3>
 <p class="v2-p">Generator functions (<code>function*</code>) can be paused mid-execution and resumed, yielding values one at a time.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* countUp(start = 0) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* countUp(start = 0) {
   while (true) {
     yield start++;
   }
@@ -1304,22 +1182,8 @@ console.log(first10);
 <hr class="v2-hr">
 <h3 class="v2-h3">5.14 ES6 Feature Summary</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Feature</th><th>Replaces / Improves</th></tr></thead><tbody><tr><td><code>let</code> / <code>const</code></td><td><code>var</code> — block scoping</td></tr><tr><td>Arrow functions <code>=&gt;</code></td><td><code>function</code> — concise + lexical <code>this</code></td></tr><tr><td>Template literals `<code> </code> ``</td><td>String concatenation</td></tr><tr><td>Destructuring</td><td>Manual property/index access</td></tr><tr><td>Default parameters</td><td>`param = param</td><td></td><td>default` patterns</td></tr><tr><td>Rest <code>...args</code></td><td><code>arguments</code> object</td></tr><tr><td>Spread <code>...arr</code></td><td><code>apply()</code> and <code>concat()</code> patterns</td></tr><tr><td><code>class</code> syntax</td><td>Constructor functions + prototype chains</td></tr><tr><td>Promises</td><td>Callback-based async patterns</td></tr><tr><td><code>import</code>/<code>export</code></td><td>IIFE module patterns, script loading order</td></tr><tr><td><code>Map</code>/<code>Set</code></td><td>Plain objects used as maps; manual deduplication</td></tr><tr><td><code>Symbol</code></td><td>String-keyed properties that might collide</td></tr><tr><td>Generators</td><td>Manual iterator implementations</td></tr><tr><td><code>for...of</code></td><td>Manual loops over iterables</td></tr><tr><td><code>WeakMap</code>/<code>WeakSet</code></td><td>Memory-leaking associations</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>5. ES6 / ES2015 — The Modern Language Transformation</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 11</div>
-    <div class="phase-title">6. IE and Edge — The Browser Compatibility Story</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">6.1 Internet Explorer: The Villain of Web Development</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>5. ES6 / ES2015 — The Modern Language Transformation</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/11</div><div class="pt">6. IE and Edge — The Browser Compatibility Story</div><div class="pc" id="chk6"></div></div><div class="pb2"><h3 class="v2-h3">6.1 Internet Explorer: The Villain of Web Development</h3>
 <p class="v2-p"><strong>Internet Explorer (IE)</strong> was Microsoft's web browser from 1995 to 2022. At its peak in 2003, IE had over <strong>95% market share</strong>. For years, "write JavaScript" and "make IE work" were inseparable challenges.</p>
 <p class="v2-p"><strong>Why IE was so difficult:</strong></p>
 <ul class="v2-ul"><li>Microsoft had their own implementation called <strong>JScript</strong> that diverged from the standard</li><li>IE was notoriously slow to adopt new ECMAScript standards</li><li>Each version of IE had its own bugs, inconsistencies, and proprietary features</li><li>The browser was bundled with Windows, so users didn't update even when better options existed</li><li>Corporate environments locked to IE6 or IE8 persisted for over a decade after those versions were obsolete</li></ul>
@@ -1339,7 +1203,7 @@ console.log(first10);
 <hr class="v2-hr">
 <h3 class="v2-h3">6.4 Browser Feature Detection vs Browser Detection</h3>
 <p class="v2-p">The old way to handle browser differences was <strong>browser detection</strong> — checking which browser the user had and writing different code paths:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Browser detection — fragile and bad practice
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ Browser detection — fragile and bad practice
 if (navigator.userAgent.indexOf(&quot;MSIE&quot;) !== -1) {
   // IE-specific code
   var xhr = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
@@ -1350,7 +1214,7 @@ if (navigator.userAgent.indexOf(&quot;MSIE&quot;) !== -1) {
 <p class="v2-p"><strong>Problems with this approach:</strong></p>
 <ul class="v2-ul"><li>User agent strings can be faked</li><li>New browser versions break the detection logic</li><li>You're assuming what features a browser has based on its name — wrong</li></ul>
 <p class="v2-p">The modern approach is <strong>feature detection</strong> — checking whether the specific feature you need actually exists:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ✅ Feature detection — checks for capability, not identity
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ✅ Feature detection — checks for capability, not identity
 if (typeof window.fetch === &quot;function&quot;) {
   // fetch API is available — use it
   fetch(&quot;/api/data&quot;).then(r =&gt; r.json()).then(console.log);
@@ -1373,7 +1237,7 @@ if (typeof Promise === &quot;function&quot;) {
 <hr class="v2-hr">
 <h3 class="v2-h3">6.5 Polyfills — Backfilling Missing Features</h3>
 <p class="v2-p">A <strong>polyfill</strong> is code that implements a modern feature for older browsers that don't have it natively. The name comes from "Polyfilla" — a British wall-filler product that smooths over cracks and holes.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Polyfill for Array.from() — not in IE
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Polyfill for Array.from() — not in IE
 if (!Array.from) {
   Array.from = function(arrayLike) {
     return Array.prototype.slice.call(arrayLike);
@@ -1397,7 +1261,7 @@ if (typeof Promise === &quot;undefined&quot;) {
 <hr class="v2-hr">
 <h3 class="v2-h3">6.6 Transpilation with Babel — Write Modern, Deploy Everywhere</h3>
 <p class="v2-p"><strong>Babel</strong> is a JavaScript <strong>compiler</strong> (transpiler) that converts modern JavaScript (ES6+) into older JavaScript (ES5) that runs in older browsers.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES6 code you write:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES6 code you write:
 const greet = (name = &quot;Guest&quot;) =&gt; `Hello, ${name}!`;
 
 // What Babel transpiles it to (ES5 output):
@@ -1406,7 +1270,7 @@ var greet = function greet() {
   var name = arguments.length &gt; 0 &amp;&amp; arguments[0] !== undefined ? arguments[0] : &quot;Guest&quot;;
   return &quot;Hello, &quot; + name + &quot;!&quot;;
 };</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES6 class
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES6 class
 class Animal {
   constructor(name) { this.name = name; }
   speak() { return `${this.name} speaks`; }
@@ -1426,7 +1290,7 @@ var Animal = function() {
   return Animal;
 }();</code></pre></div></div>
 <p class="v2-p"><strong>How Babel fits in a modern project:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Your Code (ES6+)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Your Code (ES6+)
       ↓
   Babel (transpiler)
       ↓
@@ -1455,25 +1319,10 @@ Polyfills (core-js)
 <ol class="v2-ol"><li>Supporting older Safari versions</li><li>Using very bleeding-edge features (Stage 3 proposals)</li><li>Building libraries that need maximum compatibility</li></ol>
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 2 — APPLIED EXERCISES</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>6. IE and Edge — The Browser Compatibility Story</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 11</div>
-    <div class="phase-title">Exercise 1 — The ES3 → ES5 → ES6 Rewrite</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Rewrite the same function three times — once in ES3 style, once in ES5, once in ES6 — observing how the language improved.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>6. IE and Edge — The Browser Compatibility Story</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/11</div><div class="pt">Exercise 1 — The ES3 → ES5 → ES6 Rewrite</div><div class="pc" id="chk7"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Rewrite the same function three times — once in ES3 style, once in ES5, once in ES6 — observing how the language improved.</p>
 <p class="v2-p"><strong>The task:</strong> A function that takes an array of order objects, filters to orders over ₦10,000, calculates a 5% tax on each, and returns the items sorted by total (including tax) ascending.</p>
-<p class="v2-p"><strong>ES3 Version (write this first):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Write using: var, for loops, manual array building, no JSON
+<p class="v2-p"><strong>ES3 Version (write this first):</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 1 — The ES3 → ES5 → ES6 Rewrite</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Write using: var, for loops, manual array building, no JSON
 // Expected output: [{name:&quot;Mouse&quot;,total:12600}, {name:&quot;Keyboard&quot;,total:15750}]
 // (using sample data below)
 
@@ -1486,47 +1335,32 @@ var orders = [
 
 // Your ES3 code here — use only: var, for, if, push, sort, manual math</code></pre></div></div>
 <p class="v2-p"><strong>ES5 Version:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Rewrite using: var/function, forEach/filter/map/reduce/sort, JSON.stringify
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Rewrite using: var/function, forEach/filter/map/reduce/sort, JSON.stringify
 // No arrow functions, no template literals</code></pre></div></div>
 <p class="v2-p"><strong>ES6 Version:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Rewrite using: const/let, arrow functions, destructuring,
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Rewrite using: const/let, arrow functions, destructuring,
 // template literals, method chaining</code></pre></div></div>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>Write the ES3 version first — no shortcuts allowed</li><li>Refactor to ES5 using array methods (no manual for loops)</li><li>Refactor to ES6 (full modern syntax)</li><li>Compare the three versions side-by-side — count the lines and note readability</li><li>Identify which ES3 version features needed the most rewriting</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 1 — The ES3 → ES5 → ES6 Rewrite</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 11</div>
-    <div class="phase-title">Exercise 2 — Version Detective</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Look at the following code snippets and identify which ES version (ES3, ES5, or ES6+) they were written for, based on the features used.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Snippet A
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(7)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/11</div><div class="pt">Exercise 2 — Version Detective</div><div class="pc" id="chk8"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Look at the following code snippets and identify which ES version (ES3, ES5, or ES6+) they were written for, based on the features used.</p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 2 — Version Detective</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Snippet A
 var total = 0;
 for (var i = 0; i &lt; items.length; i++) {
   total += items[i].price;
 }
 var discount = total &gt; 50000 ? total * 0.1 : 0;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Snippet B
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Snippet B
 &quot;use strict&quot;;
 var filtered = products.filter(function(p) {
   return p.inStock &amp;&amp; p.price &gt;= 1000;
 });
 var names = filtered.map(function(p) { return p.name; });
 console.log(JSON.stringify(names));</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Snippet C
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Snippet C
 const { name, price, category = &quot;General&quot; } = product;
 const tax = price * 0.075;
 const summary = `${name} (${category}): ₦${(price + tax).toLocaleString()}`;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Snippet D
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Snippet D
 (function() {
   var privateData = {};
   window.DataStore = {
@@ -1534,7 +1368,7 @@ const summary = `${name} (${category}): ₦${(price + tax).toLocaleString()}`;</
     get: function(key) { return privateData[key]; }
   };
 })();</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Snippet E
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Snippet E
 const processOrders = async (userId) =&gt; {
   const { orders, ...meta } = await fetchUserData(userId);
   return orders
@@ -1544,24 +1378,9 @@ const processOrders = async (userId) =&gt; {
 };</code></pre></div></div>
 <p class="v2-p"><strong>For each snippet:</strong></p>
 <ol class="v2-ol"><li>Identify the ES version(s) it targets</li><li>List the specific features that make you certain</li><li>Identify any features that could NOT run in ES3</li><li>Write the oldest-compatible rewrite for snippet C (make it ES3 compatible)</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 2 — Version Detective</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 11</div>
-    <div class="phase-title">Exercise 3 — Polyfill Writing</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Implement ES5 methods from scratch to understand how they work internally.</p>
-<p class="v2-p"><strong>Task — implement these three methods:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 1. Array.prototype.myMap — behaves exactly like Array.map()
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(8)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/11</div><div class="pt">Exercise 3 — Polyfill Writing</div><div class="pc" id="chk9"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Implement ES5 methods from scratch to understand how they work internally.</p>
+<p class="v2-p"><strong>Task — implement these three methods:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 3 — Polyfill Writing</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 1. Array.prototype.myMap — behaves exactly like Array.map()
 Array.prototype.myMap = function(callback) {
   // Your implementation here — no built-in map() allowed
 };
@@ -1588,24 +1407,9 @@ console.log([1,2,3,4,5].myReduce((acc, x) =&gt; acc + x, 0)); // 15
 console.log([1,2,3,4,5].myReduce((acc, x) =&gt; acc + x));    // 15 (no initial value)</code></pre></div></div>
 <p class="v2-p"><strong>Hints:</strong></p>
 <ul class="v2-ul"><li>Each method takes a <code>callback(element, index, array)</code> signature</li><li><code>map</code> always returns an array of the same length</li><li><code>filter</code> returns a new array with only elements where callback returns truthy</li><li><code>reduce</code> without an initial value uses the first element as the accumulator and starts from index 1</li></ul>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 3 — Polyfill Writing</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase10">
-  <div class="phase-header">
-    <div class="phase-num">Phase 10 of 11</div>
-    <div class="phase-title">Exercise 4 — Babel Mental Transpiler</div>
-    <div class="phase-check" id="chk10"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Manually "transpile" ES6+ code to ES5, as Babel would do.</p>
-<p class="v2-p"><strong>Transpile these ES6 snippets to ES5:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ES6 Input 1 — Arrow function
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(9)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase10"><div class="ph"><div class="pn">Phase 10/11</div><div class="pt">Exercise 4 — Babel Mental Transpiler</div><div class="pc" id="chk10"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Manually "transpile" ES6+ code to ES5, as Babel would do.</p>
+<p class="v2-p"><strong>Transpile these ES6 snippets to ES5:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 4 — Babel Mental Transpiler</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ES6 Input 1 — Arrow function
 const greet = name =&gt; `Hello, ${name}!`;
 
 // ES5 Output: ???
@@ -1636,26 +1440,12 @@ function logAll(first, ...rest) {
 <p class="v2-p"><strong>Self-check:</strong> After writing your ES5 versions, run both the ES6 and ES5 versions in a browser console and verify they produce identical output for the same inputs.</p>
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 3 — PROJECT SIMULATION</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 4 — Babel Mental Transpiler</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase11">
-  <div class="phase-header">
-    <div class="phase-num">Phase 11 of 11</div>
-    <div class="phase-title">Project: JavaScript Time Machine — Era-Aware Code Library</div>
-    <div class="phase-check" id="chk11"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Overview:</strong> You will build a single utility library three times — once per major era (ES3, ES5, ES6+). The library handles a product catalogue with search, filtering, and display. By the end, you will have three files that do the same thing in completely different styles, demonstrating how the language evolved.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(10)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase11"><div class="ph"><div class="pn">Phase 11/11</div><div class="pt">Project: JavaScript Time Machine — Era-Aware Code Library</div><div class="pc" id="chk11"></div></div><div class="pb2"><p class="v2-p"><strong>Overview:</strong> You will build a single utility library three times — once per major era (ES3, ES5, ES6+). The library handles a product catalogue with search, filtering, and display. By the end, you will have three files that do the same thing in completely different styles, demonstrating how the language evolved.</p>
 <p class="v2-p"><strong>Real-world connection:</strong> Legacy code migration is one of the most common tasks in professional development. Every company with more than five years of JavaScript history has code spanning multiple eras. Being able to read, understand, and modernise old code is one of the most valuable skills a developer can have — and commands premium salaries.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 1 — The ES3 Version (The Original)</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// catalogue-es3.js — Written as if it&#x27;s 2005
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// catalogue-es3.js — Written as if it&#x27;s 2005
 // No strict mode, no JSON, no array methods, no AJAX
 
 var CATALOGUE = (function() {
@@ -1752,7 +1542,7 @@ CATALOGUE.printAll();
 var electronics = CATALOGUE.search({ category: &quot;electronics&quot;, inStock: true });</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 2 — The ES5 Refactor</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// catalogue-es5.js — Written as if it&#x27;s 2012
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// catalogue-es5.js — Written as if it&#x27;s 2012
 // Uses: strict mode, JSON, array methods, Object.create, bind
 
 &quot;use strict&quot;;
@@ -1828,7 +1618,7 @@ var furniture = Catalogue.search({ category: &quot;furniture&quot; });
 console.log(&quot;Furniture items:&quot;, furniture.map(function(p) { return p.name; }));</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 3 — The ES6+ Modern Version</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// catalogue-es6.js — Written in 2024
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// catalogue-es6.js — Written in 2024
 // Full modern JavaScript
 
 const PRODUCTS = Object.freeze([
@@ -1941,131 +1731,91 @@ console.log(JSON.stringify(catalogue.toJSON(), null, 2));</code></pre></div></di
 <p class="v2-p"># Completion Checklist</p>
 <ul class="v2-ul"><li>[x] <strong>Version timeline:</strong> Know all versions from ES1 (1997) through ES2026 — why ES4 was cancelled</li><li>[x] <strong>Three eras:</strong> Wild West (1995–2009), Stabilisation (2009–2015), Modern (2015–present)</li><li>[x] <strong>JavaScript origin story:</strong> Brendan Eich, 10 days, Mocha → LiveScript → JavaScript</li><li>[x] <strong>Browser wars:</strong> Netscape vs Microsoft JScript, ECMA standardisation</li><li>[x] <strong>ES4 failure:</strong> Why it was abandoned, how ideas resurfaced in ES6</li><li>[x] <strong>Node.js (2009):</strong> Why server-side JS was transformative</li><li>[x] <strong>ES3 (1999):</strong> <code>try/catch</code>, <code>switch</code>, regex, <code>do...while</code>, <code>split/replace</code></li><li>[x] <strong>ES3 limitations:</strong> No <code>let</code>/<code>const</code>, no JSON, no array methods, no strict mode</li><li>[x] <strong>IIFE pattern:</strong> Why it existed, how it simulated block scope and modules</li><li>[x] <strong><code>arguments</code> object:</strong> How it works; why rest parameters replaced it</li><li>[x] <strong>ES5 (2009) — <code>"use strict"</code>:</strong> What it catches; list of prevented behaviours</li><li>[x] <strong>ES5 — <code>JSON.parse()</code>/<code>JSON.stringify()</code>:</strong> Complete options — reviver, replacer, space</li><li>[x] <strong>ES5 — Array methods:</strong> <code>forEach</code>, <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>indexOf</code>, <code>every</code>, <code>some</code>, <code>isArray</code></li><li>[x] <strong>ES5 — <code>Object.create()</code>:</strong> Prototype-based inheritance without <code>new</code></li><li>[x] <strong>ES5 — Property descriptors:</strong> <code>defineProperty</code>, <code>freeze</code>, <code>seal</code>, <code>keys</code></li><li>[x] <strong>ES5 — <code>Function.bind()</code>:</strong> Solving the <code>this</code> problem</li><li>[x] <strong>ES6 — <code>let</code>/<code>const</code>:</strong> Block scope, TDZ, const with objects</li><li>[x] <strong>ES6 — Arrow functions:</strong> Concise syntax; lexical <code>this</code> binding</li><li>[x] <strong>ES6 — Template literals:</strong> Interpolation, multi-line, tagged templates</li><li>[x] <strong>ES6 — Destructuring:</strong> Array, object, nested, defaults, rename, parameter</li><li>[x] <strong>ES6 — Default parameters:</strong> Prevent undefined bugs; can reference earlier params</li><li>[x] <strong>ES6 — Rest/Spread:</strong> Collecting and expanding — arrays and objects</li><li>[x] <strong>ES6 — Classes:</strong> Syntax sugar over prototypes; <code>extends</code>/<code>super</code>; static methods</li><li>[x] <strong>ES6 — Promises:</strong> Three states; <code>.then().catch().finally()</code>; chaining</li><li>[x] <strong>ES6 — Modules:</strong> <code>import</code>/<code>export</code>; default vs named; <code>* as</code> namespace</li><li>[x] <strong>ES6 — <code>Map</code>/<code>Set</code>:</strong> Use cases vs plain objects/arrays; iteration</li><li>[x] <strong>ES6 — Symbols:</strong> Guaranteed uniqueness; well-known symbols; hidden keys</li><li>[x] <strong>ES6 — Generators:</strong> <code>function*</code>, <code>yield</code>, creating iterables</li><li>[x] <strong>IE history:</strong> IE6 through IE11; the compatibility nightmare; JScript divergence</li><li>[x] <strong>Edge:</strong> Legacy EdgeHTML vs Chromium Edge; IE retirement (June 2022)</li><li>[x] <strong>Feature detection vs browser detection:</strong> Why feature detection is correct</li><li>[x] <strong>Polyfills:</strong> What they are; <code>Array.from</code>, <code>String.includes</code> examples</li><li>[x] <strong>Babel transpilation:</strong> What it does; reading transpiled output</li><li>[x] <strong>Can I Use / MDN:</strong> How to check browser support for any feature</li><li>[x] <strong>Exercises completed:</strong> ES3/ES5/ES6 rewrite, version detective, polyfill writing, mental transpiler</li><li>[x] <strong>Full project completed:</strong> Three-era catalogue library with complete side-by-side comparison</li><li>[x] <strong>Reflection questions answered</strong></li></ul>
 <hr class="v2-hr">
-<p class="v2-p"><strong>One-sentence summary:</strong> JavaScript was born in ten days in 1995, spent a decade locked at ES3 while browser wars raged and ES4 was abandoned, found stability in ES5's strict mode and native JSON, then transformed into a modern professional language with ES6's classes, modules, Promises and arrow functions — a thirty-year journey from a Netscape scripting toy to the most widely deployed programming language on Earth.</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Project: JavaScript Time Machine — Era-Aware Code Library</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Lesson 27 JS Project</div>
-  <div class="build-desc"></div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<p class="v2-p"><strong>One-sentence summary:</strong> JavaScript was born in ten days in 1995, spent a decade locked at ES3 while browser wars raged and ES4 was abandoned, found stability in ES5's strict mode and native JSON, then transformed into a modern professional language with ES6's classes, modules, Promises and arrow functions — a thirty-year journey from a Netscape scripting toy to the most widely deployed programming language on Earth.</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Project: JavaScript Time Machine — Era-Aware Code Library</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Lesson 27 Project</div><div class="build-req"><p class="v2-p">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;title&gt;My JS Project&lt;/title&gt;
+&lt;title&gt;Project&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;</p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Project&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;!-- Write your HTML here --&gt;
-  &lt;script&gt;
-    // Write your JavaScript here
-  &lt;/script&gt;
+&lt;!-- Your code here --&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`<!DOCTYPE html>
+&lt;/html&gt;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My JS Project</title>
+<title>Project</title>
 </head>
 <body>
-  <!-- Write your HTML here -->
-  <script>
-    // Write your JavaScript here
-  </script>
+<!-- Your code here -->
 </body>
-</html>`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+</html>`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-27-lesson-27-js-project</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 27 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-27-lesson-27-js-project/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 27 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ 1. The Complete JavaScript Version History</li><li>✅ 2. The Story of JavaScript</li><li>✅ 3. ES3 (1999) — The Foundation That Ran for a Decade</li><li>✅ 4. ES5 (2009) — The Reliability Revolution</li><li>✅ 5. ES6 / ES2015 — The Modern Language Transformation</li><li>✅ 6. IE and Edge — The Browser Compatibility Story</li><li>✅ Exercise 1 — The ES3 → ES5 → ES6 Rewrite</li><li>✅ Exercise 2 — Version Detective</li></ul>
-  <div class="lesson-nav"><a href="lesson_26.html" class="ln-btn">← Lesson 26</a><a href="lesson_28.html" class="ln-btn primary">Lesson 28 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-27-lesson-27-project</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 27 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-27-lesson-27-project/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 27 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ 1. The Complete JavaScript Version History</li><li>✅ 2. The Story of JavaScript</li><li>✅ 3. ES3 (1999) — The Foundation That Ran for a Decade</li><li>✅ 4. ES5 (2009) — The Reliability Revolution</li><li>✅ 5. ES6 / ES2015 — The Modern Language Transformation</li><li>✅ 6. IE and Edge — The Browser Compatibility Story</li><li>✅ Exercise 1 — The ES3 → ES5 → ES6 Rewrite</li><li>✅ Exercise 2 — Version Detective</li></ul><div class="ln"><a href="lesson_26.html" class="ln-btn">← Lesson 26</a><a href="lesson_28.html" class="ln-btn primary">Lesson 28 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 27 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 27 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=11,KEY='techbase_js_l27';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

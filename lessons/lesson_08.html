@@ -1,205 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 08: JavaScript Numbers: JS Numbers · Number Methods · Number Properties · Number Reference · Bitwise · BigInt — Techbase JavaScript</title>
-<meta name="description" content="JavaScript Numbers: JS Numbers · Number Methods · Number Properties · Number Reference · Bitwise · BigInt">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 08 of 46</span>
+  <span class="l-nav-lbl">Lesson 08 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 08</div>
-    <h1>JavaScript Numbers: JS Numbers · Number Methods · Number Properties · Number Reference · Bitwise · BigInt</h1>
-    <div class="l-hero-sub">18 phases · Build: 💰 Project Overview</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 08</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 18 phases</span>
-    <span>🏗️ 💰 Project Overview</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 08</div>
+  <h1>JavaScript Numbers: JS Numbers · Number Methods · Number Properties · Number Reference · Bitwise · BigInt</h1>
+  <div class="l-hero-sub">18 phases &nbsp;·&nbsp; Build: 💰 Project Overview</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 08</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 18 phases</span><span>🏗️ 💰 Project Overview</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 18</div>
-    <div class="phase-title">1. What Is a Number in JavaScript?</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Is It?</h3>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/18</div><div class="pt">1. What Is a Number in JavaScript?</div><div class="pc" id="chk1"></div></div><div class="pb2"><h3 class="v2-h3">What Is It?</h3>
 <p class="v2-p">A <strong>number</strong> in JavaScript is any numeric value — whole numbers, decimals, positive, negative — all treated as the same data type: <code>Number</code>.</p>
 <p class="v2-p">This is different from many other programming languages. In Java or C++, for example, you have separate types: <code>int</code> (whole numbers), <code>float</code> (decimals), <code>double</code> (larger decimals), <code>long</code> (very big integers). JavaScript simplifies all of this into a <strong>single type</strong>: <code>Number</code>.</p>
 <p class="v2-p">Think of JavaScript's Number like a single universal box that can hold any kind of numeric value.</p>
@@ -209,24 +143,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p">Numbers are everywhere in programming:</p>
 <ul class="v2-ul"><li>Price of a product: <code>29.99</code></li><li>A user's age: <code>25</code></li><li>Website visitor count: <code>1500000</code></li><li>A GPS coordinate: <code>6.5244</code> (latitude of Lagos)</li><li>A bank account balance: <code>250000.75</code></li><li>A pixel color value: <code>255</code></li></ul>
 <p class="v2-p">Every shopping cart, calculator, grade system, or financial dashboard depends on numbers.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1. What Is a Number in JavaScript?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 18</div>
-    <div class="phase-title">2. Writing Numbers</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Integers and Decimals</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1. What Is a Number in JavaScript?</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/18</div><div class="pt">2. Writing Numbers</div><div class="pc" id="chk2"></div></div><div class="pb2"><h3 class="v2-h3">Integers and Decimals</h3>
 <p class="v2-p">JavaScript numbers can be written with or without decimal points — both are valid:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let price = 29.99;    // A number WITH decimals (called a &quot;float&quot;)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let price = 29.99;    // A number WITH decimals (called a &quot;float&quot;)
 let age = 25;         // A number WITHOUT decimals (called an &quot;integer&quot;)
 let temperature = -5; // Negative numbers work too
 
@@ -235,7 +155,7 @@ console.log(age);         // 25
 console.log(temperature); // -5</code></pre></div></div>
 <h3 class="v2-h3">Extra Large Numbers — Scientific (Exponential) Notation</h3>
 <p class="v2-p">When working with very large or very small numbers, JavaScript lets you use <strong>exponential notation</strong> (like scientific notation in math):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// e+N means &quot;multiply by 10 to the power of N&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// e+N means &quot;multiply by 10 to the power of N&quot;
 let bigNum = 123e5;   // 123 × 10^5 = 12,300,000
 let smallNum = 123e-5; // 123 × 10^-5 = 0.00123
 
@@ -246,102 +166,60 @@ console.log(smallNum); // 0.00123</code></pre></div></div>
 <p class="v2-p"><strong>Step-by-step for <code>123e-5</code>:</strong></p>
 <ul class="v2-ul"><li><code>e-5</code> means "move the decimal point 5 places to the LEFT"</li><li><code>123</code> → <code>0.00123</code></li></ul>
 <h3 class="v2-h3">Real-world use:</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let earthMassKg = 5.972e24;    // 5,972,000,000,000,000,000,000,000 kg
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let earthMassKg = 5.972e24;    // 5,972,000,000,000,000,000,000,000 kg
 let electronCharge = 1.6e-19;  // 0.00000000000000000016 coulombs
 console.log(earthMassKg);      // 5.972e+24</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2. Writing Numbers</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 18</div>
-    <div class="phase-title">3. How JavaScript Stores Numbers — The 64-bit Float Format</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">The IEEE 754 Standard</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2. Writing Numbers</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/18</div><div class="pt">3. How JavaScript Stores Numbers — The 64-bit Float Format</div><div class="pc" id="chk3"></div></div><div class="pb2"><h3 class="v2-h3">The IEEE 754 Standard</h3>
 <p class="v2-p">JavaScript stores ALL numbers — integers and decimals alike — using the <strong>64-bit floating-point format</strong>, defined by the international standard called <strong>IEEE 754</strong>.</p>
 <p class="v2-p">Think of it like this: JavaScript uses a fixed-size container (64 bits) to store every number. These 64 bits are divided into three parts:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Part</th><th>Bits Used</th><th>Purpose</th></tr></thead><tbody><tr><td>Sign</td><td>1 bit</td><td>Positive or negative</td></tr><tr><td>Exponent</td><td>11 bits</td><td>Where the decimal point is</td></tr><tr><td>Mantissa (Fraction)</td><td>52 bits</td><td>The actual digits</td></tr></tbody></table></div>
 <p class="v2-p">You don't need to memorize this, but understanding the concept explains why JavaScript has precision limits — there are only 64 bits of space, so very large or very precise numbers can't be stored perfectly.</p>
 <h3 class="v2-h3">What does this mean in practice?</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// JavaScript can represent integers exactly up to 15 significant digits
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// JavaScript can represent integers exactly up to 15 significant digits
 let safe = 999999999999999;     // 15 nines → accurate
 let unsafe = 9999999999999999;  // 16 nines → loses accuracy!
 
 console.log(safe);    // 999999999999999   ✅ exact
 console.log(unsafe);  // 10000000000000000 ❌ rounded!</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> What could go wrong if a bank used JavaScript numbers to store account balances in the trillions without considering this limit?</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3. How JavaScript Stores Numbers — The 64-bit Float Format</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 18</div>
-    <div class="phase-title">4. Integer Precision — The 15-Digit Limit</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">The Safe Rule</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3. How JavaScript Stores Numbers — The 64-bit Float Format</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/18</div><div class="pt">4. Integer Precision — The 15-Digit Limit</div><div class="pc" id="chk4"></div></div><div class="pb2"><h3 class="v2-h3">The Safe Rule</h3>
 <p class="v2-p">JavaScript integers are <strong>accurate up to 15 digits</strong>. Beyond that, numbers get rounded:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 999999999999999;    // 15 digits — safe ✅
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 999999999999999;    // 15 digits — safe ✅
 let y = 9999999999999999;   // 16 digits — NOT safe ❌
 
 console.log(x);  // 999999999999999
 console.log(y);  // 10000000000000000  (rounded!)</code></pre></div></div>
 <h3 class="v2-h3">Number.MAX_SAFE_INTEGER and Number.MIN_SAFE_INTEGER</h3>
 <p class="v2-p">JavaScript has built-in constants that tell you the exact safe limits:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_SAFE_INTEGER);  // 9007199254740991
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_SAFE_INTEGER);  // 9007199254740991
 console.log(Number.MIN_SAFE_INTEGER);  // -9007199254740991</code></pre></div></div>
 <p class="v2-p">These numbers are <code>2^53 - 1</code> and <code>-(2^53 - 1)</code>. Any integer within this range is guaranteed to be represented exactly.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Safe:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Safe:
 console.log(Number.isSafeInteger(9007199254740991));   // true
 // Not safe:
 console.log(Number.isSafeInteger(9007199254740992));   // false</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p"><strong>For numbers bigger than this safe range, use BigInt</strong> (covered in Section 17).</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>4. Integer Precision — The 15-Digit Limit</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 18</div>
-    <div class="phase-title">5. Floating-Point Precision Problems (and How to Fix Them)</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">The Classic Surprise</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>4. Integer Precision — The 15-Digit Limit</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/18</div><div class="pt">5. Floating-Point Precision Problems (and How to Fix Them)</div><div class="pc" id="chk5"></div></div><div class="pb2"><h3 class="v2-h3">The Classic Surprise</h3>
 <p class="v2-p">This is one of the most famous "gotcha" moments in JavaScript — and in many other languages that use IEEE 754:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 0.1 + 0.2;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 0.1 + 0.2;
 console.log(x);           // 0.30000000000000004  ❌ (not 0.3!)
 console.log(x === 0.3);   // false  ❌</code></pre></div></div>
 <p class="v2-p"><strong>Why does this happen?</strong></p>
 <p class="v2-p">Just like <code>1/3 = 0.333...</code> cannot be written exactly as a decimal, <code>0.1</code> and <code>0.2</code> cannot be represented EXACTLY in binary (base-2) floating-point. When you add them, the tiny imprecisions combine into a visible error.</p>
 <p class="v2-p">This is NOT a JavaScript bug — it is how binary floating-point math works everywhere.</p>
 <h3 class="v2-h3">How to Fix It — Method 1: Multiply, Calculate, Divide</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = (0.1 * 10 + 0.2 * 10) / 10;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = (0.1 * 10 + 0.2 * 10) / 10;
 console.log(x);  // 0.3  ✅</code></pre></div></div>
 <p class="v2-p"><strong>Why this works:</strong> We convert to integers first (integers are exact), do the math, then convert back.</p>
 <h3 class="v2-h3">How to Fix It — Method 2: <code>toFixed()</code></h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = (0.1 + 0.2).toFixed(2);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = (0.1 + 0.2).toFixed(2);
 console.log(x);          // &quot;0.30&quot;  ✅ (note: returns a STRING)
 console.log(Number(x));  // 0.3    ✅ (convert back to number)</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Common Beginner Mistake:</strong> Comparing floating-point numbers directly with <code>===</code>. Always round or use a tolerance check for decimal comparisons.</p></blockquote>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Wrong way:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ Wrong way:
 if (0.1 + 0.2 === 0.3) { ... }  // Never true!
 
 // ✅ Right way (check if difference is tiny enough):
@@ -349,43 +227,29 @@ let result = 0.1 + 0.2;
 if (Math.abs(result - 0.3) &lt; 0.0001) {
   console.log(&quot;Close enough to 0.3!&quot;);
 }</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>5. Floating-Point Precision Problems (and How to Fix Them)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 18</div>
-    <div class="phase-title">6. Special Number Values: NaN, Infinity, and -Infinity</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">NaN — Not a Number</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>5. Floating-Point Precision Problems (and How to Fix Them)</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/18</div><div class="pt">6. Special Number Values: NaN, Infinity, and -Infinity</div><div class="pc" id="chk6"></div></div><div class="pb2"><h3 class="v2-h3">NaN — Not a Number</h3>
 <p class="v2-p"><code>NaN</code> stands for <strong>Not a Number</strong>. It is returned when a mathematical operation produces an undefined or invalid result.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let result = 100 / &quot;Apple&quot;;  // Can&#x27;t divide a number by text
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let result = 100 / &quot;Apple&quot;;  // Can&#x27;t divide a number by text
 console.log(result);          // NaN
 console.log(typeof result);   // &quot;number&quot;  (NaN IS of type number — a quirky fact!)</code></pre></div></div>
 <p class="v2-p"><strong>How NaN spreads:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = NaN;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = NaN;
 console.log(x + 5);    // NaN  (NaN is &quot;infectious&quot;)
 console.log(x + &quot;5&quot;);  // &quot;NaN5&quot;  (NaN becomes text when added to string)</code></pre></div></div>
 <p class="v2-p"><strong>Checking for NaN:</strong></p>
 <p class="v2-p">Use <code>isNaN()</code> to test whether a value is NaN — you cannot use <code>=== NaN</code> because NaN is the only value in JavaScript that is NOT equal to itself:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = NaN;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = NaN;
 console.log(x === NaN);       // false  ← NaN ≠ NaN (by definition!)
 console.log(isNaN(x));        // true   ✅
 console.log(Number.isNaN(x)); // true   ✅ (more strict — preferred)</code></pre></div></div>
 <p class="v2-p"><strong>Difference between <code>isNaN()</code> and <code>Number.isNaN()</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>isNaN(&quot;hello&quot;);         // true  (converts &quot;hello&quot; to NaN first, then checks)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>isNaN(&quot;hello&quot;);         // true  (converts &quot;hello&quot; to NaN first, then checks)
 Number.isNaN(&quot;hello&quot;);  // false (does NOT convert — &quot;hello&quot; is a string, not NaN)
 Number.isNaN(NaN);      // true  (strictly checks for NaN)</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">✅ <strong>Best practice:</strong> Use <code>Number.isNaN()</code> for strict NaN checking.</p></blockquote>
 <p class="v2-p"><strong>Real-world use:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let userInput = &quot;abc&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let userInput = &quot;abc&quot;;
 let num = Number(userInput);
 
 if (Number.isNaN(num)) {
@@ -396,7 +260,7 @@ if (Number.isNaN(num)) {
 // Output: Please enter a valid number!</code></pre></div></div>
 <h3 class="v2-h3">Infinity and -Infinity</h3>
 <p class="v2-p"><code>Infinity</code> is a special value that represents a number too large for JavaScript to hold, or the result of dividing by zero:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 2 / 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 2 / 0;
 console.log(x);           // Infinity
 
 let y = -2 / 0;
@@ -405,12 +269,12 @@ console.log(y);           // -Infinity
 let z = Infinity + 1;
 console.log(z);           // Infinity (infinity + anything = infinity)</code></pre></div></div>
 <p class="v2-p"><strong>Checking for Infinity:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(isFinite(Infinity));   // false
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(isFinite(Infinity));   // false
 console.log(isFinite(100));        // true
 console.log(isFinite(NaN));        // false
 console.log(Number.isFinite(100)); // true  (stricter version)</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Guard against division by zero in a speed calculator:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Guard against division by zero in a speed calculator:
 function calculateSpeed(distance, time) {
   if (time === 0) return &quot;Time cannot be zero!&quot;;
   let speed = distance / time;
@@ -418,10 +282,7 @@ function calculateSpeed(distance, time) {
 }
 console.log(calculateSpeed(100, 2));  // 50
 console.log(calculateSpeed(100, 0));  // &quot;Time cannot be zero!&quot;</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Real-world use:
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Real-world use:
 `javascript
 let userInput = "abc";
 let num = Number(userInput);
@@ -432,24 +293,13 @@ if (Number.isNaN(num)) {
   console.log(You entered: ${num});
 }
 // Output: Please enter a valid number!
-`</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 18</div>
-    <div class="phase-title">7. Number Bases: Hexadecimal, Octal, Binary</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Are Number Bases?</h3>
+`</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/18</div><div class="pt">7. Number Bases: Hexadecimal, Octal, Binary</div><div class="pc" id="chk7"></div></div><div class="pb2"><h3 class="v2-h3">What Are Number Bases?</h3>
 <p class="v2-p">We normally count in <strong>base 10</strong> (decimal): digits 0–9. But computers and programmers often use other bases:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Base</th><th>Name</th><th>Digits Used</th><th>JS Prefix</th></tr></thead><tbody><tr><td>10</td><td>Decimal</td><td>0–9</td><td>(none)</td></tr><tr><td>16</td><td>Hexadecimal</td><td>0–9, A–F</td><td><code>0x</code></td></tr><tr><td>8</td><td>Octal</td><td>0–7</td><td><code>0o</code></td></tr><tr><td>2</td><td>Binary</td><td>0, 1</td><td><code>0b</code></td></tr></tbody></table></div>
 <h3 class="v2-h3">Hexadecimal (Base 16)</h3>
 <p class="v2-p">Hexadecimal is used extensively in web development for colors, memory addresses, and encoding:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let hex1 = 0xFF;    // = 255 in decimal
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let hex1 = 0xFF;    // = 255 in decimal
 let hex2 = 0x1A;    // = 26 in decimal
 let colorRed = 0xFF0000; // red color in hex
 
@@ -459,43 +309,29 @@ console.log(colorRed); // 16711680</code></pre></div></div>
 <p class="v2-p"><strong>In CSS and HTML, colors are written as hex:</strong></p>
 <ul class="v2-ul"><li><code>#FF0000</code> = red (255 red, 0 green, 0 blue)</li><li><code>#00FF00</code> = green</li><li><code>#0000FF</code> = blue</li></ul>
 <h3 class="v2-h3">Octal (Base 8)</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let oct = 0o17;  // = 15 in decimal
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let oct = 0o17;  // = 15 in decimal
 console.log(oct); // 15</code></pre></div></div>
 <h3 class="v2-h3">Binary (Base 2)</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let bin = 0b1010;  // = 10 in decimal (1×8 + 0×4 + 1×2 + 0×1)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let bin = 0b1010;  // = 10 in decimal (1×8 + 0×4 + 1×2 + 0×1)
 console.log(bin);  // 10</code></pre></div></div>
 <h3 class="v2-h3">Converting Between Bases Using <code>toString(base)</code></h3>
 <p class="v2-p">You can convert any number to a different base using <code>.toString(radix)</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let num = 255;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let num = 255;
 console.log(num.toString(16));  // &quot;ff&quot;   (hexadecimal)
 console.log(num.toString(8));   // &quot;377&quot;  (octal)
 console.log(num.toString(2));   // &quot;11111111&quot; (binary)
 console.log(num.toString(10));  // &quot;255&quot;  (decimal — default)</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Convert a decimal color value to hex (for CSS):
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Convert a decimal color value to hex (for CSS):
 let r = 255, g = 128, b = 0;
 let hexColor = `#${r.toString(16).padStart(2,&quot;0&quot;)}${g.toString(16).padStart(2,&quot;0&quot;)}${b.toString(16).padStart(2,&quot;0&quot;)}`;
 console.log(hexColor);  // &quot;#ff8000&quot;  (an orange color)</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>7. Number Bases: Hexadecimal, Octal, Binary</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 18</div>
-    <div class="phase-title">8. Numbers and Strings Together — Type Coercion Traps</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Is Type Coercion?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>7. Number Bases: Hexadecimal, Octal, Binary</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/18</div><div class="pt">8. Numbers and Strings Together — Type Coercion Traps</div><div class="pc" id="chk8"></div></div><div class="pb2"><h3 class="v2-h3">What Is Type Coercion?</h3>
 <p class="v2-p">JavaScript automatically converts (coerces) data between types in certain situations. With numbers and strings, this can produce surprising results.</p>
 <h3 class="v2-h3">The <code>+</code> Operator — Addition OR Concatenation?</h3>
 <p class="v2-p">The <code>+</code> operator BOTH adds numbers AND joins (concatenates) strings. JavaScript decides which to do based on the types:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Number + Number = addition:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Number + Number = addition:
 console.log(10 + 20);          // 30
 
 // String + String = concatenation:
@@ -505,7 +341,7 @@ console.log(&quot;10&quot; + &quot;20&quot;);      // &quot;1020&quot;
 console.log(10 + &quot;20&quot;);        // &quot;1020&quot;  ← TRAP!
 console.log(&quot;10&quot; + 20);        // &quot;1020&quot;  ← TRAP!</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Common Beginner Mistake:</strong> Forgetting that <code>+</code> with a string always concatenates. This is the #1 JavaScript bug for beginners.</p></blockquote>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// The cascade trap:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// The cascade trap:
 let a = 10;
 let b = 20;
 let c = 30;
@@ -516,29 +352,15 @@ console.log(&quot;10&quot; + b + c);       // &quot;1020 30&quot; — actually &
 <ol class="v2-ol"><li><code>10 + 20</code> → <code>30</code> (both numbers, normal addition)</li><li><code>30 + "30"</code> → <code>"3030"</code> (number + string = concatenation)</li></ol>
 <h3 class="v2-h3">Other Operators — Subtraction, Multiplication, Division</h3>
 <p class="v2-p">All other math operators (<code>-</code>, <code><em></code>, <code>/</code>, <code></em>*</code>, <code>%</code>) automatically convert strings to numbers:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(&quot;10&quot; - 5);   // 5   ✅ (string &quot;10&quot; becomes number 10)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(&quot;10&quot; - 5);   // 5   ✅ (string &quot;10&quot; becomes number 10)
 console.log(&quot;10&quot; * 2);   // 20  ✅
 console.log(&quot;10&quot; / 2);   // 5   ✅
 console.log(&quot;abc&quot; - 5);  // NaN  (can&#x27;t convert &quot;abc&quot; to a number)</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> If a user types <code>"5"</code> in a form input, what does <code>"5" + 3</code> give? What about <code>"5" - 3</code>? Answer: <code>"53"</code> (concatenation) vs <code>2</code> (subtraction converts string to number).</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>8. Numbers and Strings Together — Type Coercion Traps</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 18</div>
-    <div class="phase-title">9. Number Methods — Converting and Formatting</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3"><code>toString()</code> — Number to String</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>8. Numbers and Strings Together — Type Coercion Traps</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/18</div><div class="pt">9. Number Methods — Converting and Formatting</div><div class="pc" id="chk9"></div></div><div class="pb2"><h3 class="v2-h3"><code>toString()</code> — Number to String</h3>
 <p class="v2-p">Converts a number into a string. Can optionally take a <strong>base</strong> (2, 8, 10, 16):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 255;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 255;
 console.log(x.toString());    // &quot;255&quot;
 console.log(x.toString(16));  // &quot;ff&quot;  (hexadecimal)
 console.log(x.toString(2));   // &quot;11111111&quot; (binary)
@@ -548,7 +370,7 @@ console.log((123).toString()); // &quot;123&quot;
 console.log((100 + 23).toString()); // &quot;123&quot;</code></pre></div></div>
 <h3 class="v2-h3"><code>toFixed(digits)</code> — Fixed Decimal Places</h3>
 <p class="v2-p">Rounds a number to a specified number of decimal places and returns it as a <strong>string</strong>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let price = 9.656;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let price = 9.656;
 console.log(price.toFixed(0));  // &quot;10&quot;   (rounds to nearest integer)
 console.log(price.toFixed(2));  // &quot;9.66&quot; (2 decimal places)
 console.log(price.toFixed(4));  // &quot;9.6560&quot; (pads with zeros)
@@ -556,13 +378,13 @@ console.log(price.toFixed(4));  // &quot;9.6560&quot; (pads with zeros)
 let small = 1.5;
 console.log(small.toFixed(2));  // &quot;1.50&quot;</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use — Financial formatting:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let cartTotal = 1234.5678;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let cartTotal = 1234.5678;
 let formatted = `₦${Number(cartTotal.toFixed(2)).toLocaleString()}`;
 console.log(formatted);  // &quot;₦1,234.57&quot;</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Remember:</strong> <code>toFixed()</code> returns a STRING, not a number. Wrap with <code>Number()</code> or <code>parseFloat()</code> if you need to do more math with it.</p></blockquote>
 <h3 class="v2-h3"><code>toPrecision(digits)</code> — Significant Figures</h3>
 <p class="v2-p">Formats a number to a specified number of <strong>significant digits</strong> total (not just after the decimal):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 9.656;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 9.656;
 console.log(x.toPrecision());   // &quot;9.656&quot;  (no change)
 console.log(x.toPrecision(2));  // &quot;9.7&quot;    (2 significant digits total)
 console.log(x.toPrecision(4));  // &quot;9.656&quot;  (4 significant digits total)
@@ -574,7 +396,7 @@ console.log(big.toPrecision(4)); // &quot;123.5&quot;  (4 sig figs total)</code>
 <ul class="v2-ul"><li><code>toFixed(2)</code> → always 2 digits AFTER the decimal</li><li><code>toPrecision(4)</code> → exactly 4 TOTAL significant digits</li></ul>
 <h3 class="v2-h3"><code>toExponential(digits)</code> — Scientific Notation</h3>
 <p class="v2-p">Converts a number to exponential (scientific) notation:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 9.656;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 9.656;
 console.log(x.toExponential(2));  // &quot;9.66e+0&quot;
 console.log(x.toExponential(4));  // &quot;9.6560e+0&quot;
 
@@ -583,30 +405,16 @@ console.log(big.toExponential(2)); // &quot;1.23e+5&quot;
 console.log(big.toExponential(4)); // &quot;1.2346e+5&quot;</code></pre></div></div>
 <h3 class="v2-h3"><code>valueOf()</code> — Primitive Value</h3>
 <p class="v2-p">Returns the primitive number value. Rarely needed directly, but used internally by JavaScript:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 123;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 123;
 console.log(x.valueOf());  // 123
 console.log((123).valueOf()); // 123
 console.log((100 + 23).valueOf()); // 123</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Note:</strong> All number methods return a NEW value. They do NOT change the original number.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>9. Number Methods — Converting and Formatting</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase10">
-  <div class="phase-header">
-    <div class="phase-num">Phase 10 of 18</div>
-    <div class="phase-title">10. Parsing Methods — Converting Strings to Numbers</div>
-    <div class="phase-check" id="chk10"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">These are <strong>global methods</strong> (and also available on <code>Number</code>) that convert string values to numbers.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>9. Number Methods — Converting and Formatting</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase10"><div class="ph"><div class="pn">Phase 10/18</div><div class="pt">10. Parsing Methods — Converting Strings to Numbers</div><div class="pc" id="chk10"></div></div><div class="pb2"><p class="v2-p">These are <strong>global methods</strong> (and also available on <code>Number</code>) that convert string values to numbers.</p>
 <h3 class="v2-h3"><code>Number()</code> — Convert Anything to a Number</h3>
 <p class="v2-p">Tries to convert a value of any type to a number:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Strings:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Strings:
 console.log(Number(&quot;3.14&quot;));    // 3.14   ✅
 console.log(Number(&quot;10&quot;));      // 10     ✅
 console.log(Number(&quot;  42  &quot;));  // 42     ✅ (trims whitespace)
@@ -626,7 +434,7 @@ console.log(Number([10]));      // 10</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Why does <code>Number(true)</code> return 1?</strong> Because <code>true</code> is essentially "yes" (1) and <code>false</code> is "no" (0) in mathematics. This is useful in programming logic.</p></blockquote>
 <h3 class="v2-h3"><code>parseInt()</code> — Parse an Integer from a String</h3>
 <p class="v2-p">Reads a string from left to right and extracts an <strong>integer</strong>, stopping at the first non-numeric character:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(parseInt(&quot;10&quot;));      // 10
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(parseInt(&quot;10&quot;));      // 10
 console.log(parseInt(&quot;10.5&quot;));    // 10     (drops the decimal!)
 console.log(parseInt(&quot;10 dogs&quot;)); // 10     (stops at space)
 console.log(parseInt(&quot;dogs 10&quot;)); // NaN    (starts with non-number)
@@ -640,7 +448,7 @@ console.log(parseInt(&quot;17&quot;, 8));   // 15     (octal → decimal)</code>
 <ul class="v2-ul"><li>Reads <code>1</code> → valid digit</li><li>Reads <code>0</code> → valid digit</li><li>Reads <code> </code> (space) → stop!</li><li>Returns <code>10</code></li></ul>
 <h3 class="v2-h3"><code>parseFloat()</code> — Parse a Decimal Number from a String</h3>
 <p class="v2-p">Like <code>parseInt()</code> but keeps the decimal portion:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(parseFloat(&quot;10.5&quot;));      // 10.5
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(parseFloat(&quot;10.5&quot;));      // 10.5
 console.log(parseFloat(&quot;10.5abc&quot;));   // 10.5
 console.log(parseFloat(&quot;10.5 20.5&quot;)); // 10.5   (only reads first number)
 console.log(parseFloat(&quot;abc&quot;));       // NaN
@@ -648,38 +456,24 @@ console.log(parseFloat(&quot;3.14xyz&quot;));   // 3.14</code></pre></div></div>
 <h3 class="v2-h3">When to use which?</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Function</th><th>Use when...</th><th>Example</th></tr></thead><tbody><tr><td><code>Number(x)</code></td><td>Converting a whole value (no junk after digits)</td><td>Form input "42" → <code>Number("42")</code> = 42</td></tr><tr><td><code>parseInt(x)</code></td><td>You need a whole number from mixed string</td><td><code>"10px"</code> → <code>parseInt("10px")</code> = 10</td></tr><tr><td><code>parseFloat(x)</code></td><td>You need decimal from mixed string</td><td><code>"3.14em"</code> → <code>parseFloat("3.14em")</code> = 3.14</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Real-world use — Extracting numbers from CSS values:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let fontSize = &quot;16px&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let fontSize = &quot;16px&quot;;
 let lineHeight = &quot;1.5em&quot;;
 let padding = &quot;12.5px&quot;;
 
 console.log(parseInt(fontSize));     // 16
 console.log(parseFloat(lineHeight)); // 1.5
 console.log(parseFloat(padding));    // 12.5</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>10. Parsing Methods — Converting Strings to Numbers</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase11">
-  <div class="phase-header">
-    <div class="phase-num">Phase 11 of 18</div>
-    <div class="phase-title">11. Checking Methods</div>
-    <div class="phase-check" id="chk11"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3"><code>Number.isInteger(value)</code> — Is It a Whole Number?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>10. Parsing Methods — Converting Strings to Numbers</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase11"><div class="ph"><div class="pn">Phase 11/18</div><div class="pt">11. Checking Methods</div><div class="pc" id="chk11"></div></div><div class="pb2"><h3 class="v2-h3"><code>Number.isInteger(value)</code> — Is It a Whole Number?</h3>
 <p class="v2-p">Returns <code>true</code> if the value is an integer (no decimal part):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.isInteger(10));    // true
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.isInteger(10));    // true
 console.log(Number.isInteger(10.0));  // true  (10.0 is the same as 10)
 console.log(Number.isInteger(10.5));  // false
 console.log(Number.isInteger(&quot;10&quot;));  // false (string, not a number)
 console.log(Number.isInteger(NaN));   // false
 console.log(Number.isInteger(Infinity)); // false</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Validate that a quantity entered is a whole number:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Validate that a quantity entered is a whole number:
 function validateQuantity(qty) {
   if (!Number.isInteger(qty) || qty &lt;= 0) {
     return &quot;Quantity must be a positive whole number!&quot;;
@@ -690,92 +484,64 @@ console.log(validateQuantity(5));    // &quot;Order quantity: 5&quot;
 console.log(validateQuantity(5.5));  // &quot;Quantity must be a positive whole number!&quot;</code></pre></div></div>
 <h3 class="v2-h3"><code>Number.isFinite(value)</code> — Is It a Real, Usable Number?</h3>
 <p class="v2-p">Returns <code>true</code> if the value is a finite number (not Infinity, not NaN):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.isFinite(100));       // true
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.isFinite(100));       // true
 console.log(Number.isFinite(Infinity));  // false
 console.log(Number.isFinite(-Infinity)); // false
 console.log(Number.isFinite(NaN));       // false
 console.log(Number.isFinite(&quot;100&quot;));     // false (it&#x27;s a string)</code></pre></div></div>
 <h3 class="v2-h3"><code>Number.isNaN(value)</code> — Is It Specifically NaN?</h3>
 <p class="v2-p">Returns <code>true</code> ONLY if the value is the actual <code>NaN</code> value:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.isNaN(NaN));       // true
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.isNaN(NaN));       // true
 console.log(Number.isNaN(&quot;NaN&quot;));     // false (it&#x27;s a string, not NaN)
 console.log(Number.isNaN(undefined)); // false
 console.log(Number.isNaN(100));       // false</code></pre></div></div>
 <h3 class="v2-h3"><code>Number.isSafeInteger(value)</code> — Is It Within Safe Range?</h3>
 <p class="v2-p">Returns <code>true</code> if the integer is within the safe range <code>-(2^53 - 1)</code> to <code>(2^53 - 1)</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.isSafeInteger(9007199254740991));  // true  (max safe)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.isSafeInteger(9007199254740991));  // true  (max safe)
 console.log(Number.isSafeInteger(9007199254740992));  // false (one over the limit)
 console.log(Number.isSafeInteger(10.5));              // false (not an integer)</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>11. Checking Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase12">
-  <div class="phase-header">
-    <div class="phase-num">Phase 12 of 18</div>
-    <div class="phase-title">12. Number Properties — Built-in Constants</div>
-    <div class="phase-check" id="chk12"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Number <strong>properties</strong> are constants stored directly on the <code>Number</code> object. They tell you the boundaries and special values of JavaScript numbers.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>11. Checking Methods</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase12"><div class="ph"><div class="pn">Phase 12/18</div><div class="pt">12. Number Properties — Built-in Constants</div><div class="pc" id="chk12"></div></div><div class="pb2"><p class="v2-p">Number <strong>properties</strong> are constants stored directly on the <code>Number</code> object. They tell you the boundaries and special values of JavaScript numbers.</p>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Important:</strong> These must be accessed via <code>Number.PROPERTY_NAME</code> — NOT via a number variable (e.g., <code>x.MAX_VALUE</code> will return <code>undefined</code>).</p></blockquote>
 <h3 class="v2-h3"><code>Number.MAX_VALUE</code></h3>
 <p class="v2-p">The largest positive number JavaScript can represent:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_VALUE);  // 1.7976931348623157e+308</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_VALUE);  // 1.7976931348623157e+308</code></pre></div></div>
 <p class="v2-p">Numbers larger than this become <code>Infinity</code>.</p>
 <h3 class="v2-h3"><code>Number.MIN_VALUE</code></h3>
 <p class="v2-p">The smallest positive number (closest to zero, NOT the most negative):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.MIN_VALUE);  // 5e-324</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.MIN_VALUE);  // 5e-324</code></pre></div></div>
 <p class="v2-p">This is an incredibly small positive fraction — essentially the tiniest non-zero number possible.</p>
 <h3 class="v2-h3"><code>Number.MAX_SAFE_INTEGER</code></h3>
 <p class="v2-p">The largest integer that can be represented exactly without precision loss:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_SAFE_INTEGER);  // 9007199254740991
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_SAFE_INTEGER);  // 9007199254740991
 // This equals 2^53 - 1</code></pre></div></div>
 <h3 class="v2-h3"><code>Number.MIN_SAFE_INTEGER</code></h3>
 <p class="v2-p">The most negative safe integer:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.MIN_SAFE_INTEGER);  // -9007199254740991
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.MIN_SAFE_INTEGER);  // -9007199254740991
 // This equals -(2^53 - 1)</code></pre></div></div>
 <h3 class="v2-h3"><code>Number.POSITIVE_INFINITY</code></h3>
 <p class="v2-p">Represents infinity (same as the global <code>Infinity</code>):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.POSITIVE_INFINITY);  // Infinity
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.POSITIVE_INFINITY);  // Infinity
 let overflow = Number.MAX_VALUE * 2;
 console.log(overflow);                  // Infinity</code></pre></div></div>
 <h3 class="v2-h3"><code>Number.NEGATIVE_INFINITY</code></h3>
 <p class="v2-p">Represents negative infinity:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.NEGATIVE_INFINITY);  // -Infinity</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.NEGATIVE_INFINITY);  // -Infinity</code></pre></div></div>
 <h3 class="v2-h3"><code>Number.NaN</code></h3>
 <p class="v2-p">The NaN value (same as the global <code>NaN</code>):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.NaN);          // NaN
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.NaN);          // NaN
 console.log(Number.NaN === NaN);  // false (NaN ≠ NaN always)</code></pre></div></div>
 <h3 class="v2-h3"><code>Number.EPSILON</code></h3>
 <p class="v2-p">The smallest difference between two representable floating-point numbers:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.EPSILON);  // 2.220446049250313e-16</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.EPSILON);  // 2.220446049250313e-16</code></pre></div></div>
 <p class="v2-p">Used to safely compare floating-point numbers:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Safe float comparison using EPSILON:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Safe float comparison using EPSILON:
 function areEqual(a, b) {
   return Math.abs(a - b) &lt; Number.EPSILON;
 }
 console.log(areEqual(0.1 + 0.2, 0.3));  // true ✅</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>12. Number Properties — Built-in Constants</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase13">
-  <div class="phase-header">
-    <div class="phase-num">Phase 13 of 18</div>
-    <div class="phase-title">13. Complete Number Reference Table</div>
-    <div class="phase-check" id="chk13"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Number Instance Methods</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>12. Number Properties — Built-in Constants</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase13"><div class="ph"><div class="pn">Phase 13/18</div><div class="pt">13. Complete Number Reference Table</div><div class="pc" id="chk13"></div></div><div class="pb2"><h3 class="v2-h3">Number Instance Methods</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What It Does</th><th>Example → Output</th></tr></thead><tbody><tr><td><code>toFixed(n)</code></td><td>Format to n decimal places (returns string)</td><td><code>(9.656).toFixed(2)</code> → <code>"9.66"</code></td></tr><tr><td><code>toPrecision(n)</code></td><td>Format to n total significant digits</td><td><code>(9.656).toPrecision(4)</code> → <code>"9.656"</code></td></tr><tr><td><code>toExponential(n)</code></td><td>Convert to exponential notation</td><td><code>(123456).toExponential(2)</code> → <code>"1.23e+5"</code></td></tr><tr><td><code>toString(base)</code></td><td>Convert number to string (optional base)</td><td><code>(255).toString(16)</code> → <code>"ff"</code></td></tr><tr><td><code>valueOf()</code></td><td>Return the primitive number value</td><td><code>(123).valueOf()</code> → <code>123</code></td></tr></tbody></table></div>
 <h3 class="v2-h3">Number Static Methods</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What It Does</th><th>Example → Output</th></tr></thead><tbody><tr><td><code>Number(x)</code></td><td>Convert value to number</td><td><code>Number("3.14")</code> → <code>3.14</code></td></tr><tr><td><code>Number.isInteger(x)</code></td><td>Is it a whole number?</td><td><code>Number.isInteger(10.5)</code> → <code>false</code></td></tr><tr><td><code>Number.isFinite(x)</code></td><td>Is it a finite number?</td><td><code>Number.isFinite(Infinity)</code> → <code>false</code></td></tr><tr><td><code>Number.isNaN(x)</code></td><td>Is it NaN specifically?</td><td><code>Number.isNaN(NaN)</code> → <code>true</code></td></tr><tr><td><code>Number.isSafeInteger(x)</code></td><td>Is it in the safe range?</td><td><code>Number.isSafeInteger(9007199254740992)</code> → <code>false</code></td></tr><tr><td><code>Number.parseFloat(x)</code></td><td>Parse string to float</td><td><code>Number.parseFloat("3.14em")</code> → <code>3.14</code></td></tr><tr><td><code>Number.parseInt(x)</code></td><td>Parse string to integer</td><td><code>Number.parseInt("10px")</code> → <code>10</code></td></tr></tbody></table></div>
@@ -783,28 +549,14 @@ console.log(areEqual(0.1 + 0.2, 0.3));  // true ✅</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Property</th><th>Value</th><th>Meaning</th></tr></thead><tbody><tr><td><code>Number.MAX_VALUE</code></td><td>~1.8e+308</td><td>Largest representable number</td></tr><tr><td><code>Number.MIN_VALUE</code></td><td>~5e-324</td><td>Smallest positive number</td></tr><tr><td><code>Number.MAX_SAFE_INTEGER</code></td><td>9007199254740991</td><td>Largest exact integer</td></tr><tr><td><code>Number.MIN_SAFE_INTEGER</code></td><td>-9007199254740991</td><td>Smallest exact integer</td></tr><tr><td><code>Number.POSITIVE_INFINITY</code></td><td>Infinity</td><td>Overflow value</td></tr><tr><td><code>Number.NEGATIVE_INFINITY</code></td><td>-Infinity</td><td>Negative overflow</td></tr><tr><td><code>Number.NaN</code></td><td>NaN</td><td>Not a Number</td></tr><tr><td><code>Number.EPSILON</code></td><td>2.22e-16</td><td>Smallest float difference</td></tr></tbody></table></div>
 <h3 class="v2-h3">Global Functions</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Function</th><th>What It Does</th><th>Example → Output</th></tr></thead><tbody><tr><td><code>isNaN(x)</code></td><td>Checks if x is NaN (with type coercion)</td><td><code>isNaN("hello")</code> → <code>true</code></td></tr><tr><td><code>isFinite(x)</code></td><td>Checks if x is finite (with type coercion)</td><td><code>isFinite(Infinity)</code> → <code>false</code></td></tr><tr><td><code>parseInt(x, base)</code></td><td>Parse integer from string</td><td><code>parseInt("FF", 16)</code> → <code>255</code></td></tr><tr><td><code>parseFloat(x)</code></td><td>Parse float from string</td><td><code>parseFloat("3.14abc")</code> → <code>3.14</code></td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>13. Complete Number Reference Table</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase14">
-  <div class="phase-header">
-    <div class="phase-num">Phase 14 of 18</div>
-    <div class="phase-title">14. JavaScript Bitwise Operators — Binary Math</div>
-    <div class="phase-check" id="chk14"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Are Bitwise Operators?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>13. Complete Number Reference Table</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase14"><div class="ph"><div class="pn">Phase 14/18</div><div class="pt">14. JavaScript Bitwise Operators — Binary Math</div><div class="pc" id="chk14"></div></div><div class="pb2"><h3 class="v2-h3">What Are Bitwise Operators?</h3>
 <p class="v2-p"><strong>Bitwise operators</strong> work directly on the <strong>binary (base-2) representation</strong> of numbers — operating on individual bits (0s and 1s), one at a time.</p>
 <p class="v2-p">Think of it this way: when you add <code>5 + 3</code>, you work on the full decimal numbers. But when you do <code>5 &amp; 3</code> (bitwise AND), JavaScript first converts both numbers to their binary form, performs the operation bit-by-bit, then converts the result back to decimal.</p>
 <h3 class="v2-h3">How JavaScript Handles Bitwise Operations</h3>
 <p class="v2-p">JavaScript stores numbers as 64-bit floats, but <strong>all bitwise operations work on 32-bit signed integers</strong>. This means:</p>
 <ol class="v2-ol"><li>The number is converted to a 32-bit binary integer</li><li>The bitwise operation is performed</li><li>The result is converted back to a 64-bit JavaScript number</li></ol>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Number 5 in binary (32-bit): 00000000000000000000000000000101
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Number 5 in binary (32-bit): 00000000000000000000000000000101
 Number 3 in binary (32-bit): 00000000000000000000000000000011</code></pre></div></div>
 <h3 class="v2-h3">Why Learn Bitwise?</h3>
 <p class="v2-p">Bitwise operators are used in:</p>
@@ -813,7 +565,7 @@ Number 3 in binary (32-bit): 00000000000000000000000000000011</code></pre></div>
 <p class="v2-p">Returns <code>1</code> in each bit position where BOTH corresponding bits are <code>1</code>, otherwise <code>0</code>.</p>
 <p class="v2-p"><strong>Truth table for AND:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Bit A</th><th>Bit B</th><th>A AND B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td><strong>1</strong></td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 5 in binary:  0101
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 5 in binary:  0101
 // 3 in binary:  0011
 //              -----
 // 5 &amp; 3:        0001  = 1
@@ -826,7 +578,7 @@ console.log(5 &amp; 3);   // 1
 // bit 1: 0 AND 1 = 0
 // bit 0: 1 AND 1 = 1  ← only this bit is 1 in BOTH</code></pre></div></div>
 <p class="v2-p"><strong>Real-world trick — Check if a number is even or odd:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// The last bit of any number is 1 if odd, 0 if even
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// The last bit of any number is 1 if odd, 0 if even
 console.log(7 &amp; 1);   // 1 → odd   (7 = 0111, last bit = 1)
 console.log(8 &amp; 1);   // 0 → even  (8 = 1000, last bit = 0)
 console.log(100 &amp; 1); // 0 → even
@@ -840,13 +592,13 @@ console.log(isEven(11));  // false</code></pre></div></div>
 <p class="v2-p">Returns <code>1</code> in each bit position where AT LEAST ONE of the corresponding bits is <code>1</code>.</p>
 <p class="v2-p"><strong>Truth table for OR:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Bit A</th><th>Bit B</th><th>A OR B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td><strong>1</strong></td></tr><tr><td>1</td><td>0</td><td><strong>1</strong></td></tr><tr><td>1</td><td>1</td><td><strong>1</strong></td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 5 = 0101
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 5 = 0101
 // 3 = 0011
 // |  = 0111  = 7
 
 console.log(5 | 3);   // 7</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use — Permissions (like Linux):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const READ    = 4;  // 100 in binary
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const READ    = 4;  // 100 in binary
 const WRITE   = 2;  // 010 in binary
 const EXECUTE = 1;  // 001 in binary
 
@@ -861,7 +613,7 @@ console.log(userPermissions &amp; EXECUTE); // 0 → falsy → no execute</code>
 <p class="v2-p">Returns <code>1</code> where bits are <strong>DIFFERENT</strong>, <code>0</code> where they are the SAME. ("Exclusive OR")</p>
 <p class="v2-p"><strong>Truth table for XOR:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Bit A</th><th>Bit B</th><th>A XOR B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td><strong>1</strong></td></tr><tr><td>1</td><td>0</td><td><strong>1</strong></td></tr><tr><td>1</td><td>1</td><td>0</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 5 = 0101
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 5 = 0101
 // 3 = 0011
 // ^  = 0110  = 6
 
@@ -874,7 +626,7 @@ flag ^= 1; console.log(flag);  // 0  (toggled off)
 flag ^= 1; console.log(flag);  // 1  (toggled on again)</code></pre></div></div>
 <h3 class="v2-h3">Bitwise NOT — <code>~</code></h3>
 <p class="v2-p">Flips ALL bits (0 becomes 1, 1 becomes 0). Because of how JavaScript handles 32-bit signed integers, <code>~n</code> always equals <code>-(n + 1)</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(~5);   // -6   (-(5+1) = -6)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(~5);   // -6   (-(5+1) = -6)
 console.log(~0);   // -1
 console.log(~-1);  // 0
 
@@ -883,31 +635,17 @@ console.log(~-1);  // 0
 // ~5:          11111111111111111111111111111010  = -6 (two&#x27;s complement)</code></pre></div></div>
 <p class="v2-p"><strong>Why -(n+1)?</strong> JavaScript uses "two's complement" for negative numbers. Flipping all bits of n gives the two's complement value of -(n+1).</p>
 <p class="v2-p"><strong>Common use — <code>~</code> as a quick indexOf check:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let arr = [10, 20, 30];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let arr = [10, 20, 30];
 // Old way:
 if (arr.indexOf(20) !== -1) { console.log(&quot;found&quot;); }
 // Shortcut with ~ (if index is -1, ~(-1) = 0 which is falsy):
 if (~arr.indexOf(20)) { console.log(&quot;found&quot;); }  // &quot;found&quot;
 if (~arr.indexOf(99)) { console.log(&quot;found&quot;); }  // (nothing printed — 0 is falsy)</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>14. JavaScript Bitwise Operators — Binary Math</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase15">
-  <div class="phase-header">
-    <div class="phase-num">Phase 15 of 18</div>
-    <div class="phase-title">15. Bitwise Shift Operators</div>
-    <div class="phase-check" id="chk15"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Left Shift — <code>&lt;&lt;</code> (Zero Fill)</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>14. JavaScript Bitwise Operators — Binary Math</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase15"><div class="ph"><div class="pn">Phase 15/18</div><div class="pt">15. Bitwise Shift Operators</div><div class="pc" id="chk15"></div></div><div class="pb2"><h3 class="v2-h3">Left Shift — <code>&lt;&lt;</code> (Zero Fill)</h3>
 <p class="v2-p">Shifts bits to the LEFT by the specified number of positions. Zeros fill in from the right. Left bits fall off.</p>
 <p class="v2-p"><strong>Effect:</strong> Multiplies the number by 2 for each shift position.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 5 in binary: 0101
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 5 in binary: 0101
 // 5 &lt;&lt; 1:     1010  = 10  (shifted 1 left = multiplied by 2^1 = ×2)
 // 5 &lt;&lt; 2:    10100  = 20  (shifted 2 left = multiplied by 2^2 = ×4)
 
@@ -916,27 +654,27 @@ console.log(5 &lt;&lt; 2);  // 20
 console.log(5 &lt;&lt; 3);  // 40
 console.log(1 &lt;&lt; 4);  // 16  (very fast way to compute 2^4)</code></pre></div></div>
 <p class="v2-p"><strong>Step-by-step for <code>5 &lt;&lt; 1</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>5 in binary:   0 0 0 0 0 1 0 1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>5 in binary:   0 0 0 0 0 1 0 1
 Shift left 1:  0 0 0 0 1 0 1 0   ← zero pushed in from right
 Result:        10 in decimal</code></pre></div></div>
 <h3 class="v2-h3">Signed Right Shift — <code>&gt;&gt;</code> (Sign-Preserving)</h3>
 <p class="v2-p">Shifts bits to the RIGHT. The leftmost bit (sign bit) is copied to fill from the left. Right bits fall off.</p>
 <p class="v2-p"><strong>Effect:</strong> Divides the number by 2 for each shift position (rounds toward negative infinity).</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(20 &gt;&gt; 1);  // 10  (20 / 2 = 10)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(20 &gt;&gt; 1);  // 10  (20 / 2 = 10)
 console.log(20 &gt;&gt; 2);  // 5   (20 / 4 = 5)
 console.log(-20 &gt;&gt; 1); // -10 (sign is preserved: -20 / 2 = -10)</code></pre></div></div>
 <h3 class="v2-h3">Unsigned Right Shift — <code>&gt;&gt;&gt;</code> (Zero Fill)</h3>
 <p class="v2-p">Like <code>&gt;&gt;</code> but always fills with zeros from the left (ignores sign). For negative numbers, this gives a large positive number:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(20 &gt;&gt;&gt; 1);  // 10    (same as &gt;&gt; for positive numbers)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(20 &gt;&gt;&gt; 1);  // 10    (same as &gt;&gt; for positive numbers)
 console.log(-1 &gt;&gt;&gt; 0);  // 4294967295  (all 32 bits become 1 = max 32-bit unsigned int)</code></pre></div></div>
 <p class="v2-p"><strong>Practical use of <code>&gt;&gt;&gt; 0</code> — Convert to 32-bit unsigned integer:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Useful for converting any number to a safe 32-bit integer:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Useful for converting any number to a safe 32-bit integer:
 function to32bit(n) { return n &gt;&gt;&gt; 0; }
 console.log(to32bit(-1));  // 4294967295
 console.log(to32bit(5));   // 5</code></pre></div></div>
 <h3 class="v2-h3">Bitwise Assignment Operators</h3>
 <p class="v2-p">All bitwise operators have assignment shorthand versions:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 5;
 x &amp;= 3;  console.log(x);  // 1   (same as x = x &amp; 3)
 x = 5;
 x |= 3;  console.log(x);  // 7   (same as x = x | 3)
@@ -948,23 +686,9 @@ x = 5;
 x &gt;&gt;= 1; console.log(x);  // 2   (same as x = x &gt;&gt; 1)</code></pre></div></div>
 <h3 class="v2-h3">Full Bitwise Operator Reference</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Name</th><th>Usage</th><th>Example</th></tr></thead><tbody><tr><td><code>&amp;</code></td><td>AND</td><td>1 only if both bits are 1</td><td><code>5 &amp; 3</code> → <code>1</code></td></tr><tr><td>`\</td><td>`</td><td>OR</td><td>1 if at least one bit is 1</td><td>`5 \</td><td>3<code> → </code>7`</td></tr><tr><td><code>^</code></td><td>XOR</td><td>1 if bits are different</td><td><code>5 ^ 3</code> → <code>6</code></td></tr><tr><td><code>~</code></td><td>NOT</td><td>Flip all bits</td><td><code>~5</code> → <code>-6</code></td></tr><tr><td><code>&lt;&lt;</code></td><td>Left shift</td><td>Shift left (pad with 0)</td><td><code>5 &lt;&lt; 1</code> → <code>10</code></td></tr><tr><td><code>&gt;&gt;</code></td><td>Right shift</td><td>Shift right (preserve sign)</td><td><code>20 &gt;&gt; 1</code> → <code>10</code></td></tr><tr><td><code>&gt;&gt;&gt;</code></td><td>Unsigned right shift</td><td>Shift right (pad with 0)</td><td><code>20 &gt;&gt;&gt; 1</code> → <code>10</code></td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>15. Bitwise Shift Operators</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase16">
-  <div class="phase-header">
-    <div class="phase-num">Phase 16 of 18</div>
-    <div class="phase-title">16. Converting Between Binary and Decimal</div>
-    <div class="phase-check" id="chk16"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Decimal to Binary</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function dec2bin(dec) {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>15. Bitwise Shift Operators</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase16"><div class="ph"><div class="pn">Phase 16/18</div><div class="pt">16. Converting Between Binary and Decimal</div><div class="pc" id="chk16"></div></div><div class="pb2"><h3 class="v2-h3">Decimal to Binary</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function dec2bin(dec) {
   return (dec &gt;&gt;&gt; 0).toString(2);
 }
 
@@ -974,7 +698,7 @@ console.log(dec2bin(10));   // &quot;1010&quot;</code></pre></div></div>
 <p class="v2-p"><strong>How it works:</strong></p>
 <ul class="v2-ul"><li><code>&gt;&gt;&gt; 0</code> converts the number to an unsigned 32-bit integer (handles negatives)</li><li><code>.toString(2)</code> converts to base-2 (binary) string</li></ul>
 <h3 class="v2-h3">Binary to Decimal</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function bin2dec(bin) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function bin2dec(bin) {
   return parseInt(bin, 2).toString(10);
 }
 
@@ -986,28 +710,14 @@ console.log(bin2dec(&quot;1010&quot;));      // &quot;10&quot;</code></pre></div
 <h3 class="v2-h3">Two's Complement — How Negative Numbers Are Stored</h3>
 <p class="v2-p">JavaScript binary numbers are stored in <strong>two's complement</strong> format. This means:</p>
 <ul class="v2-ul"><li>Positive numbers: stored normally</li><li>Negative numbers: the bitwise NOT of the number, plus 1</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 5 in binary:    00000000000000000000000000000101
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 5 in binary:    00000000000000000000000000000101
 // NOT 5 (~5):     11111111111111111111111111111010
 // ~5 + 1 = -5:   11111111111111111111111111111011
 
 // Verify:
 console.log(~5 + 1);  // -5  ← this is two&#x27;s complement of 5</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>16. Converting Between Binary and Decimal</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(16)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase17">
-  <div class="phase-header">
-    <div class="phase-num">Phase 17 of 18</div>
-    <div class="phase-title">17. JavaScript BigInt — Working with Huge Numbers</div>
-    <div class="phase-check" id="chk17"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Is BigInt?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>16. Converting Between Binary and Decimal</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(16)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase17"><div class="ph"><div class="pn">Phase 17/18</div><div class="pt">17. JavaScript BigInt — Working with Huge Numbers</div><div class="pc" id="chk17"></div></div><div class="pb2"><h3 class="v2-h3">What Is BigInt?</h3>
 <p class="v2-p"><strong>BigInt</strong> is JavaScript's second numeric data type (introduced in ES2020), designed specifically to handle integers that are <strong>too large</strong> for the regular <code>Number</code> type to represent accurately.</p>
 <p class="v2-p">Remember: regular numbers lose precision beyond 15-16 digits. BigInt has NO upper limit — it can handle numbers of arbitrary size.</p>
 <h3 class="v2-h3">When Do You Need BigInt?</h3>
@@ -1015,18 +725,18 @@ console.log(~5 + 1);  // -5  ← this is two&#x27;s complement of 5</code></pre>
 <h3 class="v2-h3">Creating a BigInt</h3>
 <p class="v2-p">Two ways to create a BigInt:</p>
 <p class="v2-p"><strong>Method 1 — Append <code>n</code> to any integer:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let big1 = 9999999999999999n;       // note the &#x27;n&#x27; at the end
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let big1 = 9999999999999999n;       // note the &#x27;n&#x27; at the end
 let big2 = 1234567890123456789012345n;
 
 console.log(big1);  // 9999999999999999n  ✅ (exact! no rounding)</code></pre></div></div>
 <p class="v2-p"><strong>Compare to regular Number:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let regular = 9999999999999999;    // number (no n)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let regular = 9999999999999999;    // number (no n)
 let bigint  = 9999999999999999n;   // BigInt (with n)
 
 console.log(regular);  // 10000000000000000  ❌ rounded!
 console.log(bigint);   // 9999999999999999n  ✅ exact!</code></pre></div></div>
 <p class="v2-p"><strong>Method 2 — Use <code>BigInt()</code> constructor:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let big3 = BigInt(1234567890123456789);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let big3 = BigInt(1234567890123456789);
 let big4 = BigInt(&quot;1234567890123456789012345&quot;);  // use string for very large!
 
 console.log(big3);  // 1234567890123456768n  (not exact — limit of JS number literal)
@@ -1034,7 +744,7 @@ console.log(big4);  // 1234567890123456789012345n  ✅ (string bypasses number l
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Important:</strong> When creating VERY large BigInts with the <code>BigInt()</code> constructor, always pass a <strong>string</strong> to avoid the number precision issue being baked in before BigInt even sees it.</p></blockquote>
 <h3 class="v2-h3">BigInt Arithmetic</h3>
 <p class="v2-p">BigInt supports all standard math operators, but ONLY with other BigInts:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let a = 1000000000000000000n;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let a = 1000000000000000000n;
 let b = 2000000000000000000n;
 
 console.log(a + b);   // 3000000000000000000n  ✅
@@ -1044,7 +754,7 @@ console.log(b / a);   // 2n  ✅
 console.log(b % 3n);  // 2n  ✅ (remainder)
 console.log(2n ** 100n); // 1267650600228229401496703205376n  ✅ (2^100)</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>You CANNOT mix BigInt and Number in operations:</strong></p></blockquote>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let big = 10n;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let big = 10n;
 let num = 5;
 
 // ❌ This throws a TypeError:
@@ -1055,11 +765,11 @@ console.log(big + BigInt(num));  // 15n
 console.log(Number(big) + num);  // 15  (converts BigInt to Number first)</code></pre></div></div>
 <h3 class="v2-h3">BigInt Division — Always Integer Result</h3>
 <p class="v2-p">BigInt division truncates (cuts off) the decimal, never rounds:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(10n / 3n);   // 3n  (NOT 3.333...n — decimals not allowed!)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(10n / 3n);   // 3n  (NOT 3.333...n — decimals not allowed!)
 console.log(-10n / 3n);  // -3n  (truncates toward zero)</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">BigInt cannot represent decimals at all. For decimal math, use regular <code>Number</code>.</p></blockquote>
 <h3 class="v2-h3">BigInt Comparisons</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Comparing two BigInts:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Comparing two BigInts:
 console.log(10n &gt; 5n);    // true
 console.log(10n &lt; 5n);    // false
 console.log(10n === 10n); // true
@@ -1072,7 +782,7 @@ console.log(10n &lt; 20);    // true</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Rule:</strong> <code>==</code> works between BigInt and Number. <code>===</code> always returns <code>false</code> because they are different types.</p></blockquote>
 <h3 class="v2-h3">BigInt as Boolean</h3>
 <p class="v2-p">BigInt behaves like a number in boolean context: <code>0n</code> is falsy, everything else is truthy:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Boolean(0n));  // false
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Boolean(0n));  // false
 console.log(Boolean(1n));  // true
 console.log(Boolean(-5n)); // true
 
@@ -1080,13 +790,13 @@ if (0n) { console.log(&quot;never&quot;); }
 if (5n) { console.log(&quot;yes!&quot;);  }  // &quot;yes!&quot;</code></pre></div></div>
 <h3 class="v2-h3">BigInt Number Bases</h3>
 <p class="v2-p">BigInt supports hex, octal, and binary notation just like regular numbers:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let hexBig = 0x1FFFFFFFFFFFFFn;   // hex BigInt
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let hexBig = 0x1FFFFFFFFFFFFFn;   // hex BigInt
 let octBig = 0o777777777777777n;  // octal BigInt
 let binBig = 0b111111111111111111111111111111111111111111111111111n;  // binary BigInt
 
 console.log(hexBig);  // 9007199254740991n</code></pre></div></div>
 <h3 class="v2-h3">BigInt Methods</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let big = 12345678901234567890n;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let big = 12345678901234567890n;
 
 console.log(big.toString());     // &quot;12345678901234567890&quot;
 console.log(big.toString(16));   // hex string
@@ -1094,7 +804,7 @@ console.log(big.toString(2));    // binary string
 console.log(typeof big);         // &quot;bigint&quot;</code></pre></div></div>
 <h3 class="v2-h3">BigInt Bitwise Operations</h3>
 <p class="v2-p">BigInt supports bitwise operators, but ONLY with other BigInts:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let a = 5n;   // binary: 0101
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let a = 5n;   // binary: 0101
 let b = 3n;   // binary: 0011
 
 console.log(a &amp; b);   // 1n   (0001)  AND
@@ -1111,7 +821,7 @@ console.log(big &gt;&gt; 1n);  // 5n    (0101)   — right shift by 1
 <h3 class="v2-h3">BigInt Limitations</h3>
 <p class="v2-p">Things BigInt CANNOT do:</p>
 <ul class="v2-ul"><li>Use <code>Math</code> methods: <code>Math.max(1n, 2n)</code> → TypeError</li><li>Mix with regular Number in math operations</li><li>Represent decimal/fractional values</li><li>Use unsigned right shift <code>&gt;&gt;&gt;</code></li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ These will throw errors:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ These will throw errors:
 // Math.max(1n, 2n);     // TypeError
 // 10n + 5;              // TypeError
 // 10n / 3n === 3.33n;   // BigInt can&#x27;t be decimal
@@ -1120,42 +830,28 @@ console.log(big &gt;&gt; 1n);  // 5n    (0101)   — right shift by 1
 console.log(10n &gt; 9n ? 10n : 9n);  // 10n  (manual comparison instead of Math.max)
 console.log(Number(10n) + 5);       // 15   (convert to number first)</code></pre></div></div>
 <h3 class="v2-h3">BigInt is the Second Numeric Type</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(typeof 42);    // &quot;number&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(typeof 42);    // &quot;number&quot;
 console.log(typeof 42n);   // &quot;bigint&quot;  ← a completely different type</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>17. JavaScript BigInt — Working with Huge Numbers</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(17)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase18">
-  <div class="phase-header">
-    <div class="phase-num">Phase 18 of 18</div>
-    <div class="phase-title">18. Applied Exercises</div>
-    <div class="phase-check" id="chk18"></div>
-  </div>
-  <div class="phase-body">
-    <hr class="v2-hr">
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>17. JavaScript BigInt — Working with Huge Numbers</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(17)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase18"><div class="ph"><div class="pn">Phase 18/18</div><div class="pt">18. Applied Exercises</div><div class="pc" id="chk18"></div></div><div class="pb2"><hr class="v2-hr">
 <h3 class="v2-h3">🏋️ Exercise 1 — Smart Price Calculator</h3>
 <p class="v2-p"><strong>Objective:</strong> Practice <code>toFixed()</code>, floating-point precision fixes, <code>Number()</code>, <code>parseFloat()</code>, and <code>isNaN()</code>.</p>
 <p class="v2-p"><strong>Real-world Scenario:</strong> You're building an e-commerce checkout system that must handle user input, calculate totals accurately, and display formatted prices.</p>
 <p class="v2-p"><strong>Warm-up Mini-Example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let price = &quot;24.99&quot;;  // user input is a string from form
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let price = &quot;24.99&quot;;  // user input is a string from form
 let qty = 3;
 let total = parseFloat(price) * qty;
 console.log(`Total: $${total.toFixed(2)}`);  // Total: $74.97</code></pre></div></div>
 <p class="v2-p"><strong>Your Exercise:</strong></p>
 <p class="v2-p">Given this data from a web form:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let rawPrice = &quot;1499.99&quot;;   // price entered as string
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let rawPrice = &quot;1499.99&quot;;   // price entered as string
 let rawQty = &quot;3&quot;;           // quantity entered as string
 let discountRate = &quot;0.15&quot;;  // 15% discount
 let taxRate = 0.075;        // 7.5% tax</code></pre></div></div>
 <p class="v2-p"><strong>Step-by-step Instructions:</strong></p>
 <ol class="v2-ol"><li>Convert all string inputs to numbers using <code>parseFloat()</code> or <code>Number()</code></li><li>Validate: if any value is <code>NaN</code>, display an error message</li><li>Calculate: subtotal = price × quantity</li><li>Apply discount: discounted = subtotal × (1 - discountRate)</li><li>Apply tax: total = discounted × (1 + taxRate)</li><li>Display each value formatted to 2 decimal places</li></ol>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>=== Order Summary ===
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>=== Order Summary ===
 Unit Price:    ₦1,499.99
 Quantity:      3
 Subtotal:      ₦4,499.97
@@ -1171,13 +867,13 @@ TOTAL:         ₦4,111.84</code></pre></div></div>
 <p class="v2-p"><strong>Objective:</strong> Practice bitwise operators in a real-world permissions system.</p>
 <p class="v2-p"><strong>Real-world Scenario:</strong> A content management system (CMS) needs to manage user permissions. Each permission is a power of 2 (bit flag), allowing combinations to be stored as a single number.</p>
 <p class="v2-p"><strong>Warm-up Mini-Example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const READ = 1;  // 001
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const READ = 1;  // 001
 const WRITE = 2; // 010
 let perm = READ | WRITE;  // 011 = 3
 console.log(&quot;Can read:&quot;, !!(perm &amp; READ));   // true
 console.log(&quot;Can write:&quot;, !!(perm &amp; WRITE)); // true</code></pre></div></div>
 <p class="v2-p"><strong>Your Exercise:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const PERMISSIONS = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const PERMISSIONS = {
   VIEW:    1,   // 0001
   COMMENT: 2,   // 0010
   EDIT:    4,   // 0100
@@ -1191,7 +887,7 @@ console.log(&quot;Can write:&quot;, !!(perm &amp; WRITE)); // true</code></pre><
 <p class="v2-p"><strong>Hints:</strong></p>
 <ul class="v2-ul"><li>Grant permission: <code>userPerms | newPerm</code> (OR adds it)</li><li>Revoke permission: <code>userPerms &amp; ~removedPerm</code> (AND NOT removes it)</li><li>Check permission: <code>(userPerms &amp; perm) !== 0</code></li></ul>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>=== Permission Manager ===
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>=== Permission Manager ===
 Guest permissions (binary): 00001
 Editor permissions (binary): 00111
 Admin permissions (binary): 11111
@@ -1214,7 +910,7 @@ Editor can EDIT: false</code></pre></div></div>
 <p class="v2-p"><strong>Objective:</strong> Practice BigInt for large number computation.</p>
 <p class="v2-p"><strong>Real-world Scenario:</strong> In cryptography and statistics, you often need to calculate factorials of large numbers. These numbers become enormous very quickly — far beyond what regular Number can handle.</p>
 <p class="v2-p"><strong>Warm-up Mini-Example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 5! = 5 × 4 × 3 × 2 × 1 = 120
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 5! = 5 × 4 × 3 × 2 × 1 = 120
 function factorial(n) {
   let result = 1n;
   for (let i = 2n; i &lt;= BigInt(n); i++) {
@@ -1227,7 +923,7 @@ console.log(factorial(10));  // 3628800n</code></pre></div></div>
 <p class="v2-p"><strong>Your Exercise:</strong></p>
 <ol class="v2-ol"><li>Write a <code>factorial(n)</code> function using BigInt</li><li>Calculate <code>factorial(50)</code> and <code>factorial(100)</code></li><li>Show the number of digits in the result using <code>.toString().length</code></li><li>Show why regular Number fails for <code>factorial(20)</code> (compare results)</li><li>Display results formatted with digit grouping</li></ol>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>=== Factorial Calculator ===
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>=== Factorial Calculator ===
 
 factorial(10)  = 3,628,800
 Digits: 7
@@ -1241,111 +937,76 @@ Digits: 65
 factorial(100):
 Digits: 158
 (Too large to display fully!)</code></pre></div></div>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>18. Applied Exercises</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(18)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">💰 Project Overview</div><div class="build-req"><h3 class="v2-h3">💰 Project Overview</h3>
+<p class="v2-p">You will build a <strong>Personal Finance Dashboard</strong> — a realistic program that calculates loan repayments, investment growth, currency conversion, and savings goals, using all the number concepts from this tutorial.</p>
+<p class="v2-p"><strong>Skills practiced:</strong> <code>toFixed()</code>, <code>toPrecision()</code>, <code>parseFloat()</code>, <code>isNaN()</code>, <code>Number.isFinite()</code>, floating-point precision handling, BigInt for large sums.</p>
 <hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>18. Applied Exercises</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(18)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">💰 Project Overview</div>
-  <div class="build-desc">You will build a <strong>Personal Finance Dashboard</strong> — a realistic program that calculates loan repayments, investment growth, currency conversion, and savings goals, using all the number concepts from this tutorial.</div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>// Monthly interest rate
+<h3 class="v2-h3">Stage 1 — Loan Repayment Calculator</h3>
+<p class="v2-p"><strong>Illustrative Preview:</strong></p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Monthly interest rate
 let monthlyRate = 0.12 / 12;  // 12% annual → 1% monthly
-console.log(monthlyRate.toPrecision(4));  // &quot;0.01000&quot;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`// Monthly interest rate
+console.log(monthlyRate.toPrecision(4));  // &quot;0.01000&quot;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`// Monthly interest rate
 let monthlyRate = 0.12 / 12;  // 12% annual → 1% monthly
-console.log(monthlyRate.toPrecision(4));  // "0.01000"`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+console.log(monthlyRate.toPrecision(4));  // "0.01000"`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-08-project-overview</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 08 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-08-project-overview/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 08 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ 1. What Is a Number in JavaScript?</li><li>✅ 2. Writing Numbers</li><li>✅ 3. How JavaScript Stores Numbers — The 64-bit Float Format</li><li>✅ 4. Integer Precision — The 15-Digit Limit</li><li>✅ 5. Floating-Point Precision Problems (and How to Fix Them)</li><li>✅ 6. Special Number Values: NaN, Infinity, and -Infinity</li><li>✅ 7. Number Bases: Hexadecimal, Octal, Binary</li><li>✅ 8. Numbers and Strings Together — Type Coercion Traps</li></ul>
-  <div class="lesson-nav"><a href="lesson_07.html" class="ln-btn">← Lesson 07</a><a href="lesson_09.html" class="ln-btn primary">Lesson 09 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-08-project-overview</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 08 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-08-project-overview/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 08 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ 1. What Is a Number in JavaScript?</li><li>✅ 2. Writing Numbers</li><li>✅ 3. How JavaScript Stores Numbers — The 64-bit Float Format</li><li>✅ 4. Integer Precision — The 15-Digit Limit</li><li>✅ 5. Floating-Point Precision Problems (and How to Fix Them)</li><li>✅ 6. Special Number Values: NaN, Infinity, and -Infinity</li><li>✅ 7. Number Bases: Hexadecimal, Octal, Binary</li><li>✅ 8. Numbers and Strings Together — Type Coercion Traps</li></ul><div class="ln"><a href="lesson_07.html" class="ln-btn">← Lesson 07</a><a href="lesson_09.html" class="ln-btn primary">Lesson 09 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 08 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 08 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=18,KEY='techbase_js_l08';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

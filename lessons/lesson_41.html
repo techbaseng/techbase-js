@@ -1,205 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 41: JavaScript AJAX: AJAX Intro · XMLHttpRequest · Sending Requests · Handling Responses · XML Files · PHP &amp; ASP Integration · Database Communication · AJAX Applications &amp; Examples — Techbase JavaScript</title>
-<meta name="description" content="JavaScript AJAX: AJAX Intro · XMLHttpRequest · Sending Requests · Handling Responses · XML Files · PHP &amp; ASP Integration · Database Communication · AJAX Applications &amp; Examples">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 41 of 46</span>
+  <span class="l-nav-lbl">Lesson 41 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 41</div>
-    <h1>JavaScript AJAX: AJAX Intro · XMLHttpRequest · Sending Requests · Handling Responses · XML Files · PHP &amp; ASP Integration · Database Communication · AJAX Applications &amp; Examples</h1>
-    <div class="l-hero-sub">14 phases · Build: Lesson 41 JS Project</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 41</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 14 phases</span>
-    <span>🏗️ Lesson 41 JS Project</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 41</div>
+  <h1>JavaScript AJAX: AJAX Intro · XMLHttpRequest · Sending Requests · Handling Responses · XML Files · PHP &amp; ASP Integration · Database Communication · AJAX Applications &amp; Examples</h1>
+  <div class="l-hero-sub">14 phases &nbsp;·&nbsp; Build: Lesson 41 Project</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 41</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 14 phases</span><span>🏗️ Lesson 41 Project</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 14</div>
-    <div class="phase-title">Chapter 1 — What Is AJAX?</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">1.1 The Real-World Problem AJAX Solves</h3>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/14</div><div class="pt">Chapter 1 — What Is AJAX?</div><div class="pc" id="chk1"></div></div><div class="pb2"><h3 class="v2-h3">1.1 The Real-World Problem AJAX Solves</h3>
 <p class="v2-p">Imagine you are on a shopping website — Jumia Nigeria. You type a product name into the search box and, instead of the entire page reloading, only the search results section updates. The header, footer, and your shopping cart stay exactly where they are.</p>
 <p class="v2-p">Before AJAX, every user action that required new data from a server caused the <strong>entire page to reload</strong> — a slow, jarring experience. AJAX was invented to fix this.</p>
 <p class="v2-p"><strong>AJAX</strong> stands for:</p>
@@ -210,7 +144,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p">The word <strong>asynchronous</strong> is the most important word in AJAX. Let's understand it with an analogy.</p>
 <p class="v2-p"><strong>Synchronous (blocking):</strong> You call a restaurant to order food. You stay on hold the entire time the chef cooks — you cannot do anything else until your food is ready. This is how a full page reload works.</p>
 <p class="v2-p"><strong>Asynchronous (non-blocking):</strong> You place your order and hang up. You go watch TV, read the news, do whatever you want. When the food arrives, you're notified. This is how AJAX works.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Synchronous analogy in JavaScript (blocking — bad for UX)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Synchronous analogy in JavaScript (blocking — bad for UX)
 const data = fetchDataSynchronously(); // Everything freezes here
 console.log(data);                     // Only runs after fetch completes
 
@@ -227,7 +161,7 @@ console.log(&quot;I run immediately, without waiting!&quot;); // Runs right away
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Myth</th><th>Reality</th></tr></thead><tbody><tr><td>AJAX is a programming language</td><td>❌ No. It is a technique using existing technologies</td></tr><tr><td>AJAX only works with XML data</td><td>❌ No. JSON, plain text, and HTML are all common</td></tr><tr><td>AJAX requires a special library</td><td>❌ No. It is built into all modern browsers</td></tr><tr><td>AJAX is the same as the Fetch API</td><td>❌ No. Fetch is a newer alternative to AJAX's <code>XMLHttpRequest</code></td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.4 How AJAX Works — Step by Step</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>User Action (e.g., types in search box)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>User Action (e.g., types in search box)
         ↓
 JavaScript creates an XMLHttpRequest object
         ↓
@@ -251,33 +185,19 @@ User sees updated content — no page reload!</code></pre></div></div>
 <h3 class="v2-h3">1.7 Thinking Question</h3>
 <blockquote class="v2-bq"><p class="v2-p">🤔 What would your favourite website feel like if every button click triggered a full page reload? Think of three things that would be worse about the experience.</p></blockquote>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-2"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 1 — What Is AJAX?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 14</div>
-    <div class="phase-title">Chapter 2 — The XMLHttpRequest Object</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">2.1 What Is the XMLHttpRequest Object?</h3>
+<p class="v2-p">&lt;a name="chapter-2"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 1 — What Is AJAX?</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/14</div><div class="pt">Chapter 2 — The XMLHttpRequest Object</div><div class="pc" id="chk2"></div></div><div class="pb2"><h3 class="v2-h3">2.1 What Is the XMLHttpRequest Object?</h3>
 <p class="v2-p">The <strong>XMLHttpRequest (XHR) object</strong> is the engine behind AJAX. It is a built-in JavaScript object that browsers provide, which allows you to:</p>
 <ul class="v2-ul"><li>Make HTTP requests to a server</li><li>Receive responses</li><li>Do all of this without reloading the page</li></ul>
 <p class="v2-p">Think of it as a <strong>private courier</strong> your JavaScript code can dispatch to fetch information from a server and bring it back.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Creating the courier
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Creating the courier
 const xhr = new XMLHttpRequest();
 
 console.log(typeof xhr); // Output: &quot;object&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.2 Browser Compatibility Note</h3>
 <p class="v2-p">Modern browsers (Chrome, Firefox, Edge, Safari) all support <code>XMLHttpRequest</code>. Very old Internet Explorer (IE5, IE6) used a different approach (<code>ActiveXObject</code>). You may sometimes see legacy compatibility code:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Legacy compatibility pattern (rarely needed today)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Legacy compatibility pattern (rarely needed today)
 let xhr;
 
 if (window.XMLHttpRequest) {
@@ -294,7 +214,7 @@ console.log(&quot;XHR object ready:&quot;, xhr); // Output: XHR object ready: XM
 <h4 class="v2-h4"><code>readyState</code> — The Lifecycle Tracker</h4>
 <p class="v2-p">Every AJAX request passes through <strong>5 states</strong>, numbered 0–4:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Value</th><th>Constant Name</th><th>Meaning</th></tr></thead><tbody><tr><td><code>0</code></td><td><code>UNSENT</code></td><td>Object created, <code>open()</code> not yet called</td></tr><tr><td><code>1</code></td><td><code>OPENED</code></td><td><code>open()</code> has been called</td></tr><tr><td><code>2</code></td><td><code>HEADERS_RECEIVED</code></td><td><code>send()</code> called, headers received</td></tr><tr><td><code>3</code></td><td><code>LOADING</code></td><td>Response body being received</td></tr><tr><td><code>4</code></td><td><code>DONE</code></td><td>Request complete, full response received</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();
 console.log(xhr.readyState); // Output: 0  (UNSENT)
 
 xhr.open(&quot;GET&quot;, &quot;https://api.example.com/data&quot;);
@@ -303,13 +223,13 @@ console.log(xhr.readyState); // Output: 1  (OPENED)</code></pre></div></div>
 <h4 class="v2-h4"><code>status</code> — The HTTP Response Code</h4>
 <p class="v2-p">After the server responds, <code>xhr.status</code> contains the <strong>HTTP status code</strong>:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Code</th><th>Meaning</th></tr></thead><tbody><tr><td><code>200</code></td><td>OK — request succeeded</td></tr><tr><td><code>201</code></td><td>Created — resource created</td></tr><tr><td><code>400</code></td><td>Bad Request — malformed request</td></tr><tr><td><code>401</code></td><td>Unauthorized — login required</td></tr><tr><td><code>403</code></td><td>Forbidden — no permission</td></tr><tr><td><code>404</code></td><td>Not Found — resource doesn't exist</td></tr><tr><td><code>500</code></td><td>Internal Server Error — server crashed</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// After a successful request:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// After a successful request:
 console.log(xhr.status);     // Output: 200
 console.log(xhr.statusText); // Output: &quot;OK&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h4 class="v2-h4"><code>responseText</code> and <code>responseXML</code></h4>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Property</th><th>Contains</th></tr></thead><tbody><tr><td><code>xhr.responseText</code></td><td>Server response as a plain string</td></tr><tr><td><code>xhr.responseXML</code></td><td>Server response parsed as an XML document</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// After a successful request returning JSON text:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// After a successful request returning JSON text:
 console.log(xhr.responseText);
 // Output: &#x27;{&quot;name&quot;:&quot;Tunde&quot;,&quot;balance&quot;:50000}&#x27;
 
@@ -320,7 +240,7 @@ console.log(data.balance); // Output: 50000</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.4 The <code>onreadystatechange</code> Event Handler</h3>
 <p class="v2-p">Every time <code>readyState</code> changes, the browser fires this event. You assign a <strong>callback function</strong> to it:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();
 
 xhr.onreadystatechange = function() {
   console.log(&quot;State changed to:&quot;, xhr.readyState);
@@ -335,14 +255,14 @@ xhr.send();
 // &quot;State changed to: 3&quot;
 // &quot;State changed to: 4&quot;</code></pre></div></div>
 <p class="v2-p">In practice you only care about state <code>4</code> (done) and status <code>200</code> (success):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>xhr.onreadystatechange = function() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>xhr.onreadystatechange = function() {
   if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) {
     console.log(&quot;Success! Data:&quot;, xhr.responseText);
   }
 };</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.5 Common Beginner Mistake — Checking State Too Early</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ WRONG — readyState is checked before send() completes
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ WRONG — readyState is checked before send() completes
 const xhr = new XMLHttpRequest();
 xhr.open(&quot;GET&quot;, &quot;data.json&quot;);
 xhr.send();
@@ -356,10 +276,7 @@ xhr.onreadystatechange = function() {
 };</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Why this happens:</strong> <code>send()</code> is asynchronous. JavaScript does not wait for the server — it immediately continues to the next line. The response only exists after the event fires.</p></blockquote>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-3"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">`javascript
+<p class="v2-p">&lt;a name="chapter-3"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">`javascript
 xhr.onreadystatechange = function() {
   if (xhr.readyState === 4 && xhr.status === 200) {
     console.log("Success! Data:", xhr.responseText);
@@ -367,29 +284,18 @@ xhr.onreadystatechange = function() {
 };
 `
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 14</div>
-    <div class="phase-title">Chapter 3 — Sending AJAX Requests</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">3.1 The Two Key Methods: <code>open()</code> and <code>send()</code></h3>
+---</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/14</div><div class="pt">Chapter 3 — Sending AJAX Requests</div><div class="pc" id="chk3"></div></div><div class="pb2"><h3 class="v2-h3">3.1 The Two Key Methods: <code>open()</code> and <code>send()</code></h3>
 <p class="v2-p">To make an AJAX request, you always follow these steps:</p>
 <ol class="v2-ol"><li><strong>Create</strong> the XHR object</li><li><strong>Configure</strong> it with <code>open()</code></li><li><strong>Send</strong> it with <code>send()</code></li></ol>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();     // Step 1: Create
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();     // Step 1: Create
 xhr.open(&quot;GET&quot;, &quot;products.json&quot;);     // Step 2: Configure
 xhr.send();                           // Step 3: Send</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.2 The <code>open()</code> Method — Deep Dive</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>xhr.open(method, url, async, user, password);</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>xhr.open(method, url, async, user, password);</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>method</code></td><td>String</td><td>✅ Yes</td><td>HTTP method: <code>"GET"</code>, <code>"POST"</code>, <code>"PUT"</code>, <code>"DELETE"</code></td></tr><tr><td><code>url</code></td><td>String</td><td>✅ Yes</td><td>The server endpoint URL</td></tr><tr><td><code>async</code></td><td>Boolean</td><td>Optional</td><td><code>true</code> (default, non-blocking) or <code>false</code> (blocking — avoid!)</td></tr><tr><td><code>user</code></td><td>String</td><td>Optional</td><td>Username for authentication</td></tr><tr><td><code>password</code></td><td>String</td><td>Optional</td><td>Password for authentication</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// GET request (most common for reading data)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// GET request (most common for reading data)
 xhr.open(&quot;GET&quot;, &quot;/api/products&quot;);
 
 // POST request (for sending/creating data)
@@ -401,7 +307,7 @@ xhr.open(&quot;GET&quot;, &quot;/api/users&quot;, true);</code></pre></div></div
 <h3 class="v2-h3">3.3 GET vs POST — When to Use Which</h3>
 <h4 class="v2-h4">GET Requests</h4>
 <p class="v2-p">Used for <strong>reading</strong> or <strong>fetching</strong> data. Parameters are sent in the URL.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Fetching all products
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Fetching all products
 xhr.open(&quot;GET&quot;, &quot;/api/products&quot;);
 xhr.send(); // No body needed for GET
 
@@ -413,7 +319,7 @@ xhr.send();
 <ul class="v2-ul"><li>Data is visible in the URL (don't use for passwords!)</li><li>Can be bookmarked and cached</li><li>Limited data size (~2000 characters in URL)</li><li>Idempotent — calling it multiple times has the same result</li></ul>
 <h4 class="v2-h4">POST Requests</h4>
 <p class="v2-p">Used for <strong>sending</strong> data to the server (creating, updating resources). Data goes in the request body.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();
 xhr.open(&quot;POST&quot;, &quot;/api/orders&quot;);
 
 // Tell the server what format we&#x27;re sending
@@ -426,9 +332,9 @@ xhr.send(&quot;product=iPhone&amp;quantity=2&amp;price=450000&quot;);</code></pr
 <hr class="v2-hr">
 <h3 class="v2-h3">3.4 The <code>setRequestHeader()</code> Method</h3>
 <p class="v2-p">Before sending, you can add <strong>HTTP headers</strong> to your request. Headers are metadata that tell the server how to interpret your request.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>xhr.setRequestHeader(headerName, headerValue);</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>xhr.setRequestHeader(headerName, headerValue);</code></pre></div></div>
 <p class="v2-p">Common headers:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Tell server you&#x27;re sending URL-encoded form data
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Tell server you&#x27;re sending URL-encoded form data
 xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
 
 // Tell server you&#x27;re sending JSON
@@ -442,9 +348,9 @@ xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);</code></
 <blockquote class="v2-bq"><p class="v2-p">⚠️ You must call <code>setRequestHeader()</code> <strong>after</strong> <code>open()</code> but <strong>before</strong> <code>send()</code>.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.5 The <code>send()</code> Method — Sending Data</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>xhr.send(body);</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>xhr.send(body);</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Scenario</th><th>What to Pass</th></tr></thead><tbody><tr><td>GET request</td><td><code>null</code> or nothing</td></tr><tr><td>POST with form data</td><td><code>"key=value&amp;key2=value2"</code></td></tr><tr><td>POST with JSON</td><td><code>JSON.stringify({ key: value })</code></td></tr><tr><td>POST with FormData</td><td>A <code>FormData</code> object</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// GET — no body
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// GET — no body
 xhr.open(&quot;GET&quot;, &quot;/api/data&quot;);
 xhr.send();   // OR: xhr.send(null);
 
@@ -465,7 +371,7 @@ xhr.send(JSON.stringify({
 <hr class="v2-hr">
 <h3 class="v2-h3">3.6 Preventing Caching with GET Requests</h3>
 <p class="v2-p">Browsers may <strong>cache</strong> GET responses — returning old data instead of fetching fresh data from the server. To prevent this, append a unique timestamp to the URL:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Might return cached (stale) data
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ Might return cached (stale) data
 xhr.open(&quot;GET&quot;, &quot;/api/stockprice&quot;);
 xhr.send();
 
@@ -477,7 +383,7 @@ xhr.send();
 <hr class="v2-hr">
 <h3 class="v2-h3">3.7 <code>onload</code>, <code>onerror</code>, <code>onprogress</code> — Modern Event Handlers</h3>
 <p class="v2-p">Beyond <code>onreadystatechange</code>, XHR supports cleaner event handlers:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const xhr = new XMLHttpRequest();
 xhr.open(&quot;GET&quot;, &quot;/api/data&quot;);
 
 // Fires when request completes successfully
@@ -502,27 +408,13 @@ xhr.onprogress = function(event) {
 
 xhr.send();</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-4"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 3 — Sending AJAX Requests</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 14</div>
-    <div class="phase-title">Chapter 4 — Handling AJAX Responses</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">4.1 The Response Arrives — What Now?</h3>
+<p class="v2-p">&lt;a name="chapter-4"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 3 — Sending AJAX Requests</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/14</div><div class="pt">Chapter 4 — Handling AJAX Responses</div><div class="pc" id="chk4"></div></div><div class="pb2"><h3 class="v2-h3">4.1 The Response Arrives — What Now?</h3>
 <p class="v2-p">When the server sends data back, it arrives as text in <code>xhr.responseText</code>. Your job as the developer is to:</p>
 <ol class="v2-ol"><li>Detect that the response has fully arrived (<code>readyState === 4</code>)</li><li>Confirm it was successful (<code>status === 200</code>)</li><li>Parse the response appropriately</li><li>Update the DOM with the new data</li></ol>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.2 The <code>onreadystatechange</code> Pattern — Full Example</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function loadUserData(userId) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function loadUserData(userId) {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;GET&quot;, &quot;/api/users/&quot; + userId);
 
@@ -553,7 +445,7 @@ loadUserData(42);
 <hr class="v2-hr">
 <h3 class="v2-h3">4.3 Using <code>responseText</code> — Plain Text and JSON</h3>
 <p class="v2-p"><strong>Plain text response:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Server returns: &quot;Request processed successfully&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Server returns: &quot;Request processed successfully&quot;
 xhr.onreadystatechange = function() {
   if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) {
     console.log(xhr.responseText);
@@ -561,7 +453,7 @@ xhr.onreadystatechange = function() {
   }
 };</code></pre></div></div>
 <p class="v2-p"><strong>JSON response (most common):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Server returns: {&quot;products&quot;:[{&quot;name&quot;:&quot;Laptop&quot;,&quot;price&quot;:450000},{&quot;name&quot;:&quot;Phone&quot;,&quot;price&quot;:150000}]}
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Server returns: {&quot;products&quot;:[{&quot;name&quot;:&quot;Laptop&quot;,&quot;price&quot;:450000},{&quot;name&quot;:&quot;Phone&quot;,&quot;price&quot;:150000}]}
 
 xhr.onreadystatechange = function() {
   if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) {
@@ -581,7 +473,7 @@ xhr.onreadystatechange = function() {
 <h3 class="v2-h3">4.4 Using <code>responseXML</code> — XML Responses</h3>
 <p class="v2-p">If the server returns XML, you can access it as a parsed DOM document via <code>xhr.responseXML</code>.</p>
 <p class="v2-p"><strong>Server returns:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">xml</span></div><div class="v2-code-body"><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">xml</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;banks&gt;
   &lt;bank&gt;
     &lt;name&gt;GTBank&lt;/name&gt;
@@ -593,7 +485,7 @@ xhr.onreadystatechange = function() {
   &lt;/bank&gt;
 &lt;/banks&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript to read it:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>xhr.onreadystatechange = function() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>xhr.onreadystatechange = function() {
   if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) {
     const xmlDoc = xhr.responseXML;                      // Already a DOM object
     const banks = xmlDoc.getElementsByTagName(&quot;bank&quot;);   // Like querySelectorAll
@@ -612,7 +504,7 @@ xhr.onreadystatechange = function() {
 <hr class="v2-hr">
 <h3 class="v2-h3">4.5 Updating the DOM with AJAX Data</h3>
 <p class="v2-p">The real power of AJAX is updating page content without refreshing. Here are the key DOM update patterns:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Method 1: Update text content
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Method 1: Update text content
 document.getElementById(&quot;balance&quot;).innerText = &quot;₦&quot; + amount.toLocaleString();
 
 // Method 2: Update HTML content (renders HTML tags)
@@ -634,7 +526,7 @@ xhr.onreadystatechange = function() {
 };</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.6 Common Beginner Mistake — Parsing Non-JSON</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ WRONG — server returned plain text, not JSON
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ WRONG — server returned plain text, not JSON
 const data = JSON.parse(&quot;Server error: database unavailable&quot;);
 // Output: SyntaxError: Unexpected token &#x27;S&#x27;
 
@@ -652,7 +544,7 @@ xhr.onreadystatechange = function() {
 <hr class="v2-hr">
 <h3 class="v2-h3">4.7 The <code>getAllResponseHeaders()</code> Method</h3>
 <p class="v2-p">You can inspect the server's response headers:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>xhr.onreadystatechange = function() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>xhr.onreadystatechange = function() {
   if (xhr.readyState === 4) {
     console.log(xhr.getAllResponseHeaders());
     // Output (sample):
@@ -662,31 +554,17 @@ xhr.onreadystatechange = function() {
   }
 };</code></pre></div></div>
 <p class="v2-p">Or get a specific header:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const contentType = xhr.getResponseHeader(&quot;content-type&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const contentType = xhr.getResponseHeader(&quot;content-type&quot;);
 console.log(contentType); // Output: &quot;application/json; charset=utf-8&quot;</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-5"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 4 — Handling AJAX Responses</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 14</div>
-    <div class="phase-title">Chapter 5 — Loading XML Files with AJAX</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">5.1 Why Load XML Files?</h3>
+<p class="v2-p">&lt;a name="chapter-5"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 4 — Handling AJAX Responses</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/14</div><div class="pt">Chapter 5 — Loading XML Files with AJAX</div><div class="pc" id="chk5"></div></div><div class="pb2"><h3 class="v2-h3">5.1 Why Load XML Files?</h3>
 <p class="v2-p">XML (eXtensible Markup Language) was the original data format for AJAX. Many legacy systems, government APIs, financial institutions, and enterprise software still use XML. Understanding how to load and parse XML files remains an important skill.</p>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Think of XML as a filing cabinet.</strong> Each <code>&lt;tag&gt;</code> is a labelled folder, and the content inside is the document. Tags can nest inside each other, just like folders inside folders.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.2 A Sample XML File</h3>
 <p class="v2-p">Imagine a file called <code>nigerian_states.xml</code> on your server:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">xml</span></div><div class="v2-code-body"><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">xml</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;states&gt;
   &lt;state&gt;
     &lt;name&gt;Lagos&lt;/name&gt;
@@ -710,7 +588,7 @@ console.log(contentType); // Output: &quot;application/json; charset=utf-8&quot;
 <hr class="v2-hr">
 <h3 class="v2-h3">5.3 Loading the XML File — Full Walkthrough</h3>
 <p class="v2-p"><strong>HTML structure:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;Nigerian States&lt;/title&gt;
@@ -724,7 +602,7 @@ console.log(contentType); // Output: &quot;application/json; charset=utf-8&quot;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript (<code>states.js</code>):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function loadStates() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function loadStates() {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;GET&quot;, &quot;nigerian_states.xml&quot;);  // Request the XML file
 
@@ -778,7 +656,7 @@ function getXMLValue(parentNode, tagName) {
 <hr class="v2-hr">
 <h3 class="v2-h3">5.4 Navigating the XML DOM</h3>
 <p class="v2-p">When you use <code>xhr.responseXML</code>, you get a <strong>DOM document</strong> — similar to the HTML DOM, but representing XML. Here are the key navigation methods:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const xmlDoc = xhr.responseXML;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const xmlDoc = xhr.responseXML;
 
 // Get elements by tag name (returns HTMLCollection)
 const states = xmlDoc.getElementsByTagName(&quot;state&quot;);     // All &lt;state&gt; elements
@@ -795,7 +673,7 @@ console.log(states.length);   // Output: 3 (three &lt;state&gt; elements)
 console.log(stateName);       // Output: &quot;Lagos&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.5 Common Beginner Mistake — Treating XML Like JSON</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ WRONG — XML is not JSON, you cannot use JSON.parse on it
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ WRONG — XML is not JSON, you cannot use JSON.parse on it
 const data = JSON.parse(xhr.responseXML);
 // Output: TypeError — responseXML is already a document, not a string
 
@@ -807,24 +685,10 @@ const name = xmlDoc.states.state[0].name;
 const name = xmlDoc.getElementsByTagName(&quot;name&quot;)[0].childNodes[0].nodeValue;
 // Output: &quot;Lagos&quot;</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-6"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 5 — Loading XML Files with AJAX</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 14</div>
-    <div class="phase-title">Chapter 6 — AJAX with PHP</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">6.1 How AJAX and PHP Work Together</h3>
+<p class="v2-p">&lt;a name="chapter-6"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 5 — Loading XML Files with AJAX</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/14</div><div class="pt">Chapter 6 — AJAX with PHP</div><div class="pc" id="chk6"></div></div><div class="pb2"><h3 class="v2-h3">6.1 How AJAX and PHP Work Together</h3>
 <p class="v2-p">PHP is a <strong>server-side language</strong> that runs on the server (not in the browser). When your JavaScript sends an AJAX request to a <code>.php</code> file, PHP executes on the server and sends a response back.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Browser (JavaScript)  →  AJAX Request  →  Server (PHP)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Browser (JavaScript)  →  AJAX Request  →  Server (PHP)
 Browser (JavaScript)  ←  Response      ←  Server (PHP output)</code></pre></div></div>
 <p class="v2-p">This is how most dynamic websites work:</p>
 <ul class="v2-ul"><li><strong>Front end</strong> (JavaScript): Sends requests, updates UI</li><li><strong>Back end</strong> (PHP): Queries database, processes logic, returns data</li></ul>
@@ -832,7 +696,7 @@ Browser (JavaScript)  ←  Response      ←  Server (PHP output)</code></pre></
 <h3 class="v2-h3">6.2 Classic Use Case — Auto-Suggest / Typeahead</h3>
 <p class="v2-p">When a user types in a search box, AJAX sends each keystroke to PHP, which searches a database and returns matching suggestions — all without a page reload.</p>
 <p class="v2-p"><strong>HTML (index.html):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;Search Nigerian Banks&lt;/title&gt;
@@ -867,7 +731,7 @@ Browser (JavaScript)  ←  Response      ←  Server (PHP output)</code></pre></
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>PHP (lookup_bank.php):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>&lt;?php
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?php
 // Sample bank list (in a real app, this comes from a database)
 $banks = [
   &quot;Access Bank&quot;,
@@ -898,7 +762,7 @@ if (count($results) === 0) {
 }
 ?&gt;</code></pre></div></div>
 <p class="v2-p"><strong>What happens when user types "zen":</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>JavaScript sends: GET lookup_bank.php?q=zen
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>JavaScript sends: GET lookup_bank.php?q=zen
 PHP finds: &quot;Zenith Bank&quot;
 PHP echoes: &lt;p&gt;Zenith Bank&lt;/p&gt;
 JavaScript inserts into #suggestions div: Zenith Bank appears below input</code></pre></div></div>
@@ -906,7 +770,7 @@ JavaScript inserts into #suggestions div: Zenith Bank appears below input</code>
 <h3 class="v2-h3">6.3 Using POST with PHP</h3>
 <p class="v2-p">For sending data securely (login forms, payments), use POST:</p>
 <p class="v2-p"><strong>JavaScript:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function processPayment(amount, recipient) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function processPayment(amount, recipient) {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;POST&quot;, &quot;process_payment.php&quot;);
   xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
@@ -924,7 +788,7 @@ JavaScript inserts into #suggestions div: Zenith Bank appears below input</code>
 // Call:
 processPayment(50000, &quot;Chioma Okafor&quot;);</code></pre></div></div>
 <p class="v2-p"><strong>PHP (process_payment.php):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>&lt;?php
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?php
 $amount    = $_POST[&quot;amount&quot;];
 $recipient = $_POST[&quot;recipient&quot;];
 
@@ -939,12 +803,12 @@ if (!is_numeric($amount) || $amount &lt;= 0) {
 echo &quot;✅ Transfer of ₦&quot; . number_format($amount) . &quot; to &quot; . htmlspecialchars($recipient) . &quot; was successful!&quot;;
 ?&gt;</code></pre></div></div>
 <p class="v2-p"><strong>PHP response received by JavaScript:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>✅ Transfer of ₦50,000 to Chioma Okafor was successful!</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>✅ Transfer of ₦50,000 to Chioma Okafor was successful!</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">6.4 PHP Returning JSON</h3>
 <p class="v2-p">Modern practice is to have PHP return <strong>JSON</strong> instead of raw HTML:</p>
 <p class="v2-p"><strong>PHP:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>&lt;?php
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?php
 header(&quot;Content-Type: application/json&quot;); // Tell client we&#x27;re sending JSON
 
 $user = [
@@ -958,7 +822,7 @@ echo json_encode($user);
 // Output: {&quot;id&quot;:42,&quot;name&quot;:&quot;Babatunde&quot;,&quot;balance&quot;:500000,&quot;city&quot;:&quot;Lagos&quot;}
 ?&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>xhr.onreadystatechange = function() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>xhr.onreadystatechange = function() {
   if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) {
     const user = JSON.parse(xhr.responseText);
     console.log(&quot;Hello, &quot; + user.name + &quot;!&quot;);
@@ -969,28 +833,14 @@ echo json_encode($user);
   }
 };</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-7"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 6 — AJAX with PHP</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 14</div>
-    <div class="phase-title">Chapter 7 — AJAX with ASP</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">7.1 What is ASP?</h3>
+<p class="v2-p">&lt;a name="chapter-7"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 6 — AJAX with PHP</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/14</div><div class="pt">Chapter 7 — AJAX with ASP</div><div class="pc" id="chk7"></div></div><div class="pb2"><h3 class="v2-h3">7.1 What is ASP?</h3>
 <p class="v2-p"><strong>ASP (Active Server Pages)</strong> and its modern version <strong>ASP.NET</strong> are Microsoft's server-side web technologies. ASP files use the <code>.asp</code> or <code>.aspx</code> extension and run on Windows servers (typically with IIS — Internet Information Services).</p>
 <p class="v2-p">Many Nigerian government portals, banking backends, and enterprise systems built in the early 2000s run on ASP. The JavaScript/AJAX side works <strong>identically</strong> — only the server-side language changes.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">7.2 ASP Classic — Auto-Suggest Example</h3>
 <p class="v2-p"><strong>HTML (index.html):</strong> <em>(identical to the PHP version)</em></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;nameInput&quot; oninput=&quot;lookupPerson(this.value)&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;nameInput&quot; oninput=&quot;lookupPerson(this.value)&quot;&gt;
 &lt;div id=&quot;suggestions&quot;&gt;&lt;/div&gt;
 
 &lt;script&gt;
@@ -1013,7 +863,7 @@ echo json_encode($user);
   }
 &lt;/script&gt;</code></pre></div></div>
 <p class="v2-p"><strong>ASP Classic (lookup.asp):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">asp</span></div><div class="v2-code-body"><pre><code>&lt;%
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">asp</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;%
 Dim query
 query = LCase(Request.QueryString(&quot;q&quot;))
 
@@ -1036,7 +886,7 @@ Next
 <h3 class="v2-h3">7.3 ASP.NET — Modern Approach</h3>
 <p class="v2-p"><strong>ASP.NET</strong> is Microsoft's modern successor to ASP Classic. It uses C# or VB.NET and supports JSON natively:</p>
 <p class="v2-p"><strong>ASP.NET Web API Controller (C#):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">csharp</span></div><div class="v2-code-body"><pre><code>[HttpGet]
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">csharp</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>[HttpGet]
 [Route(&quot;api/users/search&quot;)]
 public IActionResult SearchUsers(string q) {
     var users = new List&lt;string&gt; { &quot;Babatunde&quot;, &quot;Chioma&quot;, &quot;Emeka&quot; };
@@ -1044,7 +894,7 @@ public IActionResult SearchUsers(string q) {
     return Ok(matches); // Returns JSON array
 }</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript (identical pattern):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>xhr.open(&quot;GET&quot;, &quot;/api/users/search?q=&quot; + encodeURIComponent(query));
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>xhr.open(&quot;GET&quot;, &quot;/api/users/search?q=&quot; + encodeURIComponent(query));
 xhr.onreadystatechange = function() {
   if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) {
     const names = JSON.parse(xhr.responseText);
@@ -1057,24 +907,10 @@ xhr.onreadystatechange = function() {
 xhr.send();</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Key insight:</strong> The JavaScript/AJAX code barely changes between PHP, ASP, Node.js, or any other server. AJAX communicates using standard HTTP — it doesn't care what language the server uses.</p></blockquote>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-8"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 7 — AJAX with ASP</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 14</div>
-    <div class="phase-title">Chapter 8 — AJAX and Databases</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">8.1 The Full Stack: Browser → AJAX → Server → Database</h3>
+<p class="v2-p">&lt;a name="chapter-8"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 7 — AJAX with ASP</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/14</div><div class="pt">Chapter 8 — AJAX and Databases</div><div class="pc" id="chk8"></div></div><div class="pb2"><h3 class="v2-h3">8.1 The Full Stack: Browser → AJAX → Server → Database</h3>
 <p class="v2-p">AJAX's most powerful use case is fetching data from a <strong>database</strong> without reloading the page. Here is the complete flow:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>User types in search box
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>User types in search box
         ↓
 JavaScript creates AJAX request
         ↓
@@ -1093,13 +929,13 @@ User sees results — page never reloaded!</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">8.2 Example — Displaying Customer Data from MySQL</h3>
 <p class="v2-p"><strong>Database table <code>customers</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>| id | name              | email                  | city          | balance  |
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>| id | name              | email                  | city          | balance  |
 |----|-------------------|------------------------|---------------|----------|
 | 1  | Babatunde Adewale | tunde@example.com      | Lagos         | 500000   |
 | 2  | Chioma Okafor     | chioma@example.com     | Enugu         | 250000   |
 | 3  | Emeka Eze         | emeka@example.com      | Abuja         | 750000   |</code></pre></div></div>
 <p class="v2-p"><strong>HTML:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;h2&gt;Customer Lookup&lt;/h2&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;h2&gt;Customer Lookup&lt;/h2&gt;
 &lt;select id=&quot;customerId&quot; onchange=&quot;loadCustomer(this.value)&quot;&gt;
   &lt;option value=&quot;&quot;&gt;-- Select a Customer --&lt;/option&gt;
   &lt;option value=&quot;1&quot;&gt;Babatunde Adewale&lt;/option&gt;
@@ -1109,7 +945,7 @@ User sees results — page never reloaded!</code></pre></div></div>
 
 &lt;div id=&quot;customerCard&quot;&gt;&lt;/div&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function loadCustomer(id) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function loadCustomer(id) {
   if (!id) {
     document.getElementById(&quot;customerCard&quot;).innerHTML = &quot;&quot;;
     return;
@@ -1136,7 +972,7 @@ User sees results — page never reloaded!</code></pre></div></div>
   xhr.send();
 }</code></pre></div></div>
 <p class="v2-p"><strong>PHP (get_customer.php) with MySQL:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>&lt;?php
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?php
 header(&quot;Content-Type: application/json&quot;);
 
 $id = intval($_GET[&quot;id&quot;]); // intval prevents SQL injection
@@ -1166,7 +1002,7 @@ echo json_encode($customer);
 <h3 class="v2-h3">8.3 Inserting Data into a Database via AJAX</h3>
 <p class="v2-p">You can also <strong>write</strong> to a database without reloading:</p>
 <p class="v2-p"><strong>JavaScript:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function addProduct(name, price, category) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function addProduct(name, price, category) {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;POST&quot;, &quot;add_product.php&quot;);
   xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;application/json&quot;);
@@ -1191,7 +1027,7 @@ echo json_encode($customer);
 addProduct(&quot;Samsung Galaxy A55&quot;, 450000, &quot;Electronics&quot;);
 // Output on page: ✅ Product added with ID: 104</code></pre></div></div>
 <p class="v2-p"><strong>PHP (add_product.php):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>&lt;?php
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?php
 header(&quot;Content-Type: application/json&quot;);
 
 $data     = json_decode(file_get_contents(&quot;php://input&quot;), true);
@@ -1214,7 +1050,7 @@ $conn-&gt;close();
 ?&gt;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">8.4 Common Beginner Mistake — SQL Injection</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>// ❌ DANGEROUS — never do this
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ DANGEROUS — never do this
 $id = $_GET[&quot;id&quot;];
 $query = &quot;SELECT * FROM customers WHERE id = &quot; . $id;
 // If user sends id=1 OR 1=1, they get ALL customers!
@@ -1224,29 +1060,15 @@ $query = &quot;SELECT * FROM customers WHERE id = &quot; . $id;
 $stmt = $conn-&gt;prepare(&quot;SELECT * FROM customers WHERE id = ?&quot;);
 $stmt-&gt;bind_param(&quot;i&quot;, $id); // &quot;i&quot; = integer — PHP ensures it&#x27;s a number</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-9"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 8 — AJAX and Databases</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 14</div>
-    <div class="phase-title">Chapter 9 — AJAX Applications</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">9.1 AJAX in Modern Web Applications</h3>
+<p class="v2-p">&lt;a name="chapter-9"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 8 — AJAX and Databases</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/14</div><div class="pt">Chapter 9 — AJAX Applications</div><div class="pc" id="chk9"></div></div><div class="pb2"><h3 class="v2-h3">9.1 AJAX in Modern Web Applications</h3>
 <p class="v2-p">AJAX is the backbone of virtually every modern web application. Let's explore the most important real-world patterns.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">9.2 Pattern 1 — Live Search (Typeahead)</h3>
 <p class="v2-p">The most common AJAX application: search results that appear as you type.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;searchBox&quot; placeholder=&quot;Search products...&quot; oninput=&quot;search(this.value)&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;searchBox&quot; placeholder=&quot;Search products...&quot; oninput=&quot;search(this.value)&quot;&gt;
 &lt;div id=&quot;searchResults&quot;&gt;&lt;/div&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let searchTimer; // For debouncing
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let searchTimer; // For debouncing
 
 function search(query) {
   // Debounce: don&#x27;t fire on every keystroke, wait 300ms after user stops typing
@@ -1286,7 +1108,7 @@ function search(query) {
 <hr class="v2-hr">
 <h3 class="v2-h3">9.3 Pattern 2 — Infinite Scroll</h3>
 <p class="v2-p">Load more content as the user scrolls to the bottom — used by Twitter, Facebook, Instagram.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let page = 1;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let page = 1;
 let loading = false;
 
 window.addEventListener(&quot;scroll&quot;, function() {
@@ -1327,14 +1149,14 @@ function loadMorePosts() {
 <hr class="v2-hr">
 <h3 class="v2-h3">9.4 Pattern 3 — Form Submission Without Page Reload</h3>
 <p class="v2-p">Submitting a form with AJAX keeps the user on the page:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;form id=&quot;contactForm&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;form id=&quot;contactForm&quot;&gt;
   &lt;input type=&quot;text&quot; id=&quot;fullName&quot; placeholder=&quot;Full Name&quot; required&gt;
   &lt;input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;Email&quot; required&gt;
   &lt;textarea id=&quot;message&quot; placeholder=&quot;Your message&quot;&gt;&lt;/textarea&gt;
   &lt;button type=&quot;button&quot; onclick=&quot;submitForm()&quot;&gt;Send Message&lt;/button&gt;
 &lt;/form&gt;
 &lt;div id=&quot;formStatus&quot;&gt;&lt;/div&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function submitForm() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function submitForm() {
   const name    = document.getElementById(&quot;fullName&quot;).value.trim();
   const email   = document.getElementById(&quot;email&quot;).value.trim();
   const message = document.getElementById(&quot;message&quot;).value.trim();
@@ -1368,7 +1190,7 @@ function loadMorePosts() {
 <hr class="v2-hr">
 <h3 class="v2-h3">9.5 Pattern 4 — Real-Time Data Updates (Polling)</h3>
 <p class="v2-p">If you need to show live data (stock prices, football scores, delivery tracking), you can <strong>poll</strong> the server at regular intervals:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function startLiveTracking(orderId) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function startLiveTracking(orderId) {
   // Poll every 5 seconds
   const intervalId = setInterval(function() {
     const xhr = new XMLHttpRequest();
@@ -1407,11 +1229,11 @@ function updateTrackingUI(order) {
 startLiveTracking(&quot;ORD-2024-0042&quot;);</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">9.6 Pattern 5 — File Upload with Progress</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;file&quot; id=&quot;fileInput&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;file&quot; id=&quot;fileInput&quot;&gt;
 &lt;button onclick=&quot;uploadFile()&quot;&gt;Upload&lt;/button&gt;
 &lt;progress id=&quot;progressBar&quot; value=&quot;0&quot; max=&quot;100&quot; style=&quot;width:100%&quot;&gt;&lt;/progress&gt;
 &lt;div id=&quot;uploadStatus&quot;&gt;&lt;/div&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function uploadFile() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function uploadFile() {
   const file = document.getElementById(&quot;fileInput&quot;).files[0];
 
   if (!file) {
@@ -1446,24 +1268,10 @@ startLiveTracking(&quot;ORD-2024-0042&quot;);</code></pre></div></div>
   xhr.send(formData); // FormData — no Content-Type header needed, browser sets it automatically
 }</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-10"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 9 — AJAX Applications</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase10">
-  <div class="phase-header">
-    <div class="phase-num">Phase 10 of 14</div>
-    <div class="phase-title">Chapter 10 — AJAX Examples Gallery</div>
-    <div class="phase-check" id="chk10"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">10.1 Example 1 — Fetch and Display Plain Text</h3>
+<p class="v2-p">&lt;a name="chapter-10"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 9 — AJAX Applications</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase10"><div class="ph"><div class="pn">Phase 10/14</div><div class="pt">Chapter 10 — AJAX Examples Gallery</div><div class="pc" id="chk10"></div></div><div class="pb2"><h3 class="v2-h3">10.1 Example 1 — Fetch and Display Plain Text</h3>
 <p class="v2-p">The simplest possible AJAX example — load a text file and display it:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function loadReadme() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function loadReadme() {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;GET&quot;, &quot;README.txt&quot;);
 
@@ -1482,7 +1290,7 @@ startLiveTracking(&quot;ORD-2024-0042&quot;);</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">10.2 Example 2 — Load HTML Fragments</h3>
 <p class="v2-p">AJAX can load <strong>partial HTML</strong> from the server and inject it into the page. This is how old-school Single Page Applications (SPAs) worked:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Load a navigation menu HTML fragment
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Load a navigation menu HTML fragment
 function loadNavigation() {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;GET&quot;, &quot;partials/navigation.html&quot;);
@@ -1505,7 +1313,7 @@ function loadNavigation() {
 <hr class="v2-hr">
 <h3 class="v2-h3">10.3 Example 3 — Cascading Dropdowns</h3>
 <p class="v2-p">When selecting a state populates the LGA (Local Government Area) dropdown automatically:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;label&gt;State:&lt;/label&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;label&gt;State:&lt;/label&gt;
 &lt;select id=&quot;stateSelect&quot; onchange=&quot;loadLGAs(this.value)&quot;&gt;
   &lt;option value=&quot;&quot;&gt;-- Select State --&lt;/option&gt;
   &lt;option value=&quot;lagos&quot;&gt;Lagos&lt;/option&gt;
@@ -1517,7 +1325,7 @@ function loadNavigation() {
 &lt;select id=&quot;lgaSelect&quot;&gt;
   &lt;option value=&quot;&quot;&gt;-- Select LGA --&lt;/option&gt;
 &lt;/select&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function loadLGAs(stateCode) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function loadLGAs(stateCode) {
   if (!stateCode) return;
 
   const xhr = new XMLHttpRequest();
@@ -1550,10 +1358,10 @@ function loadNavigation() {
 <hr class="v2-hr">
 <h3 class="v2-h3">10.4 Example 4 — Like / Favourite Button</h3>
 <p class="v2-p">A common social media interaction that uses AJAX:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;button id=&quot;likeBtn&quot; onclick=&quot;toggleLike(42)&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;button id=&quot;likeBtn&quot; onclick=&quot;toggleLike(42)&quot;&gt;
   ❤️ Like (&lt;span id=&quot;likeCount&quot;&gt;128&lt;/span&gt;)
 &lt;/button&gt;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let liked = false;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let liked = false;
 
 function toggleLike(postId) {
   const xhr = new XMLHttpRequest();
@@ -1580,7 +1388,7 @@ function toggleLike(postId) {
 <hr class="v2-hr">
 <h3 class="v2-h3">10.5 Example 5 — AJAX with the <code>fetch()</code> API (Modern Alternative)</h3>
 <p class="v2-p">The <strong>Fetch API</strong> is the modern, promise-based replacement for <code>XMLHttpRequest</code>. It is cleaner and is preferred in new projects:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// XMLHttpRequest version (traditional)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// XMLHttpRequest version (traditional)
 function getDataXHR() {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;GET&quot;, &quot;/api/products&quot;);
@@ -1611,7 +1419,7 @@ async function getDataFetch() {
 <hr class="v2-hr">
 <h3 class="v2-h3">10.6 Example 6 — AJAX Error Handling Patterns</h3>
 <p class="v2-p">A production-quality AJAX request always handles errors gracefully:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function robustRequest(url, onSuccess, onError) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function robustRequest(url, onSuccess, onError) {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;GET&quot;, url);
 
@@ -1656,26 +1464,12 @@ robustRequest(
   function(error) { console.error(&quot;Failed:&quot;, error); }
 );</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="phase-2"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 10 — AJAX Examples Gallery</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase11">
-  <div class="phase-header">
-    <div class="phase-num">Phase 11 of 14</div>
-    <div class="phase-title">Phase 2 — Applied Exercises</div>
-    <div class="phase-check" id="chk11"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Exercise 1 — Warm-Up: Your First AJAX Request</h3>
+<p class="v2-p">&lt;a name="phase-2"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 10 — AJAX Examples Gallery</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase11"><div class="ph"><div class="pn">Phase 11/14</div><div class="pt">Phase 2 — Applied Exercises</div><div class="pc" id="chk11"></div></div><div class="pb2"><h3 class="v2-h3">Exercise 1 — Warm-Up: Your First AJAX Request</h3>
 <p class="v2-p"><strong>Objective:</strong> Practice the fundamental AJAX pattern: open → onreadystatechange → send.</p>
 <p class="v2-p"><strong>Scenario:</strong> You are building a page for a Lagos restaurant. When the user clicks a button, the today's menu should load from the server.</p>
 <p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// This pattern is what you&#x27;ll use:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// This pattern is what you&#x27;ll use:
 const xhr = new XMLHttpRequest();
 xhr.open(&quot;GET&quot;, &quot;some_file.json&quot;);
 xhr.onreadystatechange = function() {
@@ -1697,7 +1491,7 @@ xhr.send();</code></pre></div></div>
 <p class="v2-p"><strong>Objective:</strong> Send form data to a server using an AJAX POST request.</p>
 <p class="v2-p"><strong>Scenario:</strong> Build a student registration form for a Lagos online school. When submitted, data is sent to the server without page reload.</p>
 <p class="v2-p"><strong>Warm-up:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// POST pattern:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// POST pattern:
 xhr.open(&quot;POST&quot;, &quot;/register&quot;);
 xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;application/json&quot;);
 xhr.send(JSON.stringify({ name: &quot;Tunde&quot;, course: &quot;JavaScript&quot; }));</code></pre></div></div>
@@ -1716,29 +1510,15 @@ xhr.send(JSON.stringify({ name: &quot;Tunde&quot;, course: &quot;JavaScript&quot
 <p class="v2-p"><strong>Self-check questions:</strong></p>
 <ul class="v2-ul"><li>How do you prevent the second dropdown from showing stale data?</li><li>Why is debouncing important for search boxes?</li><li>What's the risk of making AJAX calls in rapid succession?</li></ul>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="phase-3"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Phase 2 — Applied Exercises</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase12">
-  <div class="phase-header">
-    <div class="phase-num">Phase 12 of 14</div>
-    <div class="phase-title">Phase 3 — Project: Live Product Search Dashboard</div>
-    <div class="phase-check" id="chk12"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Project Overview</h3>
+<p class="v2-p">&lt;a name="phase-3"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Phase 2 — Applied Exercises</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase12"><div class="ph"><div class="pn">Phase 12/14</div><div class="pt">Phase 3 — Project: Live Product Search Dashboard</div><div class="pc" id="chk12"></div></div><div class="pb2"><h3 class="v2-h3">Project Overview</h3>
 <p class="v2-p">Build a full AJAX-powered product search dashboard for <strong>KongaMart</strong> — a fictional Nigerian e-commerce platform. Users can search for products, filter by category, and add to a cart — all without the page ever reloading.</p>
 <p class="v2-p"><strong>Expected Final Result:</strong></p>
 <ul class="v2-ul"><li>Search box with live results as user types (debounced)</li><li>Category filter that updates results via AJAX</li><li>Product cards with "Add to Cart" buttons</li><li>A cart counter in the header that updates via AJAX</li><li>Error and loading states</li></ul>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 1 — Setup &amp; Core Search</h3>
 <p class="v2-p"><strong>Simple illustrative example first:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// The core pattern for this stage:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// The core pattern for this stage:
 function searchProducts(query) {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;GET&quot;, &quot;/api/products?q=&quot; + encodeURIComponent(query));
@@ -1750,7 +1530,7 @@ function searchProducts(query) {
   xhr.send();
 }</code></pre></div></div>
 <p class="v2-p"><strong>Full Stage 1 Code:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
   &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -1985,7 +1765,7 @@ function searchProducts(query) {
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 2 — Adding Real AJAX to Stage 1</h3>
 <p class="v2-p">Now replace the <code>simulateAJAX</code> function with a real XHR call to your backend:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Replace simulateAJAX with this:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Replace simulateAJAX with this:
 function fetchProducts(query, category, callback) {
   document.getElementById(&quot;status&quot;).innerText = &quot;🔍 Searching...&quot;;
   document.getElementById(&quot;productGrid&quot;).innerHTML = &#x27;&lt;div class=&quot;loading&quot;&gt;Loading...&lt;/div&gt;&#x27;;
@@ -2038,164 +1818,96 @@ function showError(message) {
 <p class="v2-p"><strong>Optional Advanced Features:</strong></p>
 <ul class="v2-ul"><li>Add a price range slider (min/max) that triggers a new AJAX call on change</li><li>Implement sorting (by price, rating, name) without reloading</li><li>Add a "wishlist" feature that persists to <code>localStorage</code> between sessions</li><li>Add keyboard navigation through search results (up/down arrow keys)</li><li>Implement request cancellation — cancel an in-flight request if the user types again before it completes</li></ul>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="checklist"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Phase 3 — Project: Live Product Search Dashboard</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase13">
-  <div class="phase-header">
-    <div class="phase-num">Phase 13 of 14</div>
-    <div class="phase-title">Key Gotchas — What Beginners Get Wrong</div>
-    <div class="phase-check" id="chk13"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>❌ Mistake</th><th>✅ Fix</th></tr></thead><tbody><tr><td>Reading <code>xhr.responseText</code> outside the <code>onreadystatechange</code> handler</td><td>Always read it inside the handler, after <code>readyState === 4</code></td></tr><tr><td>Forgetting to check <code>xhr.status === 200</code></td><td>Always check both <code>readyState === 4</code> AND <code>status === 200</code></td></tr><tr><td>Using <code>JSON.parse()</code> on non-JSON responses</td><td>Wrap in <code>try-catch</code> or check <code>Content-Type</code> header first</td></tr><tr><td>Not setting <code>Content-Type</code> header for POST requests</td><td>Always call <code>setRequestHeader()</code> before <code>send()</code></td></tr><tr><td>Building URLs with unsanitized user input (SQL injection, XSS)</td><td>Use <code>encodeURIComponent()</code> client-side; use prepared statements server-side</td></tr><tr><td>Making AJAX calls on every keystroke</td><td>Debounce search inputs with <code>setTimeout</code> / <code>clearTimeout</code></td></tr><tr><td>Assuming AJAX works cross-origin by default</td><td>Same-origin policy blocks cross-domain requests unless the server sends CORS headers</td></tr><tr><td>Setting <code>async: false</code> in <code>open()</code></td><td>This blocks the browser — never do it in production</td></tr></tbody></table></div>
+<p class="v2-p">&lt;a name="checklist"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Phase 3 — Project: Live Product Search Dashboard</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase13"><div class="ph"><div class="pn">Phase 13/14</div><div class="pt">Key Gotchas — What Beginners Get Wrong</div><div class="pc" id="chk13"></div></div><div class="pb2"><div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>❌ Mistake</th><th>✅ Fix</th></tr></thead><tbody><tr><td>Reading <code>xhr.responseText</code> outside the <code>onreadystatechange</code> handler</td><td>Always read it inside the handler, after <code>readyState === 4</code></td></tr><tr><td>Forgetting to check <code>xhr.status === 200</code></td><td>Always check both <code>readyState === 4</code> AND <code>status === 200</code></td></tr><tr><td>Using <code>JSON.parse()</code> on non-JSON responses</td><td>Wrap in <code>try-catch</code> or check <code>Content-Type</code> header first</td></tr><tr><td>Not setting <code>Content-Type</code> header for POST requests</td><td>Always call <code>setRequestHeader()</code> before <code>send()</code></td></tr><tr><td>Building URLs with unsanitized user input (SQL injection, XSS)</td><td>Use <code>encodeURIComponent()</code> client-side; use prepared statements server-side</td></tr><tr><td>Making AJAX calls on every keystroke</td><td>Debounce search inputs with <code>setTimeout</code> / <code>clearTimeout</code></td></tr><tr><td>Assuming AJAX works cross-origin by default</td><td>Same-origin policy blocks cross-domain requests unless the server sends CORS headers</td></tr><tr><td>Setting <code>async: false</code> in <code>open()</code></td><td>This blocks the browser — never do it in production</td></tr></tbody></table></div>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Key Gotchas — What Beginners Get Wrong</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase14"><div class="ph"><div class="pn">Phase 14/14</div><div class="pt">Chapter Summary</div><div class="pc" id="chk14"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>AJAX</strong> allows JavaScript to communicate with a server in the background — fetching or sending data without reloading the page. It uses the <strong>XMLHttpRequest</strong> object, configured with <code>open()</code> and triggered with <code>send()</code>. Responses arrive asynchronously via the <code>onreadystatechange</code> event, where <code>readyState === 4 &amp;&amp; status === 200</code> signals success. AJAX works with any server-side language (PHP, ASP.NET, Node.js) and powers patterns like live search, infinite scroll, form submission, and real-time updates that define the modern web experience.</p></blockquote>
 <hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Key Gotchas — What Beginners Get Wrong</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase14">
-  <div class="phase-header">
-    <div class="phase-num">Phase 14 of 14</div>
-    <div class="phase-title">Chapter Summary</div>
-    <div class="phase-check" id="chk14"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>AJAX</strong> allows JavaScript to communicate with a server in the background — fetching or sending data without reloading the page. It uses the <strong>XMLHttpRequest</strong> object, configured with <code>open()</code> and triggered with <code>send()</code>. Responses arrive asynchronously via the <code>onreadystatechange</code> event, where <code>readyState === 4 &amp;&amp; status === 200</code> signals success. AJAX works with any server-side language (PHP, ASP.NET, Node.js) and powers patterns like live search, infinite scroll, form submission, and real-time updates that define the modern web experience.</p></blockquote>
-<hr class="v2-hr">
-<p class="v2-p"><em>Tutorial authored using the AI Tutorial Generator framework — Phase 1: Comprehension → Phase 2: Practice → Phase 3: Creation.</em></p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter Summary</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Lesson 41 JS Project</div>
-  <div class="build-desc"></div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<p class="v2-p"><em>Tutorial authored using the AI Tutorial Generator framework — Phase 1: Comprehension → Phase 2: Practice → Phase 3: Creation.</em></p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter Summary</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Lesson 41 Project</div><div class="build-req"><p class="v2-p">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;title&gt;My JS Project&lt;/title&gt;
+&lt;title&gt;Project&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;</p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Project&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;!-- Write your HTML here --&gt;
-  &lt;script&gt;
-    // Write your JavaScript here
-  &lt;/script&gt;
+&lt;!-- Your code here --&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`<!DOCTYPE html>
+&lt;/html&gt;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My JS Project</title>
+<title>Project</title>
 </head>
 <body>
-  <!-- Write your HTML here -->
-  <script>
-    // Write your JavaScript here
-  </script>
+<!-- Your code here -->
 </body>
-</html>`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+</html>`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-41-lesson-41-js-project</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 41 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-41-lesson-41-js-project/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 41 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ Chapter 1 — What Is AJAX?</li><li>✅ Chapter 2 — The XMLHttpRequest Object</li><li>✅ Chapter 3 — Sending AJAX Requests</li><li>✅ Chapter 4 — Handling AJAX Responses</li><li>✅ Chapter 5 — Loading XML Files with AJAX</li><li>✅ Chapter 6 — AJAX with PHP</li><li>✅ Chapter 7 — AJAX with ASP</li><li>✅ Chapter 8 — AJAX and Databases</li></ul>
-  <div class="lesson-nav"><a href="lesson_40.html" class="ln-btn">← Lesson 40</a><a href="lesson_42.html" class="ln-btn primary">Lesson 42 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-41-lesson-41-project</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 41 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-41-lesson-41-project/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 41 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ Chapter 1 — What Is AJAX?</li><li>✅ Chapter 2 — The XMLHttpRequest Object</li><li>✅ Chapter 3 — Sending AJAX Requests</li><li>✅ Chapter 4 — Handling AJAX Responses</li><li>✅ Chapter 5 — Loading XML Files with AJAX</li><li>✅ Chapter 6 — AJAX with PHP</li><li>✅ Chapter 7 — AJAX with ASP</li><li>✅ Chapter 8 — AJAX and Databases</li></ul><div class="ln"><a href="lesson_40.html" class="ln-btn">← Lesson 40</a><a href="lesson_42.html" class="ln-btn primary">Lesson 42 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 41 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 41 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=14,KEY='techbase_js_l41';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

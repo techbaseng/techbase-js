@@ -1,205 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 42: JavaScript JSON: JSON Intro · Syntax · JSON vs XML · Data Types · JSON.parse() · JSON.stringify() · JSON Objects · JSON Arrays · JSON &amp; Servers · JSON with PHP · JSON to HTML · JSONP — Techbase JavaScript</title>
-<meta name="description" content="JavaScript JSON: JSON Intro · Syntax · JSON vs XML · Data Types · JSON.parse() · JSON.stringify() · JSON Objects · JSON Arrays · JSON &amp; Servers · JSON with PHP · JSON to HTML · JSONP">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 42 of 46</span>
+  <span class="l-nav-lbl">Lesson 42 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 42</div>
-    <h1>JavaScript JSON: JSON Intro · Syntax · JSON vs XML · Data Types · JSON.parse() · JSON.stringify() · JSON Objects · JSON Arrays · JSON &amp; Servers · JSON with PHP · JSON to HTML · JSONP</h1>
-    <div class="l-hero-sub">17 phases · Build: Lesson 42 JS Project</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 42</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 17 phases</span>
-    <span>🏗️ Lesson 42 JS Project</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 42</div>
+  <h1>JavaScript JSON: JSON Intro · Syntax · JSON vs XML · Data Types · JSON.parse() · JSON.stringify() · JSON Objects · JSON Arrays · JSON &amp; Servers · JSON with PHP · JSON to HTML · JSONP</h1>
+  <div class="l-hero-sub">17 phases &nbsp;·&nbsp; Build: Lesson 42 Project</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 42</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 17 phases</span><span>🏗️ Lesson 42 Project</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 17</div>
-    <div class="phase-title">Chapter 1 — What Is JSON?</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">1.1 The Real-World Problem JSON Solves</h3>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/17</div><div class="pt">Chapter 1 — What Is JSON?</div><div class="pc" id="chk1"></div></div><div class="pb2"><h3 class="v2-h3">1.1 The Real-World Problem JSON Solves</h3>
 <p class="v2-p">Imagine you work at a bank in Lagos. You need to send customer account information from your server to a mobile app. The server speaks its own language (PHP, Python, Node.js), and the app speaks JavaScript. How do they share information?</p>
 <p class="v2-p">They need a <strong>common language</strong> — a format both sides can read and write. That format is <strong>JSON</strong>.</p>
 <blockquote class="v2-bq"><p class="v2-p"><strong>JSON</strong> stands for <strong>JavaScript Object Notation</strong>. It is a lightweight, text-based format for storing and exchanging data between a server and a client (or between any two systems).</p></blockquote>
@@ -211,7 +145,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p">Before JSON, <strong>XML</strong> was the dominant data exchange format. JSON replaced XML for most web APIs because it is shorter, simpler, and directly maps to JavaScript objects.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.3 What JSON Looks Like</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;name&quot;: &quot;Babatunde Adewale&quot;,
   &quot;age&quot;: 28,
   &quot;city&quot;: &quot;Lagos&quot;,
@@ -229,7 +163,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <h3 class="v2-h3">1.4 JSON Is Just Text</h3>
 <p class="v2-p">This is the most important concept to understand early:</p>
 <blockquote class="v2-bq"><p class="v2-p"><strong>JSON is always a plain text string.</strong> It is not a JavaScript object — it just looks like one.</p></blockquote>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// This is a JavaScript OBJECT (in memory, has methods):
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// This is a JavaScript OBJECT (in memory, has methods):
 const person = { name: &quot;Tunde&quot;, age: 28 };
 
 // This is a JSON STRING (just text, no methods):
@@ -246,38 +180,24 @@ console.log(typeof jsonText); // Output: &quot;string&quot;</code></pre></div></
 <h3 class="v2-h3">1.6 Thinking Question</h3>
 <blockquote class="v2-bq"><p class="v2-p">🤔 If JSON is just text, how does JavaScript actually use the data inside it — like accessing <code>person.name</code>? (Hint: this is what <code>JSON.parse()</code> is for — Chapter 5.)</p></blockquote>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-2"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 1 — What Is JSON?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 17</div>
-    <div class="phase-title">Chapter 2 — JSON Syntax Rules</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">2.1 Why Strict Syntax Matters</h3>
+<p class="v2-p">&lt;a name="chapter-2"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 1 — What Is JSON?</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/17</div><div class="pt">Chapter 2 — JSON Syntax Rules</div><div class="pc" id="chk2"></div></div><div class="pb2"><h3 class="v2-h3">2.1 Why Strict Syntax Matters</h3>
 <p class="v2-p">Unlike JavaScript, which is fairly forgiving (you can use single or double quotes, trailing commas, etc.), <strong>JSON has strict, unforgiving syntax rules</strong>. One tiny mistake — a missing comma, a single quote instead of double quote — and the entire JSON string is invalid and cannot be parsed.</p>
 <p class="v2-p">Think of JSON syntax like the format of a Nigerian bank transfer form. If you write an account number incorrectly, the entire transaction fails — no partial processing.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.2 The Six JSON Syntax Rules</h3>
 <h4 class="v2-h4">Rule 1: Data is in name/value pairs</h4>
 <p class="v2-p">Every piece of data has a <strong>name</strong> (key) and a <strong>value</strong>, separated by a colon:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>&quot;name&quot;: &quot;Chioma&quot;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&quot;name&quot;: &quot;Chioma&quot;</code></pre></div></div>
 <p class="v2-p">Multiple pairs are separated by commas:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>&quot;name&quot;: &quot;Chioma&quot;, &quot;city&quot;: &quot;Enugu&quot;, &quot;age&quot;: 25</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&quot;name&quot;: &quot;Chioma&quot;, &quot;city&quot;: &quot;Enugu&quot;, &quot;age&quot;: 25</code></pre></div></div>
 <hr class="v2-hr">
 <h4 class="v2-h4">Rule 2: Data is wrapped in curly braces <code>{}</code> (for objects) or square brackets <code>[]</code> (for arrays)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{ &quot;bank&quot;: &quot;GTBank&quot;, &quot;code&quot;: &quot;058&quot; }</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>[&quot;GTBank&quot;, &quot;Access Bank&quot;, &quot;Zenith Bank&quot;]</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{ &quot;bank&quot;: &quot;GTBank&quot;, &quot;code&quot;: &quot;058&quot; }</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>[&quot;GTBank&quot;, &quot;Access Bank&quot;, &quot;Zenith Bank&quot;]</code></pre></div></div>
 <hr class="v2-hr">
 <h4 class="v2-h4">Rule 3: Keys MUST be strings wrapped in double quotes</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>// ✅ VALID JSON — double quotes on keys
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ✅ VALID JSON — double quotes on keys
 { &quot;name&quot;: &quot;Tunde&quot; }
 
 // ❌ INVALID JSON — single quotes
@@ -288,13 +208,13 @@ console.log(typeof jsonText); // Output: &quot;string&quot;</code></pre></div></
 <p class="v2-p">This is the <strong>most common beginner mistake</strong> when writing JSON manually. JavaScript objects allow unquoted keys — JSON does not.</p>
 <hr class="v2-hr">
 <h4 class="v2-h4">Rule 4: String values MUST use double quotes</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>// ✅ VALID
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ✅ VALID
 { &quot;city&quot;: &quot;Lagos&quot; }
 
 // ❌ INVALID — single quotes on value
 { &quot;city&quot;: &#x27;Lagos&#x27; }</code></pre></div></div>
 <p class="v2-p">Numbers, booleans, null, arrays, and objects do NOT use quotes:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;name&quot;: &quot;Tunde&quot;,
   &quot;age&quot;: 28,
   &quot;balance&quot;: 500000.50,
@@ -305,7 +225,7 @@ console.log(typeof jsonText); // Output: &quot;string&quot;</code></pre></div></
 }</code></pre></div></div>
 <hr class="v2-hr">
 <h4 class="v2-h4">Rule 5: No trailing commas</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>// ✅ VALID
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ✅ VALID
 {
   &quot;name&quot;: &quot;Tunde&quot;,
   &quot;age&quot;: 28
@@ -319,7 +239,7 @@ console.log(typeof jsonText); // Output: &quot;string&quot;</code></pre></div></
 <p class="v2-p">JavaScript objects allow trailing commas (ES2017+). JSON does not. This difference trips up many developers.</p>
 <hr class="v2-hr">
 <h4 class="v2-h4">Rule 6: No comments</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>// ❌ INVALID — JSON does not support comments
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ INVALID — JSON does not support comments
 {
   // This is the user&#x27;s name
   &quot;name&quot;: &quot;Tunde&quot;
@@ -332,7 +252,7 @@ console.log(typeof jsonText); // Output: &quot;string&quot;</code></pre></div></
 <p class="v2-p">If you need documentation in JSON, store comments as a special key in your data — or use a format like JSONC (JSON with Comments) for config files only.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.3 Valid JSON — Complete Example</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;transaction&quot;: {
     &quot;id&quot;: &quot;TXN-2024-001042&quot;,
     &quot;type&quot;: &quot;transfer&quot;,
@@ -361,7 +281,7 @@ console.log(typeof jsonText); // Output: &quot;string&quot;</code></pre></div></
 <h3 class="v2-h3">2.4 JSON Validator Tools</h3>
 <p class="v2-p">When you write JSON manually and it fails to parse, use a JSON validator:</p>
 <ul class="v2-ul"><li><strong>jsonlint.com</strong> — pastes and validates JSON</li><li><strong>jsonformatter.curiousconcept.com</strong> — formats and validates</li><li>Browser console: paste <code>JSON.parse(yourJsonString)</code> — if it throws, the JSON is invalid</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Quick validation in the browser console:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Quick validation in the browser console:
 try {
   JSON.parse(&#x27;{&quot;name&quot;:&quot;Tunde&quot;,&quot;age&quot;:28}&#x27;);
   console.log(&quot;Valid JSON ✅&quot;);
@@ -373,29 +293,15 @@ try {
 <h3 class="v2-h3">2.5 Common Beginner Mistakes — Quick Reference</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>❌ Mistake</th><th>✅ Fix</th></tr></thead><tbody><tr><td><code>{'name': 'Tunde'}</code></td><td><code>{"name": "Tunde"}</code> — use double quotes everywhere</td></tr><tr><td><code>{"name": "Tunde",}</code></td><td>Remove trailing comma</td></tr><tr><td><code>{name: "Tunde"}</code></td><td><code>{"name": "Tunde"}</code> — quote the key</td></tr><tr><td><code>{"age": "28"}</code></td><td><code>{"age": 28}</code> — numbers don't need quotes</td></tr><tr><td><code>{"active": True}</code></td><td><code>{"active": true}</code> — lowercase booleans</td></tr><tr><td><code>{"spouse": None}</code></td><td><code>{"spouse": null}</code> — lowercase null</td></tr></tbody></table></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-3"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 2 — JSON Syntax Rules</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 17</div>
-    <div class="phase-title">Chapter 3 — JSON vs XML</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">3.1 Why Compare JSON and XML?</h3>
+<p class="v2-p">&lt;a name="chapter-3"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 2 — JSON Syntax Rules</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/17</div><div class="pt">Chapter 3 — JSON vs XML</div><div class="pc" id="chk3"></div></div><div class="pb2"><h3 class="v2-h3">3.1 Why Compare JSON and XML?</h3>
 <p class="v2-p">Before JSON became dominant (around 2005–2010), <strong>XML (eXtensible Markup Language)</strong> was the standard way to exchange data on the web. Understanding how JSON compares to XML helps you:</p>
 <ul class="v2-ul"><li>Work with legacy APIs and systems that still use XML</li><li>Understand why JSON is now preferred</li><li>Make informed decisions about which to use in your own projects</li></ul>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.2 Side-by-Side Comparison</h3>
 <p class="v2-p">The same customer data, written in both formats:</p>
 <p class="v2-p"><strong>JSON:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;customer&quot;: {
     &quot;id&quot;: 1,
     &quot;name&quot;: &quot;Babatunde Adewale&quot;,
@@ -406,7 +312,7 @@ try {
   }
 }</code></pre></div></div>
 <p class="v2-p"><strong>XML:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">xml</span></div><div class="v2-code-body"><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">xml</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;customer&gt;
   &lt;id&gt;1&lt;/id&gt;
   &lt;name&gt;Babatunde Adewale&lt;/name&gt;
@@ -424,7 +330,7 @@ try {
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Feature</th><th>JSON</th><th>XML</th></tr></thead><tbody><tr><td><strong>Readability</strong></td><td>Cleaner, less verbose</td><td>More verbose (open/close tags)</td></tr><tr><td><strong>Size</strong></td><td>Smaller — less data to transmit</td><td>Larger — tags add overhead</td></tr><tr><td><strong>Parsing in JS</strong></td><td>Native: <code>JSON.parse()</code></td><td>Requires DOM parsing or libraries</td></tr><tr><td><strong>Data types</strong></td><td>Supports numbers, booleans, null natively</td><td>Everything is a string by default</td></tr><tr><td><strong>Arrays</strong></td><td>Native: <code>[1, 2, 3]</code></td><td>Must use repeated tags</td></tr><tr><td><strong>Comments</strong></td><td>Not supported</td><td>Supported: <code>&lt;!-- comment --&gt;</code></td></tr><tr><td><strong>Attributes</strong></td><td>Not supported</td><td>Supported: <code>&lt;tag attribute="value"&gt;</code></td></tr><tr><td><strong>Schema validation</strong></td><td>JSON Schema (optional)</td><td>XSD/DTD (mature ecosystem)</td></tr><tr><td><strong>Namespaces</strong></td><td>Not supported</td><td>Supported (for complex enterprise needs)</td></tr><tr><td><strong>Browser support</strong></td><td>Native in all browsers</td><td>Requires XMLParser</td></tr><tr><td><strong>Used by</strong></td><td>REST APIs, SPAs, mobile apps</td><td>SOAP, enterprise systems, RSS</td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.4 Parsing Comparison in JavaScript</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ─── Parsing JSON ──────────────────────────────────────────────────────
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ─── Parsing JSON ──────────────────────────────────────────────────────
 const jsonText = &#x27;{&quot;name&quot;:&quot;Babatunde&quot;,&quot;city&quot;:&quot;Lagos&quot;,&quot;balance&quot;:500000}&#x27;;
 const customer = JSON.parse(jsonText);
 
@@ -457,34 +363,20 @@ console.log(Number(balance)); // Must manually convert: 500000
 <blockquote class="v2-bq"><p class="v2-p"><strong>Rule of thumb:</strong> If you are building a new REST API or web app today, use JSON. If you are integrating with a legacy system or enterprise service, you may encounter XML and need to handle it.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.6 JSON is Not a Replacement for XML — It's a Different Tool</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>JSON = data exchange between web apps and servers
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>JSON = data exchange between web apps and servers
 XML  = document structure, complex configuration, enterprise messaging
 
 Both are still widely used. A good developer understands both.</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-4"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 3 — JSON vs XML</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 17</div>
-    <div class="phase-title">Chapter 4 — JSON Data Types</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">4.1 The Six JSON Data Types</h3>
+<p class="v2-p">&lt;a name="chapter-4"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 3 — JSON vs XML</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/17</div><div class="pt">Chapter 4 — JSON Data Types</div><div class="pc" id="chk4"></div></div><div class="pb2"><h3 class="v2-h3">4.1 The Six JSON Data Types</h3>
 <p class="v2-p">JSON supports exactly <strong>six data types</strong>. Understanding them precisely prevents bugs when parsing and using JSON data.</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Type</th><th>JSON Example</th><th>JavaScript Type After Parsing</th></tr></thead><tbody><tr><td>String</td><td><code>"Lagos"</code></td><td><code>string</code></td></tr><tr><td>Number</td><td><code>500000</code> or <code>3.14</code></td><td><code>number</code></td></tr><tr><td>Boolean</td><td><code>true</code> or <code>false</code></td><td><code>boolean</code></td></tr><tr><td>Null</td><td><code>null</code></td><td><code>object</code> (JavaScript quirk)</td></tr><tr><td>Object</td><td><code>{"key": "value"}</code></td><td><code>object</code></td></tr><tr><td>Array</td><td><code>[1, 2, 3]</code></td><td><code>object</code> (Array)</td></tr></tbody></table></div>
 <p class="v2-p">Notice: <strong>JSON does not have a <code>undefined</code>, <code>function</code>, <code>Symbol</code>, or <code>Date</code> type.</strong> These JavaScript types are either omitted or converted when you use <code>JSON.stringify()</code>.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.2 Type 1 — Strings</h3>
 <p class="v2-p">Strings must be in <strong>double quotes</strong>. They can contain any Unicode characters:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;firstName&quot;: &quot;Babatunde&quot;,
   &quot;lastName&quot;: &quot;Adewale&quot;,
   &quot;middleName&quot;: &quot;Oluwaseun&quot;,
@@ -494,20 +386,20 @@ Both are still widely used. A good developer understands both.</code></pre></div
 }</code></pre></div></div>
 <p class="v2-p"><strong>Escape sequences in JSON strings:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Escape</th><th>Represents</th></tr></thead><tbody><tr><td><code>\"</code></td><td>Double quote (inside string)</td></tr><tr><td><code>\\</code></td><td>Backslash</td></tr><tr><td><code>\/</code></td><td>Forward slash</td></tr><tr><td><code>\n</code></td><td>Newline</td></tr><tr><td><code>\t</code></td><td>Tab</td></tr><tr><td><code>\r</code></td><td>Carriage return</td></tr><tr><td><code>\uXXXX</code></td><td>Unicode character</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;message&quot;: &quot;Hello \&quot;Tunde\&quot;!\nWelcome to Lagos.&quot;,
   &quot;path&quot;: &quot;C:\\Users\\Tunde\\Documents&quot;,
   &quot;currency&quot;: &quot;\u20A6&quot;
 }</code></pre></div></div>
 <p class="v2-p">After parsing:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const data = JSON.parse(jsonText);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const data = JSON.parse(jsonText);
 console.log(data.message);  // Output: Hello &quot;Tunde&quot;!
                              //         Welcome to Lagos.
 console.log(data.currency); // Output: ₦</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.3 Type 2 — Numbers</h3>
 <p class="v2-p">JSON numbers have <strong>no quotes</strong>. They can be integers, decimals, negative, or use scientific notation:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;accountBalance&quot;: 500000,
   &quot;interestRate&quot;: 0.085,
   &quot;overdraftLimit&quot;: -50000,
@@ -516,12 +408,12 @@ console.log(data.currency); // Output: ₦</code></pre></div></div>
   &quot;maxTransferPerDay&quot;: 5000000
 }</code></pre></div></div>
 <p class="v2-p"><strong>Important:</strong> JSON has only ONE number type (no <code>int</code> vs <code>float</code> distinction like some languages).</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const data = JSON.parse(jsonText);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const data = JSON.parse(jsonText);
 console.log(typeof data.accountBalance); // Output: &quot;number&quot;
 console.log(typeof data.interestRate);   // Output: &quot;number&quot;
 console.log(data.nationalDebt);          // Output: 91000000000000</code></pre></div></div>
 <p class="v2-p"><strong>Watch out for large numbers:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// JSON numbers have limits — very large integers can lose precision
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// JSON numbers have limits — very large integers can lose precision
 const bigNumber = JSON.parse(&#x27;{&quot;id&quot;: 9999999999999999}&#x27;);
 console.log(bigNumber.id); // Output: 10000000000000000 ← lost precision!
 
@@ -531,14 +423,14 @@ console.log(safeId.id); // Output: &quot;9999999999999999&quot; ← exact</code>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.4 Type 3 — Booleans</h3>
 <p class="v2-p">Only two valid values: <code>true</code> and <code>false</code> (lowercase — always):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;isVerified&quot;: true,
   &quot;isBlacklisted&quot;: false,
   &quot;hasBVN&quot;: true,
   &quot;isFrozen&quot;: false,
   &quot;twoFactorEnabled&quot;: true
 }</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ INVALID JSON
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ INVALID JSON
 { &quot;isActive&quot;: True }   // Python-style True — not valid
 { &quot;isActive&quot;: TRUE }   // Uppercase — not valid
 { &quot;isActive&quot;: &quot;true&quot; } // String &quot;true&quot; — valid JSON, but it&#x27;s a STRING, not boolean!
@@ -554,7 +446,7 @@ console.log(data.isActive === true); // Output: true ← boolean comparison work
 <hr class="v2-hr">
 <h3 class="v2-h3">4.5 Type 4 — Null</h3>
 <p class="v2-p">Represents an <strong>intentionally empty or missing value</strong>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;name&quot;: &quot;Babatunde&quot;,
   &quot;middleName&quot;: null,
   &quot;spouse&quot;: null,
@@ -562,7 +454,7 @@ console.log(data.isActive === true); // Output: true ← boolean comparison work
   &quot;deactivatedAt&quot;: null
 }</code></pre></div></div>
 <p class="v2-p">The difference between <code>null</code> and omitting the key entirely:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const profile = JSON.parse(`{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const profile = JSON.parse(`{
   &quot;name&quot;: &quot;Tunde&quot;,
   &quot;middleName&quot;: null
 }`);
@@ -577,7 +469,7 @@ console.log(profile.nickname === null);    // Output: false</code></pre></div></
 <hr class="v2-hr">
 <h3 class="v2-h3">4.6 Type 5 — Objects (Nested)</h3>
 <p class="v2-p">Objects can be nested inside other objects:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;customer&quot;: {
     &quot;id&quot;: 42,
     &quot;name&quot;: &quot;Babatunde&quot;,
@@ -591,7 +483,7 @@ console.log(profile.nickname === null);    // Output: false</code></pre></div></
     }
   }
 }</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const data = JSON.parse(jsonText);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const data = JSON.parse(jsonText);
 
 // Access nested values with dot notation
 console.log(data.customer.name);               // Output: &quot;Babatunde&quot;
@@ -604,7 +496,7 @@ console.log(data.customer.kyc[field]);         // Output: &quot;12345678901&quot
 <hr class="v2-hr">
 <h3 class="v2-h3">4.7 Type 6 — Arrays</h3>
 <p class="v2-p">Arrays hold ordered lists of values. The values can be of any JSON type — even mixed:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;bankCodes&quot;: [&quot;058&quot;, &quot;044&quot;, &quot;057&quot;, &quot;063&quot;],
   &quot;scores&quot;: [85, 92, 78, 95, 88],
   &quot;portfolio&quot;: [
@@ -614,7 +506,7 @@ console.log(data.customer.kyc[field]);         // Output: &quot;12345678901&quot
   ],
   &quot;mixed&quot;: [1, &quot;two&quot;, true, null, { &quot;x&quot;: 3 }]
 }</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const data = JSON.parse(jsonText);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const data = JSON.parse(jsonText);
 
 console.log(data.bankCodes[0]);          // Output: &quot;058&quot;
 console.log(data.scores.length);         // Output: 5
@@ -633,7 +525,7 @@ data.portfolio.forEach(function(item) {
 <hr class="v2-hr">
 <h3 class="v2-h3">4.8 Types JSON Does NOT Support</h3>
 <p class="v2-p">These JavaScript types are <strong>not valid JSON values</strong>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Functions — stripped out during JSON.stringify()
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ Functions — stripped out during JSON.stringify()
 const obj = {
   name: &quot;Tunde&quot;,
   greet: function() { return &quot;Hello!&quot;; }
@@ -656,33 +548,19 @@ const obj4 = { ratio: NaN, max: Infinity };
 console.log(JSON.stringify(obj4));
 // Output: &#x27;{&quot;ratio&quot;:null,&quot;max&quot;:null}&#x27;</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-5"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 4 — JSON Data Types</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 17</div>
-    <div class="phase-title">Chapter 5 — JSON.parse() — Receiving Data</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">5.1 The Concept: Text Arrives, Objects Are Needed</h3>
+<p class="v2-p">&lt;a name="chapter-5"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 4 — JSON Data Types</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/17</div><div class="pt">Chapter 5 — JSON.parse() — Receiving Data</div><div class="pc" id="chk5"></div></div><div class="pb2"><h3 class="v2-h3">5.1 The Concept: Text Arrives, Objects Are Needed</h3>
 <p class="v2-p">When data travels across a network — from a server to your browser — it travels as <strong>text</strong>. Even JSON data is just a string during transit. You cannot call <code>.name</code> or <code>.balance</code> on a plain string. You need to <strong>convert the text into a real JavaScript object</strong> first.</p>
 <p class="v2-p">That conversion is called <strong>parsing</strong>, and <code>JSON.parse()</code> is the tool that does it.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Server sends:    &#x27;{&quot;name&quot;:&quot;Tunde&quot;,&quot;balance&quot;:500000}&#x27;   ← plain text string
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Server sends:    &#x27;{&quot;name&quot;:&quot;Tunde&quot;,&quot;balance&quot;:500000}&#x27;   ← plain text string
 JSON.parse():    Converts it ↓
 JavaScript gets: { name: &quot;Tunde&quot;, balance: 500000 }    ← real object with methods</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.2 Basic <code>JSON.parse()</code> Usage</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>JSON.parse(text, reviver?)</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>JSON.parse(text, reviver?)</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>text</code></td><td>String</td><td>✅ Yes</td><td>The JSON string to parse</td></tr><tr><td><code>reviver</code></td><td>Function</td><td>Optional</td><td>A function to transform values during parsing</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Simple example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const jsonString = &#x27;{&quot;name&quot;:&quot;Babatunde&quot;,&quot;age&quot;:28,&quot;city&quot;:&quot;Lagos&quot;}&#x27;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const jsonString = &#x27;{&quot;name&quot;:&quot;Babatunde&quot;,&quot;age&quot;:28,&quot;city&quot;:&quot;Lagos&quot;}&#x27;;
 const person = JSON.parse(jsonString);
 
 console.log(person.name);   // Output: &quot;Babatunde&quot;
@@ -694,7 +572,7 @@ const keys = Object.keys(person);
 console.log(keys); // Output: [&quot;name&quot;, &quot;age&quot;, &quot;city&quot;]</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.3 Parsing All Data Types</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Parsing a string value
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Parsing a string value
 const s = JSON.parse(&#x27;&quot;Lagos&quot;&#x27;);
 console.log(s);          // Output: &quot;Lagos&quot;
 console.log(typeof s);   // Output: &quot;string&quot;
@@ -731,7 +609,7 @@ console.log(bank.branches[0]); // Output: &quot;Lagos&quot;</code></pre></div></
 <hr class="v2-hr">
 <h3 class="v2-h3">5.4 The <code>reviver</code> Function — Transforming Values at Parse Time</h3>
 <p class="v2-p">The optional second argument to <code>JSON.parse()</code> is a <strong>reviver function</strong>. It is called for each key-value pair as the JSON is being parsed, allowing you to transform values:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ─── Use case 1: Convert date strings back to Date objects ─────────────
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ─── Use case 1: Convert date strings back to Date objects ─────────────
 const transaction = JSON.parse(
   &#x27;{&quot;id&quot;:&quot;TXN001&quot;,&quot;amount&quot;:50000,&quot;date&quot;:&quot;2024-06-15T14:30:00.000Z&quot;}&#x27;,
   function(key, value) {
@@ -781,7 +659,7 @@ console.log(raw.balance); // Output: 500000</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.5 Error Handling with JSON.parse()</h3>
 <p class="v2-p">Invalid JSON throws a <code>SyntaxError</code>. Always use <code>try-catch</code> when parsing untrusted data:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function safeParseJSON(text) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function safeParseJSON(text) {
   try {
     return {
       success: true,
@@ -812,7 +690,7 @@ console.log(result3.success); // Output: false
 console.log(result3.error);   // Output: &quot;Invalid JSON: Unexpected end of JSON input&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">5.6 Common Beginner Mistake — Double Parsing</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const jsonString = &#x27;{&quot;name&quot;:&quot;Tunde&quot;}&#x27;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const jsonString = &#x27;{&quot;name&quot;:&quot;Tunde&quot;}&#x27;;
 const obj = JSON.parse(jsonString);
 
 // ❌ WRONG — parsing an already-parsed object
@@ -822,32 +700,18 @@ const obj2 = JSON.parse(obj);
 // ✅ CORRECT — parse once, use the object
 console.log(obj.name); // Output: &quot;Tunde&quot;</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-6"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 5 — JSON.parse() — Receiving Data</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 17</div>
-    <div class="phase-title">Chapter 6 — JSON.stringify() — Sending Data</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">6.1 The Concept: Objects Must Become Text for Transport</h3>
+<p class="v2-p">&lt;a name="chapter-6"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 5 — JSON.parse() — Receiving Data</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/17</div><div class="pt">Chapter 6 — JSON.stringify() — Sending Data</div><div class="pc" id="chk6"></div></div><div class="pb2"><h3 class="v2-h3">6.1 The Concept: Objects Must Become Text for Transport</h3>
 <p class="v2-p">When you want to <strong>send</strong> data from JavaScript to a server (or save it to localStorage, a file, etc.), you need to convert your JavaScript object back into a <strong>text string</strong>. That's what <code>JSON.stringify()</code> does — it is the exact reverse of <code>JSON.parse()</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>JavaScript has: { name: &quot;Tunde&quot;, balance: 500000 }   ← real object
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>JavaScript has: { name: &quot;Tunde&quot;, balance: 500000 }   ← real object
 JSON.stringify(): Converts it ↓
 Network sends:  &#x27;{&quot;name&quot;:&quot;Tunde&quot;,&quot;balance&quot;:500000}&#x27;   ← plain text string</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">6.2 Basic <code>JSON.stringify()</code> Usage</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>JSON.stringify(value, replacer?, space?)</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>JSON.stringify(value, replacer?, space?)</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>value</code></td><td>Any</td><td>✅ Yes</td><td>The value to convert to JSON</td></tr><tr><td><code>replacer</code></td><td>Function or Array</td><td>Optional</td><td>Filter/transform properties</td></tr><tr><td><code>space</code></td><td>Number or String</td><td>Optional</td><td>Add indentation for readability</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Simple example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const customer = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const customer = {
   name: &quot;Babatunde&quot;,
   age: 28,
   city: &quot;Lagos&quot;,
@@ -860,7 +724,7 @@ console.log(jsonString);
 console.log(typeof jsonString); // Output: &quot;string&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">6.3 Stringifying All Data Types</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Object
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Object
 console.log(JSON.stringify({ a: 1, b: &quot;two&quot; }));
 // Output: &#x27;{&quot;a&quot;:1,&quot;b&quot;:&quot;two&quot;}&#x27;
 
@@ -885,7 +749,7 @@ console.log(JSON.stringify(null));
 // Output: &#x27;null&#x27;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">6.4 What Gets Lost in Stringification</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const obj = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const obj = {
   name: &quot;Tunde&quot;,
   age: 28,
   greet: function() { return &quot;Hello!&quot;; },  // function
@@ -910,7 +774,7 @@ console.log(JSON.stringify(obj));
 <hr class="v2-hr">
 <h3 class="v2-h3">6.5 The <code>space</code> Parameter — Pretty Printing</h3>
 <p class="v2-p">When debugging or reading JSON in a file, use the third argument to add indentation:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const transaction = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const transaction = {
   id: &quot;TXN-001&quot;,
   sender: &quot;Babatunde&quot;,
   recipient: &quot;Chioma&quot;,
@@ -942,7 +806,7 @@ console.log(JSON.stringify(transaction, null, &quot;\t&quot;));
 <hr class="v2-hr">
 <h3 class="v2-h3">6.6 The <code>replacer</code> Parameter — Filtering and Transforming</h3>
 <h4 class="v2-h4">Using an Array (whitelist of keys to include):</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const user = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const user = {
   id: 42,
   name: &quot;Babatunde&quot;,
   email: &quot;tunde@example.com&quot;,
@@ -964,7 +828,7 @@ console.log(safeJSON);
 // }
 // ✅ Sensitive fields (bvn, nin, balance) are excluded</code></pre></div></div>
 <h4 class="v2-h4">Using a Function (transform each key-value pair):</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const portfolio = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const portfolio = {
   owner: &quot;Babatunde&quot;,
   totalValue: 5000000,
   returns: 0.1875,    // 18.75%
@@ -992,7 +856,7 @@ console.log(result);
 <hr class="v2-hr">
 <h3 class="v2-h3">6.7 The <code>toJSON()</code> Method — Custom Serialization</h3>
 <p class="v2-p">Any object can define its own <code>toJSON()</code> method to control how it is stringified:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const account = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const account = {
   owner: &quot;Babatunde&quot;,
   balance: 500000,
   pin: &quot;1234&quot;,        // Never send this!
@@ -1020,7 +884,7 @@ console.log(JSON.stringify(account, null, 2));
 <hr class="v2-hr">
 <h3 class="v2-h3">6.8 Deep Copy Trick — Using JSON.parse + JSON.stringify</h3>
 <p class="v2-p">One popular use of <code>JSON.stringify</code> is creating a <strong>deep copy</strong> of an object (a completely independent copy with no shared references):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const original = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const original = {
   name: &quot;Tunde&quot;,
   address: { city: &quot;Lagos&quot;, lga: &quot;Ikeja&quot; }
 };
@@ -1038,24 +902,10 @@ console.log(original.address.city); // Output: &quot;Lagos&quot; ← original un
 // ⚠️ Limitation: this deep copy trick loses functions, dates, undefined, etc.
 // For full deep copy with those types, use structuredClone() or a library like lodash</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-7"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 6 — JSON.stringify() — Sending Data</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 17</div>
-    <div class="phase-title">Chapter 7 — Working with JSON Objects</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">7.1 Accessing Properties of Parsed JSON Objects</h3>
+<p class="v2-p">&lt;a name="chapter-7"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 6 — JSON.stringify() — Sending Data</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/17</div><div class="pt">Chapter 7 — Working with JSON Objects</div><div class="pc" id="chk7"></div></div><div class="pb2"><h3 class="v2-h3">7.1 Accessing Properties of Parsed JSON Objects</h3>
 <p class="v2-p">After parsing JSON, you work with the resulting JavaScript object exactly as you would any other object. There are two notations:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const json = `{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const json = `{
   &quot;bank&quot;: &quot;GTBank&quot;,
   &quot;code&quot;: &quot;058&quot;,
   &quot;type&quot;: &quot;commercial&quot;,
@@ -1088,7 +938,7 @@ console.log(data[&quot;first-name&quot;]);                // ✅ Output: &quot;B
 <hr class="v2-hr">
 <h3 class="v2-h3">7.2 Modifying JSON Object Properties</h3>
 <p class="v2-p">Once parsed, a JSON-derived object is a regular JavaScript object — you can read and write freely:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let customer = JSON.parse(`{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let customer = JSON.parse(`{
   &quot;name&quot;: &quot;Babatunde&quot;,
   &quot;city&quot;: &quot;Lagos&quot;,
   &quot;balance&quot;: 500000,
@@ -1118,7 +968,7 @@ console.log(JSON.stringify(customer, null, 2));
 // }</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">7.3 Looping Through JSON Object Properties</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const product = JSON.parse(`{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const product = JSON.parse(`{
   &quot;id&quot;: 101,
   &quot;name&quot;: &quot;Samsung Galaxy A55&quot;,
   &quot;price&quot;: 450000,
@@ -1151,7 +1001,7 @@ Object.entries(product).forEach(function([key, value]) {
 <hr class="v2-hr">
 <h3 class="v2-h3">7.4 Nested Objects — Accessing Deep Values Safely</h3>
 <p class="v2-p">When working with deeply nested JSON from APIs, keys may sometimes be missing (null/undefined). Safely access them:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const response = JSON.parse(`{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const response = JSON.parse(`{
   &quot;status&quot;: &quot;success&quot;,
   &quot;data&quot;: {
     &quot;user&quot;: {
@@ -1175,7 +1025,7 @@ console.log(bvn); // Output: &quot;22345678901&quot;
 console.log(nin); // Output: &quot;Not provided&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">7.5 Checking If a Property Exists</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const account = JSON.parse(`{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const account = JSON.parse(`{
   &quot;owner&quot;: &quot;Tunde&quot;,
   &quot;balance&quot;: 500000,
   &quot;overdraft&quot;: null
@@ -1197,24 +1047,10 @@ if (account.overdraft) {
   console.log(&quot;Has overdraft&quot;); // NOT printed — null is falsy
 }</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-8"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 7 — Working with JSON Objects</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 17</div>
-    <div class="phase-title">Chapter 8 — Working with JSON Arrays</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">8.1 JSON Arrays — Recap</h3>
+<p class="v2-p">&lt;a name="chapter-8"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 7 — Working with JSON Objects</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/17</div><div class="pt">Chapter 8 — Working with JSON Arrays</div><div class="pc" id="chk8"></div></div><div class="pb2"><h3 class="v2-h3">8.1 JSON Arrays — Recap</h3>
 <p class="v2-p">A JSON array is an <strong>ordered list of values</strong> enclosed in square brackets. After parsing, it becomes a standard JavaScript array with full access to all array methods.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const json = `{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const json = `{
   &quot;bank&quot;: &quot;First Bank&quot;,
   &quot;branches&quot;: [
     { &quot;city&quot;: &quot;Lagos&quot;,  &quot;address&quot;: &quot;35 Marina&quot;, &quot;atmCount&quot;: 5 },
@@ -1232,7 +1068,7 @@ console.log(data.branches[0].city);       // Output: &quot;Lagos&quot;
 console.log(data.branches[2].atmCount);   // Output: 2</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">8.2 All Common Array Operations on Parsed JSON</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const transactions = JSON.parse(`[
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const transactions = JSON.parse(`[
   { &quot;id&quot;: 1, &quot;type&quot;: &quot;credit&quot;, &quot;amount&quot;: 150000, &quot;from&quot;: &quot;Chioma&quot; },
   { &quot;id&quot;: 2, &quot;type&quot;: &quot;debit&quot;,  &quot;amount&quot;: 50000,  &quot;to&quot;: &quot;Konga&quot; },
   { &quot;id&quot;: 3, &quot;type&quot;: &quot;credit&quot;, &quot;amount&quot;: 200000, &quot;from&quot;: &quot;Emeka&quot; },
@@ -1275,7 +1111,7 @@ console.log(transactions.some(tx =&gt; tx.amount &gt; 100000));  // Output: true
 console.log(transactions.every(tx =&gt; tx.amount &gt; 10000));  // Output: true</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">8.3 Modifying Arrays from JSON</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let wishlist = JSON.parse(`[
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let wishlist = JSON.parse(`[
   {&quot;id&quot;: 1, &quot;product&quot;: &quot;Laptop&quot;,  &quot;price&quot;: 850000},
   {&quot;id&quot;: 2, &quot;product&quot;: &quot;Phone&quot;,   &quot;price&quot;: 150000},
   {&quot;id&quot;: 3, &quot;product&quot;: &quot;Headset&quot;, &quot;price&quot;: 45000}
@@ -1299,7 +1135,7 @@ console.log(&quot;Wishlist total: ₦&quot; + total.toLocaleString());
 // Output: Wishlist total: ₦1,045,000</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">8.4 Arrays of Arrays — Matrix-like JSON</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const examResults = JSON.parse(`{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const examResults = JSON.parse(`{
   &quot;subject&quot;: &quot;Web Development&quot;,
   &quot;scores&quot;: [
     [&quot;Babatunde&quot;, 92, &quot;A&quot;],
@@ -1319,24 +1155,10 @@ examResults.scores.forEach(function(student) {
 // Emeka: 75 (B)
 // Funmi: 95 (A+)</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-9"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 8 — Working with JSON Arrays</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 17</div>
-    <div class="phase-title">Chapter 9 — JSON and Servers</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">9.1 The Request-Response Cycle with JSON</h3>
+<p class="v2-p">&lt;a name="chapter-9"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 8 — Working with JSON Arrays</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/17</div><div class="pt">Chapter 9 — JSON and Servers</div><div class="pc" id="chk9"></div></div><div class="pb2"><h3 class="v2-h3">9.1 The Request-Response Cycle with JSON</h3>
 <p class="v2-p">JSON is the language of modern APIs. When a web app needs data from a server, the entire cycle looks like this:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1. JavaScript creates a request (AJAX/fetch)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1. JavaScript creates a request (AJAX/fetch)
 2. Request travels to the server as text
 3. Server processes request
 4. Server builds a JavaScript/PHP/Python object with the result
@@ -1348,7 +1170,7 @@ examResults.scores.forEach(function(student) {
 <hr class="v2-hr">
 <h3 class="v2-h3">9.2 Sending and Receiving JSON with XMLHttpRequest</h3>
 <p class="v2-p"><strong>Receiving JSON from a server (GET):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function getAccountSummary(customerId) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function getAccountSummary(customerId) {
   const xhr = new XMLHttpRequest();
   xhr.open(&quot;GET&quot;, &quot;/api/accounts/&quot; + customerId);
   xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;); // Tell server we want JSON
@@ -1367,7 +1189,7 @@ examResults.scores.forEach(function(student) {
   xhr.send();
 }</code></pre></div></div>
 <p class="v2-p"><strong>Sending JSON to a server (POST):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function createTransfer(senderAccount, recipientAccount, amount, narration) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function createTransfer(senderAccount, recipientAccount, amount, narration) {
   const transferData = {
     sender:    senderAccount,
     recipient: recipientAccount,
@@ -1406,7 +1228,7 @@ createTransfer(&quot;0123456789&quot;, &quot;9876543210&quot;, 50000, &quot;Scho
 <hr class="v2-hr">
 <h3 class="v2-h3">9.3 The Modern Way — Using the <code>fetch()</code> API with JSON</h3>
 <p class="v2-p">The <code>fetch()</code> API (introduced in ES2015) is the modern alternative to XMLHttpRequest. It is cleaner and works natively with JSON:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ─── GET Request — receiving JSON ─────────────────────────────────────
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ─── GET Request — receiving JSON ─────────────────────────────────────
 async function getProducts(category) {
   try {
     const response = await fetch(&quot;/api/products?category=&quot; + category, {
@@ -1469,7 +1291,7 @@ registerUser({
 <hr class="v2-hr">
 <h3 class="v2-h3">9.4 HTTP Status Codes and JSON Errors</h3>
 <p class="v2-p">Well-designed JSON APIs return <strong>error details in JSON format too</strong>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Server returns 400 with body:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Server returns 400 with body:
 {% raw %}// {&quot;error&quot;: &quot;Validation failed&quot;, &quot;details&quot;: {&quot;email&quot;: &quot;Invalid format&quot;, &quot;phone&quot;: &quot;Too short&quot;}}{% endraw %}
 
 async function createAccount(formData) {
@@ -1497,7 +1319,7 @@ async function createAccount(formData) {
 <hr class="v2-hr">
 <h3 class="v2-h3">9.5 Storing JSON in localStorage</h3>
 <p class="v2-p">You can also persist JSON data client-side using <code>localStorage</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ─── Save to localStorage ─────────────────────────────────────────────
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ─── Save to localStorage ─────────────────────────────────────────────
 function saveCartToStorage(cartItems) {
   localStorage.setItem(&quot;cart&quot;, JSON.stringify(cartItems));
   console.log(&quot;Cart saved!&quot;);
@@ -1526,28 +1348,14 @@ const loaded = loadCartFromStorage();
 console.log(loaded[0].name);            // Output: &quot;Laptop&quot;
 console.log(loaded[1].qty);             // Output: 2</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-10"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 9 — JSON and Servers</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase10">
-  <div class="phase-header">
-    <div class="phase-num">Phase 10 of 17</div>
-    <div class="phase-title">Chapter 10 — JSON with PHP</div>
-    <div class="phase-check" id="chk10"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">10.1 PHP and JSON — The Natural Partnership</h3>
+<p class="v2-p">&lt;a name="chapter-10"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 9 — JSON and Servers</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase10"><div class="ph"><div class="pn">Phase 10/17</div><div class="pt">Chapter 10 — JSON with PHP</div><div class="pc" id="chk10"></div></div><div class="pb2"><h3 class="v2-h3">10.1 PHP and JSON — The Natural Partnership</h3>
 <p class="v2-p">PHP is widely used for Nigerian fintech, e-commerce, and government web applications. PHP has two key JSON functions that mirror JavaScript's:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>JavaScript</th><th>PHP</th><th>Purpose</th></tr></thead><tbody><tr><td><code>JSON.stringify(obj)</code></td><td><code>json_encode($array)</code></td><td>Object/Array → JSON string</td></tr><tr><td><code>JSON.parse(text)</code></td><td><code>json_decode($text, true)</code></td><td>JSON string → Object/Array</td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">10.2 PHP Sending JSON to JavaScript</h3>
 <p class="v2-p"><strong>PHP (api/products.php):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>&lt;?php
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?php
 // Always set this header when returning JSON
 header(&quot;Content-Type: application/json&quot;);
 header(&quot;Access-Control-Allow-Origin: *&quot;); // Allow cross-origin requests
@@ -1584,7 +1392,7 @@ $products = [
 echo json_encode($products);
 ?&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript receiving from PHP:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>fetch(&quot;/api/products.php&quot;)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>fetch(&quot;/api/products.php&quot;)
   .then(response =&gt; response.json()) // PHP&#x27;s JSON → JS array
   .then(function(products) {
     products.forEach(function(p) {
@@ -1599,7 +1407,7 @@ echo json_encode($products);
 <hr class="v2-hr">
 <h3 class="v2-h3">10.3 PHP Receiving JSON from JavaScript</h3>
 <p class="v2-p"><strong>JavaScript sending JSON to PHP:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const newOrder = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const newOrder = {
   customerId: 42,
   items: [
     { productId: 1, quantity: 2, price: 450000 },
@@ -1627,7 +1435,7 @@ fetch(&quot;/api/orders.php&quot;, {
 // Order #5042 placed successfully!
 // Total: ₦912,000</code></pre></div></div>
 <p class="v2-p"><strong>PHP (api/orders.php) receiving and processing:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>&lt;?php
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?php
 header(&quot;Content-Type: application/json&quot;);
 
 // Read the raw JSON body from the request
@@ -1663,7 +1471,7 @@ echo json_encode([
 ?&gt;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">10.4 PHP Database + JSON — Full Flow</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>&lt;?php
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?php
 // get_customer.php
 header(&quot;Content-Type: application/json&quot;);
 
@@ -1712,7 +1520,7 @@ $conn-&gt;close();
 echo json_encode($customer ?? [&quot;error&quot; =&gt; &quot;Customer not found&quot;]);
 ?&gt;</code></pre></div></div>
 <p class="v2-p"><strong>JavaScript consuming this:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>fetch(&quot;/api/get_customer.php?id=42&quot;)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>fetch(&quot;/api/get_customer.php?id=42&quot;)
   .then(r =&gt; r.json())
   .then(function(customer) {
     console.log(&quot;Customer:&quot;, customer.name);
@@ -1726,7 +1534,7 @@ echo json_encode($customer ?? [&quot;error&quot; =&gt; &quot;Customer not found&
 //   current: ₦1,200,000 (0123456790)</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">10.5 json_encode Options in PHP</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span></div><div class="v2-code-body"><pre><code>&lt;?php
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">php</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;?php
 $data = [
   &quot;name&quot;    =&gt; &quot;Babatunde&quot;,
   &quot;balance&quot; =&gt; 500000,
@@ -1752,29 +1560,15 @@ echo json_encode($text, JSON_UNESCAPED_UNICODE);
 // Output: {&quot;greeting&quot;:&quot;Ẹ káàbọ̀&quot;}  ← readable, not \u-escaped
 ?&gt;</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-11"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 10 — JSON with PHP</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase11">
-  <div class="phase-header">
-    <div class="phase-num">Phase 11 of 17</div>
-    <div class="phase-title">Chapter 11 — JSON to HTML</div>
-    <div class="phase-check" id="chk11"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">11.1 Why "JSON to HTML"?</h3>
+<p class="v2-p">&lt;a name="chapter-11"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 10 — JSON with PHP</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase11"><div class="ph"><div class="pn">Phase 11/17</div><div class="pt">Chapter 11 — JSON to HTML</div><div class="pc" id="chk11"></div></div><div class="pb2"><h3 class="v2-h3">11.1 Why "JSON to HTML"?</h3>
 <p class="v2-p">One of the most common and practical tasks in front-end development is:</p>
 <ol class="v2-ol"><li>Fetching JSON data from an API</li><li>Converting (mapping) that data into HTML elements</li><li>Inserting those elements into the DOM</li></ol>
 <p class="v2-p">This is how every modern website displays dynamic content — from product listings to news feeds to dashboards.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">11.2 Building an HTML Table from JSON</h3>
 <p class="v2-p">The most basic pattern — a simple table:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const employeesJSON = `[
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const employeesJSON = `[
   {&quot;id&quot;:1,&quot;name&quot;:&quot;Babatunde Adewale&quot;,&quot;department&quot;:&quot;Engineering&quot;,&quot;salary&quot;:550000,&quot;city&quot;:&quot;Lagos&quot;},
   {&quot;id&quot;:2,&quot;name&quot;:&quot;Chioma Okafor&quot;,    &quot;department&quot;:&quot;Finance&quot;,     &quot;salary&quot;:480000,&quot;city&quot;:&quot;Enugu&quot;},
   {&quot;id&quot;:3,&quot;name&quot;:&quot;Emeka Eze&quot;,        &quot;department&quot;:&quot;Marketing&quot;,   &quot;salary&quot;:420000,&quot;city&quot;:&quot;Abuja&quot;},
@@ -1819,7 +1613,7 @@ renderEmployeeTable(employeesJSON);
 <hr class="v2-hr">
 <h3 class="v2-h3">11.3 Building Cards from JSON</h3>
 <p class="v2-p">Product or profile cards are another very common pattern:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const productsJSON = `[
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const productsJSON = `[
   {&quot;id&quot;:1,&quot;name&quot;:&quot;Samsung Galaxy A55&quot;,&quot;price&quot;:450000,&quot;rating&quot;:4.5,&quot;category&quot;:&quot;Electronics&quot;,&quot;badge&quot;:&quot;Best Seller&quot;},
   {&quot;id&quot;:2,&quot;name&quot;:&quot;Dangote Sugar 1kg&quot;, &quot;price&quot;:1800,  &quot;rating&quot;:4.8,&quot;category&quot;:&quot;Food&quot;,        &quot;badge&quot;:&quot;Organic&quot;},
   {&quot;id&quot;:3,&quot;name&quot;:&quot;Ankara Print Dress&quot;,&quot;price&quot;:12000, &quot;rating&quot;:4.6,&quot;category&quot;:&quot;Fashion&quot;,     &quot;badge&quot;:&quot;New Arrival&quot;}
@@ -1848,7 +1642,7 @@ function renderProductCards(jsonData) {
 renderProductCards(productsJSON);</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">11.4 Building a Dropdown from JSON</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// JSON from server: list of Nigerian banks
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// JSON from server: list of Nigerian banks
 const banksJSON = `[
   {&quot;code&quot;:&quot;058&quot;,&quot;name&quot;:&quot;GTBank&quot;},
   {&quot;code&quot;:&quot;044&quot;,&quot;name&quot;:&quot;Access Bank&quot;},
@@ -1877,7 +1671,7 @@ populateBankDropdown(banksJSON);
 <hr class="v2-hr">
 <h3 class="v2-h3">11.5 Building a Complete Data Dashboard from JSON</h3>
 <p class="v2-p">A more complete example — a transaction history dashboard:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;Transaction History&lt;/title&gt;
@@ -1986,7 +1780,7 @@ populateBankDropdown(banksJSON);
 &lt;/html&gt;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">11.6 Safety Warning — XSS When Rendering JSON to HTML</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ DANGEROUS — if JSON data contains HTML/JavaScript
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ DANGEROUS — if JSON data contains HTML/JavaScript
 const badJSON = &#x27;{&quot;name&quot;:&quot;&lt;script&gt;alert(\&#x27;Hacked!\&#x27;)&lt;/script&gt;&quot;}&#x27;;
 const user = JSON.parse(badJSON);
 document.getElementById(&quot;greeting&quot;).innerHTML = &quot;Hello, &quot; + user.name;
@@ -2006,30 +1800,16 @@ function sanitize(str) {
 document.getElementById(&quot;greeting&quot;).innerHTML = &quot;Hello, &quot; + sanitize(user.name);
 // Safe!</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="chapter-12"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">1. Fetching JSON data from an API
+<p class="v2-p">&lt;a name="chapter-12"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">1. Fetching JSON data from an API
 2. Converting (mapping) that data into HTML elements
 3. Inserting those elements into the DOM
 
 This is how every modern website displays dynamic content — from product listings to news feeds to dashboards.
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase12">
-  <div class="phase-header">
-    <div class="phase-num">Phase 12 of 17</div>
-    <div class="phase-title">Chapter 12 — JSONP</div>
-    <div class="phase-check" id="chk12"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">12.1 The Problem: The Same-Origin Policy</h3>
+---</div></div><button class="ub" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase12"><div class="ph"><div class="pn">Phase 12/17</div><div class="pt">Chapter 12 — JSONP</div><div class="pc" id="chk12"></div></div><div class="pb2"><h3 class="v2-h3">12.1 The Problem: The Same-Origin Policy</h3>
 <p class="v2-p">Browsers enforce the <strong>Same-Origin Policy</strong> — a security rule that prevents JavaScript from making AJAX requests to a <strong>different domain</strong> than the page it's running on.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Your site: https://mykonga.com.ng
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Your site: https://mykonga.com.ng
 API:       https://api.somebank.com/data
 
 → BLOCKED by browser! Different domain.</code></pre></div></div>
@@ -2038,20 +1818,20 @@ API:       https://api.somebank.com/data
 <hr class="v2-hr">
 <h3 class="v2-h3">12.2 How JSONP Works — The Clever Trick</h3>
 <p class="v2-p">JSONP exploits the fact that <code>&lt;script&gt;</code> tags are <strong>not</strong> restricted by the same-origin policy. You can load a script from any domain. JSONP sends data by wrapping it in a function call:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Normal JSON response:           {&quot;name&quot;:&quot;Tunde&quot;,&quot;balance&quot;:500000}
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Normal JSON response:           {&quot;name&quot;:&quot;Tunde&quot;,&quot;balance&quot;:500000}
 JSONP response:                 myCallback({&quot;name&quot;:&quot;Tunde&quot;,&quot;balance&quot;:500000})
 
 The browser loads this as a &lt;script&gt;, which executes myCallback() automatically!</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">12.3 How to Use JSONP — Step by Step</h3>
 <p class="v2-p"><strong>Step 1:</strong> Define your callback function in JavaScript:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function handleBankData(data) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function handleBankData(data) {
   console.log(&quot;Received bank data via JSONP!&quot;);
   console.log(&quot;Bank name:&quot;, data.name);
   console.log(&quot;Branch count:&quot;, data.branches);
 }</code></pre></div></div>
 <p class="v2-p"><strong>Step 2:</strong> Dynamically create a <code>&lt;script&gt;</code> tag pointing to the JSONP endpoint:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function loadBankDataJSONP(bankCode) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function loadBankDataJSONP(bankCode) {
   const script = document.createElement(&quot;script&quot;);
 
   // The &#x27;?callback=&#x27; parameter tells the server what function name to wrap the data in
@@ -2069,16 +1849,16 @@ The browser loads this as a &lt;script&gt;, which executes myCallback() automati
 // Call it:
 loadBankDataJSONP(&quot;058&quot;);</code></pre></div></div>
 <p class="v2-p"><strong>Step 3:</strong> The server at <code>api.examplebank.com</code> returns:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Not regular JSON — it&#x27;s wrapped in the callback function call:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Not regular JSON — it&#x27;s wrapped in the callback function call:
 handleBankData({&quot;name&quot;:&quot;GTBank&quot;,&quot;code&quot;:&quot;058&quot;,&quot;branches&quot;:230,&quot;headquarters&quot;:&quot;Lagos&quot;})</code></pre></div></div>
 <p class="v2-p">When the browser loads this "script", it calls <code>handleBankData()</code> with the data. Your function runs and you have the data!</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>// Complete output:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Complete output:
 // Received bank data via JSONP!
 // Bank name: GTBank
 // Branch count: 230</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">12.4 Full JSONP Implementation Pattern</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Generic JSONP loader — works with any JSONP endpoint
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Generic JSONP loader — works with any JSONP endpoint
 function jsonpRequest(url, callbackName, onSuccess, onError) {
   // Create a unique callback name to avoid conflicts
   const uniqueCallback = callbackName + &quot;_&quot; + Date.now();
@@ -2132,7 +1912,7 @@ jsonpRequest(
 <h3 class="v2-h3">12.5 JSONP vs CORS — Modern Perspective</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Feature</th><th>JSONP</th><th>CORS</th></tr></thead><tbody><tr><td><strong>Mechanism</strong></td><td><code>&lt;script&gt;</code> tag trick</td><td>HTTP headers from server</td></tr><tr><td><strong>Methods</strong></td><td>GET only</td><td>GET, POST, PUT, DELETE, etc.</td></tr><tr><td><strong>Security</strong></td><td>⚠️ Trust the server completely</td><td>✅ Browser enforces policies</td></tr><tr><td><strong>Error handling</strong></td><td>Difficult</td><td>Standard HTTP status codes</td></tr><tr><td><strong>Modern support</strong></td><td>Legacy/deprecated</td><td>✅ Standard — preferred</td></tr><tr><td><strong>Setup required</strong></td><td>None client-side</td><td>Server must send CORS headers</td></tr></tbody></table></div>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Current best practice:</strong> Do <strong>not</strong> use JSONP for new projects. Use CORS instead. If a third-party API you need doesn't support CORS, proxy the request through your own server:</p></blockquote>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Instead of direct JSONP to third-party:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Instead of direct JSONP to third-party:
 // fetch(&quot;https://thirdparty.com/api/data&quot;) // BLOCKED by CORS!
 
 // Proxy through your own server (which can make server-to-server requests freely):
@@ -2140,25 +1920,11 @@ jsonpRequest(
 <p class="v2-p"><strong>JSONP is still covered here because:</strong></p>
 <ol class="v2-ol"><li>You will encounter it in legacy codebases</li><li>Some older APIs still only support JSONP</li><li>Understanding it deepens your knowledge of browser security and the same-origin policy</li></ol>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="phase-2"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter 12 — JSONP</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase13">
-  <div class="phase-header">
-    <div class="phase-num">Phase 13 of 17</div>
-    <div class="phase-title">Phase 2 — Applied Exercises</div>
-    <div class="phase-check" id="chk13"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Exercise 1 — Warm-Up: Parse and Display</h3>
+<p class="v2-p">&lt;a name="phase-2"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter 12 — JSONP</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase13"><div class="ph"><div class="pn">Phase 13/17</div><div class="pt">Phase 2 — Applied Exercises</div><div class="pc" id="chk13"></div></div><div class="pb2"><h3 class="v2-h3">Exercise 1 — Warm-Up: Parse and Display</h3>
 <p class="v2-p"><strong>Objective:</strong> Practice <code>JSON.parse()</code> and reading all data types from JSON.</p>
 <p class="v2-p"><strong>Scenario:</strong> A Lagos fintech startup gives you the following API response. Parse it and display a formatted summary on the page.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const apiResponse = `{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const apiResponse = `{
   &quot;status&quot;: &quot;success&quot;,
   &quot;requestId&quot;: &quot;REQ-2024-06-15-001&quot;,
   &quot;customer&quot;: {
@@ -2201,7 +1967,7 @@ jsonpRequest(
 <p class="v2-p"><strong>Objective:</strong> Build a complete JSON → HTML pipeline: receive simulated API response, transform data, and render to DOM.</p>
 <p class="v2-p"><strong>Scenario:</strong> Build a "Top Performers" leaderboard for a Lagos microfinance bank, displaying the top 5 loan repayers of the month.</p>
 <p class="v2-p"><strong>Sample API response to work with:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">json</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   &quot;month&quot;: &quot;June 2024&quot;,
   &quot;branch&quot;: &quot;Lagos Island&quot;,
   &quot;currency&quot;: &quot;NGN&quot;,
@@ -2218,33 +1984,19 @@ jsonpRequest(
 <p class="v2-p"><strong>Self-check questions:</strong></p>
 <ul class="v2-ul"><li>How did you find the performer with the longest streak?</li><li>Why is it important to use <code>innerText</code> (not <code>innerHTML</code>) for the <code>name</code> fields?</li><li>How would you sort the array if the ranks were not already in order?</li></ul>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="phase-3"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Phase 2 — Applied Exercises</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase14">
-  <div class="phase-header">
-    <div class="phase-num">Phase 14 of 17</div>
-    <div class="phase-title">Phase 3 — Project: FinDash — Nigerian Financial Dashboard</div>
-    <div class="phase-check" id="chk14"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Project Overview</h3>
+<p class="v2-p">&lt;a name="phase-3"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Phase 2 — Applied Exercises</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase14"><div class="ph"><div class="pn">Phase 14/17</div><div class="pt">Phase 3 — Project: FinDash — Nigerian Financial Dashboard</div><div class="pc" id="chk14"></div></div><div class="pb2"><h3 class="v2-h3">Project Overview</h3>
 <p class="v2-p">Build <strong>FinDash</strong> — a complete client-side financial dashboard for a fictional Nigerian investment and banking app. The dashboard reads all data from JSON, processes it with JavaScript, and renders a fully interactive HTML interface.</p>
 <p class="v2-p"><strong>Technology stack:</strong> Pure HTML, CSS, and JavaScript — no frameworks, no build tools. All data from JSON.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 1 — Setup &amp; Core Data Layer</h3>
 <p class="v2-p"><strong>Simple illustrative example first:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// This is the data pattern you will scale up:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// This is the data pattern you will scale up:
 const accountData = JSON.parse(localStorage.getItem(&quot;findash_data&quot;) || defaultJSON);
 renderDashboard(accountData);</code></pre></div></div>
 <p class="v2-p"><strong>Full Stage 1:</strong></p>
 <p class="v2-p">Create a file <code>findash.html</code> with this complete foundation:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
   &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -2584,7 +2336,7 @@ renderPortfolio();
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 2 — Adding Features</h3>
 <p class="v2-p">Now extend your FinDash with:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Feature 1: Save dashboard state to localStorage
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Feature 1: Save dashboard state to localStorage
 function saveToStorage() {
   localStorage.setItem(&quot;findash_data&quot;, JSON.stringify(dashboard));
   console.log(&quot;Data saved to localStorage!&quot;);
@@ -2621,22 +2373,8 @@ addTransaction({
 <p class="v2-p"><strong>Optional Advanced Features:</strong></p>
 <ul class="v2-ul"><li>Add a chart using <code>&lt;canvas&gt;</code> that visualises transaction amounts over time (data from JSON array)</li><li>Add a search box that filters transactions in real-time (search through <code>desc</code> field)</li><li>Add a "Compare Periods" feature — load two different JSON datasets and compare totals</li><li>Implement a <code>toJSON()</code> method on a custom <code>Transaction</code> class</li><li>Add server synchronisation: on every addTransaction, POST the new transaction as JSON to a PHP endpoint</li></ul>
 <hr class="v2-hr">
-<p class="v2-p">&lt;a name="checklist"&gt;&lt;/a&gt;</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Phase 3 — Project: FinDash — Nigerian Financial Dashboard</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase15">
-  <div class="phase-header">
-    <div class="phase-num">Phase 15 of 17</div>
-    <div class="phase-title">10-Question Self-Assessment Quiz</div>
-    <div class="phase-check" id="chk15"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>1.</strong> What does JSON stand for?</p>
+<p class="v2-p">&lt;a name="checklist"&gt;&lt;/a&gt;</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Phase 3 — Project: FinDash — Nigerian Financial Dashboard</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase15"><div class="ph"><div class="pn">Phase 15/17</div><div class="pt">10-Question Self-Assessment Quiz</div><div class="pc" id="chk15"></div></div><div class="pb2"><p class="v2-p"><strong>1.</strong> What does JSON stand for?</p>
 <ul class="v2-ul"><li>a) JavaScript Object Notation ✅</li><li>b) Java Standard Object Notation</li><li>c) JavaScript Original Naming</li><li>d) JSON Script Object Notation</li></ul>
 <p class="v2-p"><strong>2.</strong> Which of these is valid JSON?</p>
 <ul class="v2-ul"><li>a) <code>{name: "Tunde"}</code></li><li>b) <code>{'name': 'Tunde'}</code></li><li>c) <code>{"name": "Tunde"}</code> ✅</li><li>d) <code>{"name": 'Tunde'}</code></li></ul>
@@ -2657,164 +2395,96 @@ addTransaction({
 <p class="v2-p"><strong>10.</strong> What does the <code>space</code> parameter in <code>JSON.stringify(obj, null, 2)</code> do?</p>
 <ul class="v2-ul"><li>a) Limits output to 2 keys</li><li>b) Adds 2-space indentation for readable formatting ✅</li><li>c) Rounds numbers to 2 decimal places</li><li>d) Encodes 2 levels of nesting</li></ul>
 <p class="v2-p"><strong>Answer Key:</strong> 1a · 2c · 3b · 4c · 5b · 6c · 7b · 8c · 9b · 10b</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>10-Question Self-Assessment Quiz</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase16"><div class="ph"><div class="pn">Phase 16/17</div><div class="pt">Key Gotchas Summary</div><div class="pc" id="chk16"></div></div><div class="pb2"><div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>❌ Common Mistake</th><th>✅ Correct Approach</th></tr></thead><tbody><tr><td>Single quotes in JSON: <code>{'key': 'val'}</code></td><td>Always double quotes: <code>{"key": "val"}</code></td></tr><tr><td>Trailing commas: <code>{"a":1,}</code></td><td>No trailing commas: <code>{"a":1}</code></td></tr><tr><td>Unquoted keys: <code>{name: "Tunde"}</code></td><td>Quoted keys: <code>{"name": "Tunde"}</code></td></tr><tr><td>Reading <code>responseText</code> as object: <code>xhr.responseText.name</code></td><td>Parse first: <code>JSON.parse(xhr.responseText).name</code></td></tr><tr><td>Forgetting <code>try-catch</code> around <code>JSON.parse()</code></td><td>Always wrap untrusted JSON parsing in <code>try-catch</code></td></tr><tr><td>Using <code>innerHTML</code> with unsanitized JSON values</td><td>Use <code>innerText</code> or sanitize before using <code>innerHTML</code></td></tr><tr><td>Double-parsing an already-parsed object</td><td>Parse once, reuse the result</td></tr><tr><td>Expecting <code>Date</code> objects after <code>JSON.parse()</code></td><td>Dates become strings — convert with <code>new Date(value)</code> in a reviver</td></tr><tr><td>Using <code>json_decode()</code> without <code>true</code> in PHP</td><td><code>json_decode($text, true)</code> gives array; without <code>true</code> gives object</td></tr><tr><td>Using JSONP for new projects</td><td>Use CORS (or a server-side proxy) for cross-origin requests</td></tr></tbody></table></div>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Key Gotchas Summary</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(16)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase17"><div class="ph"><div class="pn">Phase 17/17</div><div class="pt">Chapter Summary</div><div class="pc" id="chk17"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>JSON (JavaScript Object Notation)</strong> is a lightweight text format for data exchange — readable by humans and parseable by machines. It supports six data types: strings (double-quoted), numbers, booleans, null, objects (curly braces), and arrays (square brackets). JavaScript uses <code>JSON.parse()</code> to convert a JSON string into a live object, and <code>JSON.stringify()</code> to convert an object back to a JSON string for storage or transmission. JSON is the universal language of REST APIs — used by virtually every web service from Paystack to Flutterwave, Gmail to Twitter. While JSONP was an early cross-origin workaround, modern applications use CORS. Mastering JSON means mastering the data layer of the entire modern web.</p></blockquote>
 <hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>10-Question Self-Assessment Quiz</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase16">
-  <div class="phase-header">
-    <div class="phase-num">Phase 16 of 17</div>
-    <div class="phase-title">Key Gotchas Summary</div>
-    <div class="phase-check" id="chk16"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>❌ Common Mistake</th><th>✅ Correct Approach</th></tr></thead><tbody><tr><td>Single quotes in JSON: <code>{'key': 'val'}</code></td><td>Always double quotes: <code>{"key": "val"}</code></td></tr><tr><td>Trailing commas: <code>{"a":1,}</code></td><td>No trailing commas: <code>{"a":1}</code></td></tr><tr><td>Unquoted keys: <code>{name: "Tunde"}</code></td><td>Quoted keys: <code>{"name": "Tunde"}</code></td></tr><tr><td>Reading <code>responseText</code> as object: <code>xhr.responseText.name</code></td><td>Parse first: <code>JSON.parse(xhr.responseText).name</code></td></tr><tr><td>Forgetting <code>try-catch</code> around <code>JSON.parse()</code></td><td>Always wrap untrusted JSON parsing in <code>try-catch</code></td></tr><tr><td>Using <code>innerHTML</code> with unsanitized JSON values</td><td>Use <code>innerText</code> or sanitize before using <code>innerHTML</code></td></tr><tr><td>Double-parsing an already-parsed object</td><td>Parse once, reuse the result</td></tr><tr><td>Expecting <code>Date</code> objects after <code>JSON.parse()</code></td><td>Dates become strings — convert with <code>new Date(value)</code> in a reviver</td></tr><tr><td>Using <code>json_decode()</code> without <code>true</code> in PHP</td><td><code>json_decode($text, true)</code> gives array; without <code>true</code> gives object</td></tr><tr><td>Using JSONP for new projects</td><td>Use CORS (or a server-side proxy) for cross-origin requests</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Key Gotchas Summary</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(16)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase17">
-  <div class="phase-header">
-    <div class="phase-num">Phase 17 of 17</div>
-    <div class="phase-title">Chapter Summary</div>
-    <div class="phase-check" id="chk17"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>JSON (JavaScript Object Notation)</strong> is a lightweight text format for data exchange — readable by humans and parseable by machines. It supports six data types: strings (double-quoted), numbers, booleans, null, objects (curly braces), and arrays (square brackets). JavaScript uses <code>JSON.parse()</code> to convert a JSON string into a live object, and <code>JSON.stringify()</code> to convert an object back to a JSON string for storage or transmission. JSON is the universal language of REST APIs — used by virtually every web service from Paystack to Flutterwave, Gmail to Twitter. While JSONP was an early cross-origin workaround, modern applications use CORS. Mastering JSON means mastering the data layer of the entire modern web.</p></blockquote>
-<hr class="v2-hr">
-<p class="v2-p"><em>Tutorial authored using the AI Tutorial Generator framework — Phase 1: Comprehension → Phase 2: Practice → Phase 3: Creation.</em></p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Chapter Summary</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(17)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Lesson 42 JS Project</div>
-  <div class="build-desc"></div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<p class="v2-p"><em>Tutorial authored using the AI Tutorial Generator framework — Phase 1: Comprehension → Phase 2: Practice → Phase 3: Creation.</em></p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Chapter Summary</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(17)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Lesson 42 Project</div><div class="build-req"><p class="v2-p">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;title&gt;My JS Project&lt;/title&gt;
+&lt;title&gt;Project&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;</p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Project&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;!-- Write your HTML here --&gt;
-  &lt;script&gt;
-    // Write your JavaScript here
-  &lt;/script&gt;
+&lt;!-- Your code here --&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`<!DOCTYPE html>
+&lt;/html&gt;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My JS Project</title>
+<title>Project</title>
 </head>
 <body>
-  <!-- Write your HTML here -->
-  <script>
-    // Write your JavaScript here
-  </script>
+<!-- Your code here -->
 </body>
-</html>`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+</html>`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-42-lesson-42-js-project</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 42 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-42-lesson-42-js-project/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 42 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ Chapter 1 — What Is JSON?</li><li>✅ Chapter 2 — JSON Syntax Rules</li><li>✅ Chapter 3 — JSON vs XML</li><li>✅ Chapter 4 — JSON Data Types</li><li>✅ Chapter 5 — JSON.parse() — Receiving Data</li><li>✅ Chapter 6 — JSON.stringify() — Sending Data</li><li>✅ Chapter 7 — Working with JSON Objects</li><li>✅ Chapter 8 — Working with JSON Arrays</li></ul>
-  <div class="lesson-nav"><a href="lesson_41.html" class="ln-btn">← Lesson 41</a><a href="lesson_43.html" class="ln-btn primary">Lesson 43 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-42-lesson-42-project</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 42 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-42-lesson-42-project/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 42 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ Chapter 1 — What Is JSON?</li><li>✅ Chapter 2 — JSON Syntax Rules</li><li>✅ Chapter 3 — JSON vs XML</li><li>✅ Chapter 4 — JSON Data Types</li><li>✅ Chapter 5 — JSON.parse() — Receiving Data</li><li>✅ Chapter 6 — JSON.stringify() — Sending Data</li><li>✅ Chapter 7 — Working with JSON Objects</li><li>✅ Chapter 8 — Working with JSON Arrays</li></ul><div class="ln"><a href="lesson_41.html" class="ln-btn">← Lesson 41</a><a href="lesson_43.html" class="ln-btn primary">Lesson 43 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 42 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 42 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=17,KEY='techbase_js_l42';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

@@ -1,212 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 25: JavaScript Statements, Reserved Words, Operators &amp; Operator Precedence — Techbase JavaScript</title>
-<meta name="description" content="JavaScript Statements, Reserved Words, Operators &amp; Operator Precedence">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 25 of 46</span>
+  <span class="l-nav-lbl">Lesson 25 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 25</div>
-    <h1>JavaScript Statements, Reserved Words, Operators &amp; Operator Precedence</h1>
-    <div class="l-hero-sub">9 phases · Build: Lesson 25 JS Project</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 25</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 9 phases</span>
-    <span>🏗️ Lesson 25 JS Project</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 25</div>
+  <h1>JavaScript Statements, Reserved Words, Operators &amp; Operator Precedence</h1>
+  <div class="l-hero-sub">9 phases &nbsp;·&nbsp; Build: Lesson 25 Project</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 25</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 9 phases</span><span>🏗️ Lesson 25 Project</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 9</div>
-    <div class="phase-title">1. JavaScript Statements Reference</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">1.1 What Is a Statement?</h3>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/9</div><div class="pt">1. JavaScript Statements Reference</div><div class="pc" id="chk1"></div></div><div class="pb2"><h3 class="v2-h3">1.1 What Is a Statement?</h3>
 <p class="v2-p">A <strong>statement</strong> is a complete instruction that tells JavaScript to <em>do something</em>. If expressions are ingredients (values, variables, calculations), statements are the recipe steps — the actions that structure how your program flows, repeats, and makes decisions.</p>
 <p class="v2-p"><strong>Real-world analogy:</strong> Think of a statement as a sentence in English. A sentence doesn't just contain words — it makes a complete thought. <code>let x = 5;</code> is a complete instruction. <code>x + 3</code> alone is just an expression — it calculates but doesn't <em>do</em> anything until it's part of a statement.</p>
 <p class="v2-p">JavaScript programs are sequences of statements executed top to bottom, unless a control statement (like <code>if</code>, <code>for</code>, or <code>return</code>) redirects the flow.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.2 Block Statement <code>{}</code></h3>
 <p class="v2-p">A <strong>block</strong> groups multiple statements together inside curly braces <code>{}</code>. Blocks are used with control structures (<code>if</code>, <code>for</code>, <code>while</code>, functions) to treat multiple statements as one logical unit.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// A block groups these three statements together
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// A block groups these three statements together
 {
   let name = &quot;Tunde&quot;;
   let age  = 28;
@@ -214,7 +148,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 }
 // Expected Output: Tunde is 28 years old.</code></pre></div></div>
 <p class="v2-p">Blocks also define <strong>scope</strong> for <code>let</code> and <code>const</code> — variables declared inside a block are not accessible outside it.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   let secret = &quot;password123&quot;;
   console.log(secret); // &quot;password123&quot; ✅
 }
@@ -224,7 +158,7 @@ console.log(secret); // ReferenceError: secret is not defined ❌</code></pre></
 <h3 class="v2-h3">1.3 <code>break</code> Statement</h3>
 <p class="v2-p"><code>break</code> <strong>immediately exits</strong> the nearest enclosing loop or <code>switch</code> statement. Execution continues at the statement following the loop or switch.</p>
 <p class="v2-p"><strong>Micro-demo — break out of a loop early:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (let i = 1; i &lt;= 10; i++) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (let i = 1; i &lt;= 10; i++) {
   if (i === 5) {
     break; // Stop the loop when i reaches 5
   }
@@ -233,7 +167,7 @@ console.log(secret); // ReferenceError: secret is not defined ❌</code></pre></
 // Expected Output: 1  2  3  4
 // (5 and above never print — loop exited at i === 5)</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use — stop searching once found:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let students = [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Tunde&quot;, &quot;Carol&quot;, &quot;David&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let students = [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Tunde&quot;, &quot;Carol&quot;, &quot;David&quot;];
 let target = &quot;Tunde&quot;;
 let foundAt = -1;
 
@@ -249,7 +183,7 @@ console.log(foundAt === -1 ? &quot;Not found&quot; : `Found at index ${foundAt}`
 <p class="v2-p">Without <code>break</code>, the loop would continue checking the remaining students unnecessarily.</p>
 <h4 class="v2-h4">Labelled <code>break</code> — Exiting Nested Loops</h4>
 <p class="v2-p">When loops are nested, plain <code>break</code> only exits the innermost loop. A <strong>label</strong> lets you break out of an outer loop from deep inside.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>outerLoop: for (let row = 0; row &lt; 3; row++) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>outerLoop: for (let row = 0; row &lt; 3; row++) {
   for (let col = 0; col &lt; 3; col++) {
     if (row === 1 &amp;&amp; col === 1) {
       break outerLoop; // Exits BOTH loops, not just the inner one
@@ -262,7 +196,7 @@ console.log(foundAt === -1 ? &quot;Not found&quot; : `Found at index ${foundAt}`
 <hr class="v2-hr">
 <h3 class="v2-h3">1.4 <code>continue</code> Statement</h3>
 <p class="v2-p"><code>continue</code> <strong>skips the rest of the current iteration</strong> and jumps to the next one. Unlike <code>break</code>, it doesn't exit the loop — it just skips this pass.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Print only even numbers from 1 to 10
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Print only even numbers from 1 to 10
 for (let i = 1; i &lt;= 10; i++) {
   if (i % 2 !== 0) {
     continue; // Skip odd numbers
@@ -271,7 +205,7 @@ for (let i = 1; i &lt;= 10; i++) {
 }
 // Expected Output: 2  4  6  8  10</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use — skip invalid data:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let transactions = [150, -20, 300, null, 500, undefined, 75];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let transactions = [150, -20, 300, null, 500, undefined, 75];
 
 let validTotal = 0;
 for (let amount of transactions) {
@@ -287,13 +221,13 @@ console.log(&quot;Valid total: ₦&quot; + validTotal.toLocaleString());
 <hr class="v2-hr">
 <h3 class="v2-h3">1.5 <code>const</code> Statement</h3>
 <p class="v2-p"><code>const</code> declares a <strong>block-scoped variable</strong> whose <strong>binding cannot be reassigned</strong>. Once assigned, the name always refers to the same value.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const TAX_RATE = 0.075;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const TAX_RATE = 0.075;
 const APP_NAME = &quot;StoreApp&quot;;
 
 TAX_RATE = 0.08; // TypeError: Assignment to constant variable ❌</code></pre></div></div>
 <p class="v2-p"><strong>Important nuance — const with objects and arrays:</strong></p>
 <p class="v2-p"><code>const</code> prevents <em>reassignment of the variable binding</em>, not mutation of the value it points to. Objects and arrays declared with <code>const</code> can still have their contents changed.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const user = { name: &quot;Tunde&quot;, age: 28 };
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const user = { name: &quot;Tunde&quot;, age: 28 };
 
 user.age = 29;           // ✅ Allowed — mutating the object&#x27;s property
 user.city = &quot;Lagos&quot;;     // ✅ Allowed — adding a new property
@@ -308,7 +242,7 @@ scores = [1, 2, 3];       // ❌ TypeError — reassigning the binding</code></p
 <hr class="v2-hr">
 <h3 class="v2-h3">1.6 <code>let</code> Statement</h3>
 <p class="v2-p"><code>let</code> declares a <strong>block-scoped variable</strong> that <em>can</em> be reassigned. It was introduced in ES6 to fix the confusing function-scope behaviour of <code>var</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let counter = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let counter = 0;
 
 for (let i = 0; i &lt; 5; i++) {
   counter += i;
@@ -317,7 +251,7 @@ for (let i = 0; i &lt; 5; i++) {
 console.log(counter); // 10
 console.log(i);       // ReferenceError — i only exists inside the for block</code></pre></div></div>
 <p class="v2-p"><strong><code>let</code> vs <code>var</code> — the scoping difference:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// var is function-scoped — leaks out of blocks
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// var is function-scoped — leaks out of blocks
 function testVar() {
   if (true) {
     var x = &quot;I&#x27;m var&quot;;
@@ -333,7 +267,7 @@ function testLet() {
   console.log(y); // ReferenceError — y stayed in the block ✅
 }</code></pre></div></div>
 <p class="v2-p"><strong><code>let</code> prevents the temporal dead zone trap:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(myLet); // ReferenceError: Cannot access before initialisation
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(myLet); // ReferenceError: Cannot access before initialisation
 let myLet = 10;     // This is safer — it tells you the bug directly
 
 console.log(myVar); // undefined — silently wrong, harder to debug
@@ -341,14 +275,14 @@ var myVar = 10;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.7 <code>var</code> Statement</h3>
 <p class="v2-p"><code>var</code> is the <strong>original</strong> JavaScript variable declaration. It is <strong>function-scoped</strong> (not block-scoped) and is <strong>hoisted</strong> to the top of its function with an initial value of <code>undefined</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function demonstrateVar() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function demonstrateVar() {
   console.log(name); // undefined — hoisted but not yet assigned
   var name = &quot;Tunde&quot;;
   console.log(name); // &quot;Tunde&quot;
 }
 demonstrateVar();</code></pre></div></div>
 <p class="v2-p">JavaScript interprets this as:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function demonstrateVar() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function demonstrateVar() {
   var name; // hoisting moves declaration to the top
   console.log(name); // undefined
   name = &quot;Tunde&quot;;
@@ -358,7 +292,7 @@ demonstrateVar();</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.8 <code>if</code>, <code>else if</code>, <code>else</code> Statements</h3>
 <p class="v2-p"><code>if</code> evaluates a condition and runs a block of code only if the condition is <strong>truthy</strong>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 72;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score = 72;
 
 if (score &gt;= 90) {
   console.log(&quot;Grade: A&quot;);
@@ -373,7 +307,7 @@ if (score &gt;= 90) {
 }
 // Expected Output: Grade: C</code></pre></div></div>
 <p class="v2-p"><strong>Falsy values in JavaScript</strong> (values that make an <code>if</code> condition fail):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// These are ALL falsy:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// These are ALL falsy:
 if (false)      { } // boolean false
 if (0)          { } // number zero
 if (-0)         { } // negative zero
@@ -390,7 +324,7 @@ if ({})         { console.log(&quot;Truthy!&quot;); } // Empty object</code></pr
 <hr class="v2-hr">
 <h3 class="v2-h3">1.9 <code>switch</code> Statement</h3>
 <p class="v2-p"><code>switch</code> compares a value against multiple <code>case</code> values using <strong>strict equality (<code>===</code>)</strong>. It's cleaner than long <code>else if</code> chains when checking one variable against many specific values.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let day = &quot;Tuesday&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let day = &quot;Tuesday&quot;;
 let message;
 
 switch (day) {
@@ -417,7 +351,7 @@ console.log(message);
 // Expected Output: Midweek grind.</code></pre></div></div>
 <p class="v2-p"><strong>Fall-through behaviour:</strong> Without <code>break</code>, execution <em>falls through</em> to the next case. This is why Tuesday, Wednesday, and Thursday share the same message above — <code>case "Tuesday":</code> has no code of its own, so it falls through to Wednesday's code.</p>
 <p class="v2-p"><strong>Common beginner mistake — forgetting <code>break</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let colour = &quot;red&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let colour = &quot;red&quot;;
 
 switch (colour) {
   case &quot;red&quot;:
@@ -434,8 +368,8 @@ switch (colour) {
 <hr class="v2-hr">
 <h3 class="v2-h3">1.10 <code>for</code> Loop</h3>
 <p class="v2-p">The classic <code>for</code> loop repeats a block of code a specific number of times. It has three parts:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>for (initialisation; condition; update) { body }</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Print multiplication table for 5
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (initialisation; condition; update) { body }</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Print multiplication table for 5
 for (let i = 1; i &lt;= 10; i++) {
   console.log(`5 × ${i} = ${5 * i}`);
 }
@@ -445,7 +379,7 @@ for (let i = 1; i &lt;= 10; i++) {
 // ...
 // 5 × 10 = 50</code></pre></div></div>
 <p class="v2-p"><strong>All three parts are optional:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let i = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let i = 0;
 for (; i &lt; 3; ) {    // Initialisation and update moved outside
   console.log(i);
   i++;
@@ -454,7 +388,7 @@ for (; i &lt; 3; ) {    // Initialisation and update moved outside
 <hr class="v2-hr">
 <h3 class="v2-h3">1.11 <code>for...in</code> Loop</h3>
 <p class="v2-p"><code>for...in</code> iterates over the <strong>enumerable property keys</strong> of an object. It gives you the <em>names</em> of the properties, not the values.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let car = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let car = {
   brand: &quot;Toyota&quot;,
   model: &quot;Camry&quot;,
   year:  2022,
@@ -470,7 +404,7 @@ for (let key in car) {
 // year: 2022
 // colour: Silver</code></pre></div></div>
 <p class="v2-p"><strong>⚠️ Important warning — do not use <code>for...in</code> with arrays:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let scores = [85, 92, 78];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let scores = [85, 92, 78];
 
 for (let index in scores) {
   console.log(index, typeof index); // &quot;0&quot; string, &quot;1&quot; string, &quot;2&quot; string
@@ -480,7 +414,7 @@ for (let index in scores) {
 <hr class="v2-hr">
 <h3 class="v2-h3">1.12 <code>for...of</code> Loop</h3>
 <p class="v2-p"><code>for...of</code> iterates over the <strong>values</strong> of any iterable — arrays, strings, Sets, Maps, and more. It is the modern, clean way to loop over array contents.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let fruits = [&quot;mango&quot;, &quot;pineapple&quot;, &quot;pawpaw&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let fruits = [&quot;mango&quot;, &quot;pineapple&quot;, &quot;pawpaw&quot;];
 
 for (let fruit of fruits) {
   console.log(fruit);
@@ -502,7 +436,7 @@ for (let id of uniqueIds) {
 <hr class="v2-hr">
 <h3 class="v2-h3">1.13 <code>while</code> Loop</h3>
 <p class="v2-p"><code>while</code> repeats a block of code <strong>as long as a condition is true</strong>. Use it when you don't know in advance how many times the loop will run.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let attempts = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let attempts = 0;
 let maxAttempts = 5;
 let success = false;
 
@@ -521,7 +455,7 @@ while (attempts &lt; maxAttempts &amp;&amp; !success) {
 // Attempt 3...
 // Connection established!</code></pre></div></div>
 <p class="v2-p"><strong>Common mistake — infinite loop:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let count = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let count = 0;
 while (count &lt; 5) {
   console.log(count);
   // count++; ← Forgetting this means count never changes — infinite loop!
@@ -531,7 +465,7 @@ while (count &lt; 5) {
 <hr class="v2-hr">
 <h3 class="v2-h3">1.14 <code>do...while</code> Loop</h3>
 <p class="v2-p"><code>do...while</code> is like <code>while</code>, except the body <strong>always executes at least once</strong> — the condition is checked <em>after</em> the first run.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let userInput;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let userInput;
 
 do {
   userInput = prompt(&quot;Enter a number between 1 and 10:&quot;);
@@ -540,7 +474,7 @@ do {
 
 console.log(&quot;You entered:&quot;, userInput);</code></pre></div></div>
 <p class="v2-p"><strong>Micro-demo showing the "at least once" difference:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 100; // Already greater than 5
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 100; // Already greater than 5
 
 // while — body never runs (condition is false from the start)
 while (x &lt; 5) {
@@ -556,7 +490,7 @@ do {
 <hr class="v2-hr">
 <h3 class="v2-h3">1.15 <code>function</code> Statement</h3>
 <p class="v2-p">The <code>function</code> statement defines a named function that can be called anywhere in the same scope (even before its definition, due to <strong>hoisting</strong>).</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Can be called BEFORE definition — function declarations are hoisted
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Can be called BEFORE definition — function declarations are hoisted
 let result = add(10, 5);
 console.log(result); // 15 ✅
 
@@ -564,7 +498,7 @@ function add(a, b) {
   return a + b;
 }</code></pre></div></div>
 <p class="v2-p"><strong>Function declaration vs function expression:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Declaration — hoisted
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Declaration — hoisted
 function multiply(a, b) {
   return a * b;
 }
@@ -579,7 +513,7 @@ const subtract = (a, b) =&gt; a - b;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.16 <code>return</code> Statement</h3>
 <p class="v2-p"><code>return</code> <strong>exits a function</strong> and optionally sends a value back to the caller. Once <code>return</code> is reached, no further code in the function runs.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function getGrade(score) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function getGrade(score) {
   if (score &gt;= 90) return &quot;A&quot;; // Early return — function exits here if score &gt;= 90
   if (score &gt;= 80) return &quot;B&quot;;
   if (score &gt;= 70) return &quot;C&quot;;
@@ -590,14 +524,14 @@ const subtract = (a, b) =&gt; a - b;</code></pre></div></div>
 console.log(getGrade(85)); // &quot;B&quot;
 console.log(getGrade(55)); // &quot;F&quot;</code></pre></div></div>
 <p class="v2-p">A function with no <code>return</code> statement (or just <code>return;</code> with no value) returns <code>undefined</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function doNothing() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function doNothing() {
   // No return statement
 }
 console.log(doNothing()); // undefined</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.17 <code>try</code>, <code>catch</code>, <code>finally</code>, <code>throw</code></h3>
 <p class="v2-p">These work together to handle errors gracefully. (Covered in depth in the Debugging tutorial — summarised here for completeness.)</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function parseUserAge(input) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function parseUserAge(input) {
   let age = Number(input);
 
   if (isNaN(age)) {
@@ -624,7 +558,7 @@ try {
 <hr class="v2-hr">
 <h3 class="v2-h3">1.18 <code>class</code> Statement</h3>
 <p class="v2-p"><code>class</code> defines a blueprint for creating objects. Covered fully in the OOP section — presented here for reference.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>class Product {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Product {
   constructor(name, price) {
     this.name  = name;
     this.price = price;
@@ -640,7 +574,7 @@ console.log(laptop.getFormattedPrice()); // ₦450,000</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.19 <code>import</code> and <code>export</code> Statements</h3>
 <p class="v2-p"><code>export</code> marks values (functions, classes, variables) to be shared from one module file. <code>import</code> brings them into another file.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// utils.js — exporting
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// utils.js — exporting
 export const TAX_RATE = 0.075;
 
 export function formatCurrency(amount) {
@@ -650,7 +584,7 @@ export function formatCurrency(amount) {
 export default class Cart {
   constructor() { this.items = []; }
 }</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// app.js — importing
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// app.js — importing
 import Cart, { TAX_RATE, formatCurrency } from &quot;./utils.js&quot;;
 
 let myCart = new Cart();
@@ -659,30 +593,16 @@ console.log(TAX_RATE);              // 0.075</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.20 <code>debugger</code> Statement</h3>
 <p class="v2-p">Pauses execution when DevTools is open. Covered fully in the Debugging tutorial.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let total = calculateTotal(items);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let total = calculateTotal(items);
 debugger; // Pause here to inspect `total` before continuing
 displayTotal(total);</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.21 Statements Reference Summary</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Statement</th><th>Purpose</th></tr></thead><tbody><tr><td><code>{}</code> Block</td><td>Group multiple statements</td></tr><tr><td><code>break</code></td><td>Exit loop or switch immediately</td></tr><tr><td><code>continue</code></td><td>Skip current iteration</td></tr><tr><td><code>const</code></td><td>Block-scoped, non-reassignable binding</td></tr><tr><td><code>let</code></td><td>Block-scoped, reassignable binding</td></tr><tr><td><code>var</code></td><td>Function-scoped binding (legacy)</td></tr><tr><td><code>if / else if / else</code></td><td>Conditional branching</td></tr><tr><td><code>switch</code></td><td>Multi-value branching</td></tr><tr><td><code>for</code></td><td>Count-based loop</td></tr><tr><td><code>for...in</code></td><td>Loop over object keys</td></tr><tr><td><code>for...of</code></td><td>Loop over iterable values</td></tr><tr><td><code>while</code></td><td>Condition-first loop</td></tr><tr><td><code>do...while</code></td><td>Body-first loop (runs at least once)</td></tr><tr><td><code>function</code></td><td>Define a named function</td></tr><tr><td><code>return</code></td><td>Exit function, optionally with value</td></tr><tr><td><code>try/catch/finally</code></td><td>Error handling</td></tr><tr><td><code>throw</code></td><td>Raise a custom error</td></tr><tr><td><code>class</code></td><td>Define a class blueprint</td></tr><tr><td><code>import</code></td><td>Bring in exported values</td></tr><tr><td><code>export</code></td><td>Share values from a module</td></tr><tr><td><code>debugger</code></td><td>Pause execution in DevTools</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1. JavaScript Statements Reference</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 9</div>
-    <div class="phase-title">2. JavaScript Reserved Words</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">2.1 What Are Reserved Words?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1. JavaScript Statements Reference</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/9</div><div class="pt">2. JavaScript Reserved Words</div><div class="pc" id="chk2"></div></div><div class="pb2"><h3 class="v2-h3">2.1 What Are Reserved Words?</h3>
 <p class="v2-p"><strong>Reserved words</strong> are identifiers that JavaScript has already claimed for its own use. You cannot use them as variable names, function names, or property names (in most contexts). Trying to do so causes a <code>SyntaxError</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Using reserved words as variable names
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ Using reserved words as variable names
 let class   = &quot;Math 101&quot;; // SyntaxError
 let return  = 5;          // SyntaxError
 let if      = true;       // SyntaxError
@@ -696,7 +616,7 @@ let for     = 10;         // SyntaxError</code></pre></div></div>
 <h3 class="v2-h3">2.3 Strict Mode Reserved Words</h3>
 <p class="v2-p">These words are only reserved when <code>"use strict"</code> is active. They are legal identifiers in non-strict code but reserved in strict mode:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Word</th><th>Purpose in Strict Mode</th></tr></thead><tbody><tr><td><code>implements</code></td><td>Future class feature</td></tr><tr><td><code>interface</code></td><td>Interface declaration</td></tr><tr><td><code>package</code></td><td>Module packaging</td></tr><tr><td><code>private</code></td><td>Private class member</td></tr><tr><td><code>protected</code></td><td>Protected class member</td></tr><tr><td><code>public</code></td><td>Public class member</td></tr><tr><td><code>static</code></td><td>Static class member</td></tr><tr><td><code>let</code></td><td>Block-scoped variable</td></tr><tr><td><code>yield</code></td><td>Generator function return</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>&quot;use strict&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&quot;use strict&quot;;
 
 let private = 5;     // SyntaxError in strict mode
 let public  = true;  // SyntaxError in strict mode
@@ -710,7 +630,7 @@ let static  = {};    // SyntaxError in strict mode</code></pre></div></div>
 <h3 class="v2-h3">2.5 Words to Avoid — Not Reserved but Dangerous</h3>
 <p class="v2-p">These words are <strong>not reserved</strong> (you <em>can</em> use them as variable names) but doing so is a terrible practice that causes subtle, hard-to-find bugs:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Word</th><th>What It Is</th><th>Risk If Used as Variable</th></tr></thead><tbody><tr><td><code>undefined</code></td><td>The primitive undefined value</td><td>Hiding the real undefined</td></tr><tr><td><code>NaN</code></td><td>Not a Number</td><td>Hiding floating-point checks</td></tr><tr><td><code>Infinity</code></td><td>Mathematical infinity</td><td>Hiding overflow detection</td></tr><tr><td><code>eval</code></td><td>Execute string as code</td><td>Hiding the dangerous function</td></tr><tr><td><code>arguments</code></td><td>Function argument list</td><td>Hiding access to all arguments</td></tr><tr><td><code>name</code></td><td>Window/global name</td><td>Conflicts with browser globals</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ You CAN do this but NEVER should:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ You CAN do this but NEVER should:
 let undefined = &quot;I redefined undefined!&quot;;
 console.log(undefined); // &quot;I redefined undefined!&quot; — real undefined is hidden
 
@@ -722,7 +642,7 @@ console.log(isNaN(NaN)); // false! — isNaN(42) is false
 <h3 class="v2-h3">2.6 Built-in Global Objects and Functions</h3>
 <p class="v2-p">These are also not reserved words but are part of the global environment. Shadowing them causes loss of their functionality:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Category</th><th>Examples</th></tr></thead><tbody><tr><td>Global objects</td><td><code>Math</code>, <code>JSON</code>, <code>Date</code>, <code>Array</code>, <code>Object</code>, <code>String</code>, <code>Number</code>, <code>Boolean</code></td></tr><tr><td>Global functions</td><td><code>parseInt()</code>, <code>parseFloat()</code>, <code>isNaN()</code>, <code>isFinite()</code>, <code>encodeURI()</code></td></tr><tr><td>Error types</td><td><code>Error</code>, <code>TypeError</code>, <code>ReferenceError</code>, <code>SyntaxError</code>, <code>RangeError</code></td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Shadowing built-ins — lose their functionality
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ Shadowing built-ins — lose their functionality
 let Math = { PI: 3 };     // Real Math object is now unreachable
 let Array = [];            // Real Array constructor is gone!
 
@@ -732,7 +652,7 @@ let productList = [];</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.7 Reserved Words in Object Properties</h3>
 <p class="v2-p">Reserved words <em>can</em> be used as <strong>object property names</strong> (keys) — this is an exception to the rule. However, it's still poor practice when avoidable.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Allowed — as object properties
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Allowed — as object properties
 let config = {
   class: &quot;premium&quot;,      // ✅ Legal as a property key
   return: true,          // ✅ Legal as a property key
@@ -749,24 +669,10 @@ let config2 = {
   redirectOnSuccess: true,  // Clearer
   defaultTheme: &quot;light&quot;     // Clearer
 };</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2. JavaScript Reserved Words</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 9</div>
-    <div class="phase-title">3. JavaScript Operators Reference</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">3.1 What Is an Operator?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2. JavaScript Reserved Words</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/9</div><div class="pt">3. JavaScript Operators Reference</div><div class="pc" id="chk3"></div></div><div class="pb2"><h3 class="v2-h3">3.1 What Is an Operator?</h3>
 <p class="v2-p">An <strong>operator</strong> is a symbol (or keyword) that performs an operation on one or more <strong>operands</strong> (values). The result is a new value.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let result = 10 + 5; // + is the operator, 10 and 5 are operands, 15 is the result</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let result = 10 + 5; // + is the operator, 10 and 5 are operands, 15 is the result</code></pre></div></div>
 <p class="v2-p">Operators are categorised by:</p>
 <ul class="v2-ul"><li><strong>Arity:</strong> how many operands they take (unary = 1, binary = 2, ternary = 3)</li><li><strong>Purpose:</strong> arithmetic, comparison, logical, bitwise, etc.</li></ul>
 <hr class="v2-hr">
@@ -774,7 +680,7 @@ let config2 = {
 <p class="v2-p">These perform mathematical calculations on numbers.</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Name</th><th>Example</th><th>Result</th></tr></thead><tbody><tr><td><code>+</code></td><td>Addition</td><td><code>10 + 3</code></td><td><code>13</code></td></tr><tr><td><code>-</code></td><td>Subtraction</td><td><code>10 - 3</code></td><td><code>7</code></td></tr><tr><td><code>*</code></td><td>Multiplication</td><td><code>10 * 3</code></td><td><code>30</code></td></tr><tr><td><code>/</code></td><td>Division</td><td><code>10 / 3</code></td><td><code>3.3333...</code></td></tr><tr><td><code>%</code></td><td>Modulus (remainder)</td><td><code>10 % 3</code></td><td><code>1</code></td></tr><tr><td><code>**</code></td><td>Exponentiation</td><td><code>2 ** 8</code></td><td><code>256</code></td></tr><tr><td><code>++</code></td><td>Increment</td><td><code>x++</code> / <code>++x</code></td><td>Adds 1</td></tr><tr><td><code>--</code></td><td>Decrement</td><td><code>x--</code> / <code>--x</code></td><td>Subtracts 1</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Modulus <code>%</code> — the remainder operator:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(10 % 3);  // 1  (10 = 3×3 + 1)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(10 % 3);  // 1  (10 = 3×3 + 1)
 console.log(15 % 4);  // 3  (15 = 4×3 + 3)
 console.log(20 % 5);  // 0  (20 = 5×4 + 0, perfectly divisible)
 
@@ -789,12 +695,12 @@ for (let i = 0; i &lt; 10; i++) {
   console.log(items[i % items.length]); // A B C D A B C D A B
 }</code></pre></div></div>
 <p class="v2-p"><strong>Exponentiation <code></strong></code>:**</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(2 ** 10);   // 1024  (2 to the power of 10)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(2 ** 10);   // 1024  (2 to the power of 10)
 console.log(9 ** 0.5);  // 3     (square root of 9)
 console.log(27 ** (1/3)); // 3   (cube root of 27)</code></pre></div></div>
 <p class="v2-p"><strong>Increment/decrement — prefix vs postfix:</strong></p>
 <p class="v2-p">This is a subtle but important distinction:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let a = 5;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let a = 5;
 let b = a++; // Postfix: b gets the CURRENT value (5), THEN a increments
 console.log(a); // 6
 console.log(b); // 5 ← Got the old value
@@ -809,7 +715,7 @@ console.log(d); // 6 ← Got the new value</code></pre></div></div>
 <p class="v2-p">Assignment operators write a value into a variable. The compound assignment operators are shortcuts that combine an operation with assignment.</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Meaning</th><th>Example</th><th>Equivalent</th></tr></thead><tbody><tr><td><code>=</code></td><td>Assign</td><td><code>x = 5</code></td><td>—</td></tr><tr><td><code>+=</code></td><td>Add and assign</td><td><code>x += 3</code></td><td><code>x = x + 3</code></td></tr><tr><td><code>-=</code></td><td>Subtract and assign</td><td><code>x -= 3</code></td><td><code>x = x - 3</code></td></tr><tr><td><code>*=</code></td><td>Multiply and assign</td><td><code>x *= 3</code></td><td><code>x = x * 3</code></td></tr><tr><td><code>/=</code></td><td>Divide and assign</td><td><code>x /= 3</code></td><td><code>x = x / 3</code></td></tr><tr><td><code>%=</code></td><td>Modulus and assign</td><td><code>x %= 3</code></td><td><code>x = x % 3</code></td></tr><tr><td><code>**=</code></td><td>Exponentiate and assign</td><td><code>x **= 3</code></td><td><code>x = x ** 3</code></td></tr><tr><td><code>&amp;&amp;=</code></td><td>Logical AND assign</td><td><code>x &amp;&amp;= y</code></td><td><code>x &amp;&amp; (x = y)</code></td></tr><tr><td>`\</td><td>\</td><td>=`</td><td>Logical OR assign</td><td>`x \</td><td>\</td><td>= y`</td><td>`x \</td><td>\</td><td>(x = y)`</td></tr><tr><td><code>??=</code></td><td>Nullish coalescing assign</td><td><code>x ??= y</code></td><td><code>x ?? (x = y)</code></td></tr></tbody></table></div>
 <p class="v2-p"><strong>Compound assignment in action:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let balance = 10000;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let balance = 10000;
 
 balance += 5000;  // Deposit
 console.log(balance); // 15000
@@ -820,7 +726,7 @@ console.log(balance); // 13000
 balance *= 1.05;  // 5% interest
 console.log(balance); // 13650</code></pre></div></div>
 <p class="v2-p"><strong>The logical assignment operators (newer, very useful):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ||= : Assign only if current value is falsy
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ||= : Assign only if current value is falsy
 let username = &quot;&quot;;
 username ||= &quot;Guest&quot;;
 console.log(username); // &quot;Guest&quot; — because &quot;&quot; is falsy
@@ -847,7 +753,7 @@ console.log(user.isAdmin); // false</code></pre></div></div>
 <p class="v2-p">Comparison operators return <code>true</code> or <code>false</code>. They are used in conditions.</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Name</th><th>Example</th><th>Result</th></tr></thead><tbody><tr><td><code>==</code></td><td>Loose equal</td><td><code>"5" == 5</code></td><td><code>true</code></td></tr><tr><td><code>===</code></td><td>Strict equal</td><td><code>"5" === 5</code></td><td><code>false</code></td></tr><tr><td><code>!=</code></td><td>Loose not equal</td><td><code>"5" != 5</code></td><td><code>false</code></td></tr><tr><td><code>!==</code></td><td>Strict not equal</td><td><code>"5" !== 5</code></td><td><code>true</code></td></tr><tr><td><code>&gt;</code></td><td>Greater than</td><td><code>10 &gt; 5</code></td><td><code>true</code></td></tr><tr><td><code>&lt;</code></td><td>Less than</td><td><code>10 &lt; 5</code></td><td><code>false</code></td></tr><tr><td><code>&gt;=</code></td><td>Greater than or equal</td><td><code>10 &gt;= 10</code></td><td><code>true</code></td></tr><tr><td><code>&lt;=</code></td><td>Less than or equal</td><td><code>9 &lt;= 10</code></td><td><code>true</code></td></tr></tbody></table></div>
 <p class="v2-p"><strong>Loose vs strict in depth:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// == performs type coercion before comparing
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// == performs type coercion before comparing
 console.log(0   == false);      // true  ← 0 coerced to false
 console.log(1   == true);       // true  ← 1 coerced to true
 console.log(&quot;&quot;  == false);      // true  ← &quot;&quot; coerced to false
@@ -859,7 +765,7 @@ console.log(0   === false);     // false ← number vs boolean
 console.log(&quot;1&quot; === 1);         // false ← string vs number
 console.log(null === undefined);// false ← different types</code></pre></div></div>
 <p class="v2-p"><strong>Comparing strings — lexicographic (dictionary) order:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(&quot;apple&quot; &lt; &quot;banana&quot;); // true  — a comes before b
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(&quot;apple&quot; &lt; &quot;banana&quot;); // true  — a comes before b
 console.log(&quot;Z&quot; &lt; &quot;a&quot;);          // true  — uppercase letters come before lowercase in Unicode
 console.log(&quot;10&quot; &gt; &quot;9&quot;);         // false — &quot;1&quot; comes before &quot;9&quot; in string comparison!
 
@@ -868,7 +774,7 @@ console.log(Number(&quot;10&quot;) &gt; Number(&quot;9&quot;)); // true ✅</cod
 <hr class="v2-hr">
 <h3 class="v2-h3">3.5 String Operators</h3>
 <p class="v2-p">The <code>+</code> operator concatenates strings. The <code>+=</code> operator appends to an existing string.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let firstName = &quot;Babatunde&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let firstName = &quot;Babatunde&quot;;
 let lastName  = &quot;Adewale&quot;;
 let fullName  = firstName + &quot; &quot; + lastName;
 console.log(fullName); // Babatunde Adewale
@@ -877,7 +783,7 @@ let message = &quot;Hello&quot;;
 message += &quot;, world!&quot;; // Same as: message = message + &quot;, world!&quot;
 console.log(message);  // Hello, world!</code></pre></div></div>
 <p class="v2-p"><strong>Template literals are the modern alternative to <code>+</code> concatenation:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Old way — concatenation
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Old way — concatenation
 let greeting = &quot;Dear &quot; + firstName + &quot;,\nYour balance is ₦&quot; + balance + &quot;.&quot;;
 
 // Modern way — template literals (much cleaner)
@@ -888,7 +794,7 @@ Your balance is ₦${balance}.`;</code></pre></div></div>
 <p class="v2-p">Logical operators work with boolean values (true/false) but have powerful behaviour with non-boolean values through <strong>short-circuit evaluation</strong>.</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Name</th><th>Description</th></tr></thead><tbody><tr><td><code>&amp;&amp;</code></td><td>Logical AND</td><td>Returns first falsy value, or last value</td></tr><tr><td>`\</td><td>\</td><td>`</td><td>Logical OR</td><td>Returns first truthy value, or last value</td></tr><tr><td><code>!</code></td><td>Logical NOT</td><td>Inverts boolean value</td></tr><tr><td><code>??</code></td><td>Nullish Coalescing</td><td>Returns right side only if left is null/undefined</td></tr></tbody></table></div>
 <p class="v2-p"><strong><code>&amp;&amp;</code> — AND:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Returns the FIRST FALSY value encountered, or the LAST value if all are truthy
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Returns the FIRST FALSY value encountered, or the LAST value if all are truthy
 console.log(true  &amp;&amp; true);   // true   — both truthy, returns last: true
 console.log(true  &amp;&amp; false);  // false  — hits false, returns it
 console.log(false &amp;&amp; true);   // false  — hits false immediately, returns it
@@ -904,7 +810,7 @@ let user = { name: &quot;Tunde&quot;, address: { city: &quot;Lagos&quot; } };
 let city = user &amp;&amp; user.address &amp;&amp; user.address.city;
 console.log(city); // &quot;Lagos&quot; — only accesses .address if user exists</code></pre></div></div>
 <p class="v2-p"><strong><code>||</code> — OR:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Returns the FIRST TRUTHY value, or the LAST value if all are falsy
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Returns the FIRST TRUTHY value, or the LAST value if all are falsy
 console.log(false || true);   // true
 console.log(false || false);  // false — all falsy, returns last
 console.log(0     || &quot;hello&quot;);// &quot;hello&quot; — first truthy
@@ -922,7 +828,7 @@ console.log(createUser(&quot;Tunde&quot;, &quot;admin&quot;)); // { name: &quot;
 console.log(createUser(&quot;&quot;, &quot;&quot;));           // { name: &quot;Anonymous&quot;, role: &quot;viewer&quot; }</code></pre></div></div>
 <p class="v2-p"><strong><code>??</code> — Nullish Coalescing (the safer default-value operator):</strong></p>
 <p class="v2-p"><code>??</code> is like <code>||</code> but <em>only</em> treats <code>null</code> and <code>undefined</code> as "missing". It does NOT treat <code>0</code>, <code>""</code>, or <code>false</code> as missing.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// The problem with || for defaults:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// The problem with || for defaults:
 let quantity = 0;      // User set quantity to 0 — legitimately empty
 let display = quantity || 1; // Gets 1 — WRONG! 0 is a valid value
 console.log(display); // 1 ← Bug: treats 0 as &quot;no value&quot;
@@ -938,7 +844,7 @@ console.log(false ?? &quot;default&quot;); // false    — false is not null/und
 console.log(null  ?? &quot;default&quot;); // &quot;default&quot;— null triggers ??
 console.log(undefined ?? &quot;def&quot;); // &quot;def&quot;   — undefined triggers ??</code></pre></div></div>
 <p class="v2-p"><strong><code>!</code> — NOT:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(!true);    // false
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(!true);    // false
 console.log(!false);   // true
 console.log(!0);       // true  — 0 is falsy, so !0 is true
 console.log(!&quot;&quot;);      // true  — &quot;&quot; is falsy
@@ -954,7 +860,7 @@ console.log(!!{});      // true   — empty object is truthy</code></pre></div><
 <p class="v2-p">These operators inspect or convert the type of values.</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Use</th><th>Example</th></tr></thead><tbody><tr><td><code>typeof</code></td><td>Returns the type name as a string</td><td><code>typeof 42</code> → <code>"number"</code></td></tr><tr><td><code>instanceof</code></td><td>Tests if an object is an instance of a class</td><td><code>[] instanceof Array</code> → <code>true</code></td></tr></tbody></table></div>
 <p class="v2-p"><strong><code>typeof</code> complete reference:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(typeof 42);          // &quot;number&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(typeof 42);          // &quot;number&quot;
 console.log(typeof 3.14);        // &quot;number&quot;
 console.log(typeof NaN);         // &quot;number&quot; ← NaN is technically a number type
 console.log(typeof &quot;hello&quot;);     // &quot;string&quot;
@@ -967,7 +873,7 @@ console.log(typeof function(){}); // &quot;function&quot;
 console.log(typeof Symbol());    // &quot;symbol&quot;
 console.log(typeof 42n);         // &quot;bigint&quot;</code></pre></div></div>
 <p class="v2-p"><strong><code>instanceof</code> for class/type checking:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let arr = [1, 2, 3];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let arr = [1, 2, 3];
 let date = new Date();
 let err  = new TypeError(&quot;oops&quot;);
 
@@ -986,7 +892,7 @@ console.log(Array.isArray({}));         // false</code></pre></div></div>
 <p class="v2-p">Bitwise operators treat numbers as sequences of 32-bit binary digits and perform operations on individual bits. They are used in low-level programming, flags, and optimisations.</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Operator</th><th>Name</th><th>Example</th><th>Description</th></tr></thead><tbody><tr><td><code>&amp;</code></td><td>AND</td><td><code>5 &amp; 3</code> = <code>1</code></td><td>1 only where both bits are 1</td></tr><tr><td>`\</td><td>`</td><td>OR</td><td>`5 \</td><td>3<code> = </code>7`</td><td>1 where either bit is 1</td></tr><tr><td><code>^</code></td><td>XOR</td><td><code>5 ^ 3</code> = <code>6</code></td><td>1 where bits differ</td></tr><tr><td><code>~</code></td><td>NOT</td><td><code>~5</code> = <code>-6</code></td><td>Inverts all bits</td></tr><tr><td><code>&lt;&lt;</code></td><td>Left shift</td><td><code>5 &lt;&lt; 1</code> = <code>10</code></td><td>Shifts bits left (×2)</td></tr><tr><td><code>&gt;&gt;</code></td><td>Right shift</td><td><code>5 &gt;&gt; 1</code> = <code>2</code></td><td>Shifts bits right (÷2)</td></tr><tr><td><code>&gt;&gt;&gt;</code></td><td>Unsigned right shift</td><td><code>5 &gt;&gt;&gt; 1</code> = <code>2</code></td><td>Shifts right, fills with 0</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Visualising with 4-bit examples:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>5  in binary:  0101
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>5  in binary:  0101
 3  in binary:  0011
 
 5 &amp; 3:         0001 = 1  (AND: 1 only where BOTH are 1)
@@ -996,7 +902,7 @@ console.log(Array.isArray({}));         // false</code></pre></div></div>
 5 &lt;&lt; 1:        1010 = 10 (shift left by 1 = multiply by 2)
 5 &gt;&gt; 1:        0010 = 2  (shift right by 1 = floor divide by 2)</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use — permission flags:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Use bits as on/off flags (common in systems programming and game dev)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Use bits as on/off flags (common in systems programming and game dev)
 const READ    = 0b001; // 1
 const WRITE   = 0b010; // 2
 const EXECUTE = 0b100; // 4
@@ -1015,8 +921,8 @@ console.log(8 &amp; 1); // 0 — even  (last bit is 0)</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.9 Ternary Operator <code>? :</code></h3>
 <p class="v2-p">The <strong>ternary operator</strong> is the only operator that takes three operands. It is a compact form of <code>if...else</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>condition ? valueIfTrue : valueIfFalse</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let age = 20;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>condition ? valueIfTrue : valueIfFalse</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let age = 20;
 let status = age &gt;= 18 ? &quot;adult&quot; : &quot;minor&quot;;
 console.log(status); // &quot;adult&quot;
 
@@ -1028,7 +934,7 @@ if (age &gt;= 18) {
   status2 = &quot;minor&quot;;
 }</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use — conditional rendering and messages:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let stockCount = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let stockCount = 0;
 let availability = stockCount &gt; 0 ? &quot;In Stock&quot; : &quot;Out of Stock&quot;;
 console.log(availability); // &quot;Out of Stock&quot;
 
@@ -1048,7 +954,7 @@ console.log(grade); // &quot;C&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.10 Optional Chaining <code>?.</code></h3>
 <p class="v2-p">Optional chaining safely accesses deeply nested properties. If any part of the chain is <code>null</code> or <code>undefined</code>, the whole expression short-circuits to <code>undefined</code> instead of throwing a <code>TypeError</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let user = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let user = {
   profile: {
     address: {
       city: &quot;Lagos&quot;
@@ -1077,7 +983,7 @@ console.log(items?.[0]); // undefined (no crash)</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.11 <code>delete</code> Operator</h3>
 <p class="v2-p"><code>delete</code> removes a property from an object. It returns <code>true</code> if successful.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let product = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let product = {
   id: 1,
   name: &quot;Laptop&quot;,
   internalCode: &quot;XYZ-99&quot;, // Should not be sent to the client
@@ -1095,7 +1001,7 @@ console.log(x); // 10 — still exists</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.12 <code>in</code> Operator</h3>
 <p class="v2-p"><code>in</code> checks whether a property exists in an object (or its prototype chain). Returns <code>true</code> or <code>false</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let car = { brand: &quot;Toyota&quot;, year: 2022 };
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let car = { brand: &quot;Toyota&quot;, year: 2022 };
 
 console.log(&quot;brand&quot; in car);  // true
 console.log(&quot;year&quot;  in car);  // true
@@ -1117,7 +1023,7 @@ function displayCar(car) {
 <hr class="v2-hr">
 <h3 class="v2-h3">3.13 <code>void</code> Operator</h3>
 <p class="v2-p"><code>void</code> evaluates an expression and then returns <code>undefined</code>. Its primary modern use is in arrow functions that should explicitly return nothing, and in <code>void 0</code> as a reliable source of <code>undefined</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(void 0);          // undefined
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(void 0);          // undefined
 console.log(void &quot;anything&quot;); // undefined
 console.log(void (2 + 2));    // undefined
 
@@ -1128,7 +1034,7 @@ button.addEventListener(&quot;click&quot;, () =&gt; void updateCounter());
 <hr class="v2-hr">
 <h3 class="v2-h3">3.14 Spread Operator <code>...</code></h3>
 <p class="v2-p">The spread operator <code>...</code> expands an iterable (array, string, object) into individual elements.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Spreading into a function call
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Spreading into a function call
 let numbers = [3, 1, 4, 1, 5, 9, 2, 6];
 console.log(Math.max(...numbers)); // 9 — spreads array as individual args
 
@@ -1148,7 +1054,7 @@ console.log(settings);
 <hr class="v2-hr">
 <h3 class="v2-h3">3.15 Comma Operator <code>,</code></h3>
 <p class="v2-p">The comma operator evaluates multiple expressions left-to-right and returns the value of the <strong>last</strong> one. Rarely needed in modern code, but seen in <code>for</code> loop header.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// In for loops — initialise or update multiple variables
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// In for loops — initialise or update multiple variables
 for (let i = 0, j = 10; i &lt; 5; i++, j--) {
   console.log(i, j);
 }
@@ -1160,25 +1066,11 @@ console.log(result); // 21 — only the last expression&#x27;s value is kept</co
 <hr class="v2-hr">
 <h3 class="v2-h3">3.16 Operators Reference Summary</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Category</th><th>Operators</th></tr></thead><tbody><tr><td>Arithmetic</td><td><code>+</code> <code>-</code> <code><em></code> <code>/</code> <code>%</code> <code></em>*</code> <code>++</code> <code>--</code></td></tr><tr><td>Assignment</td><td><code>=</code> <code>+=</code> <code>-=</code> <code><em>=</code> <code>/=</code> <code>%=</code> <code></em>*=</code> <code>&amp;&amp;=</code> `\</td><td>\</td><td>=<code> </code>??=`</td></tr><tr><td>Comparison</td><td><code>==</code> <code>===</code> <code>!=</code> <code>!==</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td></tr><tr><td>Logical</td><td><code>&amp;&amp;</code> `\</td><td>\</td><td><code> </code>!<code> </code>??`</td></tr><tr><td>Bitwise</td><td><code>&amp;</code> `\</td><td><code> </code>^<code> </code>~<code> </code>&lt;&lt;<code> </code>&gt;&gt;<code> </code>&gt;&gt;&gt;`</td></tr><tr><td>Type</td><td><code>typeof</code> <code>instanceof</code></td></tr><tr><td>Ternary</td><td><code>? :</code></td></tr><tr><td>Optional chain</td><td><code>?.</code></td></tr><tr><td>Membership</td><td><code>in</code> <code>delete</code></td></tr><tr><td>Spread</td><td><code>...</code></td></tr><tr><td>Void</td><td><code>void</code></td></tr><tr><td>Comma</td><td><code>,</code></td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3. JavaScript Operators Reference</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 9</div>
-    <div class="phase-title">4. JavaScript Operator Precedence</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">4.1 What Is Operator Precedence?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3. JavaScript Operators Reference</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/9</div><div class="pt">4. JavaScript Operator Precedence</div><div class="pc" id="chk4"></div></div><div class="pb2"><h3 class="v2-h3">4.1 What Is Operator Precedence?</h3>
 <p class="v2-p">When an expression contains multiple operators, JavaScript needs rules to decide <strong>which operation to perform first</strong>. These rules are called <strong>operator precedence</strong>.</p>
 <p class="v2-p"><strong>Real-world analogy:</strong> In primary school maths, you learned "BODMAS" or "PEMDAS" — Brackets, Orders, Division/Multiplication, Addition/Subtraction. These are exactly precedence rules. JavaScript uses the same concept, but extended to cover all operators.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let result = 2 + 3 * 4;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let result = 2 + 3 * 4;
 // Is this (2 + 3) * 4 = 20?
 // Or 2 + (3 * 4) = 14?
 
@@ -1188,11 +1080,11 @@ console.log(result); // 14 — multiplication has higher precedence than additio
 <h3 class="v2-h3">4.2 Associativity</h3>
 <p class="v2-p">When two operators have the <strong>same precedence</strong>, <strong>associativity</strong> decides the order: left-to-right or right-to-left.</p>
 <p class="v2-p"><strong>Left-to-right (most operators):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let a = 10 - 3 - 2;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let a = 10 - 3 - 2;
 // Same precedence → left to right: (10 - 3) - 2 = 7 - 2 = 5
 console.log(a); // 5</code></pre></div></div>
 <p class="v2-p"><strong>Right-to-left (assignment and exponentiation):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Assignment is right-to-left:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Assignment is right-to-left:
 let x, y, z;
 x = y = z = 10;
 // Evaluated right-to-left: z = 10 first, then y = z (10), then x = y (10)
@@ -1209,7 +1101,7 @@ console.log(b); // 512  (not (2**3)**2 = 8**2 = 64)</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.4 Worked Examples — Tracing Precedence</h3>
 <p class="v2-p"><strong>Example 1 — Arithmetic:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let result = 100 - 5 * 2 ** 3 + 10 / 2;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let result = 100 - 5 * 2 ** 3 + 10 / 2;
 
 // Step-by-step:
 // 1. ** (level 16):    2 ** 3 = 8
@@ -1222,7 +1114,7 @@ console.log(b); // 512  (not (2**3)**2 = 8**2 = 64)</code></pre></div></div>
 
 console.log(result); // 65</code></pre></div></div>
 <p class="v2-p"><strong>Example 2 — Comparison and Logical:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let age = 25;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let age = 25;
 let hasID = true;
 let isEmployee = false;
 
@@ -1237,7 +1129,7 @@ let canEnter = age &gt;= 18 &amp;&amp; hasID || isEmployee;
 
 console.log(canEnter); // true</code></pre></div></div>
 <p class="v2-p"><strong>Example 3 — Assignment chain:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let a = 5;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let a = 5;
 let b = 10;
 let c = a += b * 2;
 
@@ -1249,7 +1141,7 @@ let c = a += b * 2;
 console.log(a); // 25
 console.log(c); // 25</code></pre></div></div>
 <p class="v2-p"><strong>Example 4 — Surprising typeof precedence:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// typeof has higher precedence than + (level 17 vs 14)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// typeof has higher precedence than + (level 17 vs 14)
 let result = typeof &quot;hello&quot; + &quot; world&quot;;
 
 // Step-by-step:
@@ -1261,7 +1153,7 @@ console.log(result); // &quot;string world&quot;
 <hr class="v2-hr">
 <h3 class="v2-h3">4.5 Using Parentheses to Control Order</h3>
 <p class="v2-p">Parentheses (grouping) have the <strong>highest precedence (level 21)</strong>. They override everything. When in doubt — or when you want to make your intent clear — use parentheses.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Without parentheses — follows default precedence
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Without parentheses — follows default precedence
 let a = 2 + 3 * 4;      // 14 (multiplication first)
 let b = 2 ** 3 ** 2;     // 512 (right-to-left)
 let c = 5 - 3 - 1;       // 1   (left-to-right)
@@ -1283,7 +1175,7 @@ let correct = price * (1 + taxRate); // 1000 * 1.1 = 1100</code></pre></div></di
 <hr class="v2-hr">
 <h3 class="v2-h3">4.6 Common Precedence Pitfalls</h3>
 <p class="v2-p"><strong>Pitfall 1 — Logical AND evaluates before OR:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Can be misleading without parentheses
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Can be misleading without parentheses
 let isAdmin   = false;
 let isLoggedIn= true;
 let isOwner   = true;
@@ -1299,11 +1191,11 @@ let canEdit2 = (isAdmin || isLoggedIn) &amp;&amp; isOwner;
 // = (false || true) &amp;&amp; true = true &amp;&amp; true = true
 // Same result here, but logic is different — matters when values change</code></pre></div></div>
 <p class="v2-p"><strong>Pitfall 2 — Typeof + addition:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Already shown above, but worth repeating
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Already shown above, but worth repeating
 console.log(typeof 10 + 20);   // &quot;number20&quot; — typeof runs first!
 console.log(typeof (10 + 20)); // &quot;number&quot;   — parentheses control order</code></pre></div></div>
 <p class="v2-p"><strong>Pitfall 3 — Postfix vs prefix increment:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let n = 5;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let n = 5;
 let result = n++ * 2; // Postfix: uses 5 THEN increments
 // = 5 * 2 = 10
 // n is now 6
@@ -1316,7 +1208,7 @@ let result2 = ++m * 2; // Prefix: increments THEN uses 6
 console.log(result);  // 10
 console.log(result2); // 12</code></pre></div></div>
 <p class="v2-p"><strong>Pitfall 4 — Ternary nesting direction:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Ternary is right-associative
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Ternary is right-associative
 let x = true ? &quot;a&quot; : false ? &quot;b&quot; : &quot;c&quot;;
 // Evaluated right-to-left: true ? &quot;a&quot; : (false ? &quot;b&quot; : &quot;c&quot;)
 // = &quot;a&quot; (because condition is true)
@@ -1330,7 +1222,7 @@ console.log(y); // &quot;c&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.7 Short-Circuit Evaluation and Precedence Together</h3>
 <p class="v2-p">Short-circuit evaluation means JavaScript may not evaluate the right side of <code>&amp;&amp;</code> or <code>||</code> if the result is already determined from the left side.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// &amp;&amp; short-circuits on first falsy value
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// &amp;&amp; short-circuits on first falsy value
 let user = null;
 let name = user &amp;&amp; user.name; // user is null (falsy) → short-circuits → name = null
 console.log(name); // null — user.name was never accessed (no TypeError!)
@@ -1356,24 +1248,9 @@ let port2 = config?.database?.port;
 console.log(port2); // undefined</code></pre></div></div>
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 2 — APPLIED EXERCISES</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>4. JavaScript Operator Precedence</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 9</div>
-    <div class="phase-title">Exercise 1 — Statement Control Flow Maze</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Trace the exact output of a complex multi-statement program before running it.</p>
-<p class="v2-p"><strong>Scenario:</strong> A library system processes a list of books. Trace what gets printed.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let books = [
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>4. JavaScript Operator Precedence</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/9</div><div class="pt">Exercise 1 — Statement Control Flow Maze</div><div class="pc" id="chk5"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Trace the exact output of a complex multi-statement program before running it.</p>
+<p class="v2-p"><strong>Scenario:</strong> A library system processes a list of books. Trace what gets printed.</p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 1 — Statement Control Flow Maze</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let books = [
   { title: &quot;Clean Code&quot;,         pages: 431, available: true  },
   { title: &quot;You Don&#x27;t Know JS&quot;,  pages: 278, available: false },
   { title: &quot;Eloquent JavaScript&quot;,pages: 472, available: true  },
@@ -1410,29 +1287,14 @@ console.log(`Checked out: ${checkedOut}`);</code></pre></div></div>
 <p class="v2-p"><strong>Hints:</strong></p>
 <ul class="v2-ul"><li>Track <code>longBooks</code> and <code>checkedOut</code> as they change</li><li>The labelled <code>break bookLoop</code> exits the entire <code>for</code> loop</li></ul>
 <p class="v2-p"><strong>Self-check expected output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Available: &quot;JavaScript: TGP&quot; (176 pages)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Available: &quot;JavaScript: TGP&quot; (176 pages)
 Available: &quot;Eloquent JavaScript&quot; (472 pages)
 Found enough long books — stopping search.
 Long books found: 1
 Checked out: 1</code></pre></div></div>
 <p class="v2-p">Wait — is that right? Trace carefully. The order the books appear matters.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 1 — Statement Control Flow Maze</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 9</div>
-    <div class="phase-title">Exercise 2 — Operator Precedence Prediction</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Predict the result of each expression without running it, then explain your reasoning.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Group A — Arithmetic precedence
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(5)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/9</div><div class="pt">Exercise 2 — Operator Precedence Prediction</div><div class="pc" id="chk6"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Predict the result of each expression without running it, then explain your reasoning.</p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 2 — Operator Precedence Prediction</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Group A — Arithmetic precedence
 console.log(3 + 4 * 2);              // ?
 console.log(2 ** 2 ** 3);            // ?
 console.log(100 / 5 / 2);            // ?
@@ -1461,23 +1323,8 @@ console.log(grade); // ?</code></pre></div></div>
 <ol class="v2-ol"><li>Write the operator with the highest precedence</li><li>Show the step-by-step evaluation</li><li>Write the final result</li></ol>
 <p class="v2-p"><strong>Self-check answers:</strong></p>
 <ul class="v2-ul"><li><code>3 + 4 * 2</code> → 11 (multiplication first)</li><li><code>2 <strong> 2 </strong> 3</code> → 256 (right-to-left: <code>2 ** 8</code>)</li><li><code>100 / 5 / 2</code> → 10 (left-to-right: <code>(100/5)/2</code>)</li><li><code>10 - 3 - 2 - 1</code> → 4 (left-to-right)</li><li><code>5 + 3 &gt; 2 * 4</code> → false (arithmetic before comparison: <code>8 &gt; 8</code> is false)</li><li><code>typeof 42 === "number"</code> → true</li><li><code>typeof 42 + 1</code> → <code>"number1"</code> (typeof first → "number", then concat)</li><li><code>true || false &amp;&amp; false</code> → true (<code>&amp;&amp;</code> first: false &amp;&amp; false = false; then true || false = true)</li><li><code>null ?? undefined ?? 0 ?? "default"</code> → 0 (first non-null/undefined)</li><li><code>0 || "" || null || "found"</code> → "found" (first truthy)</li><li><code>1 &amp;&amp; 2 &amp;&amp; 0 &amp;&amp; 4</code> → 0 (first falsy)</li><li><code>y</code> → 12, <code>x</code> → 7 (x++ uses 5 then makes 6; ++x makes 7 then uses 7; 5 + 7 = 12)</li><li><code>grade</code> → "C"</li></ul>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 2 — Operator Precedence Prediction</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 9</div>
-    <div class="phase-title">Exercise 3 — Reserved Words Rescue</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Fix a program that uses reserved and dangerous words as identifiers.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// This code is full of reserved/dangerous word violations — find and fix all of them
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(6)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/9</div><div class="pt">Exercise 3 — Reserved Words Rescue</div><div class="pc" id="chk7"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Fix a program that uses reserved and dangerous words as identifiers.</p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 3 — Reserved Words Rescue</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// This code is full of reserved/dangerous word violations — find and fix all of them
 
 var class = &quot;Premium&quot;;           // Error 1
 var return = calculateReturn();  // Error 2
@@ -1502,26 +1349,11 @@ var Math = { PI: 3 };                 // Danger 3
 // Fix all errors and dangers, then verify the program runs correctly</code></pre></div></div>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>Identify each reserved word being misused and suggest a meaningful alternative name</li><li>Identify each built-in being shadowed</li><li>Rewrite the entire program with correct identifiers</li><li>Add <code>"use strict"</code> to catch any remaining issues</li><li>Add <code>console.log</code> statements to verify all fixed values</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 3 — Reserved Words Rescue</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 9</div>
-    <div class="phase-title">Exercise 4 — Operator Application</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Use operators correctly to solve four real-world scenarios.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(7)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/9</div><div class="pt">Exercise 4 — Operator Application</div><div class="pc" id="chk8"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Use operators correctly to solve four real-world scenarios.</p>
 <p class="v2-p"><strong>Scenario 1 — Safe user profile display:</strong></p>
 <p class="v2-p">Write a function <code>displayProfile(user)</code> that:</p>
-<ul class="v2-ul"><li>Returns <code>user.displayName</code> if it exists, otherwise <code>user.firstName + " " + user.lastName</code></li><li>If neither exists, returns <code>"Anonymous"</code></li><li>Uses <code>??</code> and <code>||</code> appropriately (not just <code>||</code> for everything — explain why)</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Test cases:
+<ul class="v2-ul"><li>Returns <code>user.displayName</code> if it exists, otherwise <code>user.firstName + " " + user.lastName</code></li><li>If neither exists, returns <code>"Anonymous"</code></li><li>Uses <code>??</code> and <code>||</code> appropriately (not just <code>||</code> for everything — explain why)</li></ul></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 4 — Operator Application</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Test cases:
 displayProfile({ displayName: &quot;t_codes&quot;,   firstName: &quot;Tunde&quot;, lastName: &quot;A&quot; }); // &quot;t_codes&quot;
 displayProfile({ displayName: null,         firstName: &quot;Tunde&quot;, lastName: &quot;A&quot; }); // &quot;Tunde A&quot;
 displayProfile({ displayName: undefined,    firstName: &quot;&quot;,      lastName: &quot;&quot;  }); // &quot;Anonymous&quot;
@@ -1529,7 +1361,7 @@ displayProfile({});                                                             
 <p class="v2-p"><strong>Scenario 2 — Permission checker:</strong></p>
 <p class="v2-p">Using bitwise flags, create a permission system with <code>READ = 1</code>, <code>WRITE = 2</code>, <code>DELETE = 4</code>, <code>ADMIN = 8</code>. Write:</p>
 <ul class="v2-ul"><li><code>grantPermission(current, permission)</code> — adds a permission</li><li><code>revokePermission(current, permission)</code> — removes a permission</li><li><code>hasPermission(current, permission)</code> — checks if permission exists</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let perms = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let perms = 0;
 perms = grantPermission(perms, READ);   // perms = 1
 perms = grantPermission(perms, WRITE);  // perms = 3
 perms = grantPermission(perms, DELETE); // perms = 7
@@ -1543,27 +1375,13 @@ console.log(hasPermission(perms, WRITE));  // false</code></pre></div></div>
 <p class="v2-p">Write this using correct operator precedence — add explicit parentheses everywhere to make the order clear.</p>
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 3 — PROJECT SIMULATION</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 4 — Operator Application</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 9</div>
-    <div class="phase-title">Project: Expression Evaluator and Code Quality Linter</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Overview:</strong> You will build a JavaScript utility module that demonstrates mastery of statements, reserved words, operators, and precedence. The module will include a safe expression evaluator for simple arithmetic (no <code>eval()</code>!), a reserved-word checker, and an operator precedence visualiser.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(8)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/9</div><div class="pt">Project: Expression Evaluator and Code Quality Linter</div><div class="pc" id="chk9"></div></div><div class="pb2"><p class="v2-p"><strong>Overview:</strong> You will build a JavaScript utility module that demonstrates mastery of statements, reserved words, operators, and precedence. The module will include a safe expression evaluator for simple arithmetic (no <code>eval()</code>!), a reserved-word checker, and an operator precedence visualiser.</p>
 <p class="v2-p"><strong>Real-world connection:</strong> Expression parsers are used in spreadsheet applications (Google Sheets, Excel), financial calculators, rule engines in business software, and game scripting systems. The ability to work with operators mathematically underpins almost all data processing.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 1 — Safe Arithmetic Evaluator</h3>
 <p class="v2-p"><strong>Micro-example first:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Simple precedence-respecting calculation chain:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Simple precedence-respecting calculation chain:
 function applyOperator(op, a, b) {
   switch (op) {
     case &quot;+&quot;: return a + b;
@@ -1579,7 +1397,7 @@ function applyOperator(op, a, b) {
 console.log(applyOperator(&quot;*&quot;, 5, 3));  // 15
 console.log(applyOperator(&quot;/&quot;, 10, 0)); // null — safe!</code></pre></div></div>
 <p class="v2-p"><strong>Full Stage 1 — Precedence-aware evaluator:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>&quot;use strict&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&quot;use strict&quot;;
 
 const MathUtils = {
 
@@ -1660,7 +1478,7 @@ MathUtils.explainEvaluation(10, &quot;-&quot;, 4, &quot;-&quot;, 3);
 // Result: 3</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 2 — Reserved Word and Identifier Checker</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const CodeAnalyser = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const CodeAnalyser = {
 
   // Current JS reserved words
   RESERVED_WORDS: new Set([
@@ -1754,7 +1572,7 @@ CodeAnalyser.checkMultiple([
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 3 — Integration and Reflection</h3>
 <p class="v2-p"><strong>Combine both modules in a demonstration:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Full demonstration: parse a simple financial formula step by step
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Full demonstration: parse a simple financial formula step by step
 console.log(&quot;\n&quot; + &quot;=&quot;.repeat(50));
 console.log(&quot;FINANCIAL FORMULA EVALUATOR&quot;);
 console.log(&quot;=&quot;.repeat(50));
@@ -1809,133 +1627,93 @@ CodeAnalyser.checkMultiple([&quot;price&quot;, &quot;qty&quot;, &quot;taxRate&qu
 <p class="v2-p"># Completion Checklist</p>
 <ul class="v2-ul"><li>[x] <strong>Block statement <code>{}</code>:</strong> Understood as grouping mechanism and scope boundary for <code>let</code>/<code>const</code></li><li>[x] <strong><code>break</code> and <code>continue</code>:</strong> Know the difference; understand labelled versions for nested loops</li><li>[x] <strong><code>const</code> vs <code>let</code> vs <code>var</code>:</strong> Scope rules, hoisting, reassignability — clear on when to use each</li><li>[x] <strong>All loop types:</strong> <code>for</code>, <code>for...in</code> (object keys), <code>for...of</code> (iterable values), <code>while</code>, <code>do...while</code></li><li>[x] <strong><code>if/else if/else</code> and <code>switch</code>:</strong> Fall-through behaviour, strict equality in switch, always use <code>default</code></li><li>[x] <strong><code>try/catch/finally/throw</code>:</strong> Error handling — function exits on <code>throw</code>, <code>finally</code> always runs</li><li>[x] <strong><code>import</code>/<code>export</code>:</strong> Module syntax for code sharing across files</li><li>[x] <strong>Reserved words — current:</strong> All keywords that cause SyntaxError when used as identifiers</li><li>[x] <strong>Reserved words — strict mode:</strong> Additional words reserved under <code>"use strict"</code></li><li>[x] <strong>Future reserved words:</strong> <code>enum</code>, <code>await</code>, etc. — reserved but currently unused</li><li>[x] <strong>Dangerous identifiers:</strong> <code>undefined</code>, <code>NaN</code>, <code>Infinity</code>, <code>eval</code>, <code>Math</code> — legal to override but never should be</li><li>[x] <strong>All arithmetic operators:</strong> Including <code>%</code> (modulus) real-world uses and <code>**</code> (exponentiation)</li><li>[x] <strong>Prefix vs postfix <code>++</code>/<code>--</code>:</strong> The "use-then-update vs update-then-use" distinction</li><li>[x] <strong>All assignment operators:</strong> Including <code>&amp;&amp;=</code>, <code>||=</code>, <code>??=</code> — when each is appropriate</li><li>[x] <strong><code>==</code> vs <code>===</code>:</strong> Type coercion surprises — always use <code>===</code></li><li>[x] <strong>Logical operators <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, <code>??</code>:</strong> Short-circuit evaluation and non-boolean return values</li><li>[x] <strong><code>||</code> vs <code>??</code>:</strong> The critical difference — <code>||</code> avoids all falsy; <code>??</code> only avoids null/undefined</li><li>[x] <strong>Bitwise operators:</strong> Bit-level operations; real-world use in permission flags</li><li>[x] <strong>Ternary <code>? :</code>:</strong> Compact conditional — when to use vs when <code>if/else</code> is clearer</li><li>[x] <strong>Optional chaining <code>?.</code>:</strong> Safe deep property access without TypeError</li><li>[x] <strong><code>typeof</code> and <code>instanceof</code>:</strong> Type checking — know the <code>typeof null === "object"</code> quirk</li><li>[x] <strong><code>delete</code>, <code>in</code>, <code>void</code>, spread <code>...</code>:</strong> Membership, property removal, and spreading</li><li>[x] <strong>Operator precedence table:</strong> Know the top levels (grouping, member access, unary, <code>*<em></code>, <code></em>/</code>, <code>+-</code>, comparison, equality, <code>&amp;&amp;</code>, <code>||</code>/<code>??</code>, ternary, assignment, comma)</li><li>[x] <strong>Associativity:</strong> Left-to-right vs right-to-left — know which operators use which</li><li>[x] <strong>Parentheses to override precedence:</strong> Always use them to make complex expressions clear</li><li>[x] <strong>Common precedence pitfalls:</strong> <code>typeof x + 1</code>, <code>&amp;&amp;</code> before <code>||</code>, postfix timing, nested ternary</li><li>[x] <strong>Exercises completed:</strong> Control flow trace, precedence prediction, reserved-word rescue, operator application</li><li>[x] <strong>Full project completed:</strong> Expression evaluator + identifier checker + integration demonstration</li><li>[x] <strong>Reflection questions answered</strong></li></ul>
 <hr class="v2-hr">
-<p class="v2-p"><strong>One-sentence summary:</strong> JavaScript's statements define the actions and flow of your programs, reserved words are the language's own vocabulary that must never be used as identifiers, operators are the symbols that compute and compare values, and operator precedence is the mathematical rulebook that determines which operation happens first — mastering all four gives you complete, confident control over how JavaScript reads, interprets, and executes every line you write.</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">5. In Stage 2 of the project, RESERVED_WORDS and DANGEROUS_NAMES are stored as Set objects instead of arrays. Looking back at the Performance tutorial, explain why Set.has() is better than Array.includes() for this use case.
+<p class="v2-p"><strong>One-sentence summary:</strong> JavaScript's statements define the actions and flow of your programs, reserved words are the language's own vocabulary that must never be used as identifiers, operators are the symbols that compute and compare values, and operator precedence is the mathematical rulebook that determines which operation happens first — mastering all four gives you complete, confident control over how JavaScript reads, interprets, and executes every line you write.</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">5. In Stage 2 of the project, RESERVED_WORDS and DANGEROUS_NAMES are stored as Set objects instead of arrays. Looking back at the Performance tutorial, explain why Set.has() is better than Array.includes() for this use case.
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Lesson 25 JS Project</div>
-  <div class="build-desc"></div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+---</div></div><button class="ub" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Lesson 25 Project</div><div class="build-req"><p class="v2-p">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;title&gt;My JS Project&lt;/title&gt;
+&lt;title&gt;Project&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;</p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Project&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;!-- Write your HTML here --&gt;
-  &lt;script&gt;
-    // Write your JavaScript here
-  &lt;/script&gt;
+&lt;!-- Your code here --&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`<!DOCTYPE html>
+&lt;/html&gt;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My JS Project</title>
+<title>Project</title>
 </head>
 <body>
-  <!-- Write your HTML here -->
-  <script>
-    // Write your JavaScript here
-  </script>
+<!-- Your code here -->
 </body>
-</html>`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+</html>`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-25-lesson-25-js-project</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 25 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-25-lesson-25-js-project/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 25 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ 1. JavaScript Statements Reference</li><li>✅ 2. JavaScript Reserved Words</li><li>✅ 3. JavaScript Operators Reference</li><li>✅ 4. JavaScript Operator Precedence</li><li>✅ Exercise 1 — Statement Control Flow Maze</li><li>✅ Exercise 2 — Operator Precedence Prediction</li><li>✅ Exercise 3 — Reserved Words Rescue</li><li>✅ Exercise 4 — Operator Application</li></ul>
-  <div class="lesson-nav"><a href="lesson_24.html" class="ln-btn">← Lesson 24</a><a href="lesson_26.html" class="ln-btn primary">Lesson 26 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-25-lesson-25-project</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 25 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-25-lesson-25-project/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 25 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ 1. JavaScript Statements Reference</li><li>✅ 2. JavaScript Reserved Words</li><li>✅ 3. JavaScript Operators Reference</li><li>✅ 4. JavaScript Operator Precedence</li><li>✅ Exercise 1 — Statement Control Flow Maze</li><li>✅ Exercise 2 — Operator Precedence Prediction</li><li>✅ Exercise 3 — Reserved Words Rescue</li><li>✅ Exercise 4 — Operator Application</li></ul><div class="ln"><a href="lesson_24.html" class="ln-btn">← Lesson 24</a><a href="lesson_26.html" class="ln-btn primary">Lesson 26 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 25 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 25 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=9,KEY='techbase_js_l25';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

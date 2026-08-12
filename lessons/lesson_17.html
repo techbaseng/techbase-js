@@ -1,206 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 17: JavaScript Looping, Iterables, Iterators &amp; Generators: Every Loop · The Iterable Protocol · Custom Iterators · Generator Functions — Techbase JavaScript</title>
-<meta name="description" content="JavaScript Looping, Iterables, Iterators &amp; Generators: Every Loop · The Iterable Protocol · Custom Iterators · Generator Functions">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 17 of 46</span>
+  <span class="l-nav-lbl">Lesson 17 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 17</div>
-    <h1>JavaScript Looping, Iterables, Iterators &amp; Generators: Every Loop · The Iterable Protocol · Custom Iterators · Generator Functions</h1>
-    <div class="l-hero-sub">6 phases · Build: 🔵 Stage 1 — Data Source Generator</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 17</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 6 phases</span>
-    <span>🏗️ 🔵 Stage 1 — Data Source Generator</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 17</div>
+  <h1>JavaScript Looping, Iterables, Iterators &amp; Generators: Every Loop · The Iterable Protocol · Custom Iterators · Generator Functions</h1>
+  <div class="l-hero-sub">6 phases &nbsp;·&nbsp; Build: 🔵 Stage 1 — Data Source Generator</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 17</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 6 phases</span><span>🏗️ 🔵 Stage 1 — Data Source Generator</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 6</div>
-    <div class="phase-title">1. Background: What Is Looping and Why Does It Matter?</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Imagine you are a teacher who needs to print a report card for every student in a class of 500. Without loops you would write the same print instruction 500 times. With a loop, you write it <strong>once</strong> and the computer repeats it automatically.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Without a loop — impossible to scale
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/6</div><div class="pt">1. Background: What Is Looping and Why Does It Matter?</div><div class="pc" id="chk1"></div></div><div class="pb2"><p class="v2-p">Imagine you are a teacher who needs to print a report card for every student in a class of 500. Without loops you would write the same print instruction 500 times. With a loop, you write it <strong>once</strong> and the computer repeats it automatically.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ Without a loop — impossible to scale
 console.log(&quot;Report: Alice  — Score: 88&quot;);
 console.log(&quot;Report: Bob    — Score: 92&quot;);
 // ... 498 more lines!
@@ -215,70 +149,56 @@ for (const s of students) {
 <ul class="v2-ul"><li><strong>Iterables</strong> — objects that can be looped with <code>for...of</code></li><li><strong>Iterators</strong> — objects that control exactly how values are produced one at a time</li><li><strong>Generators</strong> — special functions that can pause and resume, producing values lazily on demand</li></ul>
 <blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Iteration is everywhere in professional JavaScript — reading lines from a file, paginating API results, streaming data, building custom data structures, and implementing pipelines that process millions of records without loading them all into memory at once.</p></blockquote>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1. Background: What Is Looping and Why Does It Matter?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 6</div>
-    <div class="phase-title">2. Topic 1 — JavaScript Looping (All Loop Types)</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1. Background: What Is Looping and Why Does It Matter?</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/6</div><div class="pt">2. Topic 1 — JavaScript Looping (All Loop Types)</div><div class="pc" id="chk2"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
 <p class="v2-p">JavaScript has <strong>seven</strong> loop constructs. Each has a specific job. Understanding when to use each is a core professional skill.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">2A — <code>for</code> Loop — Classic Counter Loop</h3>
 <p class="v2-p">The <code>for</code> loop is the most fundamental loop. Use it when you know <strong>exactly how many times</strong> you want to loop, or when you need precise control over the counter.</p>
 <p class="v2-p"><strong>Structure:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (initialise; condition; update) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (initialise; condition; update) {
   // body runs while condition is true
 }</code></pre></div></div>
 <ul class="v2-ul"><li><strong>Initialise</strong> — runs once before the loop starts (set up counter)</li><li><strong>Condition</strong> — checked before each iteration; loop stops when <code>false</code></li><li><strong>Update</strong> — runs after each iteration (advance counter)</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Count from 1 to 5
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Count from 1 to 5
 for (let i = 1; i &lt;= 5; i++) {
   console.log(i);
 }</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1
 2
 3
 4
 5</code></pre></div></div>
 <h4 class="v2-h4">Step-by-step trace:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Start:   i = 1 → condition 1 &lt;= 5 → true  → body runs → i becomes 2
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Start:   i = 1 → condition 1 &lt;= 5 → true  → body runs → i becomes 2
          i = 2 → condition 2 &lt;= 5 → true  → body runs → i becomes 3
          i = 3 → condition 3 &lt;= 5 → true  → body runs → i becomes 4
          i = 4 → condition 4 &lt;= 5 → true  → body runs → i becomes 5
          i = 5 → condition 5 &lt;= 5 → true  → body runs → i becomes 6
          i = 6 → condition 6 &lt;= 5 → false → STOP</code></pre></div></div>
 <h4 class="v2-h4">Loop through an array by index:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
 
 for (let i = 0; i &lt; fruits.length; i++) {
   console.log(i + &quot;: &quot; + fruits[i]);
 }</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0: Apple
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>0: Apple
 1: Banana
 2: Mango</code></pre></div></div>
 <h4 class="v2-h4">Count backwards:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (let i = 5; i &gt;= 1; i--) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (let i = 5; i &gt;= 1; i--) {
   console.log(i);
 }
 // 5, 4, 3, 2, 1</code></pre></div></div>
 <h4 class="v2-h4">Count in steps:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (let i = 0; i &lt;= 10; i += 2) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (let i = 0; i &lt;= 10; i += 2) {
   console.log(i); // 0, 2, 4, 6, 8, 10
 }</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> Use <code>let</code> for the loop variable — never <code>var</code>. With <code>var</code>, the variable "leaks" out of the loop block. With <code>let</code>, it is properly block-scoped.</p></blockquote>
 <blockquote class="v2-bq"><p class="v2-p">🐛 <strong>COMMON MISTAKE — Off-by-one error:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ Wrong — misses last element (&lt; vs &lt;=)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ Wrong — misses last element (&lt; vs &lt;=)
 for (let i = 0; i &lt; 5; i++) { ... }  // runs 5 times: 0,1,2,3,4
 
 // To loop array by index, always use i &lt; arr.length (not &lt;=)
@@ -287,23 +207,23 @@ for (let i = 0; i &lt; arr.length; i++) { ... }  // correct!
 <hr class="v2-hr">
 <h3 class="v2-h3">2B — <code>while</code> Loop — Condition-First Loop</h3>
 <p class="v2-p">The <code>while</code> loop repeats as long as a condition is <code>true</code>. Use it when you do <strong>not know in advance</strong> how many iterations you need.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>while (condition) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>while (condition) {
   // body
 }</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let count = 1;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let count = 1;
 
 while (count &lt;= 5) {
   console.log(count);
   count++;
 }</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1
 2
 3
 4
 5</code></pre></div></div>
 <h4 class="v2-h4">Real example — keep asking for input until valid:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Simulated user input
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Simulated user input
 const inputs = [&quot;&quot;, &quot;abc&quot;, &quot;&quot;, &quot;42&quot;]; // first valid input is &quot;42&quot;
 let idx = 0;
 
@@ -314,7 +234,7 @@ while (input.trim() === &quot;&quot; || isNaN(Number(input))) {
 console.log(&quot;Valid input received:&quot;, input); // &quot;42&quot;</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong> <code>Valid input received: 42</code></p>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT — Infinite Loop!</strong> If the condition never becomes <code>false</code>, the loop runs forever and crashes the program.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ❌ DANGER — infinite loop!
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ❌ DANGER — infinite loop!
 let i = 1;
 while (i &gt; 0) {   // i always &gt; 0 since we never change it
 console.log(i);
@@ -324,23 +244,23 @@ console.log(i);
 <hr class="v2-hr">
 <h3 class="v2-h3">2C — <code>do...while</code> Loop — Body-First Loop</h3>
 <p class="v2-p">Like <code>while</code>, but the body runs <strong>at least once</strong> before the condition is checked.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>do {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>do {
   // body runs first, THEN condition is checked
 } while (condition);</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let count = 1;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let count = 1;
 
 do {
   console.log(count);
   count++;
 } while (count &lt;= 5);</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1
 2
 3
 4
 5</code></pre></div></div>
 <h4 class="v2-h4">The key difference — runs at least once even if condition starts false:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let i = 10; // condition (i &lt;= 5) is already false
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let i = 10; // condition (i &lt;= 5) is already false
 
 // while — body NEVER runs
 while (i &lt;= 5) {
@@ -356,10 +276,10 @@ do {
 <hr class="v2-hr">
 <h3 class="v2-h3">2D — <code>for...in</code> Loop — Iterate Object Properties</h3>
 <p class="v2-p"><code>for...in</code> loops over the <strong>enumerable property keys</strong> of an object (including inherited ones from the prototype chain). It is designed for plain objects.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const key in object) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (const key in object) {
   // key is each property name (string)
 }</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const student = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const student = {
   name:  &quot;Amara&quot;,
   score: 85,
   grade: &quot;A&quot;,
@@ -370,19 +290,19 @@ for (const key in student) {
   console.log(key + &quot;: &quot; + student[key]);
 }</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>name: Amara
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>name: Amara
 score: 85
 grade: A
 city: Lagos</code></pre></div></div>
 <h4 class="v2-h4"><code>hasOwnProperty</code> — Skip Inherited Keys:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const key in student) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (const key in student) {
   if (student.hasOwnProperty(key)) {
     // Only own properties, not inherited prototype properties
     console.log(key + &quot;:&quot;, student[key]);
   }
 }</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT — Do NOT use <code>for...in</code> on arrays!</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const arr = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
 
 // ❌ for...in on arrays — gives STRING indices, may include extra properties
 for (const i in arr) {
@@ -394,11 +314,11 @@ console.log(i, typeof i); // &quot;0&quot; string, &quot;1&quot; string, &quot;2
 <hr class="v2-hr">
 <h3 class="v2-h3">2E — <code>for...of</code> Loop — Iterate Iterable Values (Modern, Preferred)</h3>
 <p class="v2-p"><code>for...of</code> loops over the <strong>values</strong> of any iterable — arrays, strings, Sets, Maps, generators, and any object implementing the iterable protocol.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const value of iterable) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (const value of iterable) {
   // value is each element
 }</code></pre></div></div>
 <h4 class="v2-h4">Arrays:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
 
 for (const fruit of fruits) {
   console.log(fruit);
@@ -407,7 +327,7 @@ for (const fruit of fruits) {
 // Banana
 // Mango</code></pre></div></div>
 <h4 class="v2-h4">Strings — character by character:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const char of &quot;Hello&quot;) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (const char of &quot;Hello&quot;) {
   console.log(char);
 }
 // H
@@ -416,7 +336,7 @@ for (const fruit of fruits) {
 // l
 // o</code></pre></div></div>
 <h4 class="v2-h4">Sets:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const tags = new Set([&quot;js&quot;, &quot;web&quot;, &quot;css&quot;]);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const tags = new Set([&quot;js&quot;, &quot;web&quot;, &quot;css&quot;]);
 
 for (const tag of tags) {
   console.log(tag);
@@ -425,7 +345,7 @@ for (const tag of tags) {
 // web
 // css</code></pre></div></div>
 <h4 class="v2-h4">Maps — destructuring key and value:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = new Map([[&quot;Alice&quot;, 88], [&quot;Bob&quot;, 92]]);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const scores = new Map([[&quot;Alice&quot;, 88], [&quot;Bob&quot;, 92]]);
 
 for (const [name, score] of scores) {
   console.log(name + &quot;: &quot; + score);
@@ -433,7 +353,7 @@ for (const [name, score] of scores) {
 // Alice: 88
 // Bob: 92</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> When you need the index while using <code>for...of</code>, use <code>entries()</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
 
 for (const [index, fruit] of fruits.entries()) {
 console.log(index + &quot;: &quot; + fruit);
@@ -444,7 +364,7 @@ console.log(index + &quot;: &quot; + fruit);
 <hr class="v2-hr">
 <h3 class="v2-h3">2F — <code>break</code> and <code>continue</code> — Loop Control</h3>
 <h4 class="v2-h4"><code>break</code> — Exit the loop immediately:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [3, 7, 2, 9, 1, 5];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const nums = [3, 7, 2, 9, 1, 5];
 
 // Find first number greater than 6
 for (const n of nums) {
@@ -455,7 +375,7 @@ for (const n of nums) {
 }
 // Found: 7</code></pre></div></div>
 <h4 class="v2-h4"><code>continue</code> — Skip to next iteration:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const nums = [1, 2, 3, 4, 5, 6];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const nums = [1, 2, 3, 4, 5, 6];
 
 // Print only odd numbers
 for (const n of nums) {
@@ -466,7 +386,7 @@ for (const n of nums) {
 // 3
 // 5</code></pre></div></div>
 <h4 class="v2-h4">Labelled <code>break</code> — Break out of nested loops:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Without label — only breaks the inner loop
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Without label — only breaks the inner loop
 outer: for (let i = 0; i &lt; 3; i++) {
   for (let j = 0; j &lt; 3; j++) {
     if (i === 1 &amp;&amp; j === 1) {
@@ -481,7 +401,7 @@ outer: for (let i = 0; i &lt; 3; i++) {
 // 1 0
 // (stops here — break outer exits both loops)</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0 0
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>0 0
 0 1
 0 2
 1 0</code></pre></div></div>
@@ -489,28 +409,14 @@ outer: for (let i = 0; i &lt; 3; i++) {
 <h3 class="v2-h3">2G — Loop Comparison Table</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Loop</th><th>Use When</th><th>Needs index?</th><th>Works on objects?</th><th>Works on iterables?</th></tr></thead><tbody><tr><td><code>for</code></td><td>Known count / index control</td><td>✅ Yes</td><td>❌ (manually)</td><td>✅ (manually)</td></tr><tr><td><code>while</code></td><td>Unknown count, condition-driven</td><td>⚙️ Manual</td><td>⚙️ Manual</td><td>⚙️ Manual</td></tr><tr><td><code>do...while</code></td><td>Run at least once</td><td>⚙️ Manual</td><td>⚙️ Manual</td><td>⚙️ Manual</td></tr><tr><td><code>for...in</code></td><td>Object property keys</td><td>❌ No (gives key)</td><td>✅ Yes</td><td>⚠️ Not recommended</td></tr><tr><td><code>for...of</code></td><td>Any iterable values</td><td>✅ via <code>.entries()</code></td><td>❌ (plain objects)</td><td>✅ Yes</td></tr></tbody></table></div>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2. Topic 1 — JavaScript Looping (All Loop Types)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 6</div>
-    <div class="phase-title">3. Topic 2 — Iterables</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2. Topic 1 — JavaScript Looping (All Loop Types)</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/6</div><div class="pt">3. Topic 2 — Iterables</div><div class="pc" id="chk3"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
 <p class="v2-p">You have used <code>for...of</code> to loop over arrays, strings, Sets, and Maps. But how does <code>for...of</code> <em>know</em> how to loop over them? They are all different types of objects! The answer is the <strong>iterable protocol</strong>.</p>
 <h3 class="v2-h3">What Is an Iterable?</h3>
 <p class="v2-p">An <strong>iterable</strong> is any object that has a special method named <code>[Symbol.iterator]</code>. This method, when called, returns an <strong>iterator</strong> — an object that produces values one at a time.</p>
 <p class="v2-p">Think of it like a vending machine:</p>
 <ul class="v2-ul"><li>The <strong>vending machine</strong> is the iterable (has a mechanism to deliver items)</li><li>The <strong>dispenser button</strong> is <code>[Symbol.iterator]()</code> — calling it starts the dispensing process</li><li>Each <strong>press of the button</strong> is like calling <code>.next()</code> — one item comes out</li><li>When the machine is <strong>empty</strong>, it signals done</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Iterable                →   has [Symbol.iterator]() method
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Iterable                →   has [Symbol.iterator]() method
 [Symbol.iterator]()     →   returns an Iterator
 Iterator                →   has .next() method
 .next()                 →   returns { value: ..., done: false/true }</code></pre></div></div>
@@ -521,7 +427,7 @@ Iterator                →   has .next() method
 <hr class="v2-hr">
 <h3 class="v2-h3">How <code>for...of</code> Uses the Iterable Protocol Internally</h3>
 <p class="v2-p">When JavaScript sees <code>for (const x of something)</code>, it does this behind the scenes:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr = [10, 20, 30];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const arr = [10, 20, 30];
 
 // What for...of does internally:
 const iterator = arr[Symbol.iterator](); // Step 1: get the iterator
@@ -533,16 +439,16 @@ while (!result.done) {                   // Step 3: loop while not done
   result = iterator.next();             // Step 5: ask for next value
 }</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>10
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>10
 20
 30</code></pre></div></div>
 <p class="v2-p">This is exactly what <code>for...of</code> does automatically:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>for (const x of [10, 20, 30]) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>for (const x of [10, 20, 30]) {
   console.log(x); // 10, 20, 30
 }</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Verifying That Something Is Iterable</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function isIterable(obj) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function isIterable(obj) {
   return obj != null &amp;&amp; typeof obj[Symbol.iterator] === &quot;function&quot;;
 }
 
@@ -554,7 +460,7 @@ console.log(isIterable({ a: 1 }));          // false ← plain object!
 console.log(isIterable(42));                // false
 console.log(isIterable(null));              // false</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>true
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>true
 true
 true
 true
@@ -564,7 +470,7 @@ false</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Using Spread <code>...</code> and Destructuring — They Use the Iterable Protocol Too!</h3>
 <p class="v2-p">Any iterable works with spread and destructuring — not just arrays:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Spread Set into array
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Spread Set into array
 const set = new Set([1, 2, 3]);
 const arr = [...set];
 console.log(arr); // [1, 2, 3]
@@ -585,7 +491,7 @@ function sum(a, b, c) { return a + b + c; }
 const nums = [1, 2, 3];
 console.log(sum(...nums)); // 6</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>[1, 2, 3]
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>[1, 2, 3]
 [[&quot;a&quot;,1],[&quot;b&quot;,2]]
 [&quot;h&quot;,&quot;e&quot;,&quot;l&quot;,&quot;l&quot;,&quot;o&quot;]
 10 20
@@ -594,7 +500,7 @@ console.log(sum(...nums)); // 6</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Making a Plain Object Iterable</h3>
 <p class="v2-p">A plain object <code>{}</code> is not iterable — <code>for...of</code> will throw a TypeError. To make it iterable, you add a <code>[Symbol.iterator]</code> method.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const range = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const range = {
   from: 1,
   to:   5,
 
@@ -623,7 +529,7 @@ for (const n of range) {
 // Spread also works!
 console.log([...range]); // [1, 2, 3, 4, 5]</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1
 2
 3
 4
@@ -631,22 +537,8 @@ console.log([...range]); // [1, 2, 3, 4, 5]</code></pre></div></div>
 [1, 2, 3, 4, 5]</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>THINK ABOUT IT:</strong> What would happen if <code>current</code> never reached <code>last</code>? The <code>done: true</code> would never be returned, and <code>for...of</code> would loop forever. Always make sure your iterator eventually returns <code>{ done: true }</code>!</p></blockquote>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3. Topic 2 — Iterables</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 6</div>
-    <div class="phase-title">4. Topic 3 — Iterators</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3. Topic 2 — Iterables</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/6</div><div class="pt">4. Topic 3 — Iterators</div><div class="pc" id="chk4"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
 <p class="v2-p">An <strong>iterator</strong> is an object that implements the <strong>iterator protocol</strong>:</p>
 <ul class="v2-ul"><li>It must have a <code>.next()</code> method</li><li><code>.next()</code> must return an object with exactly two properties:</li></ul>
 <p class="v2-p">- <code>value</code> — the current value (any type)   - <code>done</code> — a boolean: <code>false</code> if more values remain, <code>true</code> when finished</p>
@@ -654,7 +546,7 @@ console.log([...range]); // [1, 2, 3, 4, 5]</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Creating an Iterator from Scratch</h3>
 <p class="v2-p">Let's build a counter iterator step by step:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function makeCounter(start, end) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function makeCounter(start, end) {
   let current = start;
 
   return {
@@ -676,7 +568,7 @@ console.log(counter.next()); // { value: 4, done: false }
 console.log(counter.next()); // { value: undefined, done: true }
 console.log(counter.next()); // { value: undefined, done: true } ← stays done</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>{ value: 1, done: false }
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{ value: 1, done: false }
 { value: 2, done: false }
 { value: 3, done: false }
 { value: 4, done: false }
@@ -689,7 +581,7 @@ console.log(counter.next()); // { value: undefined, done: true } ← stays done<
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Term</th><th>Definition</th><th>Has</th></tr></thead><tbody><tr><td><strong>Iterable</strong></td><td>An object that CAN be iterated</td><td><code>[Symbol.iterator]()</code> method → returns an iterator</td></tr><tr><td><strong>Iterator</strong></td><td>An object that DOES the iterating</td><td><code>.next()</code> method → returns <code>{value, done}</code></td></tr></tbody></table></div>
 <p class="v2-p">An iterable <strong>produces</strong> iterators. An iterator <strong>produces</strong> values.</p>
 <p class="v2-p">Arrays are <strong>iterable</strong> — calling <code>arr[Symbol.iterator]()</code> gives you an <strong>iterator</strong>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const arr      = [10, 20, 30];       // Array is ITERABLE
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const arr      = [10, 20, 30];       // Array is ITERABLE
 const iterator = arr[Symbol.iterator](); // iterator is the ITERATOR
 
 console.log(iterator.next()); // { value: 10, done: false }
@@ -699,7 +591,7 @@ console.log(iterator.next()); // { value: undefined, done: true }</code></pre></
 <hr class="v2-hr">
 <h3 class="v2-h3">Self-Iterating Objects — Combining Both Protocols</h3>
 <p class="v2-p">The cleanest design makes an object both iterable <strong>and</strong> its own iterator by returning <code>this</code> from <code>[Symbol.iterator]()</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function makeRange(from, to) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function makeRange(from, to) {
   return {
     current: from,
     last:    to,
@@ -732,7 +624,7 @@ for (const n of range) {
 const range2 = makeRange(1, 3);
 console.log([...range2]); // [1, 2, 3]</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1
 2
 3
 4
@@ -741,7 +633,7 @@ console.log([...range2]); // [1, 2, 3]</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>WATCH OUT:</strong> When an object is its own iterator (returns <code>this</code>), it is <strong>consumed</strong> — once iterated, it cannot be iterated again. A fresh iterable (like an array) returns a new iterator each time <code>[Symbol.iterator]()</code> is called, so you can loop it many times.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">Practical Example — A Fibonacci Iterator</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function fibIterator(limit) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function fibIterator(limit) {
   let prev = 0, curr = 1;
 
   return {
@@ -766,13 +658,13 @@ console.log();
 // Collect into array
 console.log([...fibIterator(50)]); // [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>0 1 1 2 3 5 8 13 21 34 55 89
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>0 1 1 2 3 5 8 13 21 34 55 89
 [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">🏢 <strong>REAL WORLD:</strong> Iterators are used to represent sequences that are computed on demand — paginated API results, rows from a database cursor, tokens from a parser, or any data where you want the next item only when you need it (lazy evaluation).</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">Iterator Return Method (Optional Cleanup)</h3>
 <p class="v2-p">Iterators can optionally implement a <code>return(value)</code> method, which is called when a loop exits early (via <code>break</code> or <code>return</code> inside <code>for...of</code>). Use it to release resources.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function makeCleanupIterator(items) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function makeCleanupIterator(items) {
   let index = 0;
   return {
     [Symbol.iterator]() { return this; },
@@ -796,27 +688,13 @@ for (const item of makeCleanupIterator([1, 2, 3, 4, 5])) {
   if (item === 3) break; // triggers return()
 }</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1
 2
 3
 Iterator closed early — releasing resources</code></pre></div></div>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>4. Topic 3 — Iterators</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 6</div>
-    <div class="phase-title">5. Topic 4 — Generator Functions</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>4. Topic 3 — Iterators</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/6</div><div class="pt">5. Topic 4 — Generator Functions</div><div class="pc" id="chk5"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>Phase 1 — Conceptual Understanding</strong></p></blockquote>
 <p class="v2-p">Writing iterators manually (as shown above) works — but it is verbose and requires careful state management. <strong>Generator functions</strong> are a much easier way to create iterators. They let you write iterating logic in a natural, top-to-bottom style using the special <code>yield</code> keyword.</p>
 <h3 class="v2-h3">The Magic of <code>yield</code> — Pause and Resume</h3>
 <p class="v2-p">A generator function can <strong>pause</strong> its execution in the middle and <strong>resume</strong> later from exactly where it left off. Normal functions cannot do this — they run start to finish without stopping.</p>
@@ -825,13 +703,13 @@ Iterator closed early — releasing resources</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Declaring a Generator Function</h3>
 <p class="v2-p">The <code>function<em></code> syntax (note the asterisk <code></em></code>) marks a function as a generator:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* myGenerator() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* myGenerator() {
   yield 1;
   yield 2;
   yield 3;
 }</code></pre></div></div>
 <p class="v2-p">Calling a generator function does <strong>not run the body</strong>. It returns a <strong>generator object</strong> — which is both an iterator AND an iterable.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* myGenerator() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* myGenerator() {
   console.log(&quot;Start&quot;);
   yield 1;
   console.log(&quot;After first yield&quot;);
@@ -848,7 +726,7 @@ console.log(gen.next()); // &quot;After first yield&quot; then { value: 2, done:
 console.log(gen.next()); // &quot;After second yield&quot; then { value: 3, done: false }
 console.log(gen.next()); // &quot;Done&quot; then { value: undefined, done: true }</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Start
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Start
 { value: 1, done: false }
 After first yield
 { value: 2, done: false }
@@ -860,7 +738,7 @@ Done
 <hr class="v2-hr">
 <h3 class="v2-h3">Generators Are Both Iterators and Iterables</h3>
 <p class="v2-p">Generator objects implement both protocols automatically. This means you can use them directly in <code>for...of</code>, spread, and destructuring:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* count() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* count() {
   yield 1;
   yield 2;
   yield 3;
@@ -879,7 +757,7 @@ console.log([...count()]); // [1, 2, 3]
 const [a, b, c] = count();
 console.log(a, b, c); // 1 2 3</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1
 2
 3
 [1, 2, 3]
@@ -887,7 +765,7 @@ console.log(a, b, c); // 1 2 3</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Generators with Loops — Infinite Sequences</h3>
 <p class="v2-p">Generators are perfect for producing sequences — especially <strong>infinite</strong> ones. Because values are produced lazily (one at a time on demand), you can define an endless sequence without running out of memory.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// An INFINITE counter — never runs out!
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// An INFINITE counter — never runs out!
 function* counter(start = 0) {
   let n = start;
   while (true) {   // ← infinite loop is OK in a generator!
@@ -914,7 +792,7 @@ function take(gen, n) {
 
 console.log(take(counter(10), 5)); // [10, 11, 12, 13, 14]</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1
 2
 3
 [10, 11, 12, 13, 14]</code></pre></div></div>
@@ -922,7 +800,7 @@ console.log(take(counter(10), 5)); // [10, 11, 12, 13, 14]</code></pre></div></d
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>return</code> in a Generator</h3>
 <p class="v2-p">If a generator hits a <code>return</code> statement (or the function body ends), it signals <code>done: true</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* gen() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* gen() {
   yield 1;
   yield 2;
   return &quot;finished&quot;; // ← done: true, value: &quot;finished&quot;
@@ -938,7 +816,7 @@ console.log(g.next()); // { value: undefined,  done: true  }</code></pre></div><
 <hr class="v2-hr">
 <h3 class="v2-h3">Passing Values INTO a Generator with <code>.next(value)</code></h3>
 <p class="v2-p">You can pass a value into a generator through <code>.next(value)</code>. This value becomes the <strong>result of the <code>yield</code> expression</strong> inside the generator.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* dialogue() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* dialogue() {
   const name    = yield &quot;What is your name?&quot;;
   const age     = yield `Hello ${name}! How old are you?`;
   yield `So ${name} is ${age} years old. Got it!`;
@@ -950,14 +828,14 @@ console.log(chat.next().value);          // &quot;What is your name?&quot;
 console.log(chat.next(&quot;Alice&quot;).value);   // &quot;Hello Alice! How old are you?&quot;
 console.log(chat.next(30).value);        // &quot;So Alice is 30 years old. Got it!&quot;</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>What is your name?
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>What is your name?
 Hello Alice! How old are you?
 So Alice is 30 years old. Got it!</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>TIP:</strong> The first <code>.next()</code> call cannot pass a value in (there is no <code>yield</code> to receive it yet). Values passed in through <code>.next(val)</code> only apply from the second call onward.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>yield*</code> — Delegate to Another Generator or Iterable</h3>
 <p class="v2-p"><code>yield*</code> inside a generator delegates iteration to another iterable or generator, yielding all of its values in sequence.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* inner() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* inner() {
   yield &quot;B&quot;;
   yield &quot;C&quot;;
 }
@@ -971,7 +849,7 @@ function* outer() {
 console.log([...outer()]); // [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;]</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong> <code>["A", "B", "C", "D"]</code></p>
 <p class="v2-p"><code>yield*</code> works with any iterable — arrays, strings, Sets, other generators:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* combined() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* combined() {
   yield* [1, 2, 3];         // yields from array
   yield* &quot;AB&quot;;              // yields characters of string
   yield* new Set([4, 5]);   // yields from Set
@@ -983,7 +861,7 @@ console.log([...combined()]); // [1, 2, 3, &quot;A&quot;, &quot;B&quot;, 4, 5]</
 <hr class="v2-hr">
 <h3 class="v2-h3">Generator as an Iterable Object Method</h3>
 <p class="v2-p">You can use generator functions as methods inside objects or classes, making them directly iterable:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>class NumberRange {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class NumberRange {
   constructor(from, to, step = 1) {
     this.from = from;
     this.to   = to;
@@ -1008,12 +886,12 @@ console.log();
 
 console.log([...new NumberRange(1, 5)]); // [1, 2, 3, 4, 5]</code></pre></div></div>
 <p class="v2-p"><strong>▶ Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>2 4 6 8 10
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>2 4 6 8 10
 [1, 2, 3, 4, 5]</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Generator vs Manual Iterator — Side by Side</h3>
 <p class="v2-p">Here is the same Fibonacci iterator from Topic 3, now written as a generator:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Manual iterator (Topic 3 version) — verbose!
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Manual iterator (Topic 3 version) — verbose!
 function fibIterator(limit) {
   let prev = 0, curr = 1;
   return {
@@ -1044,28 +922,14 @@ console.log([...fibGenerator(100)]); // [0,1,1,2,3,5,8,13,21,34,55,89]</code></p
 <h3 class="v2-h3">Summary: Iterator vs Generator vs Iterable</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Concept</th><th>Definition</th><th>Key Syntax</th></tr></thead><tbody><tr><td><strong>Iterable</strong></td><td>Object that CAN produce an iterator</td><td>Has <code>[Symbol.iterator]()</code> method</td></tr><tr><td><strong>Iterator</strong></td><td>Object that produces values one at a time</td><td>Has <code>.next()</code> → <code>{value, done}</code></td></tr><tr><td><strong>Generator function</strong></td><td>Function that produces a generator object</td><td><code>function*</code> with <code>yield</code></td></tr><tr><td><strong>Generator object</strong></td><td>Both an iterator AND an iterable</td><td>Returned by calling <code>function*</code></td></tr></tbody></table></div>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>5. Topic 4 — Generator Functions</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 6</div>
-    <div class="phase-title">6. Applied Exercises</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>Phase 2 — Applied Exercises</strong></p></blockquote>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>5. Topic 4 — Generator Functions</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/6</div><div class="pt">6. Applied Exercises</div><div class="pc" id="chk6"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>Phase 2 — Applied Exercises</strong></p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">Exercise 1 — Loop Master 🔁</h3>
 <p class="v2-p"><strong>Objective:</strong> Practice choosing the right loop for each situation.</p>
 <p class="v2-p"><strong>Scenario:</strong> You are building a <strong>student results portal</strong>. Each task below requires a different loop type.</p>
 <h4 class="v2-h4">Warm-up Micro-Demo:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const scores = [72, 45, 88, 56, 93];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const scores = [72, 45, 88, 56, 93];
 let total = 0;
 
 for (const score of scores) {
@@ -1073,7 +937,7 @@ for (const score of scores) {
 }
 console.log(&quot;Average:&quot;, (total / scores.length).toFixed(1)); // 70.8</code></pre></div></div>
 <h4 class="v2-h4">Task A — Use the Right Loop</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const students = [
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const students = [
   { name: &quot;Amara&quot;,  score: 85, grade: &quot;B&quot; },
   { name: &quot;Kwame&quot;,  score: 92, grade: &quot;A&quot; },
   { name: &quot;Fatima&quot;, score: 58, grade: &quot;F&quot; },
@@ -1114,7 +978,7 @@ do {
 } while (!validChoices.includes(choice));
 console.log(&quot;Valid choice selected:&quot;, choice);</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>--- Rankings (for loop) ---
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>--- Rankings (for loop) ---
 1. Amara — 85
 2. Kwame — 92
 3. Fatima — 58
@@ -1141,7 +1005,7 @@ Valid choice selected: B</code></pre></div></div>
 <p class="v2-p"><strong>Objective:</strong> Practice creating a custom iterable object using <code>[Symbol.iterator]</code>.</p>
 <p class="v2-p"><strong>Scenario:</strong> Build a <strong>paginated data reader</strong> that iterates records in pages of a given size.</p>
 <h4 class="v2-h4">Warm-up Micro-Demo:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const simpleRange = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const simpleRange = {
   [Symbol.iterator]() {
     let n = 1;
     return { next() { return n &lt;= 3 ? { value: n++, done: false } : { value: undefined, done: true }; } };
@@ -1151,7 +1015,7 @@ Valid choice selected: B</code></pre></div></div>
 for (const n of simpleRange) process.stdout.write(n + &quot; &quot;);
 console.log(); // 1 2 3</code></pre></div></div>
 <h4 class="v2-h4">Task A — Paginator Object</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function createPaginator(records, pageSize) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function createPaginator(records, pageSize) {
   return {
     records,
     pageSize,
@@ -1194,7 +1058,7 @@ for (const page of paginator) {
 const pages = [...createPaginator(allRecords, 3)];
 console.log(&quot;\nTotal pages:&quot;, pages.length);</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>── Page 1/3 ──
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>── Page 1/3 ──
   1. Record A
   2. Record B
   3. Record C
@@ -1215,12 +1079,12 @@ Total pages: 3</code></pre></div></div>
 <p class="v2-p"><strong>Objective:</strong> Practice writing generator functions for real data tasks.</p>
 <p class="v2-p"><strong>Scenario:</strong> Build generators for a <strong>data processing pipeline</strong> at an analytics company.</p>
 <h4 class="v2-h4">Warm-up Micro-Demo:</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function* squares(n) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* squares(n) {
   for (let i = 1; i &lt;= n; i++) yield i * i;
 }
 console.log([...squares(5)]); // [1, 4, 9, 16, 25]</code></pre></div></div>
 <h4 class="v2-h4">Task A — Utility Generators</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 1. Unique ID generator
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 1. Unique ID generator
 function* idGenerator(prefix = &quot;ID&quot;) {
   let n = 1;
   while (true) {
@@ -1274,7 +1138,7 @@ for (const g of graded) {
   console.log(`  Score: ${g.score} → Grade: ${g.grade}`);
 }</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>USR-0001
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>USR-0001
 USR-0002
 USR-0003
 Batch: [1, 2, 3]
@@ -1292,115 +1156,81 @@ Passing grades:
 <p class="v2-p"><strong>Self-check questions:</strong></p>
 <ul class="v2-ul"><li>Why is an infinite generator (<code>while (true) { yield ... }</code>) safe to use as long as you break or use <code>.next()</code> selectively?</li><li>How does <code>yield*</code> differ from calling <code>yield</code> inside a loop?</li><li>What is "lazy evaluation" and why do generators enable it?</li></ul>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">---
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">---
 
 ### Exercise 1 — Loop Master 🔁
 
 Objective: Practice choosing the right loop for each situation.
 
-Scenario: You are building a student results portal. Each task below requires a different loop type.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">🔵 Stage 1 — Data Source Generator</div>
-  <div class="build-desc"><strong>Real-world scenario:</strong> You work at a data analytics company. You receive large batches of raw transaction records. Build a <strong>lazy data pipeline</strong> using generators and iterators that:</div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>function* range(n) { for (let i = 1; i &lt;= n; i++) yield i; }
-console.log([...range(4)]); // [1, 2, 3, 4]</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`function* range(n) { for (let i = 1; i <= n; i++) yield i; }
-console.log([...range(4)]); // [1, 2, 3, 4]`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+Scenario: You are building a student results portal. Each task below requires a different loop type.</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">🔵 Stage 1 — Data Source Generator</div><div class="build-req"><blockquote class="v2-bq"><p class="v2-p"><strong>Phase 3 — Project Simulation</strong></p></blockquote>
+<p class="v2-p"><strong>Real-world scenario:</strong> You work at a data analytics company. You receive large batches of raw transaction records. Build a <strong>lazy data pipeline</strong> using generators and iterators that:</p>
+<ul class="v2-ul"><li>Reads records lazily (one at a time) without loading the entire dataset</li><li>Filters, transforms, and enriches data through a composable pipeline</li><li>Paginates output into batches for display or further processing</li><li>Tracks pipeline statistics using a custom iterable</li></ul>
+<hr class="v2-hr">
+<h3 class="v2-h3">🔵 Stage 1 — Data Source Generator</h3>
+<p class="v2-p"><strong>Goal:</strong> Create a generator that simulates streaming raw records lazily, one at a time.</p>
+<h4 class="v2-h4">Simple stage preview:</h4></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function* range(n) { for (let i = 1; i &lt;= n; i++) yield i; }
+console.log([...range(4)]); // [1, 2, 3, 4]</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`function* range(n) { for (let i = 1; i <= n; i++) yield i; }
+console.log([...range(4)]); // [1, 2, 3, 4]`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-17-stage-1-data-source-generator</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 17 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-17-stage-1-data-source-generator/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 17 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ 1. Background: What Is Looping and Why Does It Matter?</li><li>✅ 2. Topic 1 — JavaScript Looping (All Loop Types)</li><li>✅ 3. Topic 2 — Iterables</li><li>✅ 4. Topic 3 — Iterators</li><li>✅ 5. Topic 4 — Generator Functions</li><li>✅ 6. Applied Exercises</li></ul>
-  <div class="lesson-nav"><a href="lesson_16.html" class="ln-btn">← Lesson 16</a><a href="lesson_18.html" class="ln-btn primary">Lesson 18 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-17-stage-1-data-source-generator</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 17 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-17-stage-1-data-source-generator/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 17 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ 1. Background: What Is Looping and Why Does It Matter?</li><li>✅ 2. Topic 1 — JavaScript Looping (All Loop Types)</li><li>✅ 3. Topic 2 — Iterables</li><li>✅ 4. Topic 3 — Iterators</li><li>✅ 5. Topic 4 — Generator Functions</li><li>✅ 6. Applied Exercises</li></ul><div class="ln"><a href="lesson_16.html" class="ln-btn">← Lesson 16</a><a href="lesson_18.html" class="ln-btn primary">Lesson 18 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 17 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 17 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=6,KEY='techbase_js_l17';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

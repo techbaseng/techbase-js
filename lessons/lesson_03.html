@@ -1,209 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 03: JavaScript Variables, `let`, `const` &amp; Data Types — Techbase JavaScript</title>
-<meta name="description" content="JavaScript Variables, `let`, `const` &amp; Data Types">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 03 of 46</span>
+  <span class="l-nav-lbl">Lesson 03 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 03</div>
-    <h1>JavaScript Variables, `let`, `const` &amp; Data Types</h1>
-    <div class="l-hero-sub">7 phases · Build: Stage 1 — Declaring and Displaying Student Data</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 03</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 7 phases</span>
-    <span>🏗️ Stage 1 — Declaring and Displaying Student Data</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 03</div>
+  <h1>JavaScript Variables, `let`, `const` &amp; Data Types</h1>
+  <div class="l-hero-sub">7 phases &nbsp;·&nbsp; Build: Stage 1 — Declaring and Displaying Student Data</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 03</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 7 phases</span><span>🏗️ Stage 1 — Declaring and Displaying Student Data</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 7</div>
-    <div class="phase-title">TOPIC 1: JavaScript Variables — Containers for Data</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <hr class="v2-hr">
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/7</div><div class="pt">TOPIC 1: JavaScript Variables — Containers for Data</div><div class="pc" id="chk1"></div></div><div class="pb2"><hr class="v2-hr">
 <h3 class="v2-h3">1.1 What Is a Variable?</h3>
 <p class="v2-p">Imagine you are filling in a job application form. The form has labelled boxes: <strong>Name</strong>, <strong>Age</strong>, <strong>City</strong>. Each box holds one piece of information — and the label (the box name) tells you what kind of information lives there.</p>
 <p class="v2-p">A <strong>variable</strong> in JavaScript works exactly the same way. It is a labelled container that holds a piece of data your program needs to use.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let name = &quot;Amara&quot;;    // A labelled box called &quot;name&quot; holds the text &quot;Amara&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let name = &quot;Amara&quot;;    // A labelled box called &quot;name&quot; holds the text &quot;Amara&quot;
 let age = 25;          // A labelled box called &quot;age&quot; holds the number 25
 let city = &quot;Lagos&quot;;    // A labelled box called &quot;city&quot; holds the text &quot;Lagos&quot;</code></pre></div></div>
 <p class="v2-p">Once you put data into a variable, you can:</p>
@@ -214,7 +148,7 @@ let city = &quot;Lagos&quot;;    // A labelled box called &quot;city&quot; holds
 <p class="v2-p">JavaScript gives you four ways to create a variable. Two are modern and recommended; two are older and should be avoided.</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Recommended?</th><th>When Added</th><th>Notes</th></tr></thead><tbody><tr><td><code>let</code></td><td>✅ Yes — modern standard</td><td>2015 (ES6)</td><td>For values that can change</td></tr><tr><td><code>const</code></td><td>✅ Yes — modern standard</td><td>2015 (ES6)</td><td>For values that should not change</td></tr><tr><td><code>var</code></td><td>❌ Not recommended</td><td>Original JS</td><td>Older, has confusing behaviour</td></tr><tr><td>Automatic (no keyword)</td><td>❌ Never</td><td>Always existed</td><td>Creates global variable — dangerous</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Micro-Demo — All four styles:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 100;          // Modern — changeable
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score = 100;          // Modern — changeable
 const PI = 3.14159;       // Modern — fixed
 var oldStyle = &quot;avoid&quot;;   // Old style — not recommended
 autoVar = &quot;dangerous&quot;;    // No keyword — never do this</code></pre></div></div>
@@ -224,12 +158,12 @@ autoVar = &quot;dangerous&quot;;    // No keyword — never do this</code></pre>
 <p class="v2-p"><strong>Declaring</strong> a variable means creating it — giving it a name and reserving a space in memory for it.</p>
 <p class="v2-p"><strong>Assigning</strong> a value means putting something into that space.</p>
 <p class="v2-p">You can do both at once:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let carName = &quot;Toyota&quot;;   // Declare AND assign in one step</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let carName = &quot;Toyota&quot;;   // Declare AND assign in one step</code></pre></div></div>
 <p class="v2-p">Or separately:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let carName;              // Declare — the box exists but is empty
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let carName;              // Declare — the box exists but is empty
 carName = &quot;Toyota&quot;;       // Assign — put &quot;Toyota&quot; into the box</code></pre></div></div>
 <p class="v2-p">After declaring with no value, the variable holds the special value <code>undefined</code> — meaning "this box exists but nothing is in it yet."</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let carName;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let carName;
 console.log(carName);    // Output: undefined
 carName = &quot;Toyota&quot;;
 console.log(carName);    // Output: Toyota</code></pre></div></div>
@@ -240,21 +174,21 @@ console.log(carName);    // Output: Toyota</code></pre></div></div>
 <ul class="v2-ul"><li>Names can contain letters, digits, underscores (<code>_</code>), and dollar signs (<code>$</code>)</li><li>Names must <strong>begin</strong> with a letter, <code>$</code>, or <code>_</code> — <strong>never a number</strong></li><li>Names are case-sensitive (<code>Score</code> ≠ <code>score</code>)</li><li>Reserved keywords cannot be used (<code>let</code>, <code>const</code>, <code>if</code>, etc.)</li></ul>
 <p class="v2-p"><strong>Special: Underscore (<code>_</code>) in variable names:</strong></p>
 <p class="v2-p">The underscore is treated as a letter. A common convention among professional developers is to start a name with <code>_</code> to indicate a "private" or "internal" variable — one that is meant to be used only within a specific section of code and not from the outside.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let _lastName = &quot;Johnson&quot;;  // conventionally &quot;private&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let _lastName = &quot;Johnson&quot;;  // conventionally &quot;private&quot;
 let _x = 2;
 let _100 = 5;               // valid — underscore first, then digits</code></pre></div></div>
 <p class="v2-p"><strong>Special: Dollar Sign (<code>$</code>) in variable names:</strong></p>
 <p class="v2-p">The <code>$</code> sign is also treated as a letter. Professional developers often use it as an alias for the main function in JavaScript libraries (for example, jQuery uses <code>$</code> as its main function name):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let $ = &quot;Hello World&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let $ = &quot;Hello World&quot;;
 let $$$ = 2;
 let $myMoney = 5;</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 While <code>_</code> and <code>$</code> are valid, stick to <strong>readable camelCase names</strong> for your own variables. Use <code>_</code> and <code>$</code> only when following a specific convention in the project you're working on.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.5 Declaring Multiple Variables at Once</h3>
 <p class="v2-p">You can create several variables in a single statement by separating them with commas:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let person = &quot;John Doe&quot;, carName = &quot;Volvo&quot;, price = 200;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let person = &quot;John Doe&quot;, carName = &quot;Volvo&quot;, price = 200;</code></pre></div></div>
 <p class="v2-p">Or spread across multiple lines for better readability:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let person = &quot;John Doe&quot;,
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let person = &quot;John Doe&quot;,
     carName = &quot;Volvo&quot;,
     price = 200;</code></pre></div></div>
 <p class="v2-p">Both are valid. The multi-line style is easier to read and easier to add comments to.</p>
@@ -262,9 +196,9 @@ let $myMoney = 5;</code></pre></div></div>
 <h3 class="v2-h3">1.6 The Assignment Operator — An Important Distinction</h3>
 <p class="v2-p">In maths, <code>=</code> means "is equal to." In JavaScript, <code>=</code> means <strong>"assign this value to this container."</strong> They are completely different.</p>
 <p class="v2-p">This maths statement makes no sense:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>x = x + 5   ← In maths, nothing can equal itself plus 5</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>x = x + 5   ← In maths, nothing can equal itself plus 5</code></pre></div></div>
 <p class="v2-p">But in JavaScript it makes perfect sense:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 10;
 x = x + 5;   // Read: take the current value of x (10), add 5, store the result (15) back into x
 console.log(x);  // Output: 15</code></pre></div></div>
 <p class="v2-p">The right side is calculated first, then the result is placed into <code>x</code>. The value of <code>x</code> has been updated from 10 to 15.</p>
@@ -272,77 +206,63 @@ console.log(x);  // Output: 15</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.7 JavaScript Arithmetic with Variables</h3>
 <p class="v2-p">You can perform arithmetic on number variables exactly like maths:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 5 + 2 + 3;    // x = 10</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 5 + 2 + 3;    // x = 10</code></pre></div></div>
 <p class="v2-p">You can also join text strings using <code>+</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = &quot;John&quot; + &quot; &quot; + &quot;Doe&quot;;    // x = &quot;John Doe&quot;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = &quot;John&quot; + &quot; &quot; + &quot;Doe&quot;;    // x = &quot;John Doe&quot;</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Critical warning — Mixing strings and numbers:</strong></p>
 <p class="v2-p">If you put a <strong>number inside quotes</strong>, JavaScript treats it as text. When a text string is mixed with numbers using <code>+</code>, JavaScript <strong>concatenates</strong> (joins) instead of adding:</p></blockquote>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = &quot;5&quot; + 2 + 3;    // Result: &quot;523&quot; — NOT 10!</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = &quot;5&quot; + 2 + 3;    // Result: &quot;523&quot; — NOT 10!</code></pre></div></div>
 <p class="v2-p">Why? Because JavaScript reads left to right. It sees <code>"5"</code> (a string) and <code>2</code> (a number). Since one is text, it joins them: <code>"52"</code>. Then it joins <code>3</code>: <code>"523"</code>. The entire result becomes text.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 2 + 3 + &quot;5&quot;;    // Result: &quot;55&quot;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 2 + 3 + &quot;5&quot;;    // Result: &quot;55&quot;</code></pre></div></div>
 <p class="v2-p">Here, JavaScript reads left to right: <code>2 + 3 = 5</code> (number + number = number). Then <code>5 + "5"</code> (number + string = string): <code>"55"</code>.</p>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> What do you think <code>"10" - 5</code> produces? Is it <code>"105"</code> or <code>5</code>? (Hint: <code>-</code> is only a maths operator — it can't join strings. Try it in your console.)</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">1.8 Automatic Variables — Never Do This</h3>
 <p class="v2-p">JavaScript allows you to create a variable without any keyword:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>x = 5;   // No let, no const, no var</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>x = 5;   // No let, no const, no var</code></pre></div></div>
 <p class="v2-p">This works, but it creates a <strong>global variable</strong> — one that is accessible from anywhere in your entire program, which can cause unpredictable bugs in larger applications. It is considered terrible practice and should never be done.</p>
 <p class="v2-p"><strong>Always declare your variables explicitly.</strong> Good practice is to declare all variables at the top of their section of code.</p>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Always declare your variables explicitly. Good practice is to declare all variables at the top of their section of code.
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Always declare your variables explicitly. Good practice is to declare all variables at the top of their section of code.
 
 ---
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 7</div>
-    <div class="phase-title">TOPIC 2: `let` — The Modern Variable Keyword</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <hr class="v2-hr">
+---</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/7</div><div class="pt">TOPIC 2: `let` — The Modern Variable Keyword</div><div class="pc" id="chk2"></div></div><div class="pb2"><hr class="v2-hr">
 <h3 class="v2-h3">2.1 What <code>let</code> Does and Why It Exists</h3>
 <p class="v2-p"><code>let</code> was introduced in 2015 as part of the major JavaScript update known as ES6. It was designed to fix several confusing problems that existed with the older <code>var</code> keyword. <code>let</code> is now the standard way to declare a variable whose value can change.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score = 0;
 score = 50;      // Perfectly fine — let allows updates
 score = 100;     // Still fine — updated again</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.2 <code>let</code> Cannot Be Redeclared in the Same Scope</h3>
 <p class="v2-p">This is one of the most important differences from <code>var</code>. Once you have declared a variable with <code>let</code>, you cannot declare it again with <code>let</code> in the same area of code:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let userName = &quot;Alice&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let userName = &quot;Alice&quot;;
 let userName = &quot;Bob&quot;;   // ❌ Error! Cannot redeclare &#x27;userName&#x27;</code></pre></div></div>
 <p class="v2-p">This is actually a feature, not a bug. It prevents you from accidentally creating a second variable with the same name — a common and hard-to-find mistake in large programs.</p>
 <p class="v2-p">With <code>var</code>, this error would not show up:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var userName = &quot;Alice&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var userName = &quot;Alice&quot;;
 var userName = &quot;Bob&quot;;   // No error — but &quot;Alice&quot; is now silently lost!</code></pre></div></div>
 <p class="v2-p"><code>let</code> protects you from this.</p>
 <p class="v2-p">You <strong>can</strong> reassign (change the value) — you just cannot redeclare:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let userName = &quot;Alice&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let userName = &quot;Alice&quot;;
 userName = &quot;Bob&quot;;    // ✅ Fine — just changing the value, not redeclaring</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">2.3 Block Scope — The Most Important Difference Between <code>let</code> and <code>var</code></h3>
 <p class="v2-p"><strong>This is one of the most important concepts in modern JavaScript.</strong></p>
 <p class="v2-p">Before understanding this, you need to know what a <strong>block</strong> is. A block is any code wrapped inside curly braces <code>{ }</code>. Examples: the body of an <code>if</code> statement, the body of a <code>for</code> loop, the body of a function.</p>
 <p class="v2-p"><strong><code>let</code> has BLOCK SCOPE</strong> — a variable declared with <code>let</code> inside a block exists <strong>only inside that block.</strong> The moment the block ends, the variable disappears.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   let blockVar = &quot;I exist only inside these braces&quot;;
   console.log(blockVar);   // Output: I exist only inside these braces
 }
 console.log(blockVar);     // ❌ Error! blockVar is not defined here</code></pre></div></div>
 <p class="v2-p"><strong><code>var</code> has FUNCTION SCOPE (or global scope)</strong> — a variable declared with <code>var</code> inside a block is still accessible <strong>outside</strong> that block, as long as you are in the same function:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   var functionVar = &quot;I leak outside the braces&quot;;
 }
 console.log(functionVar);  // Output: I leak outside the braces (no error!)</code></pre></div></div>
 <p class="v2-p"><strong>Why does block scope matter? A real-world example with loops:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Using let in a for loop:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Using let in a for loop:
 for (let i = 0; i &lt; 3; i++) {
   console.log(i);    // i is available here: 0, 1, 2
 }
@@ -358,7 +278,7 @@ console.log(i);      // Output: 3 — the loop variable leaked out!</code></pre>
 <h3 class="v2-h3">2.4 <code>let</code> Variables Must Be Declared Before Use (No Hoisting Surprise)</h3>
 <p class="v2-p">With <code>var</code>, there is a strange behaviour called <strong>hoisting</strong> — the browser automatically moves <code>var</code> declarations to the top of their scope, which means you can technically use a <code>var</code> variable before the line where you declared it (it will just be <code>undefined</code>).</p>
 <p class="v2-p"><code>let</code> does not behave this way. If you try to use a <code>let</code> variable before declaring it, you get a clear error:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(myVar);   // Output: undefined (confusing but no error with var)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(myVar);   // Output: undefined (confusing but no error with var)
 var myVar = 5;
 
 console.log(myLet);   // ❌ ReferenceError: Cannot access &#x27;myLet&#x27; before initialization
@@ -369,41 +289,27 @@ let myLet = 5;</code></pre></div></div>
 <h3 class="v2-h3">2.5 When to Use <code>let</code></h3>
 <p class="v2-p">Use <code>let</code> when the value of the variable <strong>needs to change</strong> after its first assignment. Common examples:</p>
 <ul class="v2-ul"><li>A score that increases as the player earns points</li><li>A counter that increments inside a loop</li><li>A running total that accumulates as items are added</li><li>A status that changes based on user input</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 0;       // starts at zero
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score = 0;       // starts at zero
 score = score + 10;  // player earned 10 points
 score = score + 5;   // earned 5 more
 
 let count = 0;
 count++;             // shorthand for count = count + 1</code></pre></div></div>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>TOPIC 2: <code>let</code> — The Modern Variable Keyword</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 7</div>
-    <div class="phase-title">TOPIC 3: `const` — For Values That Should Not Change</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <hr class="v2-hr">
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>TOPIC 2: <code>let</code> — The Modern Variable Keyword</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/7</div><div class="pt">TOPIC 3: `const` — For Values That Should Not Change</div><div class="pc" id="chk3"></div></div><div class="pb2"><hr class="v2-hr">
 <h3 class="v2-h3">3.1 What <code>const</code> Means</h3>
 <p class="v2-p"><code>const</code> stands for <strong>constant</strong> — a value that is set once and stays the same forever.</p>
 <p class="v2-p">When you declare with <code>const</code>, two things happen:</p>
 <ol class="v2-ol"><li>The variable is created and assigned a value</li><li>JavaScript <strong>locks</strong> that assignment — it can never be changed or redeclared</li></ol>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const PI = 3.14159;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const PI = 3.14159;
 const COUNTRY = &quot;Nigeria&quot;;
 const TAX_RATE = 0.075;</code></pre></div></div>
 <p class="v2-p">These values will never change — PI is always PI, and the tax rate doesn't change mid-calculation.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.2 <code>const</code> Must Be Assigned When Declared</h3>
 <p class="v2-p">Unlike <code>let</code>, you cannot declare a <code>const</code> variable and assign it later. It must receive a value at the moment of creation:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const PI;           // ❌ Error! Missing initializer in const declaration
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const PI;           // ❌ Error! Missing initializer in const declaration
 PI = 3.14159;       // This line is never reached
 
 const PI = 3.14159; // ✅ Correct — declared and assigned together</code></pre></div></div>
@@ -411,18 +317,18 @@ const PI = 3.14159; // ✅ Correct — declared and assigned together</code></pr
 <hr class="v2-hr">
 <h3 class="v2-h3">3.3 <code>const</code> Cannot Be Reassigned</h3>
 <p class="v2-p">Any attempt to change a <code>const</code> value after it is set causes an error:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const siteName = &quot;LearnJS&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const siteName = &quot;LearnJS&quot;;
 siteName = &quot;TechAcademy&quot;;   // ❌ TypeError: Assignment to constant variable</code></pre></div></div>
 <p class="v2-p"><strong>Expected result:</strong> An error is thrown. The assignment fails.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.4 <code>const</code> Cannot Be Redeclared</h3>
 <p class="v2-p">Just like <code>let</code>, you cannot declare a <code>const</code> variable twice in the same scope:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const country = &quot;Nigeria&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const country = &quot;Nigeria&quot;;
 const country = &quot;Ghana&quot;;   // ❌ Error: &#x27;country&#x27; has already been declared</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">3.5 <code>const</code> Has Block Scope</h3>
 <p class="v2-p"><code>const</code> behaves exactly like <code>let</code> in terms of scope — it is contained within the block where it is declared:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   const greeting = &quot;Hello&quot;;
   console.log(greeting);   // Output: Hello
 }
@@ -432,7 +338,7 @@ console.log(greeting);     // ❌ Error! greeting is not defined outside the blo
 <p class="v2-p">This is one of the most commonly misunderstood concepts for beginners, and it is critical to get right.</p>
 <p class="v2-p"><code>const</code> does <strong>NOT</strong> make the value itself unchangeable. What it makes unchangeable is the <strong>reference</strong> — the connection between the variable name and what it points to. For simple values like numbers and strings, this means the value cannot change. But for arrays and objects, the <em>contents</em> can still be modified.</p>
 <p class="v2-p"><strong>With a <code>const</code> array — you CAN modify the contents:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
 
 fruits.push(&quot;Orange&quot;);     // ✅ Adding an item — works fine!
 fruits[0] = &quot;Pineapple&quot;;  // ✅ Changing an item — works fine!
@@ -440,11 +346,11 @@ fruits[0] = &quot;Pineapple&quot;;  // ✅ Changing an item — works fine!
 console.log(fruits);
 // Output: [&quot;Pineapple&quot;, &quot;Banana&quot;, &quot;Mango&quot;, &quot;Orange&quot;]</code></pre></div></div>
 <p class="v2-p"><strong>What you CANNOT do is replace the entire array:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const fruits = [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Mango&quot;];
 fruits = [&quot;Kiwi&quot;, &quot;Grape&quot;];    // ❌ Error! Cannot reassign a const</code></pre></div></div>
 <p class="v2-p">Think of <code>const</code> as nailing the label to a bucket. The label cannot be moved to a different bucket. But you can still add or remove things from inside the bucket.</p>
 <p class="v2-p"><strong>With a <code>const</code> object — same rules apply:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const car = { make: &quot;Toyota&quot;, model: &quot;Corolla&quot; };
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const car = { make: &quot;Toyota&quot;, model: &quot;Corolla&quot; };
 
 car.model = &quot;Camry&quot;;       // ✅ Changing a property — works fine!
 car.year = 2024;           // ✅ Adding a new property — works fine!
@@ -454,7 +360,7 @@ car = { make: &quot;Honda&quot; };   // ❌ Error! Cannot reassign the entire ob
 <h3 class="v2-h3">3.7 When to Use <code>const</code> vs <code>let</code> — The Decision Rule</h3>
 <p class="v2-p">Here is the simple professional rule:</p>
 <ol class="v2-ol"><li><strong>Default to <code>const</code></strong> — always start with <code>const</code></li><li><strong>Change to <code>let</code></strong> only if you later need to reassign the variable's value</li><li><strong>Never use <code>var</code></strong> if you can use <code>let</code> or <code>const</code></li><li><strong>Never use automatic variables</strong> — always use a keyword</li></ol>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Good pattern:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Good pattern:
 const userName = &quot;Alice&quot;;          // Will never change — use const
 const taxRate = 0.075;             // Will never change — use const
 let currentScore = 0;              // Will change as game progresses — use let
@@ -465,22 +371,8 @@ let itemCount = 0;                 // Will change as items are added — use let
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Problem</th><th><code>var</code> behaviour</th><th><code>let</code> / <code>const</code> behaviour</th></tr></thead><tbody><tr><td><strong>Redeclaration</strong></td><td>Allows redeclaring same name silently</td><td>Throws an error — protects you</td></tr><tr><td><strong>Scope</strong></td><td>Function scope — leaks out of blocks</td><td>Block scope — stays contained</td></tr><tr><td><strong>Hoisting</strong></td><td>Hoisted and initialised to <code>undefined</code></td><td>Hoisted but NOT initialised — throws clear error</td></tr><tr><td><strong>Loops</strong></td><td>Loop variable leaks outside the loop</td><td>Loop variable stays inside the loop</td></tr></tbody></table></div>
 <p class="v2-p">The <code>var</code> keyword still exists in JavaScript for backward compatibility, but in new code, it should never be used. You will see it in old tutorials and legacy code — recognise it, but don't copy it.</p>
 <hr class="v2-hr">
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>TOPIC 3: <code>const</code> — For Values That Should Not Change</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 7</div>
-    <div class="phase-title">TOPIC 4: JavaScript Data Types</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <hr class="v2-hr">
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>TOPIC 3: <code>const</code> — For Values That Should Not Change</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/7</div><div class="pt">TOPIC 4: JavaScript Data Types</div><div class="pc" id="chk4"></div></div><div class="pb2"><hr class="v2-hr">
 <h3 class="v2-h3">4.1 Why Data Types Exist</h3>
 <p class="v2-p">In the real world, different kinds of information behave differently:</p>
 <ul class="v2-ul"><li>You can add numbers together: <code>5 + 3 = 8</code></li><li>You can join text together: <code>"Hello" + " World" = "Hello World"</code></li><li>You cannot meaningfully add text to a number: <code>"Five" + 3 = ???</code></li></ul>
@@ -489,41 +381,41 @@ let itemCount = 0;                 // Will change as items are added — use let
 <hr class="v2-hr">
 <h3 class="v2-h3">4.2 JavaScript Is Dynamically Typed</h3>
 <p class="v2-p">In some languages (like Java or C), you must declare what type of data a variable will hold, and it cannot change:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">java</span></div><div class="v2-code-body"><pre><code>int score = 100;      // Java — this variable can ONLY ever hold integers</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">java</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>int score = 100;      // Java — this variable can ONLY ever hold integers</code></pre></div></div>
 <p class="v2-p">JavaScript works differently. The same variable can hold any type of data, and the type can even change:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10;         // x holds a number
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 10;         // x holds a number
 x = &quot;Hello&quot;;        // x now holds a string — JavaScript allows this
 x = true;           // x now holds a boolean — still allowed</code></pre></div></div>
 <p class="v2-p">This is called <strong>dynamic typing</strong>. It makes JavaScript flexible, but it also means you need to be careful about what type of data you expect a variable to hold.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.3 Data Type 1 — String</h3>
 <p class="v2-p">A <strong>string</strong> is any piece of text. It is written inside single quotes, double quotes, or backticks (template literals, which you will learn later).</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let name = &quot;Alice&quot;;               // double quotes
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let name = &quot;Alice&quot;;               // double quotes
 let city = &#x27;Lagos&#x27;;               // single quotes
 let message = `Hello, World!`;    // backticks (template literal)</code></pre></div></div>
 <p class="v2-p">All three produce a string. The choice of quote style is yours — just be consistent and match the opening and closing type.</p>
 <p class="v2-p"><strong>Important:</strong> If you put a number inside quotes, it becomes a string — not a number:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let price = &quot;100&quot;;   // This is the STRING &quot;100&quot;, not the NUMBER 100</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let price = &quot;100&quot;;   // This is the STRING &quot;100&quot;, not the NUMBER 100</code></pre></div></div>
 <p class="v2-p">You cannot do maths with it — it will concatenate instead.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.4 Data Type 2 — Number</h3>
 <p class="v2-p">JavaScript has only <strong>one number type</strong> for all numeric values — whether whole numbers or decimals. Unlike most programming languages that distinguish between integers and floating-point numbers, JavaScript uses a single flexible number type:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let age = 28;           // whole number (integer)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let age = 28;           // whole number (integer)
 let price = 19.99;      // decimal number (float)
 let temperature = -5;   // negative number
 let big = 1e6;          // scientific notation: 1,000,000</code></pre></div></div>
 <p class="v2-p"><strong>Special number values:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let infinity = Infinity;       // represents mathematical infinity
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let infinity = Infinity;       // represents mathematical infinity
 let negInfinity = -Infinity;
 let notANumber = NaN;          // &quot;Not a Number&quot; — result of invalid maths</code></pre></div></div>
 <p class="v2-p"><code>NaN</code> appears when you try to do maths with something that isn't a valid number:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let result = 100 / &quot;apple&quot;;    // Can&#x27;t divide by text
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let result = 100 / &quot;apple&quot;;    // Can&#x27;t divide by text
 console.log(result);           // Output: NaN</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.5 Data Type 3 — BigInt</h3>
 <p class="v2-p">A standard JavaScript number can safely represent integers up to about 9 quadrillion (9,007,199,254,740,991). Beyond that, precision is lost.</p>
 <p class="v2-p"><strong>BigInt</strong> was introduced to handle numbers larger than this limit. You create a BigInt by adding the letter <code>n</code> to the end of a number:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let hugeNumber = 9007199254740991n;    // BigInt
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let hugeNumber = 9007199254740991n;    // BigInt
 let result = hugeNumber + 1n;          // Must use n on both sides
 console.log(result);                   // Output: 9007199254740992n</code></pre></div></div>
 <p class="v2-p"><strong>Real-world use:</strong> BigInt is used in cryptography, financial systems handling very large transaction IDs, and scientific computing. For everyday JavaScript programming, regular numbers are sufficient.</p>
@@ -531,41 +423,41 @@ console.log(result);                   // Output: 9007199254740992n</code></pre>
 <h3 class="v2-h3">4.6 Data Type 4 — Boolean</h3>
 <p class="v2-p">A <strong>boolean</strong> is the simplest data type — it can only ever be one of two values: <code>true</code> or <code>false</code>.</p>
 <p class="v2-p">Think of it like a light switch: it is either ON or OFF. There is no in-between.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let isLoggedIn = true;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let isLoggedIn = true;
 let hasPermission = false;
 let isOver18 = true;</code></pre></div></div>
 <p class="v2-p">Booleans are used constantly in programming to make decisions:</p>
 <ul class="v2-ul"><li>Is the user logged in? (<code>true</code> / <code>false</code>)</li><li>Has the form been filled correctly? (<code>true</code> / <code>false</code>)</li><li>Is the item in stock? (<code>true</code> / <code>false</code>)</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let temperature = 35;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let temperature = 35;
 let isHot = temperature &gt; 30;    // Evaluates to: true
 console.log(isHot);              // Output: true</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Beginner Mistake:</strong> <code>true</code> and <code>false</code> are written in lowercase with no quotes. <code>"true"</code> (with quotes) is a string — a completely different thing!</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.7 Data Type 5 — Undefined</h3>
 <p class="v2-p"><code>undefined</code> is the value a variable holds when it has been <strong>declared but not yet assigned</strong> a value. JavaScript automatically gives this value to empty variables.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score;
 console.log(score);      // Output: undefined
 console.log(typeof score); // Output: &quot;undefined&quot;</code></pre></div></div>
 <p class="v2-p">After assigning:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>score = 100;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>score = 100;
 console.log(score);      // Output: 100</code></pre></div></div>
 <p class="v2-p"><strong>Real-world analogy:</strong> Think of a form field that exists on the page (the variable is declared) but the user hasn't filled it in yet (no value assigned). It is a valid field — it just doesn't have a value yet.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.8 Data Type 6 — Null</h3>
 <p class="v2-p"><strong><code>null</code></strong> means "intentionally empty" — the variable exists, but you have deliberately set it to have no value. It is not <code>undefined</code> (which means "not yet assigned"); it means "I am choosing to leave this empty."</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let selectedUser = null;      // No user selected yet — by choice</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let selectedUser = null;      // No user selected yet — by choice</code></pre></div></div>
 <p class="v2-p">Later, when a user is selected:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>selectedUser = { name: &quot;Alice&quot;, id: 42 };</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>selectedUser = { name: &quot;Alice&quot;, id: 42 };</code></pre></div></div>
 <p class="v2-p"><strong>The difference between <code>null</code> and <code>undefined</code>:</strong></p>
 <ul class="v2-ul"><li><code>undefined</code>: the variable exists but was never given a value</li><li><code>null</code>: the developer explicitly chose to make the variable empty</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let a;           // undefined — not yet assigned
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let a;           // undefined — not yet assigned
 let b = null;    // null — deliberately set to empty</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <code>typeof null</code> returns <code>"object"</code> — this is a well-known quirk in JavaScript that has existed since the language was first created. It is considered a bug in the language, but it cannot be fixed now without breaking millions of existing websites.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.9 Data Type 7 — Object</h3>
 <p class="v2-p">An <strong>object</strong> is a complex data type that groups related information together. Where a simple variable holds one value, an object can hold many values — each one given a name (called a <strong>property</strong>).</p>
 <p class="v2-p">Think of an object like a profile card: it describes one thing from multiple angles.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const student = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const student = {
   name: &quot;James&quot;,
   age: 20,
   course: &quot;Computer Science&quot;,
@@ -575,7 +467,7 @@ let b = null;    // null — deliberately set to empty</code></pre></div></div>
 console.log(student.name);    // Output: James
 console.log(student.age);     // Output: 20</code></pre></div></div>
 <p class="v2-p">The object data type in JavaScript also includes <strong>arrays</strong> and <strong>dates</strong>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Array — a list of values
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Array — a list of values
 const colours = [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;];
 
 // Date — a date/time object
@@ -584,7 +476,7 @@ const today = new Date();</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">4.10 The <code>typeof</code> Operator — Checking a Variable's Data Type</h3>
 <p class="v2-p"><code>typeof</code> is a built-in operator that tells you what data type a value or variable currently holds. It returns a string describing the type.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>typeof &quot;Alice&quot;       // Returns: &quot;string&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>typeof &quot;Alice&quot;       // Returns: &quot;string&quot;
 typeof 42            // Returns: &quot;number&quot;
 typeof 3.14          // Returns: &quot;number&quot;
 typeof true          // Returns: &quot;boolean&quot;
@@ -594,7 +486,7 @@ typeof { name: &quot;Alice&quot; }  // Returns: &quot;object&quot;
 typeof [1, 2, 3]    // Returns: &quot;object&quot;  ← arrays are objects in JS
 typeof function(){}  // Returns: &quot;function&quot;</code></pre></div></div>
 <p class="v2-p"><strong>Practical use — checking a variable's type before using it:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let userInput = &quot;25&quot;;    // came from a form — might be a string
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let userInput = &quot;25&quot;;    // came from a form — might be a string
 
 console.log(typeof userInput);    // Output: &quot;string&quot;
 
@@ -605,33 +497,18 @@ console.log(typeof userInput);    // Output: &quot;string&quot;
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 2 — APPLIED EXERCISES</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>TOPIC 4: JavaScript Data Types</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 7</div>
-    <div class="phase-title">Exercise 1 — Variables in the Real World</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Declare variables correctly using <code>let</code> and <code>const</code>, and understand the difference through a practical scenario.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>TOPIC 4: JavaScript Data Types</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/7</div><div class="pt">Exercise 1 — Variables in the Real World</div><div class="pc" id="chk5"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Declare variables correctly using <code>let</code> and <code>const</code>, and understand the difference through a practical scenario.</p>
 <p class="v2-p"><strong>Scenario:</strong> You are building a simple product page for an online shop. Some information about the product never changes (name, price, category). Other information changes during the shopping session (quantity selected, total cost).</p>
 <hr class="v2-hr">
-<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const itemName = &quot;Notebook&quot;;    // Fixed — const
+<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 1 — Variables in the Real World</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const itemName = &quot;Notebook&quot;;    // Fixed — const
 let quantityInCart = 0;         // Changes — let
 quantityInCart = quantityInCart + 2;
 console.log(quantityInCart);    // Output: 2</code></pre></div></div>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Your Exercise:</strong></p>
 <p class="v2-p"><strong>Step 1 — Create <code>shop.html</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;body&gt;
     &lt;h2&gt;Product Page&lt;/h2&gt;
@@ -642,7 +519,7 @@ console.log(quantityInCart);    // Output: 2</code></pre></div></div>
   &lt;/body&gt;
 &lt;/html&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Step 2 — Create <code>shop.js</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Product details — fixed values, use const
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Product details — fixed values, use const
 const productName = &quot;Wireless Headphones&quot;;
 const productPrice = 12500;       // price in Naira
 const productCategory = &quot;Electronics&quot;;
@@ -673,39 +550,24 @@ console.log(&quot;Product:&quot;, productName);
 console.log(&quot;Quantity:&quot;, quantitySelected);
 console.log(&quot;Total cost:&quot;, totalCost);</code></pre></div></div>
 <p class="v2-p"><strong>Expected page output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>SoundWave Wireless Headphones | Category: Electronics | Price: ₦12500
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>SoundWave Wireless Headphones | Category: Electronics | Price: ₦12500
 Quantity in cart: 3
 Total: ₦37500</code></pre></div></div>
 <p class="v2-p"><strong>Expected console output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Product: Wireless Headphones
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Product: Wireless Headphones
 Quantity: 3
 Total cost: 37500</code></pre></div></div>
 <p class="v2-p"><strong>Step 3 — Test <code>const</code> protection:</strong> Try adding this line to your code:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>productPrice = 10000;   // Try to change the price</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>productPrice = 10000;   // Try to change the price</code></pre></div></div>
 <p class="v2-p">Observe: An error appears in the console because <code>const</code> prevents reassignment.</p>
 <p class="v2-p"><strong>Self-Check Questions:</strong></p>
 <ol class="v2-ol"><li>Why did you use <code>const</code> for <code>productName</code> and <code>productPrice</code>?</li><li>Why did you use <code>let</code> for <code>quantitySelected</code> and <code>totalCost</code>?</li><li>What value did <code>quantitySelected</code> hold immediately after <code>let quantitySelected = 0;</code> before you set it to 3?</li><li>What would happen if you tried to declare <code>const productName = "Earbuds";</code> again in the same script?</li></ol>
 <p class="v2-p"><strong>Optional What-If Challenge:</strong> Add a discount of 500 Naira per item if the customer buys 3 or more. Update the total calculation.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 1 — Variables in the Real World</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 7</div>
-    <div class="phase-title">Exercise 2 — Block Scope in Action</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> See the difference between <code>let</code> (block-scoped) and <code>var</code> (function-scoped) through hands-on experimentation.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(5)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/7</div><div class="pt">Exercise 2 — Block Scope in Action</div><div class="pc" id="chk6"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> See the difference between <code>let</code> (block-scoped) and <code>var</code> (function-scoped) through hands-on experimentation.</p>
 <p class="v2-p"><strong>Scenario:</strong> You are writing a temperature converter that needs a temporary variable inside a calculation block.</p>
 <hr class="v2-hr">
-<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>{
+<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 2 — Block Scope in Action</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   let insideBlock = &quot;I only exist in here&quot;;
   console.log(insideBlock);    // Works: &quot;I only exist in here&quot;
 }
@@ -713,7 +575,7 @@ Total cost: 37500</code></pre></div></div>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Your Exercise:</strong></p>
 <p class="v2-p"><strong>Step 1</strong> — Create this file and run it, reading each <code>console.log</code> carefully:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Scenario: temperature conversion inside a block
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Scenario: temperature conversion inside a block
 
 let outsideTemp = 100;   // Celsius, declared outside
 
@@ -727,39 +589,24 @@ let outsideTemp = 100;   // Celsius, declared outside
 console.log(&quot;Outside block — outsideTemp:&quot;, outsideTemp);   // Works
 // console.log(&quot;Outside block — fahrenheit:&quot;, fahrenheit);  // Would crash!</code></pre></div></div>
 <p class="v2-p"><strong>Expected console output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Inside block — fahrenheit: 212
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Inside block — fahrenheit: 212
 Inside block — outsideTemp: 100
 Outside block — outsideTemp: 100</code></pre></div></div>
 <p class="v2-p"><strong>Step 2</strong> — Now repeat the experiment replacing <code>let fahrenheit</code> with <code>var fahrenheit</code>. Uncomment the last <code>console.log</code>. Observe the difference.</p>
 <p class="v2-p"><strong>Self-Check Questions:</strong></p>
 <ol class="v2-ol"><li>Why could the block access <code>outsideTemp</code>? (Hint: scope looks outward, not inward)</li><li>Why did <code>fahrenheit</code> cause an error outside the block when declared with <code>let</code>?</li><li>What was different when you used <code>var</code>? Is that better or worse? Why?</li><li>Can you think of a real situation where a variable should only exist temporarily inside a calculation block?</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 2 — Block Scope in Action</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 7</div>
-    <div class="phase-title">Exercise 3 — Data Types Explorer</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Work with all the main data types and use <code>typeof</code> to verify what type each variable holds.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(6)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/7</div><div class="pt">Exercise 3 — Data Types Explorer</div><div class="pc" id="chk7"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Work with all the main data types and use <code>typeof</code> to verify what type each variable holds.</p>
 <p class="v2-p"><strong>Scenario:</strong> You are building the backend of a user registration system. Each piece of information has a specific type, and the system must verify what type it is dealing with before processing it.</p>
 <hr class="v2-hr">
-<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let userName = &quot;Alice&quot;;
+<p class="v2-p"><strong>Warm-Up Mini-Example:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 3 — Data Types Explorer</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let userName = &quot;Alice&quot;;
 console.log(typeof userName);    // Output: &quot;string&quot;
 
 let userAge = 30;
 console.log(typeof userAge);     // Output: &quot;number&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <p class="v2-p"><strong>Your Exercise:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// User registration data — different types
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// User registration data — different types
 const firstName = &quot;Chukwudi&quot;;          // String
 const lastName = &quot;Okonkwo&quot;;            // String
 const age = 22;                        // Number
@@ -777,7 +624,7 @@ console.log(&quot;Is Enrolled:&quot;, isEnrolled, &quot;| Type:&quot;, typeof is
 console.log(&quot;Graduation Year:&quot;, graduationYear, &quot;| Type:&quot;, typeof graduationYear);
 console.log(&quot;Profile Picture:&quot;, profilePicture, &quot;| Type:&quot;, typeof profilePicture);</code></pre></div></div>
 <p class="v2-p"><strong>Expected console output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>First Name: Chukwudi | Type: string
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>First Name: Chukwudi | Type: string
 Last Name: Okonkwo | Type: string
 Age: 22 | Type: number
 GPA: 3.75 | Type: number
@@ -786,7 +633,7 @@ Graduation Year: undefined | Type: undefined
 Profile Picture: null | Type: object</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> The last line shows <code>typeof null</code> returns <code>"object"</code>. Does that mean <code>null</code> is actually an object? No — this is a historical bug in JavaScript. <code>null</code> means "intentionally empty," not "an object." This is why you should use <code>null === null</code> to check for null, not <code>typeof x === "object"</code>.</p></blockquote>
 <p class="v2-p"><strong>Step 2</strong> — Add this to test the string + number mixing behaviour:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Type coercion experiments
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Type coercion experiments
 let result1 = &quot;5&quot; + 2 + 3;
 let result2 = 2 + 3 + &quot;5&quot;;
 let result3 = &quot;10&quot; - 5;      // Subtraction can&#x27;t concatenate!
@@ -795,7 +642,7 @@ console.log(&quot;&#x27;5&#x27; + 2 + 3 =&quot;, result1, &quot;| Type:&quot;, t
 console.log(&quot;2 + 3 + &#x27;5&#x27; =&quot;, result2, &quot;| Type:&quot;, typeof result2);
 console.log(&quot;&#x27;10&#x27; - 5 =&quot;, result3, &quot;| Type:&quot;, typeof result3);</code></pre></div></div>
 <p class="v2-p"><strong>Expected output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>&#x27;5&#x27; + 2 + 3 = 523 | Type: string
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&#x27;5&#x27; + 2 + 3 = 523 | Type: string
 2 + 3 + &#x27;5&#x27; = 55 | Type: string
 &#x27;10&#x27; - 5 = 5 | Type: number</code></pre></div></div>
 <p class="v2-p"><strong>Self-Check Questions:</strong></p>
@@ -803,113 +650,77 @@ console.log(&quot;&#x27;10&#x27; - 5 =&quot;, result3, &quot;| Type:&quot;, type
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 3 — PROJECT SIMULATION</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(7)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Stage 1 — Declaring and Displaying Student Data</div><div class="build-req"><p class="v2-p"><strong>Project Overview:</strong> You will build a student information tracker that correctly uses <code>const</code> and <code>let</code>, works with multiple data types, and displays meaningful information on a webpage. This is the kind of data management task common in school administration systems, HR dashboards, and CRM tools.</p>
 <hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 3 — Data Types Explorer</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Stage 1 — Declaring and Displaying Student Data</div>
-  <div class="build-desc"><strong>Goal:</strong> Set up all variables with the correct keywords and display the student profile.</div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>const studentId = &quot;STU-001&quot;;
+<h3 class="v2-h3">Stage 1 — Declaring and Displaying Student Data</h3>
+<p class="v2-p"><strong>Goal:</strong> Set up all variables with the correct keywords and display the student profile.</p>
+<p class="v2-p"><strong>Illustrative Preview:</strong></p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const studentId = &quot;STU-001&quot;;
 let totalMarks = 0;
 console.log(typeof studentId);    // &quot;string&quot;
-console.log(typeof totalMarks);   // &quot;number&quot;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`const studentId = "STU-001";
+console.log(typeof totalMarks);   // &quot;number&quot;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`const studentId = "STU-001";
 let totalMarks = 0;
 console.log(typeof studentId);    // "string"
-console.log(typeof totalMarks);   // "number"`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+console.log(typeof totalMarks);   // "number"`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-03-stage-1-declaring-and-displaying-student</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 03 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-03-stage-1-declaring-and-displaying-student/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 03 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ TOPIC 1: JavaScript Variables — Containers for Data</li><li>✅ TOPIC 2: `let` — The Modern Variable Keyword</li><li>✅ TOPIC 3: `const` — For Values That Should Not Change</li><li>✅ TOPIC 4: JavaScript Data Types</li><li>✅ Exercise 1 — Variables in the Real World</li><li>✅ Exercise 2 — Block Scope in Action</li><li>✅ Exercise 3 — Data Types Explorer</li></ul>
-  <div class="lesson-nav"><a href="lesson_02.html" class="ln-btn">← Lesson 02</a><a href="lesson_04.html" class="ln-btn primary">Lesson 04 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-03-stage-1-declaring-and-displaying-student</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 03 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-03-stage-1-declaring-and-displaying-student/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 03 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ TOPIC 1: JavaScript Variables — Containers for Data</li><li>✅ TOPIC 2: `let` — The Modern Variable Keyword</li><li>✅ TOPIC 3: `const` — For Values That Should Not Change</li><li>✅ TOPIC 4: JavaScript Data Types</li><li>✅ Exercise 1 — Variables in the Real World</li><li>✅ Exercise 2 — Block Scope in Action</li><li>✅ Exercise 3 — Data Types Explorer</li></ul><div class="ln"><a href="lesson_02.html" class="ln-btn">← Lesson 02</a><a href="lesson_04.html" class="ln-btn primary">Lesson 04 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 03 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 03 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=7,KEY='techbase_js_l03';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

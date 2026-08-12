@@ -1,208 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 28: JavaScript HTML DOM: Introduction to the DOM · DOM Methods · Finding Elements · Changing HTML · Changing CSS · Form Validation · Animations · The Document Object · Element Reference — Techbase JavaScript</title>
-<meta name="description" content="JavaScript HTML DOM: Introduction to the DOM · DOM Methods · Finding Elements · Changing HTML · Changing CSS · Form Validation · Animations · The Document Object · Element Reference">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 28 of 46</span>
+  <span class="l-nav-lbl">Lesson 28 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 28</div>
-    <h1>JavaScript HTML DOM: Introduction to the DOM · DOM Methods · Finding Elements · Changing HTML · Changing CSS · Form Validation · Animations · The Document Object · Element Reference</h1>
-    <div class="l-hero-sub">13 phases · Build: Lesson 28 JS Project</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 28</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 13 phases</span>
-    <span>🏗️ Lesson 28 JS Project</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 28</div>
+  <h1>JavaScript HTML DOM: Introduction to the DOM · DOM Methods · Finding Elements · Changing HTML · Changing CSS · Form Validation · Animations · The Document Object · Element Reference</h1>
+  <div class="l-hero-sub">13 phases &nbsp;·&nbsp; Build: Lesson 28 Project</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 28</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 13 phases</span><span>🏗️ Lesson 28 Project</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 13</div>
-    <div class="phase-title">1. What is the HTML DOM?</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">The Big Picture</h3>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/13</div><div class="pt">1. What is the HTML DOM?</div><div class="pc" id="chk1"></div></div><div class="pb2"><h3 class="v2-h3">The Big Picture</h3>
 <p class="v2-p">When a browser loads an HTML page, it does not just display it — it <strong>reads every tag, builds a structured map of the entire page in memory, and hands that map to JavaScript</strong>. That map is called the <strong>DOM</strong>: the <strong>Document Object Model</strong>.</p>
 <p class="v2-p">Think of a webpage like a family tree:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>document
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document
 └── &lt;html&gt;
     ├── &lt;head&gt;
     │   └── &lt;title&gt;My Page&lt;/title&gt;
@@ -226,7 +160,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <ul class="v2-ul"><li><strong>HTML elements as objects</strong> — each tag in your HTML becomes a JavaScript object</li><li><strong>Properties</strong> — the data inside that object (e.g., <code>innerHTML</code>, <code>id</code>, <code>style</code>)</li><li><strong>Methods</strong> — the actions you can call on it (e.g., <code>getElementById()</code>, <code>appendChild()</code>)</li><li><strong>Events</strong> — triggers that fire when something happens (e.g., <code>onclick</code>, <code>onchange</code>)</li></ul>
 <hr class="v2-hr">
 <h3 class="v2-h3">Micro-Demo 1 — The DOM in One Line</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;demo&quot;&gt;I am original text.&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;demo&quot;&gt;I am original text.&lt;/p&gt;
 
 &lt;script&gt;
   document.getElementById(&quot;demo&quot;).innerHTML = &quot;DOM changed me!&quot;;
@@ -236,28 +170,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p"><strong>Expected output in browser:</strong> The paragraph now reads: <code>DOM changed me!</code></p>
 <hr class="v2-hr">
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Thinking question:</strong> What would happen if you used an <code>id</code> that doesn't exist in the page? Try <code>document.getElementById("ghost")</code> — what would JavaScript return? <strong>Answer:</strong> It returns <code>null</code>. Trying to set <code>.innerHTML</code> on <code>null</code> will throw an error. Always check that your element exists!</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1. What is the HTML DOM?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 13</div>
-    <div class="phase-title">2. DOM Methods — Your First Tools</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is a Method?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1. What is the HTML DOM?</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/13</div><div class="pt">2. DOM Methods — Your First Tools</div><div class="pc" id="chk2"></div></div><div class="pb2"><h3 class="v2-h3">What is a Method?</h3>
 <p class="v2-p">A <strong>method</strong> is an action you can perform. Just like a TV remote has buttons (change channel, adjust volume), DOM objects have methods (find element, change content, add child).</p>
 <p class="v2-p">The two most foundational DOM methods are:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>What it does</th></tr></thead><tbody><tr><td><code>document.getElementById(id)</code></td><td>Finds one element by its <code>id</code> attribute</td></tr><tr><td><code>document.createElement(tag)</code></td><td>Creates a brand new HTML element</td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>getElementById</code> — Your Most-Used Tool</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;body&gt;
 
@@ -282,7 +202,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>innerHTML</code> vs <code>innerText</code> — An Important Difference</h3>
 <p class="v2-p">These two properties look similar but behave differently:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;box&quot;&gt;Hello&lt;/div&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;box&quot;&gt;Hello&lt;/div&gt;
 
 &lt;script&gt;
   var el = document.getElementById(&quot;box&quot;);
@@ -299,7 +219,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">The <code>document</code> Object — Your Gateway</h3>
 <p class="v2-p"><code>document</code> is a special built-in JavaScript object that represents the entire loaded page. Every DOM method starts from <code>document</code> because it is the <strong>root of the tree</strong>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>window
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>window
   └── document        ← your starting point
         ├── head
         └── body
@@ -309,30 +229,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Defining HTML Elements — The id Attribute</h3>
 <p class="v2-p"><code>getElementById</code> works because HTML allows every tag to carry a unique identifier:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;score&quot;&gt;0&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;score&quot;&gt;0&lt;/p&gt;
 &lt;p id=&quot;status&quot;&gt;Not started&lt;/p&gt;</code></pre></div></div>
 <p class="v2-p">The <code>id</code> must be <strong>unique per page</strong> — just like a national ID number. If two elements share the same <code>id</code>, <code>getElementById</code> will only find the first one, and your code will behave unpredictably.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2. DOM Methods — Your First Tools</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 13</div>
-    <div class="phase-title">3. Finding HTML Elements</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Six Ways to Find Elements</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2. DOM Methods — Your First Tools</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/13</div><div class="pt">3. Finding HTML Elements</div><div class="pc" id="chk3"></div></div><div class="pb2"><h3 class="v2-h3">Six Ways to Find Elements</h3>
 <p class="v2-p">Once you have the <code>document</code>, you need to locate the specific elements you want to work with. JavaScript gives you six main strategies:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Returns</th><th>Use when...</th></tr></thead><tbody><tr><td><code>getElementById(id)</code></td><td>Single element</td><td>You know the exact <code>id</code></td></tr><tr><td><code>getElementsByTagName(tag)</code></td><td>HTMLCollection</td><td>You want all <code>&lt;p&gt;</code>, all <code>&lt;li&gt;</code>, etc.</td></tr><tr><td><code>getElementsByClassName(cls)</code></td><td>HTMLCollection</td><td>You want all elements sharing a CSS class</td></tr><tr><td><code>querySelector(selector)</code></td><td>Single element</td><td>You want the first match using CSS selector syntax</td></tr><tr><td><code>querySelectorAll(selector)</code></td><td>NodeList</td><td>You want all matches using CSS selector syntax</td></tr><tr><td><code>getElementsByName(name)</code></td><td>NodeList</td><td>Used with form inputs sharing a <code>name</code> attribute</td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Method 1: <code>getElementById</code></h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;h2 id=&quot;title&quot;&gt;JavaScript DOM&lt;/h2&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;h2 id=&quot;title&quot;&gt;JavaScript DOM&lt;/h2&gt;
 
 &lt;script&gt;
   var title = document.getElementById(&quot;title&quot;);
@@ -342,7 +248,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Method 2: <code>getElementsByTagName</code></h3>
 <p class="v2-p">Returns an <strong>HTMLCollection</strong> — like an array of all matching elements.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p&gt;First paragraph&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p&gt;First paragraph&lt;/p&gt;
 &lt;p&gt;Second paragraph&lt;/p&gt;
 &lt;p&gt;Third paragraph&lt;/p&gt;
 
@@ -356,7 +262,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <blockquote class="v2-bq"><p class="v2-p">🔍 <strong>What is an HTMLCollection?</strong> It is a live list of DOM elements. "Live" means: if you add a new <code>&lt;p&gt;</code> to the page later, <code>paragraphs</code> automatically includes it — you don't need to call the method again.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">Looping Through a Collection</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;ul&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;ul&gt;
   &lt;li&gt;Apple&lt;/li&gt;
   &lt;li&gt;Banana&lt;/li&gt;
   &lt;li&gt;Cherry&lt;/li&gt;
@@ -372,7 +278,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p"><strong>Expected output:</strong> All three list items turn green in the browser.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Method 3: <code>getElementsByClassName</code></h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p class=&quot;highlight&quot;&gt;This is highlighted.&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p class=&quot;highlight&quot;&gt;This is highlighted.&lt;/p&gt;
 &lt;p&gt;This is not.&lt;/p&gt;
 &lt;p class=&quot;highlight&quot;&gt;This is also highlighted.&lt;/p&gt;
 
@@ -384,7 +290,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Method 4: <code>querySelector</code> — CSS Selector Power</h3>
 <p class="v2-p"><code>querySelector</code> accepts any CSS selector string — giving you tremendous flexibility:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div class=&quot;card&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div class=&quot;card&quot;&gt;
   &lt;p id=&quot;first&quot;&gt;Hello&lt;/p&gt;
   &lt;p&gt;World&lt;/p&gt;
 &lt;/div&gt;
@@ -410,7 +316,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Method 5: <code>querySelectorAll</code></h3>
 <p class="v2-p">Like <code>querySelector</code> but returns <strong>all</strong> matches as a NodeList.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p class=&quot;item&quot;&gt;One&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p class=&quot;item&quot;&gt;One&lt;/p&gt;
 &lt;p class=&quot;item&quot;&gt;Two&lt;/p&gt;
 &lt;p class=&quot;item&quot;&gt;Three&lt;/p&gt;
 
@@ -426,7 +332,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Searching Within an Element (Not Just the Document)</h3>
 <p class="v2-p">You can call these methods on <strong>any element</strong>, not just <code>document</code>. This lets you narrow your search:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;section-a&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;section-a&quot;&gt;
   &lt;p&gt;Paragraph in A&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&quot;section-b&quot;&gt;
@@ -443,7 +349,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <h3 class="v2-h3">Navigating the DOM Tree with Relationships</h3>
 <p class="v2-p">Every element knows about its relatives:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Property</th><th>What it returns</th></tr></thead><tbody><tr><td><code>element.parentNode</code></td><td>The direct parent element</td></tr><tr><td><code>element.childNodes</code></td><td>All child nodes (including text nodes)</td></tr><tr><td><code>element.children</code></td><td>Only child <strong>elements</strong> (no text nodes)</td></tr><tr><td><code>element.firstChild</code></td><td>First child node</td></tr><tr><td><code>element.lastChild</code></td><td>Last child node</td></tr><tr><td><code>element.nextSibling</code></td><td>Next node at the same level</td></tr><tr><td><code>element.previousSibling</code></td><td>Previous node at the same level</td></tr><tr><td><code>element.firstElementChild</code></td><td>First child that is an element</td></tr><tr><td><code>element.lastElementChild</code></td><td>Last child that is an element</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;ul id=&quot;menu&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;ul id=&quot;menu&quot;&gt;
   &lt;li&gt;Home&lt;/li&gt;
   &lt;li&gt;About&lt;/li&gt;
   &lt;li&gt;Contact&lt;/li&gt;
@@ -458,27 +364,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
   console.log(last.innerHTML);  // Output: Contact
   console.log(menu.children.length); // Output: 3
 &lt;/script&gt;</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3. Finding HTML Elements</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 13</div>
-    <div class="phase-title">4. Changing HTML Content</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Can You Change?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3. Finding HTML Elements</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/13</div><div class="pt">4. Changing HTML Content</div><div class="pc" id="chk4"></div></div><div class="pb2"><h3 class="v2-h3">What Can You Change?</h3>
 <p class="v2-p">Once you have found an element, you can change almost anything about it:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>What to change</th><th>Property / Method</th></tr></thead><tbody><tr><td>Text/HTML inside a tag</td><td><code>.innerHTML</code> or <code>.innerText</code></td></tr><tr><td>An attribute value (src, href, alt…)</td><td><code>.setAttribute()</code> or direct property</td></tr><tr><td>The entire element</td><td><code>.outerHTML</code></td></tr><tr><td>Append new child elements</td><td><code>.appendChild()</code>, <code>.insertBefore()</code></td></tr><tr><td>Remove elements</td><td><code>.removeChild()</code>, <code>.remove()</code></td></tr><tr><td>Write directly to the page (during load)</td><td><code>document.write()</code></td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Changing innerHTML</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;h1 id=&quot;heading&quot;&gt;Old Title&lt;/h1&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;h1 id=&quot;heading&quot;&gt;Old Title&lt;/h1&gt;
 
 &lt;script&gt;
   document.getElementById(&quot;heading&quot;).innerHTML = &quot;New Title&quot;;
@@ -488,7 +380,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <h3 class="v2-h3">Changing an Attribute</h3>
 <p class="v2-p">HTML attributes (like <code>src</code>, <code>href</code>, <code>value</code>, <code>alt</code>) can be changed by:</p>
 <p class="v2-p"><strong>Method A — Direct property access:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;img id=&quot;photo&quot; src=&quot;cat.jpg&quot; alt=&quot;A cat&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;img id=&quot;photo&quot; src=&quot;cat.jpg&quot; alt=&quot;A cat&quot;&gt;
 
 &lt;script&gt;
   var img = document.getElementById(&quot;photo&quot;);
@@ -496,27 +388,27 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
   img.alt = &quot;A dog&quot;;     // Changes the alt text
 &lt;/script&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Method B — Using <code>setAttribute</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;a id=&quot;link&quot; href=&quot;https://google.com&quot;&gt;Visit&lt;/a&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;a id=&quot;link&quot; href=&quot;https://google.com&quot;&gt;Visit&lt;/a&gt;
 
 &lt;script&gt;
   document.getElementById(&quot;link&quot;).setAttribute(&quot;href&quot;, &quot;https://bing.com&quot;);
 &lt;/script&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Read an attribute with <code>getAttribute</code>:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;script&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;script&gt;
   var href = document.getElementById(&quot;link&quot;).getAttribute(&quot;href&quot;);
   console.log(href); // Output: https://bing.com
 &lt;/script&gt;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>document.write()</code> — Use With Caution</h3>
 <p class="v2-p"><code>document.write()</code> adds content directly into the HTML stream as the page loads:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;script&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;script&gt;
   document.write(&quot;&lt;p&gt;Written during page load&lt;/p&gt;&quot;);
 &lt;/script&gt;</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Critical warning:</strong> If you call <code>document.write()</code> <strong>after</strong> the page has finished loading, it <strong>overwrites the entire page</strong>. This is almost never what you want. Use <code>innerHTML</code> instead for post-load changes.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">Creating and Inserting New Elements</h3>
 <p class="v2-p">This is one of the most powerful DOM skills: building elements from scratch and inserting them into the page.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;ul id=&quot;list&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;ul id=&quot;list&quot;&gt;
   &lt;li&gt;Item 1&lt;/li&gt;
   &lt;li&gt;Item 2&lt;/li&gt;
 &lt;/ul&gt;
@@ -541,7 +433,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p"><strong>Expected output:</strong> Each button click adds a new <code>&lt;li&gt;Item 3&lt;/li&gt;</code> to the list.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Inserting Before a Specific Element</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;ul id=&quot;list&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;ul id=&quot;list&quot;&gt;
   &lt;li id=&quot;second&quot;&gt;Second&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -559,20 +451,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Removing Elements</h3>
 <p class="v2-p"><strong>Modern approach (on the element itself):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;remove-me&quot;&gt;Delete me!&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;remove-me&quot;&gt;Delete me!&lt;/p&gt;
 
 &lt;script&gt;
   document.getElementById(&quot;remove-me&quot;).remove();
 &lt;/script&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Classic approach (via parent):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;script&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;script&gt;
   var child = document.getElementById(&quot;remove-me&quot;);
   child.parentNode.removeChild(child);
 &lt;/script&gt;</code></pre></div></div>
 <p class="v2-p">Both achieve the same result. The <code>.remove()</code> approach is shorter but slightly less supported in very old browsers.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Replacing an Element</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;old&quot;&gt;Old paragraph&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;old&quot;&gt;Old paragraph&lt;/p&gt;
 
 &lt;script&gt;
   var newPara = document.createElement(&quot;p&quot;);
@@ -583,7 +475,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 &lt;/script&gt;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>outerHTML</code> — Replace Including the Tag Itself</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;box&quot;&gt;Hello&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;box&quot;&gt;Hello&lt;/p&gt;
 
 &lt;script&gt;
   // innerHTML changes only the CONTENT inside the tag
@@ -594,24 +486,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p"><strong>Expected output:</strong> The <code>&lt;p&gt;</code> tag is completely replaced by an <code>&lt;h2&gt;</code>.</p>
 <hr class="v2-hr">
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Thinking question:</strong> After the code above runs, <code>document.getElementById("box")</code> will return <code>null</code>. Why? <strong>Answer:</strong> The element with <code>id="box"</code> no longer exists — it was replaced. The new <code>&lt;h2&gt;</code> doesn't have that id.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>4. Changing HTML Content</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 13</div>
-    <div class="phase-title">5. Changing CSS Styles</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">The <code>style</code> Property</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>4. Changing HTML Content</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/13</div><div class="pt">5. Changing CSS Styles</div><div class="pc" id="chk5"></div></div><div class="pb2"><h3 class="v2-h3">The <code>style</code> Property</h3>
 <p class="v2-p">Every DOM element has a <code>.style</code> property that maps directly to its inline CSS. You can read and write any CSS property through it.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;message&quot;&gt;Style me!&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;message&quot;&gt;Style me!&lt;/p&gt;
 
 &lt;script&gt;
   var el = document.getElementById(&quot;message&quot;);
@@ -631,7 +509,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Toggle Visibility</h3>
 <p class="v2-p">A classic pattern: show or hide an element based on its current state.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;panel&quot; style=&quot;display:block;&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;panel&quot; style=&quot;display:block;&quot;&gt;
   &lt;p&gt;I am visible!&lt;/p&gt;
 &lt;/div&gt;
 
@@ -652,7 +530,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Using CSS Classes Instead of Inline Styles</h3>
 <p class="v2-p">Inline styles are powerful but mix logic with presentation. A cleaner approach is to <strong>add and remove CSS classes</strong> using JavaScript.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;style&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;style&gt;
   .highlighted {
     background-color: yellow;
     font-weight: bold;
@@ -684,7 +562,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">The <code>classList</code> API — Full Reference</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method / Property</th><th>What it does</th></tr></thead><tbody><tr><td><code>classList.add("cls")</code></td><td>Adds a class</td></tr><tr><td><code>classList.remove("cls")</code></td><td>Removes a class</td></tr><tr><td><code>classList.toggle("cls")</code></td><td>Adds if missing, removes if present</td></tr><tr><td><code>classList.contains("cls")</code></td><td>Returns <code>true</code> if the class is present</td></tr><tr><td><code>classList.replace("old", "new")</code></td><td>Swaps one class for another</td></tr><tr><td><code>classList.length</code></td><td>Number of classes on the element</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;box&quot; class=&quot;card active large&quot;&gt;&lt;/div&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;box&quot; class=&quot;card active large&quot;&gt;&lt;/div&gt;
 
 &lt;script&gt;
   var box = document.getElementById(&quot;box&quot;);
@@ -701,7 +579,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <hr class="v2-hr">
 <h3 class="v2-h3">Reading Computed Styles</h3>
 <p class="v2-p"><code>.style</code> only reads <strong>inline</strong> styles. If a style comes from a CSS file or <code>&lt;style&gt;</code> tag, you need <code>getComputedStyle</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;style&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;style&gt;
   #text { color: blue; font-size: 18px; }
 &lt;/style&gt;
 
@@ -715,27 +593,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
   console.log(computed.color);    // Output: rgb(0, 0, 255)
   console.log(computed.fontSize); // Output: 18px
 &lt;/script&gt;</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>5. Changing CSS Styles</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 13</div>
-    <div class="phase-title">6. Form Validation with the DOM</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Why Validate on the Client Side?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>5. Changing CSS Styles</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/13</div><div class="pt">6. Form Validation with the DOM</div><div class="pc" id="chk6"></div></div><div class="pb2"><h3 class="v2-h3">Why Validate on the Client Side?</h3>
 <p class="v2-p">When a user fills out a form and clicks Submit, the data travels to a server. Sending invalid data (empty fields, wrong email format) wastes bandwidth and frustrates users with slow error feedback. <strong>Client-side validation</strong> catches errors instantly, before the data ever leaves the browser.</p>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Important:</strong> Client-side validation is for <strong>user experience</strong>. Always also validate on the <strong>server side</strong>, because users can bypass JavaScript.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">A Basic Required-Field Check</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;form name=&quot;myForm&quot; onsubmit=&quot;return validateForm()&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;form name=&quot;myForm&quot; onsubmit=&quot;return validateForm()&quot;&gt;
   &lt;label&gt;Name:&lt;/label&gt;
   &lt;input type=&quot;text&quot; id=&quot;name&quot; placeholder=&quot;Enter your name&quot;&gt;
   &lt;br&gt;
@@ -758,7 +622,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p"><strong>Key concept:</strong> <code>return false</code> from an <code>onsubmit</code> handler <strong>prevents the form from submitting</strong>. <code>return true</code> allows it.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Validating an Email Address</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;email&quot; placeholder=&quot;Enter email&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;email&quot; placeholder=&quot;Enter email&quot;&gt;
 &lt;span id=&quot;emailError&quot; style=&quot;color:red;&quot;&gt;&lt;/span&gt;
 
 &lt;script&gt;
@@ -780,7 +644,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 &lt;/script&gt;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Numeric Range Validation</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;label&gt;Age (18–65):&lt;/label&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;label&gt;Age (18–65):&lt;/label&gt;
 &lt;input type=&quot;number&quot; id=&quot;age&quot;&gt;
 &lt;p id=&quot;ageError&quot; style=&quot;color:red;&quot;&gt;&lt;/p&gt;
 
@@ -801,13 +665,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <h3 class="v2-h3">Automatic HTML5 Validation vs JavaScript Validation</h3>
 <p class="v2-p">Modern HTML5 includes built-in validation attributes:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Attribute</th><th>Behaviour</th></tr></thead><tbody><tr><td><code>required</code></td><td>Field must not be empty</td></tr><tr><td><code>type="email"</code></td><td>Must match email format</td></tr><tr><td><code>type="number"</code></td><td>Must be a number</td></tr><tr><td><code>min</code> / <code>max</code></td><td>Number must be in range</td></tr><tr><td><code>minlength</code> / <code>maxlength</code></td><td>Text length limits</td></tr><tr><td><code>pattern</code></td><td>Must match a regex pattern</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;email&quot; required placeholder=&quot;your@email.com&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;email&quot; required placeholder=&quot;your@email.com&quot;&gt;
 &lt;input type=&quot;number&quot; min=&quot;18&quot; max=&quot;65&quot; required&gt;</code></pre></div></div>
 <p class="v2-p">HTML5 validation fires automatically on submit. JavaScript validation gives you <strong>more control</strong> over the error messages and timing.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Real-Time Validation with Events</h3>
 <p class="v2-p">Instead of waiting for form submission, validate as the user types:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;username&quot; oninput=&quot;checkUsername(this.value)&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; id=&quot;username&quot; oninput=&quot;checkUsername(this.value)&quot;&gt;
 &lt;small id=&quot;usernameMsg&quot;&gt;&lt;/small&gt;
 
 &lt;script&gt;
@@ -829,7 +693,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <p class="v2-p"><strong>Expected output:</strong> As the user types, the message updates instantly with colour-coded feedback.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Password Confirmation Check</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;password&quot; id=&quot;pass1&quot; placeholder=&quot;Password&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;password&quot; id=&quot;pass1&quot; placeholder=&quot;Password&quot;&gt;
 &lt;input type=&quot;password&quot; id=&quot;pass2&quot; placeholder=&quot;Confirm Password&quot;&gt;
 &lt;p id=&quot;matchMsg&quot;&gt;&lt;/p&gt;
 
@@ -852,22 +716,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 
   document.getElementById(&quot;pass2&quot;).addEventListener(&quot;input&quot;, checkPasswords);
 &lt;/script&gt;</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>6. Form Validation with the DOM</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 13</div>
-    <div class="phase-title">7. DOM Animations</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">How DOM Animations Work (The Concept)</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>6. Form Validation with the DOM</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/13</div><div class="pt">7. DOM Animations</div><div class="pc" id="chk7"></div></div><div class="pb2"><h3 class="v2-h3">How DOM Animations Work (The Concept)</h3>
 <p class="v2-p">CSS transitions and animations are great for simple effects. But JavaScript DOM animations give you <strong>precise control</strong> using:</p>
 <ul class="v2-ul"><li><strong><code>setInterval(fn, ms)</code></strong> — runs a function repeatedly every <code>ms</code> milliseconds</li><li><strong><code>clearInterval(id)</code></strong> — stops a running interval</li><li><strong><code>requestAnimationFrame(fn)</code></strong> — the modern, performance-friendly alternative</li></ul>
 <p class="v2-p">The core idea: <strong>change a CSS property by a small amount, many times per second, to create the illusion of smooth movement</strong>.</p>
@@ -876,7 +726,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Function</th><th>What it does</th></tr></thead><tbody><tr><td><code>setTimeout(fn, ms)</code></td><td>Calls <code>fn</code> once after <code>ms</code> milliseconds</td></tr><tr><td><code>setInterval(fn, ms)</code></td><td>Calls <code>fn</code> repeatedly every <code>ms</code> milliseconds</td></tr><tr><td><code>clearInterval(id)</code></td><td>Stops an interval using its returned id</td></tr><tr><td><code>requestAnimationFrame(fn)</code></td><td>Calls <code>fn</code> before the next screen repaint (~60fps)</td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Micro-Demo: Blinking Text</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;blink&quot;&gt;Notice me!&lt;/p&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;p id=&quot;blink&quot;&gt;Notice me!&lt;/p&gt;
 
 &lt;script&gt;
   var visible = true;
@@ -892,7 +742,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 <h3 class="v2-h3">Building a Slide Animation Step by Step</h3>
 <p class="v2-p">This is the classic W3Schools sliding box animation — let's build it together and understand every line.</p>
 <p class="v2-p"><strong>HTML structure:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;container&quot; style=&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;container&quot; style=&quot;
   width: 400px;
   height: 400px;
   position: relative;
@@ -912,7 +762,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
 &lt;button onclick=&quot;stopMove()&quot;&gt;Stop&lt;/button&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Why <code>position: relative</code> on the container?</strong> The box uses <code>position: absolute</code> which positions it relative to its nearest positioned ancestor. By setting <code>relative</code> on the container, the box moves within the container, not the entire page.</p>
 <p class="v2-p"><strong>JavaScript:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var timer = null;   // Stores the interval ID so we can stop it later
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var timer = null;   // Stores the interval ID so we can stop it later
 
 function startMove() {
   // Prevent starting multiple intervals at once
@@ -942,7 +792,7 @@ function stopMove() {
 <hr class="v2-hr">
 <h3 class="v2-h3">Using <code>requestAnimationFrame</code> — The Modern Way</h3>
 <p class="v2-p"><code>setInterval</code> has a problem: it fires on its own schedule, not in sync with the browser's painting cycle. This can cause <strong>jank</strong> (stuttering). <code>requestAnimationFrame</code> is smarter:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var pos = 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var pos = 0;
 var animating = false;
 var animId;
 
@@ -978,7 +828,7 @@ function stopMove() {
 <ul class="v2-ul"><li>Syncs with the display refresh rate (usually 60fps)</li><li>Pauses automatically when the tab is not visible (saves CPU/battery)</li><li>Smoother than <code>setInterval</code></li></ul>
 <hr class="v2-hr">
 <h3 class="v2-h3">Animating Multiple Properties</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;bubble&quot; style=&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;bubble&quot; style=&quot;
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -1010,22 +860,8 @@ function stopMove() {
   requestAnimationFrame(animate);
 &lt;/script&gt;</code></pre></div></div>
 <p class="v2-p"><strong>Expected output:</strong> A blue circle slides to the right while gradually fading out.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>7. DOM Animations</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 13</div>
-    <div class="phase-title">8. The Document Object in Depth</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What Is the <code>document</code> Object?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>7. DOM Animations</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/13</div><div class="pt">8. The Document Object in Depth</div><div class="pc" id="chk8"></div></div><div class="pb2"><h3 class="v2-h3">What Is the <code>document</code> Object?</h3>
 <p class="v2-p">The <code>document</code> object is the <strong>root of the HTML DOM</strong> — it represents the loaded HTML page and provides access to every element, attribute, and text node in it.</p>
 <p class="v2-p">You never create <code>document</code> — it's automatically available in any JavaScript running in a browser.</p>
 <hr class="v2-hr">
@@ -1034,25 +870,25 @@ function stopMove() {
 <hr class="v2-hr">
 <h3 class="v2-h3">Practical Examples</h3>
 <p class="v2-p"><strong>Reading page information:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(document.title);        // &quot;My Page Title&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(document.title);        // &quot;My Page Title&quot;
 console.log(document.URL);          // &quot;https://example.com/page.html&quot;
 console.log(document.domain);       // &quot;example.com&quot;
 console.log(document.lastModified); // &quot;03/17/2026 10:30:00&quot;
 console.log(document.readyState);   // &quot;complete&quot;</code></pre></div></div>
 <p class="v2-p"><strong>Accessing the <code>&lt;body&gt;</code> directly:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>document.body.style.backgroundColor = &quot;lightblue&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document.body.style.backgroundColor = &quot;lightblue&quot;;
 document.body.style.fontFamily = &quot;Arial, sans-serif&quot;;</code></pre></div></div>
 <p class="v2-p"><strong>Working with forms:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(document.forms.length);         // Number of forms on the page
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(document.forms.length);         // Number of forms on the page
 console.log(document.forms[0].id);          // id of first form
 console.log(document.forms[&quot;loginForm&quot;]);   // Access by name attribute</code></pre></div></div>
 <p class="v2-p"><strong>Working with images:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var images = document.images;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var images = document.images;
 for (var i = 0; i &lt; images.length; i++) {
   console.log(images[i].src); // Prints URL of each image
 }</code></pre></div></div>
 <p class="v2-p"><strong>Working with links:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var links = document.links;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var links = document.links;
 for (var i = 0; i &lt; links.length; i++) {
   links[i].style.color = &quot;purple&quot;; // Changes all link colours
 }</code></pre></div></div>
@@ -1061,7 +897,7 @@ for (var i = 0; i &lt; links.length; i++) {
 <p class="v2-p">The document object is responsible for creating all new nodes:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Creates</th></tr></thead><tbody><tr><td><code>document.createElement(tag)</code></td><td>A new HTML element</td></tr><tr><td><code>document.createTextNode(text)</code></td><td>A raw text node</td></tr><tr><td><code>document.createAttribute(name)</code></td><td>A new attribute node</td></tr><tr><td><code>document.createComment(text)</code></td><td>An HTML comment node</td></tr><tr><td><code>document.createDocumentFragment()</code></td><td>A lightweight container for building DOM structures off-screen</td></tr></tbody></table></div>
 <p class="v2-p"><strong>Text node example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var para = document.createElement(&quot;p&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var para = document.createElement(&quot;p&quot;);
 var text = document.createTextNode(&quot;Hello from a text node!&quot;);
 para.appendChild(text);
 document.body.appendChild(para);
@@ -1069,7 +905,7 @@ document.body.appendChild(para);
 <hr class="v2-hr">
 <h3 class="v2-h3">DocumentFragment — Performance Trick</h3>
 <p class="v2-p">When adding many elements, inserting them one by one causes the browser to <strong>repaint the screen repeatedly</strong>. A <code>DocumentFragment</code> lets you build the structure in memory first, then insert everything at once:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var fragment = document.createDocumentFragment();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var fragment = document.createDocumentFragment();
 
 for (var i = 1; i &lt;= 100; i++) {
   var li = document.createElement(&quot;li&quot;);
@@ -1082,7 +918,7 @@ document.getElementById(&quot;myList&quot;).appendChild(fragment);</code></pre><
 <p class="v2-p">This is significantly faster than 100 individual <code>appendChild</code> calls on the live DOM.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Cookies with <code>document.cookie</code></h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Set a cookie
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Set a cookie
 document.cookie = &quot;username=Alice; expires=Thu, 31 Dec 2026 12:00:00 UTC; path=/&quot;;
 
 // Read all cookies (returns one big string)
@@ -1104,26 +940,12 @@ console.log(getCookie(&quot;username&quot;)); // Output: Alice</code></pre></div
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>document.open()</code>, <code>document.write()</code>, <code>document.close()</code></h3>
 <p class="v2-p">These three work together to write an entirely new document:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>document.open();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>document.open();
 document.write(&quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;New document written by JS!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
 document.close();</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ This <strong>completely replaces</strong> the existing page. Used mainly in old-style popup windows. Avoid in modern projects.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>8. The Document Object in Depth</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 13</div>
-    <div class="phase-title">9. HTML Element Reference</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">The Element as an Object</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>8. The Document Object in Depth</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/13</div><div class="pt">9. HTML Element Reference</div><div class="pc" id="chk9"></div></div><div class="pb2"><h3 class="v2-h3">The Element as an Object</h3>
 <p class="v2-p">Every HTML element in the DOM is represented as a JavaScript object. That object has:</p>
 <ul class="v2-ul"><li><strong>Properties</strong> — data about the element (its id, class, style, content, etc.)</li><li><strong>Methods</strong> — actions you can perform (click it, focus it, blur it, etc.)</li></ul>
 <p class="v2-p">This section catalogues the most important ones.</p>
@@ -1133,7 +955,7 @@ document.close();</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Position and Size Properties</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Property</th><th>Description</th></tr></thead><tbody><tr><td><code>offsetWidth</code></td><td>Total width including padding and border</td></tr><tr><td><code>offsetHeight</code></td><td>Total height including padding and border</td></tr><tr><td><code>offsetLeft</code></td><td>Distance from left edge of offset parent</td></tr><tr><td><code>offsetTop</code></td><td>Distance from top edge of offset parent</td></tr><tr><td><code>offsetParent</code></td><td>Nearest positioned ancestor element</td></tr><tr><td><code>clientWidth</code></td><td>Width including padding, excluding border and scrollbar</td></tr><tr><td><code>clientHeight</code></td><td>Height including padding, excluding border</td></tr><tr><td><code>scrollWidth</code></td><td>Full scrollable width</td></tr><tr><td><code>scrollHeight</code></td><td>Full scrollable height</td></tr><tr><td><code>scrollLeft</code></td><td>Pixels scrolled horizontally</td></tr><tr><td><code>scrollTop</code></td><td>Pixels scrolled vertically</td></tr><tr><td><code>getBoundingClientRect()</code></td><td>Returns size and position relative to viewport</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var box = document.getElementById(&quot;box&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var box = document.getElementById(&quot;box&quot;);
 
 console.log(box.offsetWidth);   // e.g. 300 (px)
 console.log(box.offsetTop);     // e.g. 120 (px from top of offset parent)
@@ -1151,7 +973,7 @@ console.log(rect.height); // Element height</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody><tr><td><code>getAttribute(name)</code></td><td>Get the value of an attribute</td></tr><tr><td><code>setAttribute(name, value)</code></td><td>Set an attribute value</td></tr><tr><td><code>removeAttribute(name)</code></td><td>Remove an attribute</td></tr><tr><td><code>hasAttribute(name)</code></td><td>Returns boolean: does the attribute exist?</td></tr><tr><td><code>appendChild(node)</code></td><td>Add a child node at the end</td></tr><tr><td><code>insertBefore(new, ref)</code></td><td>Insert before a reference child</td></tr><tr><td><code>removeChild(child)</code></td><td>Remove a child node</td></tr><tr><td><code>replaceChild(new, old)</code></td><td>Replace a child node</td></tr><tr><td><code>cloneNode(deep)</code></td><td>Clone the element; <code>deep=true</code> clones children too</td></tr><tr><td><code>contains(node)</code></td><td>Returns boolean: is the node a descendant?</td></tr><tr><td><code>matches(selector)</code></td><td>Returns boolean: does the element match a CSS selector?</td></tr><tr><td><code>closest(selector)</code></td><td>Walks up the tree, returns first ancestor matching selector</td></tr><tr><td><code>querySelector(sel)</code></td><td>Finds first matching descendant</td></tr><tr><td><code>querySelectorAll(sel)</code></td><td>Finds all matching descendants</td></tr><tr><td><code>insertAdjacentHTML(pos, html)</code></td><td>Inserts HTML at a specific position</td></tr><tr><td><code>insertAdjacentElement(pos, el)</code></td><td>Inserts an element at a specific position</td></tr><tr><td><code>scrollIntoView()</code></td><td>Scrolls the element into the visible viewport</td></tr><tr><td><code>focus()</code></td><td>Gives focus to the element</td></tr><tr><td><code>blur()</code></td><td>Removes focus</td></tr><tr><td><code>click()</code></td><td>Programmatically clicks the element</td></tr><tr><td><code>remove()</code></td><td>Removes the element from the DOM</td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>insertAdjacentHTML</code> Positions</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;target&quot;&gt;TARGET&lt;/div&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;target&quot;&gt;TARGET&lt;/div&gt;
 
 &lt;script&gt;
   var el = document.getElementById(&quot;target&quot;);
@@ -1172,7 +994,7 @@ console.log(rect.height); // Element height</code></pre></div></div>
 &lt;/script&gt;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>cloneNode</code> — Copying Elements</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;original&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;original&quot;&gt;
   &lt;p&gt;Hello&lt;/p&gt;
   &lt;span&gt;World&lt;/span&gt;
 &lt;/div&gt;
@@ -1191,7 +1013,7 @@ console.log(rect.height); // Element height</code></pre></div></div>
 &lt;/script&gt;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>matches</code> and <code>closest</code></h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;nav&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;nav&gt;
   &lt;ul class=&quot;menu&quot;&gt;
     &lt;li class=&quot;item active&quot;&gt;&lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
     &lt;li class=&quot;item&quot;&gt;&lt;a href=&quot;#&quot;&gt;About&lt;/a&gt;&lt;/li&gt;
@@ -1216,7 +1038,7 @@ console.log(rect.height); // Element height</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3"><code>data-*</code> Attributes and the <code>dataset</code> API</h3>
 <p class="v2-p">Custom data attributes let you embed extra information in HTML without affecting layout:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;product&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div id=&quot;product&quot;
   data-id=&quot;42&quot;
   data-name=&quot;Blue Shirt&quot;
   data-price=&quot;29.99&quot;
@@ -1244,7 +1066,7 @@ console.log(rect.height); // Element height</code></pre></div></div>
 <h3 class="v2-h3">Input-Specific Properties</h3>
 <p class="v2-p"><code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>, and <code>&lt;select&gt;</code> have special properties:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>value</code></td><td>String</td><td>Current value of the input</td></tr><tr><td><code>defaultValue</code></td><td>String</td><td>Original value (before user changes)</td></tr><tr><td><code>checked</code></td><td>Boolean</td><td>Whether a checkbox/radio is checked</td></tr><tr><td><code>defaultChecked</code></td><td>Boolean</td><td>Original checked state</td></tr><tr><td><code>disabled</code></td><td>Boolean</td><td>Whether the input is disabled</td></tr><tr><td><code>readOnly</code></td><td>Boolean</td><td>Whether the input is read-only</td></tr><tr><td><code>required</code></td><td>Boolean</td><td>Whether the input is required</td></tr><tr><td><code>placeholder</code></td><td>String</td><td>Placeholder text</td></tr><tr><td><code>type</code></td><td>String</td><td>Input type (<code>"text"</code>, <code>"number"</code>, etc.)</td></tr><tr><td><code>name</code></td><td>String</td><td>Name attribute (used in form submission)</td></tr><tr><td><code>form</code></td><td>HTMLFormElement</td><td>The form this input belongs to</td></tr><tr><td><code>validity</code></td><td>ValidityState</td><td>Validation state object</td></tr><tr><td><code>validationMessage</code></td><td>String</td><td>Browser's validation error message</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var input = document.getElementById(&quot;myInput&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var input = document.getElementById(&quot;myInput&quot;);
 
 input.value = &quot;Hello&quot;;          // Set value
 console.log(input.value);       // Read value
@@ -1254,27 +1076,13 @@ input.focus();                  // Move cursor to this field
 input.select();                 // Select all text in it</code></pre></div></div>
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 2 — APPLIED EXERCISES</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>9. HTML Element Reference</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase10">
-  <div class="phase-header">
-    <div class="phase-num">Phase 10 of 13</div>
-    <div class="phase-title">10. Applied Exercises</div>
-    <div class="phase-check" id="chk10"></div>
-  </div>
-  <div class="phase-body">
-    <hr class="v2-hr">
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>9. HTML Element Reference</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase10"><div class="ph"><div class="pn">Phase 10/13</div><div class="pt">10. Applied Exercises</div><div class="pc" id="chk10"></div></div><div class="pb2"><hr class="v2-hr">
 <h3 class="v2-h3">Exercise 1: Live Word Counter</h3>
 <p class="v2-p"><strong>Objective:</strong> Use DOM manipulation to count characters and words in a textarea in real time.</p>
 <p class="v2-p"><strong>Real-world scenario:</strong> You are building a Twitter-like post composer. Users must stay under 280 characters. You need to show them their remaining character count as they type.</p>
 <p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; oninput=&quot;showLength(this)&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;input type=&quot;text&quot; oninput=&quot;showLength(this)&quot;&gt;
 &lt;p id=&quot;len&quot;&gt;0 characters&lt;/p&gt;
 
 &lt;script&gt;
@@ -1298,7 +1106,7 @@ input.select();                 // Select all text in it</code></pre></div></div
 <p class="v2-p"><strong>Objective:</strong> Let the user add rows to a table using the DOM.</p>
 <p class="v2-p"><strong>Real-world scenario:</strong> A school administrator app where teachers can add student grades without a page reload.</p>
 <p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;table id=&quot;t&quot;&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Grade&lt;/th&gt;&lt;/tr&gt;&lt;/table&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;table id=&quot;t&quot;&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Grade&lt;/th&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;button onclick=&quot;addRow()&quot;&gt;Add Row&lt;/button&gt;
 
 &lt;script&gt;
@@ -1315,7 +1123,7 @@ input.select();                 // Select all text in it</code></pre></div></div
 <ol class="v2-ol"><li>Create three <code>&lt;input&gt;</code> fields with ids <code>"name"</code>, <code>"subject"</code>, <code>"grade"</code></li><li>Create an empty <code>&lt;table id="gradeTable"&gt;</code> with headers</li><li>Create <code>&lt;p id="average"&gt;Class Average: —&lt;/p&gt;</code></li><li>In <code>addStudent()</code>:</li></ol>
 <p class="v2-p">- Read input values    - Validate: name not empty, grade is 0–100    - Create a <code>&lt;tr&gt;</code> with <code>&lt;td&gt;</code> cells, setting the grade <code>td</code>'s background colour    - Add a Delete button: set its <code>onclick</code> to <code>this.parentElement.parentElement.remove()</code>    - After removing, recalculate the average</p>
 <p class="v2-p"><strong>Grade colour logic:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var gradeNum = parseInt(grade);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var gradeNum = parseInt(grade);
 var gradeCell = document.createElement(&quot;td&quot;);
 gradeCell.innerText = gradeNum;
 if (gradeNum &gt;= 70) gradeCell.style.backgroundColor = &quot;#c8f7c5&quot;;
@@ -1329,7 +1137,7 @@ else gradeCell.style.backgroundColor = &quot;#fdc5c5&quot;;</code></pre></div></
 <p class="v2-p"><strong>Real-world scenario:</strong> Most modern web apps (GitHub, VS Code, Twitter) offer a dark mode. This is typically done by toggling a class on the <code>&lt;body&gt;</code>.</p>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>In <code>&lt;style&gt;</code>, define two themes:</li></ol>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">css</span></div><div class="v2-code-body"><pre><code>body.light {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">css</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>body.light {
   background-color: white;
   color: black;
 }
@@ -1353,7 +1161,7 @@ body.dark {
 <p class="v2-p"><strong>Real-world scenario:</strong> File upload progress indicators, quiz result reveals, loading screens.</p>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>HTML:</li></ol>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div style=&quot;width:400px; background:#ddd; height:30px; border-radius:15px;&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div style=&quot;width:400px; background:#ddd; height:30px; border-radius:15px;&quot;&gt;
   &lt;div id=&quot;bar&quot; style=&quot;
     width: 0%;
     height: 100%;
@@ -1379,7 +1187,7 @@ body.dark {
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>Create the form HTML with one <code>&lt;span class="error"&gt;</code> next to each field</li><li>Write a validation function for each field</li><li>Call all validators on form submit</li><li>Show error messages next to each invalid field (not alert boxes)</li><li>Highlight invalid inputs with a red border using <code>classList.add("invalid")</code> and a CSS rule <code>.invalid { border: 2px solid red; }</code></li><li>Clear error messages and borders for valid fields</li></ol>
 <p class="v2-p"><strong>Hint for password strength check:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function validatePassword(pass) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function validatePassword(pass) {
   var hasUpper = /[A-Z]/.test(pass);
   var hasDigit = /[0-9]/.test(pass);
   var hasMinLength = pass.length &gt;= 8;
@@ -1387,22 +1195,8 @@ body.dark {
 }</code></pre></div></div>
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 3 — PROJECT SIMULATION</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>10. Applied Exercises</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase11">
-  <div class="phase-header">
-    <div class="phase-num">Phase 11 of 13</div>
-    <div class="phase-title">11. Project Simulation: Interactive Student Dashboard</div>
-    <div class="phase-check" id="chk11"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Project Overview</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>10. Applied Exercises</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase11"><div class="ph"><div class="pn">Phase 11/13</div><div class="pt">11. Project Simulation: Interactive Student Dashboard</div><div class="pc" id="chk11"></div></div><div class="pb2"><h3 class="v2-h3">Project Overview</h3>
 <p class="v2-p">You are a junior front-end developer at <strong>EduTrack</strong>, a school management software company. Your task is to build a client-side <strong>Student Performance Dashboard</strong> — a single HTML page that teachers can use to:</p>
 <ul class="v2-ul"><li>Add students and their test scores</li><li>View a dynamically-built grade table</li><li>Filter students by performance category</li><li>Animate a summary panel when scores are entered</li><li>Validate all inputs before accepting them</li></ul>
 <p class="v2-p"><strong>No frameworks. No libraries. Pure HTML + CSS + JavaScript DOM.</strong></p>
@@ -1410,7 +1204,7 @@ body.dark {
 <h3 class="v2-h3">Stage 1: Setup &amp; Core Logic</h3>
 <p class="v2-p"><strong>Goal:</strong> Build the data entry form and display students in a table.</p>
 <p class="v2-p"><strong>Preview micro-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>var students = []; // Our in-memory data store
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>var students = []; // Our in-memory data store
 
 function addStudent(name, score) {
   students.push({ name: name, score: Number(score) });
@@ -1446,7 +1240,7 @@ function getGrade(score) {
 <h3 class="v2-h3">Stage 2: Adding Features</h3>
 <p class="v2-p"><strong>Goal:</strong> Add filtering, sorting, and a statistics panel.</p>
 <p class="v2-p"><strong>Preview micro-example — filtering:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function filterStudents(category) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function filterStudents(category) {
   var filtered;
 
   if (category === &quot;all&quot;) {
@@ -1470,7 +1264,7 @@ function getGrade(score) {
 <h3 class="v2-h3">Stage 3: Displaying Results</h3>
 <p class="v2-p"><strong>Goal:</strong> Add a visual grade distribution bar chart using DOM animation.</p>
 <p class="v2-p"><strong>Preview micro-example — drawing bars:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function drawChart() {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function drawChart() {
   var grades = { A: 0, B: 0, C: 0, D: 0, F: 0 };
 
   students.forEach(function(s) {
@@ -1495,7 +1289,7 @@ function getGrade(score) {
   });
 }</code></pre></div></div>
 <p class="v2-p"><strong>Each bar structure:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;div style=&quot;margin-bottom: 8px;&quot;&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;div style=&quot;margin-bottom: 8px;&quot;&gt;
   &lt;span id=&quot;label-A&quot; style=&quot;display:inline-block; width:100px;&quot;&gt;A: 0 students&lt;/span&gt;
   &lt;div style=&quot;display:inline-block; background:#ddd; width:300px; height:20px;&quot;&gt;
     &lt;div id=&quot;bar-A&quot; style=&quot;background:#4CAF50; height:100%; width:0%;&quot;&gt;&lt;/div&gt;
@@ -1504,7 +1298,7 @@ function getGrade(score) {
 <p class="v2-p"><strong>Expected output after Stage 3:</strong> When students are added or removed, the bar chart animates to reflect the new grade distribution.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Full Project Template</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
   &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -1824,10 +1618,7 @@ function getGrade(score) {
 <ul class="v2-ul"><li>[ ] <strong>Edit in place:</strong> Clicking a student's name makes it editable inline using <code>contenteditable</code></li><li>[ ] <strong>Export to CSV:</strong> A button that builds a CSV string and triggers a download using <code>URL.createObjectURL</code></li><li>[ ] <strong>LocalStorage persistence:</strong> Save the <code>students</code> array to <code>localStorage</code> on every change, restore it on page load</li><li>[ ] <strong>Search filter:</strong> A text input that filters students by name in real time using <code>querySelectorAll</code> and <code>classList</code></li><li>[ ] <strong>Drag-to-reorder:</strong> Implement drag-and-drop row reordering using <code>draggable</code> and the drag events</li></ul>
 <hr class="v2-hr">
 <p class="v2-p"># 12. Completion Checklist &amp; Summary</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">- Add students and their test scores
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">- Add students and their test scores
 - View a dynamically-built grade table
 - Filter students by performance category
 - Animate a summary panel when scores are entered
@@ -1835,161 +1626,96 @@ function getGrade(score) {
 
 No frameworks. No libraries. Pure HTML + CSS + JavaScript DOM.
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase12">
-  <div class="phase-header">
-    <div class="phase-num">Phase 12 of 13</div>
-    <div class="phase-title">Common Beginner Errors — Quick Reference</div>
-    <div class="phase-check" id="chk12"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Mistake</th><th>Why it happens</th><th>Fix</th></tr></thead><tbody><tr><td><code>getElementById</code> returns <code>null</code></td><td>Script runs before the element exists in the DOM</td><td>Place <code>&lt;script&gt;</code> at the end of <code>&lt;body&gt;</code>, or use <code>DOMContentLoaded</code></td></tr><tr><td><code>style.left</code> returns <code>""</code> not <code>"0px"</code></td><td>Initial style is not set inline</td><td>Set <code>style.left = "0px"</code> in HTML, or check for <code>""</code> and default to 0</td></tr><tr><td><code>parseInt</code> returns <code>NaN</code></td><td>Style value is empty string</td><td>Always provide a fallback: `parseInt(el.style.left) \</td><td>\</td><td>0`</td></tr><tr><td>Multiple intervals stacking</td><td><code>startMove()</code> called multiple times</td><td>Always call <code>clearInterval(timer)</code> before <code>setInterval</code></td></tr><tr><td><code>innerHTML</code> XSS risk</td><td>User input inserted as HTML</td><td>Use <code>innerText</code> or sanitise HTML</td></tr><tr><td><code>getElementsByTagName</code> not updating</td><td>Expected live, got stale index</td><td>HTMLCollections are live, but indices can shift; loop in reverse when removing</td></tr><tr><td><code>querySelectorAll</code> result has no <code>.forEach</code> in IE</td><td>NodeList in old browsers</td><td>Use <code>Array.from(list).forEach(...)</code> for compatibility</td></tr><tr><td><code>document.write</code> destroying the page</td><td>Called after load</td><td>Use <code>innerHTML</code> instead for post-load content insertion</td></tr><tr><td>Forgetting <code>return false</code> in onsubmit</td><td>Form submits even on validation failure</td><td>Always <code>return false</code> (or <code>event.preventDefault()</code>) when validation fails</td></tr><tr><td>Using <code>id</code> that contains spaces</td><td>Browsers allow it but JS selectors break</td><td>Never put spaces in id values</td></tr></tbody></table></div>
+---</div></div><button class="ub" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase12"><div class="ph"><div class="pn">Phase 12/13</div><div class="pt">Common Beginner Errors — Quick Reference</div><div class="pc" id="chk12"></div></div><div class="pb2"><div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Mistake</th><th>Why it happens</th><th>Fix</th></tr></thead><tbody><tr><td><code>getElementById</code> returns <code>null</code></td><td>Script runs before the element exists in the DOM</td><td>Place <code>&lt;script&gt;</code> at the end of <code>&lt;body&gt;</code>, or use <code>DOMContentLoaded</code></td></tr><tr><td><code>style.left</code> returns <code>""</code> not <code>"0px"</code></td><td>Initial style is not set inline</td><td>Set <code>style.left = "0px"</code> in HTML, or check for <code>""</code> and default to 0</td></tr><tr><td><code>parseInt</code> returns <code>NaN</code></td><td>Style value is empty string</td><td>Always provide a fallback: `parseInt(el.style.left) \</td><td>\</td><td>0`</td></tr><tr><td>Multiple intervals stacking</td><td><code>startMove()</code> called multiple times</td><td>Always call <code>clearInterval(timer)</code> before <code>setInterval</code></td></tr><tr><td><code>innerHTML</code> XSS risk</td><td>User input inserted as HTML</td><td>Use <code>innerText</code> or sanitise HTML</td></tr><tr><td><code>getElementsByTagName</code> not updating</td><td>Expected live, got stale index</td><td>HTMLCollections are live, but indices can shift; loop in reverse when removing</td></tr><tr><td><code>querySelectorAll</code> result has no <code>.forEach</code> in IE</td><td>NodeList in old browsers</td><td>Use <code>Array.from(list).forEach(...)</code> for compatibility</td></tr><tr><td><code>document.write</code> destroying the page</td><td>Called after load</td><td>Use <code>innerHTML</code> instead for post-load content insertion</td></tr><tr><td>Forgetting <code>return false</code> in onsubmit</td><td>Form submits even on validation failure</td><td>Always <code>return false</code> (or <code>event.preventDefault()</code>) when validation fails</td></tr><tr><td>Using <code>id</code> that contains spaces</td><td>Browsers allow it but JS selectors break</td><td>Never put spaces in id values</td></tr></tbody></table></div>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Common Beginner Errors — Quick Reference</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase13"><div class="ph"><div class="pn">Phase 13/13</div><div class="pt">One-Sentence Summary</div><div class="pc" id="chk13"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>The HTML DOM is JavaScript's live map of your webpage — master its methods for finding, changing, creating, and animating elements, and you gain complete programmatic control over everything users see and interact with.</strong></p></blockquote>
 <hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Common Beginner Errors — Quick Reference</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase13">
-  <div class="phase-header">
-    <div class="phase-num">Phase 13 of 13</div>
-    <div class="phase-title">One-Sentence Summary</div>
-    <div class="phase-check" id="chk13"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>The HTML DOM is JavaScript's live map of your webpage — master its methods for finding, changing, creating, and animating elements, and you gain complete programmatic control over everything users see and interact with.</strong></p></blockquote>
-<hr class="v2-hr">
-<p class="v2-p"><em>Tutorial generated by AI_TUTORIAL_GENERATOR · Source: W3Schools JavaScript HTML DOM series (9 pages) · Format: Markdown</em></p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>One-Sentence Summary</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Lesson 28 JS Project</div>
-  <div class="build-desc"></div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<p class="v2-p"><em>Tutorial generated by AI_TUTORIAL_GENERATOR · Source: W3Schools JavaScript HTML DOM series (9 pages) · Format: Markdown</em></p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>One-Sentence Summary</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Lesson 28 Project</div><div class="build-req"><p class="v2-p">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;title&gt;My JS Project&lt;/title&gt;
+&lt;title&gt;Project&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;</p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Project&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;!-- Write your HTML here --&gt;
-  &lt;script&gt;
-    // Write your JavaScript here
-  &lt;/script&gt;
+&lt;!-- Your code here --&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`<!DOCTYPE html>
+&lt;/html&gt;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My JS Project</title>
+<title>Project</title>
 </head>
 <body>
-  <!-- Write your HTML here -->
-  <script>
-    // Write your JavaScript here
-  </script>
+<!-- Your code here -->
 </body>
-</html>`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+</html>`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-28-lesson-28-js-project</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 28 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-28-lesson-28-js-project/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 28 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ 1. What is the HTML DOM?</li><li>✅ 2. DOM Methods — Your First Tools</li><li>✅ 3. Finding HTML Elements</li><li>✅ 4. Changing HTML Content</li><li>✅ 5. Changing CSS Styles</li><li>✅ 6. Form Validation with the DOM</li><li>✅ 7. DOM Animations</li><li>✅ 8. The Document Object in Depth</li></ul>
-  <div class="lesson-nav"><a href="lesson_27.html" class="ln-btn">← Lesson 27</a><a href="lesson_29.html" class="ln-btn primary">Lesson 29 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-28-lesson-28-project</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 28 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-28-lesson-28-project/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 28 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ 1. What is the HTML DOM?</li><li>✅ 2. DOM Methods — Your First Tools</li><li>✅ 3. Finding HTML Elements</li><li>✅ 4. Changing HTML Content</li><li>✅ 5. Changing CSS Styles</li><li>✅ 6. Form Validation with the DOM</li><li>✅ 7. DOM Animations</li><li>✅ 8. The Document Object in Depth</li></ul><div class="ln"><a href="lesson_27.html" class="ln-btn">← Lesson 27</a><a href="lesson_29.html" class="ln-btn primary">Lesson 29 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 28 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 28 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=13,KEY='techbase_js_l28';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

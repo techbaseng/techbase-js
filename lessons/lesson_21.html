@@ -1,230 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 21: JavaScript Data Types, Primitives, Objects, typeof, toString &amp; Type Conversion — Techbase JavaScript</title>
-<meta name="description" content="JavaScript Data Types, Primitives, Objects, typeof, toString &amp; Type Conversion">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 21 of 46</span>
+  <span class="l-nav-lbl">Lesson 21 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 21</div>
-    <h1>JavaScript Data Types, Primitives, Objects, typeof, toString &amp; Type Conversion</h1>
-    <div class="l-hero-sub">11 phases · Build: Project Overview</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 21</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 11 phases</span>
-    <span>🏗️ Project Overview</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 21</div>
+  <h1>JavaScript Data Types, Primitives, Objects, typeof, toString &amp; Type Conversion</h1>
+  <div class="l-hero-sub">11 phases &nbsp;·&nbsp; Build: Project Overview</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 21</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 11 phases</span><span>🏗️ Project Overview</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 11</div>
-    <div class="phase-title">1.1 What Are Data Types?</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">The Real-World Analogy</h3>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/11</div><div class="pt">1.1 What Are Data Types?</div><div class="pc" id="chk1"></div></div><div class="pb2"><h3 class="v2-h3">The Real-World Analogy</h3>
 <p class="v2-p">Imagine you work in a school's administrative office. You store different kinds of information every day:</p>
 <ul class="v2-ul"><li>A student's <strong>name</strong> → text, e.g. <code>"Amara Osei"</code></li><li>Their <strong>age</strong> → a whole number, e.g. <code>17</code></li><li>Their <strong>GPA</strong> → a decimal, e.g. <code>3.85</code></li><li>Whether they are <strong>enrolled</strong> → yes or no, e.g. <code>true</code></li><li>Their <strong>emergency contact</strong> → a collection of details (name, phone, relationship)</li></ul>
 <p class="v2-p">Each of these pieces of information has a <strong>type</strong> — a category that tells you what kind of value it is and what you can do with it. You cannot add a name to a number in a meaningful way; you cannot sort "yes/no" values alphabetically.</p>
 <p class="v2-p">Computers face the same challenge. JavaScript needs to know the <em>type</em> of every value so it knows:</p>
 <ul class="v2-ul"><li>How much <strong>memory</strong> to reserve for it</li><li>What <strong>operations</strong> are valid (can you divide it? compare it? loop over it?)</li><li>How to <strong>display</strong> it to the user</li></ul>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Definition:</strong> A data type is a classification that tells JavaScript what kind of value a variable holds and what operations can be performed on it.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.1 What Are Data Types?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 11</div>
-    <div class="phase-title">1.2 The Eight JavaScript Data Types</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">JavaScript has exactly <strong>8 built-in data types</strong>. They split into two families:</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">- How much memory to reserve for it
+- What operations are valid (can you divide it? compare it? loop over it?)
+- How to display it to the user
+
+> Definition: A data type is a classification that tells JavaScript what kind of value a variable holds and what operations can be performed on it.
+
+---</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/11</div><div class="pt">1.2 The Eight JavaScript Data Types</div><div class="pc" id="chk2"></div></div><div class="pb2"><p class="v2-p">JavaScript has exactly <strong>8 built-in data types</strong>. They split into two families:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Family</th><th>Types</th></tr></thead><tbody><tr><td><strong>Primitive</strong> (simple, single values)</td><td><code>String</code>, <code>Number</code>, <code>BigInt</code>, <code>Boolean</code>, <code>Undefined</code>, <code>Null</code>, <code>Symbol</code></td></tr><tr><td><strong>Object</strong> (complex, multi-value structures)</td><td><code>Object</code> (includes Arrays, Functions, Dates, etc.)</td></tr></tbody></table></div>
 <p class="v2-p">Here is your first look at each type in code:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 1. String — text
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 1. String — text
 let studentName = &quot;Amara Osei&quot;;
 
 // 2. Number — integers and decimals
@@ -253,25 +179,11 @@ let student = {
   enrolled: true
 };</code></pre></div></div>
 <p class="v2-p">We will explore each of these carefully, one at a time.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.2 The Eight JavaScript Data Types</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 11</div>
-    <div class="phase-title">1.3 Dynamic Typing — JavaScript&#x27;s Superpower (and Gotcha)</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Most programming languages (like Java or C++) require you to <em>declare</em> the type of a variable upfront and never change it. JavaScript works differently — it is <strong>dynamically typed</strong>, which means:</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.2 The Eight JavaScript Data Types</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/11</div><div class="pt">1.3 Dynamic Typing — JavaScript&#x27;s Superpower (and Gotcha)</div><div class="pc" id="chk3"></div></div><div class="pb2"><p class="v2-p">Most programming languages (like Java or C++) require you to <em>declare</em> the type of a variable upfront and never change it. JavaScript works differently — it is <strong>dynamically typed</strong>, which means:</p>
 <ul class="v2-ul"><li>You do <strong>not</strong> state the type when creating a variable.</li><li>JavaScript <strong>figures it out</strong> from the value you assign.</li><li>The type of a variable <strong>can change</strong> during the program.</li></ul>
 <h3 class="v2-h3">Micro-Demo: A variable that changes type</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let info = &quot;Hello&quot;;    // info is a String
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let info = &quot;Hello&quot;;    // info is a String
 console.log(typeof info); // &quot;string&quot;
 
 info = 42;             // info is now a Number
@@ -280,68 +192,54 @@ console.log(typeof info); // &quot;number&quot;
 info = true;           // info is now a Boolean
 console.log(typeof info); // &quot;boolean&quot;</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>string
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>string
 number
 boolean</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Why this matters:</strong> Dynamic typing makes JavaScript fast to write but can cause tricky bugs. A function expecting a number might silently receive a string and produce wrong results. This is why checking types with <code>typeof</code> (covered later) is an important habit.</p></blockquote>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking Question:</strong> What do you think happens if you add a number to a string in JavaScript? For example <code>5 + "5"</code>? Write your prediction before reading on. (We answer this in Section 1.8.)</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.3 Dynamic Typing — JavaScript's Superpower (and Gotcha)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 11</div>
-    <div class="phase-title">1.4 Primitive Data Types (Deep Dive)</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>What is a primitive?</strong> A primitive is a data type that holds <strong>one single, simple value</strong>. It is not a collection, not a function, and not a structure. It is just a bare value.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.3 Dynamic Typing — JavaScript's Superpower (and Gotcha)</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/11</div><div class="pt">1.4 Primitive Data Types (Deep Dive)</div><div class="pc" id="chk4"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>What is a primitive?</strong> A primitive is a data type that holds <strong>one single, simple value</strong>. It is not a collection, not a function, and not a structure. It is just a bare value.</p>
 <p class="v2-p">Primitives are <strong>immutable</strong> — once the value exists in memory, you cannot alter that specific value. You can re-assign the variable to a <em>new</em> value, but the old value itself does not change.</p></blockquote>
 <p class="v2-p">There are <strong>7 primitive types</strong> in JavaScript.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Primitive 1: String</h3>
 <p class="v2-p">A <strong>string</strong> is a sequence of characters — letters, digits, spaces, punctuation, or emoji — surrounded by quotes.</p>
 <h4 class="v2-h4">Three ways to write strings</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let a = &quot;Hello&quot;;      // double quotes
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let a = &quot;Hello&quot;;      // double quotes
 let b = &#x27;World&#x27;;      // single quotes
 let c = `Hello World`; // backtick (template literal)</code></pre></div></div>
 <p class="v2-p">All three create strings. The backtick version is special — it allows <strong>embedded expressions</strong>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let name = &quot;Amara&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let name = &quot;Amara&quot;;
 let greeting = `Welcome, ${name}! Your GPA is ${3.85}.`;
 console.log(greeting);
 // Expected Output: Welcome, Amara! Your GPA is 3.85.</code></pre></div></div>
 <h4 class="v2-h4">Strings contain individual characters</h4>
 <p class="v2-p">Think of a string as a row of labelled boxes. Each character sits in a numbered box starting from box 0:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>&quot;Amara&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&quot;Amara&quot;
   A  m  a  r  a
   0  1  2  3  4</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let name = &quot;Amara&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let name = &quot;Amara&quot;;
 console.log(name[0]);    // &quot;A&quot;
 console.log(name.length); // 5</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>A
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>A
 5</code></pre></div></div>
 <h4 class="v2-h4">⚠️ Common Beginner Mistake — Mixing quotes</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let msg = &quot;She said &#x27;hello&#x27;&quot;;  // ✅ fine — outer double, inner single
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let msg = &quot;She said &#x27;hello&#x27;&quot;;  // ✅ fine — outer double, inner single
 let msg2 = &#x27;She said &quot;hello&quot;&#x27;; // ✅ fine — outer single, inner double
 let msg3 = &quot;She said &quot;hello&quot;&quot;; // ❌ ERROR — JavaScript gets confused</code></pre></div></div>
 <p class="v2-p">Fix mixed quotes by using template literals or escaping with <code>\</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let msg3 = &quot;She said \&quot;hello\&quot;&quot;; // ✅ escaped quotes</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let msg3 = &quot;She said \&quot;hello\&quot;&quot;; // ✅ escaped quotes</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Primitive 2: Number</h3>
 <p class="v2-p">JavaScript uses <strong>one single number type</strong> for both whole numbers (integers) and decimals (floats). This is different from many other languages that have separate types.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let students    = 35;       // integer
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let students    = 35;       // integer
 let temperature = 36.6;     // decimal
 let bankBalance = -1500.99; // negative decimal
 let taxRate     = 0.075;    // small decimal</code></pre></div></div>
 <h4 class="v2-h4">Special numeric values</h4>
 <p class="v2-p">JavaScript's Number type also includes three special values:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let result1 = 1 / 0;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let result1 = 1 / 0;
 console.log(result1);  // Infinity
 
 let result2 = -1 / 0;
@@ -350,37 +248,37 @@ console.log(result2);  // -Infinity
 let result3 = &quot;hello&quot; / 2;
 console.log(result3);  // NaN (Not a Number)</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Infinity
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Infinity
 -Infinity
 NaN</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <code>NaN</code> stands for <strong>Not a Number</strong>. It appears when a mathematical operation fails — like trying to divide a word by 2. Interestingly, <code>typeof NaN</code> returns <code>"number"</code> — because NaN <em>is</em> a member of the Number type, just a broken one.</p></blockquote>
 <h4 class="v2-h4">Number size limits</h4>
 <p class="v2-p">JavaScript numbers are stored using 64-bit floating point (IEEE 754). This means:</p>
 <ul class="v2-ul"><li>Maximum safe integer: <strong>9,007,199,254,740,991</strong> (about 9 quadrillion)</li><li>Minimum safe integer: <strong>-9,007,199,254,740,991</strong></li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991
 console.log(Number.MIN_SAFE_INTEGER); // -9007199254740991</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking Question:</strong> What could go wrong if a banking system uses regular JavaScript Numbers to store a balance of $10 quadrillion? Think about this before moving to BigInt.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">Primitive 3: BigInt</h3>
 <p class="v2-p"><strong>BigInt</strong> was introduced to solve the limitation above — it handles integers larger than the safe integer limit.</p>
 <p class="v2-p">You create a BigInt by appending <code>n</code> to the number:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let bigNumber = 9007199254740991n;   // BigInt
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let bigNumber = 9007199254740991n;   // BigInt
 let bigger    = bigNumber + 1000n;   // works correctly!
 console.log(bigger);
 // Expected Output: 9007199254741991n</code></pre></div></div>
 <h4 class="v2-h4">⚠️ You cannot mix BigInt and regular Number</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = 10n + 5;    // ❌ TypeError
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = 10n + 5;    // ❌ TypeError
 let x = 10n + 5n;   // ✅ both BigInt
 let x = Number(10n) + 5; // ✅ convert first</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Real-World Use:</strong> Financial systems, cryptography, and database IDs that exceed standard number limits use BigInt.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">Primitive 4: Boolean</h3>
 <p class="v2-p">A <strong>Boolean</strong> holds exactly one of two values: <code>true</code> or <code>false</code>. It represents a yes/no, on/off, correct/incorrect decision.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let isLoggedIn   = true;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let isLoggedIn   = true;
 let hasPermission = false;
 let isAdult      = (age &gt;= 18);  // evaluates to true or false</code></pre></div></div>
 <h4 class="v2-h4">Booleans power your decisions</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 72;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score = 72;
 let passed = score &gt;= 60;
 
 if (passed) {
@@ -392,7 +290,7 @@ if (passed) {
 <h4 class="v2-h4">Truthy and Falsy — JavaScript's boolean system</h4>
 <p class="v2-p">In JavaScript, every value has an implied "truth". When JavaScript evaluates a condition, it silently converts the value to a boolean:</p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Value</th><th>Treated as</th></tr></thead><tbody><tr><td><code>false</code></td><td><code>false</code></td></tr><tr><td><code>0</code></td><td><code>false</code></td></tr><tr><td><code>""</code> (empty string)</td><td><code>false</code></td></tr><tr><td><code>null</code></td><td><code>false</code></td></tr><tr><td><code>undefined</code></td><td><code>false</code></td></tr><tr><td><code>NaN</code></td><td><code>false</code></td></tr><tr><td>Everything else</td><td><code>true</code></td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>if (&quot;&quot;) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>if (&quot;&quot;) {
   console.log(&quot;empty string is truthy&quot;);
 } else {
   console.log(&quot;empty string is falsy&quot;); // ← this runs
@@ -402,16 +300,16 @@ if (&quot;hello&quot;) {
   console.log(&quot;non-empty string is truthy&quot;); // ← this runs
 }</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>empty string is falsy
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>empty string is falsy
 non-empty string is truthy</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Primitive 5: Undefined</h3>
 <p class="v2-p"><code>undefined</code> means a variable has been <strong>declared but not yet given a value</strong>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let graduationDate;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let graduationDate;
 console.log(graduationDate); // undefined
 console.log(typeof graduationDate); // &quot;undefined&quot;</code></pre></div></div>
 <p class="v2-p">JavaScript itself assigns <code>undefined</code> to newly declared variables automatically. You do not need to write it yourself most of the time.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function greet(name) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function greet(name) {
   console.log(&quot;Hello, &quot; + name);
 }
 
@@ -419,23 +317,23 @@ greet(); // No argument passed
 // Expected Output: Hello, undefined</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 The <code>name</code> parameter receives no value, so it is <code>undefined</code>. The string <code>"Hello, "</code> + <code>undefined</code> produces <code>"Hello, undefined"</code>.</p></blockquote>
 <h4 class="v2-h4">⚠️ Common Beginner Mistake</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = undefined; // ✅ valid but unusual — prefer null for intentional emptiness</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = undefined; // ✅ valid but unusual — prefer null for intentional emptiness</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Primitive 6: Null</h3>
 <p class="v2-p"><code>null</code> means <strong>intentionally empty</strong>. You assign it when you want to say: <em>"This variable exists, but it holds nothing on purpose."</em></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let middleName = null;    // person has no middle name — intentional
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let middleName = null;    // person has no middle name — intentional
 let profilePicture = null; // user hasn&#x27;t uploaded one yet</code></pre></div></div>
 <h4 class="v2-h4">The typeof null — JavaScript's famous bug</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(typeof null); // &quot;object&quot;  ← !! This is WRONG but kept for legacy reasons</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(typeof null); // &quot;object&quot;  ← !! This is WRONG but kept for legacy reasons</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Famous Bug:</strong> <code>typeof null</code> returns <code>"object"</code> — but <code>null</code> is <strong>NOT</strong> an object. This is a historical mistake in JavaScript from 1995 that was never fixed because fixing it would break the web. Always remember: <code>null</code> is a primitive, not an object.</p></blockquote>
 <h4 class="v2-h4">null vs undefined — side by side</h4>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th></th><th><code>null</code></th><th><code>undefined</code></th></tr></thead><tbody><tr><td><strong>Meaning</strong></td><td>Intentionally empty</td><td>Not yet assigned</td></tr><tr><td><strong>Who sets it</strong></td><td>The programmer</td><td>JavaScript (or programmer)</td></tr><tr><td><strong>typeof</strong></td><td><code>"object"</code> (bug!)</td><td><code>"undefined"</code></td></tr><tr><td><strong>Equality</strong></td><td><code>null == undefined</code> → <code>true</code></td><td>(loose comparison)</td></tr><tr><td><strong>Strict equality</strong></td><td><code>null === undefined</code> → <code>false</code></td><td>(they are different types)</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(null == undefined);  // true  (loose — type ignored)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(null == undefined);  // true  (loose — type ignored)
 console.log(null === undefined); // false (strict — type matters)</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Primitive 7: Symbol</h3>
 <p class="v2-p">A <strong>Symbol</strong> is a unique, hidden identifier. Every Symbol you create is guaranteed to be different from every other Symbol — even if they have the same description.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let id1 = Symbol(&quot;id&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let id1 = Symbol(&quot;id&quot;);
 let id2 = Symbol(&quot;id&quot;);
 
 console.log(id1 === id2); // false — they are always unique</code></pre></div></div>
@@ -443,7 +341,7 @@ console.log(id1 === id2); // false — they are always unique</code></pre></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">How Primitives Are Stored — Pass by Value</h3>
 <p class="v2-p">Primitives are stored and copied <strong>by value</strong> — when you assign a primitive to a new variable, a fresh independent copy is made.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let a = 10;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let a = 10;
 let b = a;   // b gets a COPY of 10
 
 b = 99;      // changing b does NOT affect a
@@ -451,30 +349,16 @@ b = 99;      // changing b does NOT affect a
 console.log(a); // 10  ← unchanged
 console.log(b); // 99</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>10
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>10
 99</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Analogy:</strong> Think of primitives like a photocopy machine. <code>b = a</code> makes a photocopy. Writing on the copy does not alter the original.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.4 Primitive Data Types (Deep Dive)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 11</div>
-    <div class="phase-title">1.5 Object Data Types (Deep Dive)</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p"><strong>What is an object type?</strong> An object is a <strong>complex data structure</strong> that can hold multiple values — organised as named key-value pairs, ordered sequences, callable functions, and more.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.4 Primitive Data Types (Deep Dive)</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/11</div><div class="pt">1.5 Object Data Types (Deep Dive)</div><div class="pc" id="chk5"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p"><strong>What is an object type?</strong> An object is a <strong>complex data structure</strong> that can hold multiple values — organised as named key-value pairs, ordered sequences, callable functions, and more.</p>
 <p class="v2-p">Almost everything in JavaScript that is <em>not</em> a primitive is an object.</p></blockquote>
 <hr class="v2-hr">
 <h3 class="v2-h3">The Plain Object</h3>
 <p class="v2-p">A plain object groups related data together under named keys:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let student = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let student = {
   name: &quot;Amara&quot;,
   age: 17,
   enrolled: true,
@@ -484,23 +368,23 @@ console.log(b); // 99</code></pre></div></div>
 console.log(student.name);       // &quot;Amara&quot;
 console.log(student.subjects[0]); // &quot;Math&quot;</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Amara
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Amara
 Math</code></pre></div></div>
 <p class="v2-p">Think of a plain object as a <strong>form with labelled fields</strong>. Each field (key) holds a value of any type.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Arrays</h3>
 <p class="v2-p">An array is an ordered list of values. Items are accessed by their position (index), starting at 0.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let fruits = [&quot;apple&quot;, &quot;mango&quot;, &quot;orange&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let fruits = [&quot;apple&quot;, &quot;mango&quot;, &quot;orange&quot;];
 
 console.log(fruits[0]); // &quot;apple&quot;
 console.log(fruits[1]); // &quot;mango&quot;
 console.log(fruits.length); // 3</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Important:</strong> In JavaScript, arrays are actually a special type of object. Their indices (<code>0</code>, <code>1</code>, <code>2</code>, etc.) are just string keys under the hood. This is why <code>typeof []</code> returns <code>"object"</code>.</p></blockquote>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(typeof fruits); // &quot;object&quot;</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(typeof fruits); // &quot;object&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Functions</h3>
 <p class="v2-p">Functions are objects too — they are callable objects. You can store them in variables, pass them as arguments, and return them.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let greet = function(name) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let greet = function(name) {
   return &quot;Hello, &quot; + name;
 };
 
@@ -510,13 +394,13 @@ console.log(typeof greet);   // &quot;function&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Dates</h3>
 <p class="v2-p">The built-in <code>Date</code> object represents a point in time:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let today = new Date();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let today = new Date();
 console.log(today);         // current date and time
 console.log(typeof today);  // &quot;object&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">How Objects Are Stored — Pass by Reference</h3>
 <p class="v2-p">Unlike primitives, objects are stored and copied <strong>by reference</strong>. When you assign an object to a new variable, both variables point to the <strong>same object in memory</strong>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let studentA = { name: &quot;Amara&quot;, grade: &quot;A&quot; };
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let studentA = { name: &quot;Amara&quot;, grade: &quot;A&quot; };
 let studentB = studentA;  // studentB points to the SAME object
 
 studentB.grade = &quot;B&quot;;     // changing via studentB...
@@ -524,40 +408,26 @@ studentB.grade = &quot;B&quot;;     // changing via studentB...
 console.log(studentA.grade); // &quot;B&quot; ← studentA is ALSO changed!
 console.log(studentB.grade); // &quot;B&quot;</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>B
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>B
 B</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Gotcha:</strong> This surprises many beginners. Both variables reference the same object. Changing one changes both.</p></blockquote>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Analogy:</strong> Think of objects as a shared Google Doc. <code>studentB = studentA</code> gives someone else the link. Edits made by either person show up for both.</p></blockquote>
 <h4 class="v2-h4">How to make a true copy of an object</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Shallow copy using spread syntax
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Shallow copy using spread syntax
 let studentC = { ...studentA };
 
 studentC.grade = &quot;C&quot;;
 
 console.log(studentA.grade); // &quot;B&quot; ← unchanged
 console.log(studentC.grade); // &quot;C&quot;</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.5 Object Data Types (Deep Dive)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 11</div>
-    <div class="phase-title">1.6 The `typeof` Operator</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is <code>typeof</code>?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.5 Object Data Types (Deep Dive)</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/11</div><div class="pt">1.6 The `typeof` Operator</div><div class="pc" id="chk6"></div></div><div class="pb2"><h3 class="v2-h3">What is <code>typeof</code>?</h3>
 <p class="v2-p"><code>typeof</code> is a built-in JavaScript operator that inspects a value and returns a <strong>string</strong> describing its type. It is your go-to tool for checking what kind of data you are working with.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>typeof &lt;value&gt;  →  returns a string</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>typeof &lt;value&gt;  →  returns a string</code></pre></div></div>
 <h3 class="v2-h3">The full <code>typeof</code> table</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Expression</th><th>Result</th></tr></thead><tbody><tr><td><code>typeof "hello"</code></td><td><code>"string"</code></td></tr><tr><td><code>typeof 42</code></td><td><code>"number"</code></td></tr><tr><td><code>typeof 42n</code></td><td><code>"bigint"</code></td></tr><tr><td><code>typeof true</code></td><td><code>"boolean"</code></td></tr><tr><td><code>typeof undefined</code></td><td><code>"undefined"</code></td></tr><tr><td><code>typeof null</code></td><td><code>"object"</code> ← (bug!)</td></tr><tr><td><code>typeof Symbol()</code></td><td><code>"symbol"</code></td></tr><tr><td><code>typeof {}</code></td><td><code>"object"</code></td></tr><tr><td><code>typeof []</code></td><td><code>"object"</code></td></tr><tr><td><code>typeof function(){}</code></td><td><code>"function"</code></td></tr></tbody></table></div>
 <h3 class="v2-h3">Micro-Demo</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(typeof &quot;Amara&quot;);        // &quot;string&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(typeof &quot;Amara&quot;);        // &quot;string&quot;
 console.log(typeof 3.85);           // &quot;number&quot;
 console.log(typeof true);           // &quot;boolean&quot;
 console.log(typeof undefined);      // &quot;undefined&quot;
@@ -566,7 +436,7 @@ console.log(typeof {});             // &quot;object&quot;
 console.log(typeof []);             // &quot;object&quot;
 console.log(typeof function(){});   // &quot;function&quot;</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>string
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>string
 number
 boolean
 undefined
@@ -575,7 +445,7 @@ object
 object
 function</code></pre></div></div>
 <h3 class="v2-h3">Using <code>typeof</code> in practice</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function processScore(score) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function processScore(score) {
   if (typeof score !== &quot;number&quot;) {
     console.log(&quot;Error: score must be a number. Got: &quot; + typeof score);
     return;
@@ -586,11 +456,11 @@ function</code></pre></div></div>
 processScore(85);       // Processing score: 85
 processScore(&quot;eighty&quot;); // Error: score must be a number. Got: string</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Processing score: 85
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Processing score: 85
 Error: score must be a number. Got: string</code></pre></div></div>
 <h3 class="v2-h3">Detecting null correctly</h3>
 <p class="v2-p">Since <code>typeof null</code> returns <code>"object"</code>, you need a separate check for null:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let value = null;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let value = null;
 
 if (value === null) {
   console.log(&quot;Value is null&quot;);
@@ -600,37 +470,23 @@ if (value === null) {
 // Expected Output: Value is null</code></pre></div></div>
 <h3 class="v2-h3">Detecting arrays correctly</h3>
 <p class="v2-p">Since <code>typeof []</code> returns <code>"object"</code>, use <code>Array.isArray()</code> for arrays:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let fruits = [&quot;apple&quot;, &quot;mango&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let fruits = [&quot;apple&quot;, &quot;mango&quot;];
 
 console.log(typeof fruits);          // &quot;object&quot;
 console.log(Array.isArray(fruits));  // true</code></pre></div></div>
 <h3 class="v2-h3"><code>typeof</code> can be used before a variable is declared</h3>
 <p class="v2-p">Uniquely, <code>typeof</code> does not throw an error if used on an undeclared variable:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(typeof undeclaredVariable); // &quot;undefined&quot; — no error thrown</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(typeof undeclaredVariable); // &quot;undefined&quot; — no error thrown</code></pre></div></div>
 <p class="v2-p">This makes it safe for checking whether optional features exist in a browser environment.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.6 The <code>typeof</code> Operator</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 11</div>
-    <div class="phase-title">1.7 Converting Values to Strings — `toString()` and Friends</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Why convert to a string?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.6 The <code>typeof</code> Operator</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/11</div><div class="pt">1.7 Converting Values to Strings — `toString()` and Friends</div><div class="pc" id="chk7"></div></div><div class="pb2"><h3 class="v2-h3">Why convert to a string?</h3>
 <p class="v2-p">Many real-world tasks require turning a value into text:</p>
 <ul class="v2-ul"><li>Displaying a number in a <code>&lt;p&gt;</code> tag on a webpage</li><li>Concatenating a number into a message: <code>"Your score is " + 95</code></li><li>Sending data to an API as a JSON string</li><li>Formatting output for a report</li></ul>
 <p class="v2-p">JavaScript provides several methods to convert values to strings.</p>
 <hr class="v2-hr">
 <h3 class="v2-h3">Method 1: The Global <code>String()</code> Function</h3>
 <p class="v2-p"><code>String()</code> is the most reliable and universal method. It works on <strong>any value</strong>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>String(123)       // &quot;123&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>String(123)       // &quot;123&quot;
 String(3.14)      // &quot;3.14&quot;
 String(true)      // &quot;true&quot;
 String(false)     // &quot;false&quot;
@@ -638,14 +494,14 @@ String(null)      // &quot;null&quot;
 String(undefined) // &quot;undefined&quot;
 String(NaN)       // &quot;NaN&quot;
 String(Infinity)  // &quot;Infinity&quot;</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 95;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score = 95;
 let message = &quot;Your score is &quot; + String(score) + &quot; out of 100.&quot;;
 console.log(message);
 // Expected Output: Your score is 95 out of 100.</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Method 2: <code>.toString()</code> — The Method on Values</h3>
 <p class="v2-p">Most JavaScript values (except <code>null</code> and <code>undefined</code>) have a <code>.toString()</code> method you can call directly:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let num = 255;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let num = 255;
 console.log(num.toString());    // &quot;255&quot;
 
 let flag = true;
@@ -654,24 +510,24 @@ console.log(flag.toString());   // &quot;true&quot;
 let arr = [1, 2, 3];
 console.log(arr.toString());    // &quot;1,2,3&quot;</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>255
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>255
 true
 1,2,3</code></pre></div></div>
 <h4 class="v2-h4">⚠️ <code>.toString()</code> fails on null and undefined</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let x = null;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let x = null;
 x.toString(); // ❌ TypeError: Cannot read properties of null
 
 // Use String() instead:
 String(null); // ✅ &quot;null&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>.toString()</code> with a radix (number base)</h4>
 <p class="v2-p">The <code>.toString()</code> method on numbers accepts an optional <strong>radix</strong> argument — the base of the number system to convert to:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let num = 255;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let num = 255;
 console.log(num.toString(10));  // &quot;255&quot;    — base 10 (decimal, default)
 console.log(num.toString(16));  // &quot;ff&quot;     — base 16 (hexadecimal)
 console.log(num.toString(2));   // &quot;11111111&quot; — base 2 (binary)
 console.log(num.toString(8));   // &quot;377&quot;    — base 8 (octal)</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>255
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>255
 ff
 11111111
 377</code></pre></div></div>
@@ -679,7 +535,7 @@ ff
 <hr class="v2-hr">
 <h3 class="v2-h3">Method 3: String Concatenation (Implicit Conversion)</h3>
 <p class="v2-p">Adding a string to another value with <code>+</code> silently converts the other value to a string:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 95;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score = 95;
 let output = &quot;Score: &quot; + score;
 console.log(output); // &quot;Score: 95&quot;
 console.log(typeof output); // &quot;string&quot;</code></pre></div></div>
@@ -687,7 +543,7 @@ console.log(typeof output); // &quot;string&quot;</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Method 4: Template Literals</h3>
 <p class="v2-p">Template literals automatically convert values to strings inside <code>${}</code>:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let score = 95;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let score = 95;
 let grade = &quot;A&quot;;
 let report = `Student scored ${score} and received grade ${grade}.`;
 console.log(report);
@@ -696,48 +552,34 @@ console.log(report);
 <h3 class="v2-h3">Method 5: Number-specific formatting methods</h3>
 <p class="v2-p">These return strings with specific formatting:</p>
 <h4 class="v2-h4"><code>.toFixed(n)</code> — Round to n decimal places</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let price = 19.99999;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let price = 19.99999;
 console.log(price.toFixed(2)); // &quot;20.00&quot;
 
 let gpa = 3.8567;
 console.log(gpa.toFixed(2));   // &quot;3.86&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>.toPrecision(n)</code> — n significant digits</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let value = 123.456;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let value = 123.456;
 console.log(value.toPrecision(5)); // &quot;123.46&quot;
 console.log(value.toPrecision(2)); // &quot;1.2e+2&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>.toExponential(n)</code> — Scientific notation</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let distance = 149600000;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let distance = 149600000;
 console.log(distance.toExponential(2)); // &quot;1.50e+8&quot;</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Real-World Use:</strong> <code>.toFixed(2)</code> is used in every e-commerce system to format prices like <code>"$19.99"</code>. <code>.toExponential()</code> is used in scientific applications.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">- Displaying a number in a <p> tag on a webpage
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">- Displaying a number in a <p> tag on a webpage
 - Concatenating a number into a message: "Your score is " + 95
 - Sending data to an API as a JSON string
 - Formatting output for a report
 
 JavaScript provides several methods to convert values to strings.
 
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 11</div>
-    <div class="phase-title">1.8 Type Conversion — Explicit and Implicit</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">The Two Kinds of Type Conversion</h3>
+---</div></div><button class="ub" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/11</div><div class="pt">1.8 Type Conversion — Explicit and Implicit</div><div class="pc" id="chk8"></div></div><div class="pb2"><h3 class="v2-h3">The Two Kinds of Type Conversion</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Kind</th><th>Also Called</th><th>Who Does It</th><th>Example</th></tr></thead><tbody><tr><td><strong>Explicit</strong></td><td>Type casting</td><td>You (the programmer)</td><td><code>Number("42")</code></td></tr><tr><td><strong>Implicit</strong></td><td>Type coercion</td><td>JavaScript automatically</td><td><code>"5" + 3</code> → <code>"53"</code></td></tr></tbody></table></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Explicit Conversion</h3>
 <p class="v2-p">You intentionally call a function to convert a type.</p>
 <h4 class="v2-h4">Converting TO Number</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>Number(&quot;42&quot;)      // 42
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Number(&quot;42&quot;)      // 42
 Number(&quot;3.14&quot;)    // 3.14
 Number(&quot;&quot;)        // 0
 Number(&quot; &quot;)       // 0
@@ -746,24 +588,24 @@ Number(true)      // 1
 Number(false)     // 0
 Number(null)      // 0
 Number(undefined) // NaN</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Real-world: reading a form input (always comes in as string)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Real-world: reading a form input (always comes in as string)
 let inputAge = &quot;25&quot;;
 let numericAge = Number(inputAge);
 console.log(numericAge + 1); // 26  ← correct arithmetic</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>26</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>26</code></pre></div></div>
 <h4 class="v2-h4">Converting TO Number with <code>parseInt()</code> and <code>parseFloat()</code></h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>parseInt(&quot;42px&quot;)     // 42    ← reads digits until a non-digit
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>parseInt(&quot;42px&quot;)     // 42    ← reads digits until a non-digit
 parseInt(&quot;3.99&quot;)     // 3     ← truncates decimal
 parseFloat(&quot;3.99em&quot;) // 3.99  ← includes decimal
 parseInt(&quot;abc&quot;)      // NaN   ← starts with non-digit</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Real-world: extracting font size from a CSS string
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Real-world: extracting font size from a CSS string
 let fontSize = &quot;16px&quot;;
 let size = parseInt(fontSize);
 console.log(size + 2); // 18</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Why <code>parseInt</code>/<code>parseFloat</code> over <code>Number()</code>?</strong> <code>Number("16px")</code> returns <code>NaN</code>. But <code>parseInt("16px")</code> returns <code>16</code>. Use <code>parseInt</code>/<code>parseFloat</code> when your string contains units or extra characters.</p></blockquote>
 <h4 class="v2-h4">Converting TO Boolean</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>Boolean(1)         // true
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Boolean(1)         // true
 Boolean(0)         // false
 Boolean(&quot;hello&quot;)   // true
 Boolean(&quot;&quot;)        // false
@@ -771,7 +613,7 @@ Boolean(null)      // false
 Boolean(undefined) // false
 Boolean({})        // true  ← even an empty object is truthy
 Boolean([])        // true  ← even an empty array is truthy</code></pre></div></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Real-world: check if user typed anything in a search box
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Real-world: check if user typed anything in a search box
 let searchQuery = &quot;&quot;;
 if (!Boolean(searchQuery)) {
   console.log(&quot;Please enter a search term.&quot;);
@@ -783,30 +625,30 @@ if (!Boolean(searchQuery)) {
 <h4 class="v2-h4">The <code>+</code> operator — addition OR concatenation?</h4>
 <p class="v2-p">The <code>+</code> operator has a dual personality:</p>
 <ul class="v2-ul"><li>If <strong>both</strong> operands are numbers → <strong>addition</strong></li><li>If <strong>either</strong> operand is a string → <strong>string concatenation</strong></li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(5 + 5);       // 10    — number + number
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(5 + 5);       // 10    — number + number
 console.log(&quot;5&quot; + 5);     // &quot;55&quot;  — string + number → concatenation
 console.log(5 + &quot;5&quot;);     // &quot;55&quot;  — number + string → concatenation
 console.log(&quot;5&quot; + &quot;5&quot;);   // &quot;55&quot;  — string + string → concatenation</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>10
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>10
 55
 55
 55</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ This answers the thinking question from Section 1.3. <code>5 + "5"</code> gives <code>"55"</code>, not <code>10</code>. This is a very common source of bugs in JavaScript.</p></blockquote>
 <h4 class="v2-h4"><code>-</code>, <code>*</code>, <code>/</code> — these always try to convert to Number</h4>
 <p class="v2-p">Unlike <code>+</code>, the subtraction, multiplication, and division operators have <strong>no string behaviour</strong> — they always attempt numeric conversion:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(&quot;10&quot; - 5);    // 5     ← &quot;10&quot; converted to 10
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(&quot;10&quot; - 5);    // 5     ← &quot;10&quot; converted to 10
 console.log(&quot;10&quot; * 2);    // 20    ← &quot;10&quot; converted to 10
 console.log(&quot;10&quot; / 2);    // 5     ← &quot;10&quot; converted to 10
 console.log(&quot;hello&quot; - 5); // NaN   ← &quot;hello&quot; can&#x27;t become a number</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>5
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>5
 20
 5
 NaN</code></pre></div></div>
 <h4 class="v2-h4">Comparison operators and coercion</h4>
 <p class="v2-p">Loose equality <code>==</code> converts types before comparing. Strict equality <code>===</code> does <strong>not</strong> convert.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(0 == false);   // true  ← 0 and false both falsy
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(0 == false);   // true  ← 0 and false both falsy
 console.log(0 === false);  // false ← different types (Number vs Boolean)
 
 console.log(&quot;&quot; == false);  // true  ← both falsy
@@ -825,26 +667,21 @@ console.log(1 === &quot;1&quot;);    // false ← different types</code></pre></
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Value</th><th><code>String()</code></th><th><code>.toString()</code></th></tr></thead><tbody><tr><td><code>123</code></td><td><code>"123"</code></td><td><code>"123"</code></td></tr><tr><td><code>true</code></td><td><code>"true"</code></td><td><code>"true"</code></td></tr><tr><td><code>null</code></td><td><code>"null"</code></td><td>❌ Error</td></tr><tr><td><code>undefined</code></td><td><code>"undefined"</code></td><td>❌ Error</td></tr><tr><td><code>[1,2,3]</code></td><td><code>"1,2,3"</code></td><td><code>"1,2,3"</code></td></tr></tbody></table></div>
 <hr class="v2-hr">
 <p class="v2-p"># Section 2 — Applied Exercises</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">---
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">---
 
-### Complete Conversion Reference Table</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 11</div>
-    <div class="phase-title">Exercise 1 — Student Record Validator</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Warm-Up Mini-Example</h3>
-<p class="v2-p">Before the full exercise, practise this small check:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function checkType(value) {
+### Complete Conversion Reference Table</div></div><button class="ub" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/11</div><div class="pt">Exercise 1 — Student Record Validator</div><div class="pc" id="chk9"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><h3 class="v2-h3">Warm-Up Mini-Example</h3>
+<p class="v2-p">Before the full exercise, practise this small check:</p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">`javascript
+function checkType(value) {
+  console.log(value + " is of type: " + typeof value);
+}
+
+checkType("Amara");  // Amara is of type: string
+checkType(17);       // 17 is of type: number
+checkType(true);     // true is of type: boolean
+`
+
+---</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function checkType(value) {
   console.log(value + &quot; is of type: &quot; + typeof value);
 }
 
@@ -863,7 +700,7 @@ checkType(true);     // true is of type: boolean</code></pre></div></div>
 <p class="v2-p"><strong>Step 3:</strong> Attempt to convert string values to their correct types using <code>Number()</code> and <code>Boolean()</code>.</p>
 <p class="v2-p"><strong>Step 4:</strong> After conversion, re-validate and report whether the student record is valid.</p>
 <h3 class="v2-h3">Starter Code</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function validateStudent(student) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function validateStudent(student) {
   let errors = [];
 
   // Check name
@@ -896,7 +733,7 @@ checkType(true);     // true is of type: boolean</code></pre></div></div>
   }
 }</code></pre></div></div>
 <h3 class="v2-h3">Test Cases</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Test 1: Good data
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Test 1: Good data
 validateStudent({
   name: &quot;Amara Osei&quot;,
   age: 17,
@@ -928,33 +765,8 @@ validateStudent({
 <ol class="v2-ol"><li>Why do we use <code>parseFloat</code> for GPA instead of <code>parseInt</code>?</li><li>What does <code>isNaN(NaN)</code> return?</li><li>Why does <code>Boolean("false")</code> return <code>true</code> (and why is this a problem when processing a form's "false" checkbox value)?</li><li>What is the difference between <code>Number("") </code> and <code>Number(" ")</code>? (Both return <code>0</code> — is that what you'd expect?)</li></ol>
 <h3 class="v2-h3">What-If Challenge</h3>
 <blockquote class="v2-bq"><p class="v2-p">What if a student record might have <code>null</code> as its enrolled field? (Perhaps the user skipped the question.) How would you update the check to allow <code>null</code> as a special "not answered" state rather than treating it as an error?</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">`javascript
-function checkType(value) {
-  console.log(value + " is of type: " + typeof value);
-}
-
-checkType("Amara");  // Amara is of type: string
-checkType(17);       // 17 is of type: number
-checkType(true);     // true is of type: boolean
-`
-
----</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase10">
-  <div class="phase-header">
-    <div class="phase-num">Phase 10 of 11</div>
-    <div class="phase-title">Exercise 2 — Price Formatter</div>
-    <div class="phase-check" id="chk10"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Warm-Up Mini-Example</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let rawPrice = &quot;19.9&quot;;
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(9)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase10"><div class="ph"><div class="pn">Phase 10/11</div><div class="pt">Exercise 2 — Price Formatter</div><div class="pc" id="chk10"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><h3 class="v2-h3">Warm-Up Mini-Example</h3></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 2 — Price Formatter</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let rawPrice = &quot;19.9&quot;;
 let numPrice  = parseFloat(rawPrice);
 let formatted = &quot;$&quot; + numPrice.toFixed(2);
 console.log(formatted); // &quot;$19.90&quot;</code></pre></div></div>
@@ -966,7 +778,7 @@ console.log(formatted); // &quot;$19.90&quot;</code></pre></div></div>
 <h3 class="v2-h3">Requirements</h3>
 <p class="v2-p">Write a function <code>formatPrice(raw)</code> that:</p>
 <ol class="v2-ol"><li>Accepts any value (string, number, null, undefined)</li><li>Converts it to a proper number</li><li>Returns a formatted string like <code>"$19.99"</code> with exactly 2 decimal places</li><li>Returns <code>"Price unavailable"</code> if the value cannot be converted to a valid number</li></ol>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function formatPrice(raw) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function formatPrice(raw) {
   // Strip currency symbols if present (e.g. &quot;$19.99&quot; → &quot;19.99&quot;)
   let cleaned = String(raw).replace(/[^0-9.]/g, &quot;&quot;);
 
@@ -987,7 +799,7 @@ console.log(formatPrice(null));       // &quot;Price unavailable&quot;
 console.log(formatPrice(&quot;free&quot;));     // &quot;Price unavailable&quot;
 console.log(formatPrice(undefined));  // &quot;Price unavailable&quot;</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>$19.90
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>$19.90
 $29.50
 $14.00
 Price unavailable
@@ -995,27 +807,16 @@ Price unavailable
 Price unavailable</code></pre></div></div>
 <h3 class="v2-h3">Self-Check Questions</h3>
 <ol class="v2-ol"><li>Why do we use <code>String(raw)</code> before calling <code>.replace()</code>?</li><li><code>String(null)</code> returns <code>"null"</code> — what does <code>parseFloat("null")</code> return?</li><li>Why is <code>.toFixed(2)</code> important for prices? What would <code>0.1 + 0.2</code> return in JavaScript?</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 2 — Price Formatter</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase11">
-  <div class="phase-header">
-    <div class="phase-num">Phase 11 of 11</div>
-    <div class="phase-title">Exercise 3 — Data Type Inspector</div>
-    <div class="phase-check" id="chk11"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Objective</h3>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(10)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase11"><div class="ph"><div class="pn">Phase 11/11</div><div class="pt">Exercise 3 — Data Type Inspector</div><div class="pc" id="chk11"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><h3 class="v2-h3">Objective</h3>
 <p class="v2-p">Write a function that receives an array of unknown values and returns a detailed type report — similar to what a data profiling tool would produce.</p>
 <h3 class="v2-h3">Scenario</h3>
 <p class="v2-p">You are building a data import tool. Users upload CSV files and your tool must analyse each column, detect what types of data are present, and flag potential issues.</p>
-<h3 class="v2-h3">Starter Code</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function inspectValues(values) {
+<h3 class="v2-h3">Starter Code</h3></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">> Add a nanCount field to the report that specifically counts how many of the number values are NaN. Use isNaN() and typeof.
+
+---
+
+# Section 3 — Project Simulation</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function inspectValues(values) {
   let report = {
     total: values.length,
     strings: 0,
@@ -1059,7 +860,7 @@ let dataset = [
 
 console.log(inspectValues(dataset));</code></pre></div></div>
 <p class="v2-p"><strong>Expected Output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>{
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>{
   total: 10,
   strings: 2,      // &quot;Amara&quot; and &quot;3.85&quot;
   numbers: 3,      // 17, NaN, 0   ← NaN is typeof &quot;number&quot;!
@@ -1074,24 +875,15 @@ console.log(inspectValues(dataset));</code></pre></div></div>
 <h3 class="v2-h3">What-If Challenge</h3>
 <blockquote class="v2-bq"><p class="v2-p">Add a <code>nanCount</code> field to the report that specifically counts how many of the number values are <code>NaN</code>. Use <code>isNaN()</code> and <code>typeof</code>.</p></blockquote>
 <hr class="v2-hr">
-<p class="v2-p"># Section 3 — Project Simulation</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 3 — Data Type Inspector</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Project Overview</div>
-  <div class="build-desc">You will build a <strong>Student Report Card Generator</strong> — a JavaScript program that:</div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>// Before Stage 1, understand what we&#x27;re solving:
+<p class="v2-p"># Section 3 — Project Simulation</p></div><button class="ub" onclick="unlockNext(11)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Project Overview</div><div class="build-req"><h3 class="v2-h3">Project Overview</h3>
+<p class="v2-p">You will build a <strong>Student Report Card Generator</strong> — a JavaScript program that:</p>
+<ol class="v2-ol"><li>Accepts raw student input (names, scores as strings, booleans as strings)</li><li>Validates and converts all data to the correct types</li><li>Calculates grades and averages</li><li>Generates a formatted text report</li></ol>
+<h3 class="v2-h3">Real-World Context</h3>
+<p class="v2-p">Schools, HR systems, and data entry applications constantly deal with raw user input that arrives as strings. This project simulates how a real developer sanitises, converts, and processes data before using it.</p>
+<hr class="v2-hr">
+<h3 class="v2-h3">Stage 1 — Setup and Core Data Conversion</h3>
+<p class="v2-p"><strong>Illustrative Example First:</strong></p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Before Stage 1, understand what we&#x27;re solving:
 let rawInput = { name: &quot;Kofi&quot;, score: &quot;78&quot;, passed: &quot;true&quot; };
 let converted = {
   name: rawInput.name,
@@ -1099,10 +891,7 @@ let converted = {
   passed: rawInput.passed === &quot;true&quot;        // true (boolean)
 };
 console.log(converted);
-// { name: &quot;Kofi&quot;, score: 78, passed: true }</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`// Before Stage 1, understand what we're solving:
+// { name: &quot;Kofi&quot;, score: 78, passed: true }</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`// Before Stage 1, understand what we're solving:
 let rawInput = { name: "Kofi", score: "78", passed: "true" };
 let converted = {
   name: rawInput.name,
@@ -1110,87 +899,66 @@ let converted = {
   passed: rawInput.passed === "true"        // true (boolean)
 };
 console.log(converted);
-// { name: "Kofi", score: 78, passed: true }`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+// { name: "Kofi", score: 78, passed: true }`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-21-project-overview</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 21 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-21-project-overview/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 21 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ 1.1 What Are Data Types?</li><li>✅ 1.2 The Eight JavaScript Data Types</li><li>✅ 1.3 Dynamic Typing — JavaScript's Superpower (and Gotcha)</li><li>✅ 1.4 Primitive Data Types (Deep Dive)</li><li>✅ 1.5 Object Data Types (Deep Dive)</li><li>✅ 1.6 The `typeof` Operator</li><li>✅ 1.7 Converting Values to Strings — `toString()` and Friends</li><li>✅ 1.8 Type Conversion — Explicit and Implicit</li></ul>
-  <div class="lesson-nav"><a href="lesson_20.html" class="ln-btn">← Lesson 20</a><a href="lesson_22.html" class="ln-btn primary">Lesson 22 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-21-project-overview</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 21 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-21-project-overview/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 21 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ 1.1 What Are Data Types?</li><li>✅ 1.2 The Eight JavaScript Data Types</li><li>✅ 1.3 Dynamic Typing — JavaScript's Superpower (and Gotcha)</li><li>✅ 1.4 Primitive Data Types (Deep Dive)</li><li>✅ 1.5 Object Data Types (Deep Dive)</li><li>✅ 1.6 The `typeof` Operator</li><li>✅ 1.7 Converting Values to Strings — `toString()` and Friends</li><li>✅ 1.8 Type Conversion — Explicit and Implicit</li></ul><div class="ln"><a href="lesson_20.html" class="ln-btn">← Lesson 20</a><a href="lesson_22.html" class="ln-btn primary">Lesson 22 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 21 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 21 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=11,KEY='techbase_js_l21';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

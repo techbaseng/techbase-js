@@ -1,208 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 46: JavaScript Complete Reference Manual: Every Built-in Object · Every Method · Every Property — Fully Explained with Examples — Techbase JavaScript</title>
-<meta name="description" content="JavaScript Complete Reference Manual: Every Built-in Object · Every Method · Every Property — Fully Explained with Examples">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 46 of 46</span>
+  <span class="l-nav-lbl">Lesson 46 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 46</div>
-    <h1>JavaScript Complete Reference Manual: Every Built-in Object · Every Method · Every Property — Fully Explained with Examples</h1>
-    <div class="l-hero-sub">15 phases · Build: Lesson 46 JS Project</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 46</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 15 phases</span>
-    <span>🏗️ Lesson 46 JS Project</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 46</div>
+  <h1>JavaScript Complete Reference Manual: Every Built-in Object · Every Method · Every Property — Fully Explained with Examples</h1>
+  <div class="l-hero-sub">15 phases &nbsp;·&nbsp; Build: Lesson 46 Project</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 46</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 15 phases</span><span>🏗️ Lesson 46 Project</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 15</div>
-    <div class="phase-title">SECTION 1: THE ARRAY OBJECT</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is an Array?</h3>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/15</div><div class="pt">SECTION 1: THE ARRAY OBJECT</div><div class="pc" id="chk1"></div></div><div class="pb2"><h3 class="v2-h3">What is an Array?</h3>
 <p class="v2-p">An Array is an ordered, indexed collection of values. Think of it as a class attendance register — students are listed in order (position 0, 1, 2...), each has a name (value), and the register has a fixed count (length) at any moment.</p>
 <p class="v2-p"><strong>Creating arrays:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Literal syntax (always preferred)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Literal syntax (always preferred)
 let fruits = [&quot;Mango&quot;, &quot;Pawpaw&quot;, &quot;Banana&quot;, &quot;Orange&quot;, &quot;Pineapple&quot;];
 
 // Array constructor (rarely used)
@@ -220,7 +154,7 @@ let fromSet = Array.from(new Set([1,2,2,3,3])); // [1,2,3] (deduped)</code></pre
 <hr class="v2-hr">
 <h3 class="v2-h3">Array Properties</h3>
 <h4 class="v2-h4"><code>length</code> — Number of elements in the array</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let products = [&quot;Rice&quot;, &quot;Beans&quot;, &quot;Garri&quot;, &quot;Yam&quot;, &quot;Semovita&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let products = [&quot;Rice&quot;, &quot;Beans&quot;, &quot;Garri&quot;, &quot;Yam&quot;, &quot;Semovita&quot;];
 console.log(products.length); // 5
 
 // length is writable — you can shrink an array with it!
@@ -239,7 +173,7 @@ console.log(last); // undefined (empty slot) — or use .at(-1)</code></pre></di
 <hr class="v2-hr">
 <h3 class="v2-h3">Array Static Methods (called on <code>Array</code> itself, not on an array instance)</h3>
 <h4 class="v2-h4"><code>Array.isArray()</code> — Check if a value is a real array</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Why does this exist? Because typeof [] returns &quot;object&quot; — not helpful!
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Why does this exist? Because typeof [] returns &quot;object&quot; — not helpful!
 console.log(typeof []);        // &quot;object&quot; — ambiguous
 console.log(Array.isArray([])); // true — precise
 
@@ -257,7 +191,7 @@ function processItems(data) {
 processItems({ name: &quot;Indomie&quot; });          // &quot;Indomie&quot;
 processItems([{ name: &quot;Rice&quot; }, { name: &quot;Beans&quot; }]); // &quot;Rice&quot;, &quot;Beans&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>Array.from()</code> — Create an array from any iterable or array-like</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// From a string
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// From a string
 console.log(Array.from(&quot;Abuja&quot;));          // [&quot;A&quot;,&quot;b&quot;,&quot;u&quot;,&quot;j&quot;,&quot;a&quot;]
 
 // From a Set (removes duplicates)
@@ -288,7 +222,7 @@ let dates = Array.from({length: 7}, (_, i) =&gt; {
 });
 console.log(dates); // Next 7 days starting today</code></pre></div></div>
 <h4 class="v2-h4"><code>Array.of()</code> — Create an array from arguments</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Why use Array.of() instead of Array()?
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Why use Array.of() instead of Array()?
 console.log(Array(3));       // [ &lt;3 empty items&gt; ] — hole array!
 console.log(Array.of(3));    // [3] — actual array with 3 as element
 
@@ -298,7 +232,7 @@ console.log(Array.of(7));          // [7]</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Array Instance Methods — Mutating (change the original array)</h3>
 <h4 class="v2-h4"><code>push()</code> — Add one or more elements to the END</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let cart = [&quot;Rice&quot;, &quot;Beans&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let cart = [&quot;Rice&quot;, &quot;Beans&quot;];
 cart.push(&quot;Garri&quot;);                 // Add one
 cart.push(&quot;Yam&quot;, &quot;Semovita&quot;);      // Add multiple
 console.log(cart);   // [&quot;Rice&quot;, &quot;Beans&quot;, &quot;Garri&quot;, &quot;Yam&quot;, &quot;Semovita&quot;]
@@ -310,7 +244,7 @@ document.querySelectorAll(&quot;input:checked&quot;).forEach(checkbox =&gt; {
   selectedItems.push(checkbox.value);
 });</code></pre></div></div>
 <h4 class="v2-h4"><code>pop()</code> — Remove and return the LAST element</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let stack = [10, 20, 30, 40, 50];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let stack = [10, 20, 30, 40, 50];
 let last = stack.pop();
 console.log(last);   // 50 — returns the removed element
 console.log(stack);  // [10, 20, 30, 40]
@@ -325,7 +259,7 @@ let currentPage = history.pop();  // &quot;checkout&quot;
 let previousPage = history.pop(); // &quot;cart&quot;
 console.log(&quot;Going back to:&quot;, previousPage); // Going back to: cart</code></pre></div></div>
 <h4 class="v2-h4"><code>unshift()</code> — Add one or more elements to the BEGINNING</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let queue = [&quot;Chidi&quot;, &quot;Ngozi&quot;, &quot;Emeka&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let queue = [&quot;Chidi&quot;, &quot;Ngozi&quot;, &quot;Emeka&quot;];
 queue.unshift(&quot;Babatunde&quot;);            // Add one to front
 queue.unshift(&quot;Amaka&quot;, &quot;Tunde&quot;);      // Add multiple — they go in as a unit
 console.log(queue);
@@ -335,7 +269,7 @@ console.log(queue.unshift(&quot;Kemi&quot;)); // Returns new length: 7
 // ⚠️ unshift() is SLOW for large arrays — it has to re-index all elements
 // For performance-critical code, consider push() + reverse()</code></pre></div></div>
 <h4 class="v2-h4"><code>shift()</code> — Remove and return the FIRST element</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let queue = [&quot;First Customer&quot;, &quot;Second Customer&quot;, &quot;Third Customer&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let queue = [&quot;First Customer&quot;, &quot;Second Customer&quot;, &quot;Third Customer&quot;];
 let served = queue.shift();
 console.log(served);  // &quot;First Customer&quot;
 console.log(queue);   // [&quot;Second Customer&quot;, &quot;Third Customer&quot;]
@@ -355,7 +289,7 @@ while (jobQueue.length &gt; 0) {
   // Processing: Update database
 }</code></pre></div></div>
 <h4 class="v2-h4"><code>splice()</code> — Remove, replace, or insert elements at any position</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// splice(start, deleteCount, ...itemsToInsert)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// splice(start, deleteCount, ...itemsToInsert)
 let months = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;];
 
 // Remove 2 elements starting at index 2
@@ -390,7 +324,7 @@ function removeFromCart(id) {
 removeFromCart(2);
 console.log(cartItems); // [{ id:1, name:&quot;Rice&quot; }, { id:3, name:&quot;Garri&quot; }]</code></pre></div></div>
 <h4 class="v2-h4"><code>sort()</code> — Sort the array IN PLACE</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Default: sorts as strings (lexicographic)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Default: sorts as strings (lexicographic)
 let fruits = [&quot;Mango&quot;, &quot;Apple&quot;, &quot;Banana&quot;, &quot;Orange&quot;, &quot;Avocado&quot;];
 fruits.sort();
 console.log(fruits); // [&quot;Apple&quot;, &quot;Avocado&quot;, &quot;Banana&quot;, &quot;Mango&quot;, &quot;Orange&quot;]
@@ -431,7 +365,7 @@ let sorted = [...original].sort((a,b) =&gt; a-b); // Spread to copy first
 console.log(original); // [3, 1, 4, 1, 5, 9] — unchanged
 console.log(sorted);   // [1, 1, 3, 4, 5, 9]</code></pre></div></div>
 <h4 class="v2-h4"><code>reverse()</code> — Reverse the array IN PLACE</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let arr = [1, 2, 3, 4, 5];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let arr = [1, 2, 3, 4, 5];
 arr.reverse();
 console.log(arr); // [5, 4, 3, 2, 1]
 
@@ -445,7 +379,7 @@ let original = [1, 2, 3];
 let rev = [...original].reverse();
 console.log(original); // [1, 2, 3] — unchanged</code></pre></div></div>
 <h4 class="v2-h4"><code>fill()</code> — Fill elements with a static value</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let arr = [1, 2, 3, 4, 5];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let arr = [1, 2, 3, 4, 5];
 
 arr.fill(0);          // Fill entire array with 0
 console.log(arr);     // [0, 0, 0, 0, 0]
@@ -465,7 +399,7 @@ let grid = Array.from({length:3}, () =&gt; new Array(3).fill(0));
 console.log(grid);
 // [[0,0,0],[0,0,0],[0,0,0]]</code></pre></div></div>
 <h4 class="v2-h4"><code>copyWithin()</code> — Copy part of an array within itself</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let arr = [1, 2, 3, 4, 5];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let arr = [1, 2, 3, 4, 5];
 
 // copyWithin(target, start, end)
 arr.copyWithin(0, 3);      // Copy from index 3 to end, paste at index 0
@@ -479,7 +413,7 @@ console.log(arr2);           // [1, 4, 5, 4, 5]
 <hr class="v2-hr">
 <h3 class="v2-h3">Array Instance Methods — Non-Mutating (return new array/value, original unchanged)</h3>
 <h4 class="v2-h4"><code>slice()</code> — Extract a portion of an array</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let cities = [&quot;Lagos&quot;, &quot;Abuja&quot;, &quot;Kano&quot;, &quot;Ibadan&quot;, &quot;Port Harcourt&quot;, &quot;Benin&quot;, &quot;Enugu&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let cities = [&quot;Lagos&quot;, &quot;Abuja&quot;, &quot;Kano&quot;, &quot;Ibadan&quot;, &quot;Port Harcourt&quot;, &quot;Benin&quot;, &quot;Enugu&quot;];
 
 // slice(start, end) — end is exclusive
 console.log(cities.slice(1, 4));  // [&quot;Abuja&quot;, &quot;Kano&quot;, &quot;Ibadan&quot;]
@@ -501,7 +435,7 @@ let products = Array.from({length: 25}, (_, i) =&gt; `Product ${i+1}`);
 console.log(paginate(products, 1, 5)); // [&quot;Product 1&quot;...&quot;Product 5&quot;]
 console.log(paginate(products, 3, 5)); // [&quot;Product 11&quot;...&quot;Product 15&quot;]</code></pre></div></div>
 <h4 class="v2-h4"><code>concat()</code> — Merge arrays together</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let northernCities = [&quot;Kano&quot;, &quot;Kaduna&quot;, &quot;Maiduguri&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let northernCities = [&quot;Kano&quot;, &quot;Kaduna&quot;, &quot;Maiduguri&quot;];
 let southernCities = [&quot;Lagos&quot;, &quot;Ibadan&quot;, &quot;Benin&quot;];
 let easternCities  = [&quot;Enugu&quot;, &quot;Aba&quot;, &quot;Port Harcourt&quot;];
 
@@ -515,7 +449,7 @@ console.log(northernCities); // [&quot;Kano&quot;, &quot;Kaduna&quot;, &quot;Mai
 // Modern alternative: spread operator (preferred)
 let merged = [...northernCities, ...southernCities, ...easternCities];</code></pre></div></div>
 <h4 class="v2-h4"><code>join()</code> — Join all elements into a string</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let parts = [&quot;Babatunde&quot;, &quot;Adekunle&quot;, &quot;Adeyemi&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let parts = [&quot;Babatunde&quot;, &quot;Adekunle&quot;, &quot;Adeyemi&quot;];
 
 console.log(parts.join(&quot; &quot;));       // &quot;Babatunde Adekunle Adeyemi&quot; (space)
 console.log(parts.join(&quot;, &quot;));      // &quot;Babatunde Adekunle Adeyemi&quot; (comma-space)
@@ -538,7 +472,7 @@ let pathParts = [&quot;api&quot;, &quot;v1&quot;, &quot;users&quot;, &quot;123&q
 let url = &quot;/&quot; + pathParts.join(&quot;/&quot;);
 console.log(url); // /api/v1/users/123/orders</code></pre></div></div>
 <h4 class="v2-h4"><code>indexOf()</code> and <code>lastIndexOf()</code> — Find element position</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let items = [&quot;Rice&quot;, &quot;Beans&quot;, &quot;Garri&quot;, &quot;Rice&quot;, &quot;Yam&quot;, &quot;Rice&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let items = [&quot;Rice&quot;, &quot;Beans&quot;, &quot;Garri&quot;, &quot;Rice&quot;, &quot;Yam&quot;, &quot;Rice&quot;];
 
 console.log(items.indexOf(&quot;Rice&quot;));       // 0 — first occurrence
 console.log(items.indexOf(&quot;Beans&quot;));      // 1
@@ -557,7 +491,7 @@ if (items.includes(&quot;Garri&quot;)) {
   console.log(&quot;Garri is in stock&quot;);
 }</code></pre></div></div>
 <h4 class="v2-h4"><code>includes()</code> — Check if element exists (returns boolean)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let permissions = [&quot;read&quot;, &quot;write&quot;, &quot;delete&quot;, &quot;admin&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let permissions = [&quot;read&quot;, &quot;write&quot;, &quot;delete&quot;, &quot;admin&quot;];
 
 console.log(permissions.includes(&quot;write&quot;));  // true
 console.log(permissions.includes(&quot;print&quot;));  // false
@@ -577,7 +511,7 @@ let user = { name: &quot;Tunde&quot;, permissions: [&quot;read&quot;, &quot;writ
 console.log(hasPermission(user, &quot;delete&quot;)); // false
 console.log(hasPermission(user, &quot;read&quot;));   // true</code></pre></div></div>
 <h4 class="v2-h4"><code>flat()</code> — Flatten nested arrays</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let nested = [1, [2, 3], [4, [5, 6]], [7, [8, [9]]]];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let nested = [1, [2, 3], [4, [5, 6]], [7, [8, [9]]]];
 
 console.log(nested.flat());     // [1,2,3,4,[5,6],7,[8,[9]]] — 1 level deep
 console.log(nested.flat(2));    // [1,2,3,4,5,6,7,[9]] — 2 levels deep
@@ -593,7 +527,7 @@ let regionOrders = [
 let allOrders = regionOrders.flat();
 console.log(allOrders.length); // 5</code></pre></div></div>
 <h4 class="v2-h4"><code>flatMap()</code> — Map + Flat in one step (1 level only)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let sentences = [&quot;Tunde loves JavaScript&quot;, &quot;Amaka codes daily&quot;, &quot;Chidi reads books&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let sentences = [&quot;Tunde loves JavaScript&quot;, &quot;Amaka codes daily&quot;, &quot;Chidi reads books&quot;];
 
 // Get every word across all sentences
 let words = sentences.flatMap(s =&gt; s.split(&quot; &quot;));
@@ -612,7 +546,7 @@ console.log(allItems); // [&quot;Rice&quot;,&quot;Oil&quot;,&quot;Beans&quot;,&q
 <hr class="v2-hr">
 <h3 class="v2-h3">Array Iteration Methods — Higher-Order Functions</h3>
 <h4 class="v2-h4"><code>forEach()</code> — Run a function for each element</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let prices = [5000, 12000, 3500, 8000, 15000];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let prices = [5000, 12000, 3500, 8000, 15000];
 
 // Basic usage
 prices.forEach((price, index, array) =&gt; {
@@ -635,7 +569,7 @@ products.forEach(product =&gt; {
   document.getElementById(&quot;product-list&quot;).appendChild(li);
 });</code></pre></div></div>
 <h4 class="v2-h4"><code>map()</code> — Transform every element (returns new array)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let salaries = [250000, 450000, 180000, 320000, 500000];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let salaries = [250000, 450000, 180000, 320000, 500000];
 
 // Apply 7.5% tax to all
 let afterTax = salaries.map(salary =&gt; salary * 0.925);
@@ -666,7 +600,7 @@ let withBonus = users.map(u =&gt; ({
 console.log(withBonus[0]);
 // { firstName:&quot;Babatunde&quot;, ..., bonus: 50000, fullName: &quot;Babatunde Adeyemi&quot; }</code></pre></div></div>
 <h4 class="v2-h4"><code>filter()</code> — Keep only elements that pass a test</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let transactions = [
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let transactions = [
   { id: 1, type: &quot;credit&quot;, amount: 50000,  category: &quot;salary&quot; },
   { id: 2, type: &quot;debit&quot;,  amount: 12000,  category: &quot;food&quot; },
   { id: 3, type: &quot;debit&quot;,  amount: 45000,  category: &quot;rent&quot; },
@@ -698,7 +632,7 @@ let nums = [1, 2, 2, 3, 3, 3, 4];
 let unique = nums.filter((val, idx, arr) =&gt; arr.indexOf(val) === idx);
 console.log(unique); // [1, 2, 3, 4]</code></pre></div></div>
 <h4 class="v2-h4"><code>reduce()</code> — Reduce array to a single value</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// reduce(callback(accumulator, currentValue, index, array), initialValue)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// reduce(callback(accumulator, currentValue, index, array), initialValue)
 
 // Sum all numbers
 let prices = [5000, 12000, 3500, 8000, 15000];
@@ -757,7 +691,7 @@ let obj = kvPairs.reduce((acc, [key, val]) =&gt; {
 }, {});
 console.log(obj); // { name:&quot;Tunde&quot;, city:&quot;Lagos&quot;, age:32 }</code></pre></div></div>
 <h4 class="v2-h4"><code>reduceRight()</code> — Like reduce() but processes RIGHT to LEFT</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let nested = [[1,2],[3,4],[5,6]];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let nested = [[1,2],[3,4],[5,6]];
 let reversed = nested.reduceRight((acc, arr) =&gt; acc.concat(arr), []);
 console.log(reversed); // [5,6,3,4,1,2] — processes from right to left
 
@@ -771,7 +705,7 @@ const transform = compose(square, addTen, double);
 // Applies: double(5)=10 → addTen(10)=20 → square(20)=400
 console.log(transform(5)); // 400</code></pre></div></div>
 <h4 class="v2-h4"><code>find()</code> — Return first matching element</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let employees = [
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let employees = [
   { id: 1, name: &quot;Tunde&quot;,  dept: &quot;Engineering&quot;, salary: 450000 },
   { id: 2, name: &quot;Amaka&quot;,  dept: &quot;Marketing&quot;,   salary: 320000 },
   { id: 3, name: &quot;Chidi&quot;,  dept: &quot;Engineering&quot;, salary: 280000 },
@@ -795,7 +729,7 @@ function getCartItem(cart, productId) {
   return cart.find(item =&gt; item.productId === productId);
 }</code></pre></div></div>
 <h4 class="v2-h4"><code>findIndex()</code> — Return index of first matching element</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let scores = [72, 85, 91, 64, 78, 95, 88];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let scores = [72, 85, 91, 64, 78, 95, 88];
 
 // Find index of first score above 90
 let firstHighIndex = scores.findIndex(s =&gt; s &gt; 90);
@@ -822,7 +756,7 @@ function updatePrice(id, newPrice) {
 updatePrice(2, 19500);
 console.log(products[1]); // { id:2, name:&quot;Beans&quot;, price:19500 }</code></pre></div></div>
 <h4 class="v2-h4"><code>findLast()</code> and <code>findLastIndex()</code> — Search from the END (ES2023)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let readings = [23, 45, 12, 67, 34, 89, 45, 12];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let readings = [23, 45, 12, 67, 34, 89, 45, 12];
 
 // Find LAST value below 20
 let lastLow = readings.findLast(r =&gt; r &lt; 20);
@@ -844,7 +778,7 @@ let transactions = [
 let lastFailed = transactions.findLast(t =&gt; t.status === &quot;failed&quot;);
 console.log(lastFailed); // { id:4, status:&quot;failed&quot; }</code></pre></div></div>
 <h4 class="v2-h4"><code>every()</code> — Do ALL elements pass the test?</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let scores = [78, 85, 92, 71, 88, 79];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let scores = [78, 85, 92, 71, 88, 79];
 
 console.log(scores.every(s =&gt; s &gt;= 70)); // true  — all pass
 console.log(scores.every(s =&gt; s &gt;= 80)); // false — not all pass
@@ -864,7 +798,7 @@ let fields = [
 let formReady = fields.every(field =&gt; field.valid);
 console.log(&quot;Can submit:&quot;, formReady); // Can submit: true</code></pre></div></div>
 <h4 class="v2-h4"><code>some()</code> — Does AT LEAST ONE element pass?</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let ages = [17, 22, 15, 28, 19];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let ages = [17, 22, 15, 28, 19];
 
 console.log(ages.some(a =&gt; a &gt;= 18)); // true — at least one adult
 console.log(ages.some(a =&gt; a &gt; 30));  // false — none above 30
@@ -884,7 +818,7 @@ if (hasOutOfStock) {
 }
 // ⚠️ Some items in your cart are out of stock!</code></pre></div></div>
 <h4 class="v2-h4"><code>at()</code> — Access element by index (supports negative indexes) (ES2022)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let months = [&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dec&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let months = [&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dec&quot;];
 
 console.log(months.at(0));   // &quot;Jan&quot;  — first element
 console.log(months.at(5));   // &quot;Jun&quot;  — sixth element
@@ -898,7 +832,7 @@ console.log(months.at(-3));  // &quot;Oct&quot;  — third from last
 let prices = [100, 200, 300, 400, 500];
 console.log(prices.at(-2)); // 400 — second to last</code></pre></div></div>
 <h4 class="v2-h4"><code>entries()</code>, <code>keys()</code>, <code>values()</code> — Iterate with more info</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let fruits = [&quot;Mango&quot;, &quot;Banana&quot;, &quot;Orange&quot;];
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let fruits = [&quot;Mango&quot;, &quot;Banana&quot;, &quot;Orange&quot;];
 
 // entries() — gives [index, value] pairs
 for (let [index, fruit] of fruits.entries()) {
@@ -923,7 +857,7 @@ let entriesArray = Array.from(fruits.entries());
 console.log(entriesArray);
 // [[0,&quot;Mango&quot;],[1,&quot;Banana&quot;],[2,&quot;Orange&quot;]]</code></pre></div></div>
 <h4 class="v2-h4"><code>toSorted()</code>, <code>toReversed()</code>, <code>toSpliced()</code>, <code>with()</code> — Immutable versions (ES2023)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// These return NEW arrays, never mutating the original!
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// These return NEW arrays, never mutating the original!
 let arr = [3, 1, 4, 1, 5, 9, 2, 6];
 
 let sorted = arr.toSorted((a,b) =&gt; a - b);
@@ -941,10 +875,7 @@ console.log(arr);     // unchanged!
 let updated = arr.with(2, 999); // Replace index 2 with 999
 console.log(updated); // [3, 1, 999, 1, 5, 9, 2, 6]
 console.log(arr);     // unchanged!</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">{ id: 2, task: "Generate report" },
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">{ id: 2, task: "Generate report" },
   { id: 3, task: "Update database" }
 ];
 
@@ -955,21 +886,10 @@ while (jobQueue.length > 0) {
   // Processing: Generate report
   // Processing: Update database
 }
-`</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 15</div>
-    <div class="phase-title">SECTION 2: THE STRING OBJECT</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is a String?</h3>
+`</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/15</div><div class="pt">SECTION 2: THE STRING OBJECT</div><div class="pc" id="chk2"></div></div><div class="pb2"><h3 class="v2-h3">What is a String?</h3>
 <p class="v2-p">A string is a sequence of characters used to represent text. Strings are <strong>immutable</strong> — once created, you cannot change individual characters; every string method returns a NEW string.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Creating strings — three ways
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Creating strings — three ways
 let single = &#x27;Hello, Lagos!&#x27;;
 let double = &quot;Hello, Abuja!&quot;;
 let template = `Hello, ${[&quot;Kano&quot;, &quot;Enugu&quot;][0]}!`; // Template literal
@@ -980,7 +900,7 @@ console.log(name.length);    // 9 — property
 console.log(name.toUpperCase()); // &quot;BABATUNDE&quot; — method</code></pre></div></div>
 <h3 class="v2-h3">String Properties</h3>
 <h4 class="v2-h4"><code>length</code> — Number of characters</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let message = &quot;Welcome to Nigeria!&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let message = &quot;Welcome to Nigeria!&quot;;
 console.log(message.length); // 19
 
 console.log(&quot;&quot;.length);       // 0 — empty string
@@ -995,7 +915,7 @@ if (input.trim().length === 0) {
 }</code></pre></div></div>
 <h3 class="v2-h3">String Methods — Searching</h3>
 <h4 class="v2-h4"><code>charAt()</code> — Get character at index</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let str = &quot;Babatunde&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let str = &quot;Babatunde&quot;;
 console.log(str.charAt(0));   // &quot;B&quot;
 console.log(str.charAt(4));   // &quot;t&quot;
 console.log(str.charAt(100)); // &quot;&quot; — out of range returns empty string
@@ -1004,7 +924,7 @@ console.log(str.charAt(100)); // &quot;&quot; — out of range returns empty str
 console.log(str[0]);   // &quot;B&quot;
 console.log(str[100]); // undefined — out of range returns undefined</code></pre></div></div>
 <h4 class="v2-h4"><code>charCodeAt()</code> and <code>codePointAt()</code> — Get numeric character code</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let str = &quot;ABC&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let str = &quot;ABC&quot;;
 console.log(str.charCodeAt(0)); // 65 — ASCII for &#x27;A&#x27;
 console.log(str.charCodeAt(1)); // 66 — ASCII for &#x27;B&#x27;
 console.log(str.charCodeAt(2)); // 67 — ASCII for &#x27;C&#x27;
@@ -1024,7 +944,7 @@ console.log(isLetter(&quot;A&quot;)); // true
 console.log(isLetter(&quot;5&quot;)); // false
 console.log(isLetter(&quot;!&quot;)); // false</code></pre></div></div>
 <h4 class="v2-h4"><code>String.fromCharCode()</code> — Create character from code</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(String.fromCharCode(65));         // &quot;A&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(String.fromCharCode(65));         // &quot;A&quot;
 console.log(String.fromCharCode(72,101,108,108,111)); // &quot;Hello&quot;
 
 // Generate alphabet
@@ -1032,7 +952,7 @@ let alphabet = Array.from({length:26}, (_, i) =&gt; String.fromCharCode(65 + i))
 console.log(alphabet.join(&quot;&quot;));
 // &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>indexOf()</code> and <code>lastIndexOf()</code> — Find substring position</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;The quick brown fox jumps over the lazy dog&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let text = &quot;The quick brown fox jumps over the lazy dog&quot;;
 
 console.log(text.indexOf(&quot;fox&quot;));        // 16 — first occurrence
 console.log(text.indexOf(&quot;cat&quot;));        // -1 — not found
@@ -1052,7 +972,7 @@ if (text.includes(&quot;fox&quot;)) {
   console.log(&quot;Contains &#x27;fox&#x27;&quot;);
 }</code></pre></div></div>
 <h4 class="v2-h4"><code>includes()</code> — Check if substring exists</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let email = &quot;babatunde@gmail.com&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let email = &quot;babatunde@gmail.com&quot;;
 
 console.log(email.includes(&quot;@&quot;));         // true
 console.log(email.includes(&quot;yahoo&quot;));     // false
@@ -1070,7 +990,7 @@ let searchTerm = &quot;rice&quot;;
 let results = products.filter(p =&gt; p.toLowerCase().includes(searchTerm.toLowerCase()));
 console.log(results); // [&quot;Basmati Rice&quot;, &quot;Brown Rice&quot;, &quot;Jollof Rice Mix&quot;]</code></pre></div></div>
 <h4 class="v2-h4"><code>startsWith()</code> and <code>endsWith()</code> — Check string boundaries</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let filename = &quot;report_march_2026.pdf&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let filename = &quot;report_march_2026.pdf&quot;;
 
 console.log(filename.startsWith(&quot;report&quot;)); // true
 console.log(filename.startsWith(&quot;sales&quot;));  // false
@@ -1096,7 +1016,7 @@ function isSecure(url) {
 console.log(isSecure(&quot;https://api.myshop.com&quot;)); // true
 console.log(isSecure(&quot;http://insecure.com&quot;));     // false</code></pre></div></div>
 <h4 class="v2-h4"><code>search()</code> — Search using regex, returns index</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;My phone number is 08012345678 and email is tunde@gmail.com&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let text = &quot;My phone number is 08012345678 and email is tunde@gmail.com&quot;;
 
 // Search for first digit sequence
 let digitPos = text.search(/\d+/);
@@ -1108,7 +1028,7 @@ console.log(text.search(/xyz/)); // -1
 // Unlike indexOf(), search() supports regex patterns
 console.log(text.search(/\d{11}/));  // 19 — 11-digit number</code></pre></div></div>
 <h4 class="v2-h4"><code>match()</code> — Find matches using regex</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;Order #1001 placed on 15/03/2026. Order #1002 on 22/03/2026.&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let text = &quot;Order #1001 placed on 15/03/2026. Order #1002 on 22/03/2026.&quot;;
 
 // Without &#x27;g&#x27; flag — first match only (returns detailed object)
 let firstMatch = text.match(/Order #\d+/);
@@ -1132,7 +1052,7 @@ if (dates) {
   console.log(&quot;Found&quot;, dates.length, &quot;date(s)&quot;);
 }</code></pre></div></div>
 <h4 class="v2-h4"><code>matchAll()</code> — Find ALL matches with capture groups (ES2020)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let log = &quot;ERROR 404: Not Found | ERROR 500: Internal Server | ERROR 403: Forbidden&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let log = &quot;ERROR 404: Not Found | ERROR 500: Internal Server | ERROR 403: Forbidden&quot;;
 
 // Use named groups for clarity
 let pattern = /ERROR (?&lt;code&gt;\d+): (?&lt;message&gt;[^|]+)/g;
@@ -1146,7 +1066,7 @@ matches.forEach(match =&gt; {
 // Code: 403, Message: Forbidden</code></pre></div></div>
 <h3 class="v2-h3">String Methods — Extracting</h3>
 <h4 class="v2-h4"><code>slice()</code> — Extract substring by position</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let str = &quot;Babatunde Adeyemi&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let str = &quot;Babatunde Adeyemi&quot;;
 //          0123456789...
 
 console.log(str.slice(0, 9));   // &quot;Babatunde&quot;
@@ -1163,7 +1083,7 @@ console.log(ext); // &quot;.pdf&quot;
 let preview = str.slice(0, 5) + &quot;...&quot;;
 console.log(preview); // &quot;Babat...&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>substring()</code> — Extract substring (similar to slice, no negatives)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let str = &quot;JavaScript Reference Manual&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let str = &quot;JavaScript Reference Manual&quot;;
 
 console.log(str.substring(0, 10));  // &quot;JavaScript&quot;
 console.log(str.substring(11));     // &quot;Reference Manual&quot;
@@ -1177,19 +1097,19 @@ console.log(str.slice(-5));         // &quot;anual&quot; — last 5 chars (diffe
 console.log(str.substring(20, 11)); // &quot;Reference&quot; — swapped to (11, 20)
 console.log(str.slice(20, 11));     // &quot;&quot; — slice gives empty for this</code></pre></div></div>
 <h4 class="v2-h4"><code>substr()</code> — Extract by start + length (DEPRECATED — avoid)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ⚠️ substr() is deprecated! Use slice() instead
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ⚠️ substr() is deprecated! Use slice() instead
 let str = &quot;Babatunde&quot;;
 // substr(start, length)
 console.log(str.substr(0, 4)); // &quot;Baba&quot; — 4 chars from index 0
 // Prefer: str.slice(0, 4) → same result</code></pre></div></div>
 <h4 class="v2-h4"><code>at()</code> — Character at index (supports negative) (ES2022)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let str = &quot;Nigeria&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let str = &quot;Nigeria&quot;;
 console.log(str.at(0));   // &quot;N&quot;
 console.log(str.at(-1));  // &quot;a&quot; — last character (cleaner than str[str.length-1])
 console.log(str.at(-3));  // &quot;e&quot; — third from last</code></pre></div></div>
 <h3 class="v2-h3">String Methods — Modifying (returns new string)</h3>
 <h4 class="v2-h4"><code>toUpperCase()</code> and <code>toLowerCase()</code></h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let name = &quot;babatunde adeyemi&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let name = &quot;babatunde adeyemi&quot;;
 console.log(name.toUpperCase()); // &quot;BABATUNDE ADEYEMI&quot;
 
 let title = &quot;CHIEF EXECUTIVE OFFICER&quot;;
@@ -1208,7 +1128,7 @@ let input = &quot;LAGOS&quot;;
 let expected = &quot;lagos&quot;;
 console.log(input.toLowerCase() === expected); // true</code></pre></div></div>
 <h4 class="v2-h4"><code>replace()</code> — Replace first occurrence</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let str = &quot;I love JavaScript and JavaScript loves me&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let str = &quot;I love JavaScript and JavaScript loves me&quot;;
 
 // Replace string (first match only)
 console.log(str.replace(&quot;JavaScript&quot;, &quot;Python&quot;));
@@ -1237,7 +1157,7 @@ let date = &quot;2026-03-22&quot;;
 let readable = date.replace(/(\d{4})-(\d{2})-(\d{2})/, &quot;$3/$2/$1&quot;);
 console.log(readable); // &quot;22/03/2026&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>replaceAll()</code> — Replace ALL occurrences (ES2021)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;The cat sat on the mat. The cat ate a rat.&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let text = &quot;The cat sat on the mat. The cat ate a rat.&quot;;
 
 // ✅ replaceAll() is clearer than replace() with /g flag
 console.log(text.replaceAll(&quot;cat&quot;, &quot;dog&quot;));
@@ -1254,7 +1174,7 @@ function sanitizeInput(str) {
 console.log(sanitizeInput(&#x27;&lt;script&gt;alert(&quot;hack&quot;)&lt;/script&gt;&#x27;));
 // &amp;lt;script&amp;gt;alert(&amp;quot;hack&amp;quot;)&amp;lt;/script&amp;gt;</code></pre></div></div>
 <h4 class="v2-h4"><code>trim()</code>, <code>trimStart()</code>, <code>trimEnd()</code> — Remove whitespace</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let input = &quot;   babatunde@gmail.com   &quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let input = &quot;   babatunde@gmail.com   &quot;;
 
 console.log(input.trim());      // &quot;babatunde@gmail.com&quot;
 console.log(input.trimStart()); // &quot;babatunde@gmail.com   &quot;
@@ -1266,7 +1186,7 @@ function cleanEmail(email) {
 }
 console.log(cleanEmail(&quot;  TUNDE@Gmail.COM  &quot;)); // &quot;tunde@gmail.com&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>padStart()</code> and <code>padEnd()</code> — Pad string to target length</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// padStart(targetLength, padString)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// padStart(targetLength, padString)
 let accountNum = &quot;7890&quot;;
 console.log(accountNum.padStart(10, &quot;0&quot;)); // &quot;0000007890&quot;
 console.log(accountNum.padStart(10, &quot;*&quot;)); // &quot;******7890&quot;
@@ -1295,7 +1215,7 @@ function formatTime(h, m) {
 console.log(formatTime(9, 5));  // &quot;09:05&quot;
 console.log(formatTime(14, 30)); // &quot;14:30&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>repeat()</code> — Repeat string N times</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(&quot;Ha&quot;.repeat(3));    // &quot;HaHaHa&quot;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(&quot;Ha&quot;.repeat(3));    // &quot;HaHaHa&quot;
 console.log(&quot;-&quot;.repeat(40));    // &quot;----------------------------------------&quot;
 console.log(&quot;★&quot;.repeat(5));    // &quot;★★★★★&quot;
 console.log(&quot;Na&quot;.repeat(0));   // &quot;&quot; (empty)
@@ -1317,7 +1237,7 @@ console.log(indent(&quot;}&quot;, 0));
 //   console.log(&#x27;hello&#x27;);
 // }</code></pre></div></div>
 <h4 class="v2-h4"><code>split()</code> — Split string into an array</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let csv = &quot;Lagos,Abuja,Kano,Ibadan,Port Harcourt&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let csv = &quot;Lagos,Abuja,Kano,Ibadan,Port Harcourt&quot;;
 
 console.log(csv.split(&quot;,&quot;));          // [&quot;Lagos&quot;,&quot;Abuja&quot;,&quot;Kano&quot;,&quot;Ibadan&quot;,&quot;Port Harcourt&quot;]
 console.log(csv.split(&quot;,&quot;, 3));       // [&quot;Lagos&quot;,&quot;Abuja&quot;,&quot;Kano&quot;] — limit to 3
@@ -1344,7 +1264,7 @@ let settings = Object.fromEntries(
 );
 console.log(settings); // { host:&quot;localhost&quot;, port:&quot;3000&quot;, debug:&quot;true&quot; }</code></pre></div></div>
 <h4 class="v2-h4"><code>concat()</code> — Join strings together</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// concat() is rarely used — template literals and + are preferred
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// concat() is rarely used — template literals and + are preferred
 let hello = &quot;Hello&quot;;
 let world = &quot;World&quot;;
 console.log(hello.concat(&quot;, &quot;, world, &quot;!&quot;)); // &quot;Hello, World!&quot;
@@ -1352,14 +1272,14 @@ console.log(hello.concat(&quot;, &quot;, world, &quot;!&quot;)); // &quot;Hello,
 // Prefer:
 console.log(`${hello}, ${world}!`); // &quot;Hello, World!&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>normalize()</code> — Unicode normalisation</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// For dealing with special characters from different languages
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// For dealing with special characters from different languages
 let str1 = &quot;\u00e9&quot;; // é (precomposed)
 let str2 = &quot;e\u0301&quot;; // e + combining accent (decomposed)
 
 console.log(str1 === str2); // false — look same, different bytes
 console.log(str1.normalize() === str2.normalize(&quot;NFC&quot;)); // true</code></pre></div></div>
 <h3 class="v2-h3">String Methods — Template Literals</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Template literals (backtick strings) support:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Template literals (backtick strings) support:
 
 // 1. Multi-line strings
 let invoice = `
@@ -1398,24 +1318,10 @@ let product = &quot;Garri&quot;;
 let price = 5000;
 console.log(highlight`Buy ${product} for only ₦${price}!`);
 // &quot;Buy **Garri** for only ₦**5000**!&quot;</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 2: THE STRING OBJECT</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 15</div>
-    <div class="phase-title">SECTION 3: THE NUMBER OBJECT</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is Number in JavaScript?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 2: THE STRING OBJECT</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/15</div><div class="pt">SECTION 3: THE NUMBER OBJECT</div><div class="pc" id="chk3"></div></div><div class="pb2"><h3 class="v2-h3">What is Number in JavaScript?</h3>
 <p class="v2-p">JavaScript uses a 64-bit floating-point format (IEEE 754) for ALL numbers — there is no separate integer type (except BigInt). This means numbers like <code>0.1 + 0.2</code> are not perfectly precise.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Number creation
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Number creation
 let integer = 42;
 let decimal = 3.14;
 let negative = -7;
@@ -1425,7 +1331,7 @@ let octal = 0o17;         // 15
 let binary = 0b1010;      // 10
 let bigSep = 1_000_000;   // 1000000 — underscore separator for readability (ES2021)</code></pre></div></div>
 <h3 class="v2-h3">Number Properties (Static — called on <code>Number</code>)</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_VALUE);          // 1.7976931348623157e+308 — largest possible number
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.MAX_VALUE);          // 1.7976931348623157e+308 — largest possible number
 console.log(Number.MIN_VALUE);          // 5e-324 — smallest positive number (near zero)
 console.log(Number.MAX_SAFE_INTEGER);   // 9007199254740991 (2^53 - 1) — max safe integer
 console.log(Number.MIN_SAFE_INTEGER);   // -9007199254740991 — min safe integer
@@ -1444,7 +1350,7 @@ let bigSafe = 9007199254740991n + 2n;
 console.log(bigSafe);      // 9007199254740993n — correct!</code></pre></div></div>
 <h3 class="v2-h3">Number Static Methods</h3>
 <h4 class="v2-h4"><code>Number.isInteger()</code> — Check if value is an integer</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.isInteger(42));       // true
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.isInteger(42));       // true
 console.log(Number.isInteger(42.0));     // true — 42.0 === 42 in JS
 console.log(Number.isInteger(42.5));     // false
 console.log(Number.isInteger(&quot;42&quot;));     // false — it&#x27;s a string!
@@ -1456,7 +1362,7 @@ function requireWholeNumber(value) {
   return value;
 }</code></pre></div></div>
 <h4 class="v2-h4"><code>Number.isFinite()</code> — Check if value is finite</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.isFinite(42));         // true
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.isFinite(42));         // true
 console.log(Number.isFinite(Infinity));   // false
 console.log(Number.isFinite(-Infinity));  // false
 console.log(Number.isFinite(NaN));        // false
@@ -1469,7 +1375,7 @@ function safeDivide(a, b) {
   return result;
 }</code></pre></div></div>
 <h4 class="v2-h4"><code>Number.isNaN()</code> — Check if value is NaN</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.isNaN(NaN));         // true
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.isNaN(NaN));         // true
 console.log(Number.isNaN(42));          // false
 console.log(Number.isNaN(&quot;NaN&quot;));       // false — it&#x27;s a string (global isNaN() would say true!)
 console.log(Number.isNaN(undefined));   // false
@@ -1487,12 +1393,12 @@ console.log(isValidNumber(&quot;42&quot;));     // false
 console.log(isValidNumber(Infinity)); // false
 console.log(isValidNumber(NaN));      // false</code></pre></div></div>
 <h4 class="v2-h4"><code>Number.isSafeInteger()</code> — Check if in safe integer range</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Number.isSafeInteger(9007199254740991));  // true
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Number.isSafeInteger(9007199254740991));  // true
 console.log(Number.isSafeInteger(9007199254740992));  // false — too large!
 console.log(Number.isSafeInteger(42));                // true
 console.log(Number.isSafeInteger(42.5));              // false — not integer</code></pre></div></div>
 <h4 class="v2-h4"><code>Number.parseInt()</code> and <code>Number.parseFloat()</code></h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// These are the same as the global parseInt() and parseFloat()
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// These are the same as the global parseInt() and parseFloat()
 console.log(Number.parseInt(&quot;42px&quot;));     // 42 — stops at non-numeric
 console.log(Number.parseInt(&quot;3.14em&quot;));   // 3 — integer part only
 console.log(Number.parseFloat(&quot;3.14em&quot;)); // 3.14 — float part
@@ -1505,7 +1411,7 @@ console.log(parseInt(&quot;10&quot;, 10));  // 10 — decimal (explicit, safe)
 console.log(parseInt(&quot;010&quot;, 8));  // 8 — octal (old code)</code></pre></div></div>
 <h3 class="v2-h3">Number Instance Methods</h3>
 <h4 class="v2-h4"><code>toFixed()</code> — Format with decimal places (returns string)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let pi = 3.141592653589793;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let pi = 3.141592653589793;
 
 console.log(pi.toFixed(0));  // &quot;3&quot;
 console.log(pi.toFixed(2));  // &quot;3.14&quot;
@@ -1530,7 +1436,7 @@ function roundTo(num, places) {
 }
 console.log(roundTo(1.005, 2)); // 1.01 (sometimes — still floating point dependent)</code></pre></div></div>
 <h4 class="v2-h4"><code>toPrecision()</code> — Format with total significant digits</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let num = 123456.789;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let num = 123456.789;
 
 console.log(num.toPrecision(4));  // &quot;1.235e+5&quot; (scientific notation)
 console.log(num.toPrecision(6));  // &quot;123457&quot;
@@ -1541,7 +1447,7 @@ let small = 0.0001234;
 console.log(small.toPrecision(3)); // &quot;0.000123&quot;
 console.log(small.toPrecision(1)); // &quot;0.0001&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>toExponential()</code> — Format in scientific notation</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let num = 123456789;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let num = 123456789;
 
 console.log(num.toExponential());    // &quot;1.23456789e+8&quot;
 console.log(num.toExponential(2));   // &quot;1.23e+8&quot;
@@ -1550,7 +1456,7 @@ console.log(num.toExponential(5));   // &quot;1.23457e+8&quot;
 let small = 0.000000042;
 console.log(small.toExponential()); // &quot;4.2e-8&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>toString()</code> — Convert to string (with optional base)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let num = 255;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let num = 255;
 console.log(num.toString());    // &quot;255&quot; — base 10 (default)
 console.log(num.toString(2));   // &quot;11111111&quot; — binary
 console.log(num.toString(8));   // &quot;377&quot; — octal
@@ -1559,7 +1465,7 @@ console.log(num.toString(16));  // &quot;ff&quot; — hexadecimal
 let n = 42;
 console.log(n.toString(16).toUpperCase()); // &quot;2A&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>toLocaleString()</code> — Format for a specific locale</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let amount = 1234567.89;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let amount = 1234567.89;
 
 // Nigerian English
 console.log(amount.toLocaleString(&quot;en-NG&quot;));
@@ -1585,29 +1491,15 @@ console.log(amount.toLocaleString(&quot;de-DE&quot;)); // &quot;1.234.567,89&quo
 console.log(amount.toLocaleString(&quot;fr-FR&quot;)); // &quot;1 234 567,89&quot; — French
 console.log(amount.toLocaleString(&quot;ja-JP&quot;, { style:&quot;currency&quot;, currency:&quot;JPY&quot; }));
 // &quot;¥1,234,568&quot;</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 3: THE NUMBER OBJECT</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 15</div>
-    <div class="phase-title">SECTION 4: THE MATH OBJECT</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is Math?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 3: THE NUMBER OBJECT</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/15</div><div class="pt">SECTION 4: THE MATH OBJECT</div><div class="pc" id="chk4"></div></div><div class="pb2"><h3 class="v2-h3">What is Math?</h3>
 <p class="v2-p"><code>Math</code> is a built-in object (not a class — you cannot create instances with <code>new Math()</code>) containing mathematical constants and functions. Think of it as a scientific calculator that's always in your pocket.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Math is NOT a constructor:
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Math is NOT a constructor:
 // new Math(); // ❌ TypeError: Math is not a constructor
 // Just use Math directly:
 console.log(Math.PI); // 3.141592653589793</code></pre></div></div>
 <h3 class="v2-h3">Math Properties (Constants)</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Math.PI);      // 3.141592653589793 — π (pi)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Math.PI);      // 3.141592653589793 — π (pi)
 console.log(Math.E);       // 2.718281828459045 — Euler&#x27;s number
 console.log(Math.LN2);     // 0.6931471805599453 — natural log of 2
 console.log(Math.LN10);    // 2.302585092994046 — natural log of 10
@@ -1616,7 +1508,7 @@ console.log(Math.LOG10E);  // 0.4342944819032518 — log base 10 of e
 console.log(Math.SQRT2);   // 1.4142135623730951 — square root of 2
 console.log(Math.SQRT1_2); // 0.7071067811865476 — square root of 1/2</code></pre></div></div>
 <h3 class="v2-h3">Math Methods — Rounding</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// round() — standard rounding (0.5 rounds up)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// round() — standard rounding (0.5 rounds up)
 console.log(Math.round(4.4));  // 4
 console.log(Math.round(4.5));  // 5
 console.log(Math.round(-4.5)); // -4 (rounds toward +Infinity)
@@ -1653,7 +1545,7 @@ console.log(roundTo(1234.5678, 2)); // 1234.57
 let priceCalc = 1234.001;
 console.log(Math.ceil(priceCalc * 100) / 100); // 1234.01 — fair for seller</code></pre></div></div>
 <h3 class="v2-h3">Math Methods — Arithmetic</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// abs() — absolute value
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// abs() — absolute value
 console.log(Math.abs(-42));   // 42
 console.log(Math.abs(42));    // 42
 console.log(Math.abs(-3.14)); // 3.14
@@ -1703,7 +1595,7 @@ console.log(Math.max()); // -Infinity
 // This is correct for the accumulator pattern:
 let max = [1,2,3].reduce((m,n) =&gt; Math.max(m,n), -Infinity);</code></pre></div></div>
 <h3 class="v2-h3">Math Methods — Logarithms and Trigonometry</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// log() — natural logarithm (base e)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// log() — natural logarithm (base e)
 console.log(Math.log(1));       // 0
 console.log(Math.log(Math.E));  // 1
 console.log(Math.log(100));     // 4.605170185988092
@@ -1735,7 +1627,7 @@ console.log(Math.sinh(1)); // 1.1752011936438014
 console.log(Math.cosh(1)); // 1.5430806348152437
 console.log(Math.tanh(1)); // 0.7615941559557649</code></pre></div></div>
 <h3 class="v2-h3"><code>Math.random()</code> — Generate Random Numbers</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Returns float: 0 (inclusive) to 1 (exclusive)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Returns float: 0 (inclusive) to 1 (exclusive)
 console.log(Math.random()); // e.g., 0.7362...
 
 // Random integer between 0 and max-1
@@ -1791,24 +1683,10 @@ function generateOTP(digits = 6) {
 }
 console.log(generateOTP());   // e.g., &quot;483729&quot;
 console.log(generateOTP(4));  // e.g., &quot;2891&quot;</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 4: THE MATH OBJECT</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 15</div>
-    <div class="phase-title">SECTION 5: THE DATE OBJECT</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is Date?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 4: THE MATH OBJECT</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/15</div><div class="pt">SECTION 5: THE DATE OBJECT</div><div class="pc" id="chk5"></div></div><div class="pb2"><h3 class="v2-h3">What is Date?</h3>
 <p class="v2-p">The <code>Date</code> object represents a single moment in time. Internally, it stores the number of milliseconds since January 1, 1970, 00:00:00 UTC (the "Unix epoch"). Think of it as a very precise timestamp.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Creating Date objects
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Creating Date objects
 let now = new Date();                          // Current date and time
 let specific = new Date(2026, 2, 22);          // Mar 22, 2026 (month is 0-indexed!)
 let fromString = new Date(&quot;2026-03-22&quot;);       // ISO format
@@ -1817,7 +1695,7 @@ let fromMs = new Date(1742601600000);          // From milliseconds since epoch
 let withTime = new Date(2026, 2, 22, 14, 30, 0); // Mar 22, 2026, 14:30:00</code></pre></div></div>
 <h3 class="v2-h3">Date Static Methods</h3>
 <h4 class="v2-h4"><code>Date.now()</code> — Current timestamp in milliseconds</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let timestamp = Date.now();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let timestamp = Date.now();
 console.log(timestamp); // e.g., 1742601600000
 
 // Measure execution time
@@ -1832,14 +1710,14 @@ let t0 = performance.now();
 let t1 = performance.now();
 console.log(`${(t1 - t0).toFixed(3)}ms`);</code></pre></div></div>
 <h4 class="v2-h4"><code>Date.parse()</code> — Parse string to timestamp</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(Date.parse(&quot;2026-03-22&quot;));            // 1742601600000
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(Date.parse(&quot;2026-03-22&quot;));            // 1742601600000
 console.log(Date.parse(&quot;March 22, 2026&quot;));         // 1742601600000
 console.log(Date.parse(&quot;invalid date&quot;));           // NaN
 
 // Use with caution — parsing can vary by environment
 // Stick to ISO 8601 format: &quot;YYYY-MM-DDTHH:mm:ssZ&quot;</code></pre></div></div>
 <h3 class="v2-h3">Date Get Methods</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let d = new Date(&quot;2026-03-22T14:30:45.500Z&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let d = new Date(&quot;2026-03-22T14:30:45.500Z&quot;);
 
 // Local time get methods
 console.log(d.getFullYear());     // 2026
@@ -1871,7 +1749,7 @@ let today = new Date();
 console.log(MONTHS[today.getMonth()]);  // e.g., &quot;March&quot;
 console.log(DAYS[today.getDay()]);      // e.g., &quot;Sunday&quot;</code></pre></div></div>
 <h3 class="v2-h3">Date Set Methods</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let d = new Date();
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let d = new Date();
 
 // Set individual components
 d.setFullYear(2030);
@@ -1902,7 +1780,7 @@ console.log(d3.toUTCString()); // &quot;Thu, 01 Jan 1970 00:00:00 GMT&quot;
 // UTC set methods also exist:
 // d.setUTCFullYear(), d.setUTCMonth(), d.setUTCDate(), etc.</code></pre></div></div>
 <h3 class="v2-h3">Date Formatting Methods</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let d = new Date(&quot;2026-03-22T09:30:00&quot;);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let d = new Date(&quot;2026-03-22T09:30:00&quot;);
 
 // Built-in format methods
 console.log(d.toString());         // &quot;Sun Mar 22 2026 09:30:00 GMT+0100 (WAT)&quot;
@@ -1939,7 +1817,7 @@ let toShortDate = d =&gt; d.toLocaleDateString(&quot;en-NG&quot;, {
 });
 console.log(toShortDate(d)); // &quot;22 Mar 2026&quot;</code></pre></div></div>
 <h3 class="v2-h3">Date Arithmetic</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Dates are compared as numbers (milliseconds)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Dates are compared as numbers (milliseconds)
 let date1 = new Date(&quot;2026-01-01&quot;);
 let date2 = new Date(&quot;2026-12-31&quot;);
 
@@ -2013,27 +1891,13 @@ function getWeekNumber(date) {
   return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
 }
 console.log(getWeekNumber(new Date())); // Current week number</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 5: THE DATE OBJECT</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 15</div>
-    <div class="phase-title">SECTION 6: THE JSON OBJECT</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is JSON?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 5: THE DATE OBJECT</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/15</div><div class="pt">SECTION 6: THE JSON OBJECT</div><div class="pc" id="chk6"></div></div><div class="pb2"><h3 class="v2-h3">What is JSON?</h3>
 <p class="v2-p">JSON (JavaScript Object Notation) is a text format for representing structured data. It is the universal language of web APIs — almost every API sends and receives JSON. Think of it as a standardised packing format: your JavaScript objects get packed into JSON strings to travel over the internet, then unpacked at the destination.</p>
 <p class="v2-p"><strong>JSON rules (stricter than JavaScript objects):</strong></p>
 <ul class="v2-ul"><li>Keys MUST be in double quotes</li><li>No functions allowed</li><li>No <code>undefined</code> values</li><li>No comments</li><li>No trailing commas</li><li>Supports: strings, numbers, booleans, null, objects, arrays</li></ul>
 <h3 class="v2-h3"><code>JSON.stringify()</code> — JavaScript → JSON string</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Basic conversion
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Basic conversion
 let product = {
   name: &quot;Basmati Rice&quot;,
   price: 32000,
@@ -2108,7 +1972,7 @@ class Product {
 let item = new Product(&quot;Rice&quot;, 32000, 18000);
 console.log(JSON.stringify(item)); // &#x27;{&quot;name&quot;:&quot;Rice&quot;,&quot;price&quot;:32000}&#x27;</code></pre></div></div>
 <h3 class="v2-h3"><code>JSON.parse()</code> — JSON string → JavaScript</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Basic parsing
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Basic parsing
 let json = &#x27;{&quot;name&quot;:&quot;Babatunde&quot;,&quot;age&quot;:32,&quot;city&quot;:&quot;Lagos&quot;,&quot;active&quot;:true}&#x27;;
 let obj = JSON.parse(json);
 
@@ -2154,31 +2018,17 @@ console.log(original.b.c); // 2 — original unchanged!
 // ⚠️ This loses: functions, Dates (become strings), undefined, NaN→null
 // For proper deep cloning: use structuredClone()
 let betterClone = structuredClone(original); // Handles more types</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 6: THE JSON OBJECT</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 15</div>
-    <div class="phase-title">SECTION 7: THE OBJECT CLASS</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is Object?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 6: THE JSON OBJECT</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/15</div><div class="pt">SECTION 7: THE OBJECT CLASS</div><div class="pc" id="chk7"></div></div><div class="pb2"><h3 class="v2-h3">What is Object?</h3>
 <p class="v2-p"><code>Object</code> is the base from which all JavaScript objects inherit. Every object in JavaScript is ultimately an instance of <code>Object</code>. It provides utility static methods for working with objects.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Object creation
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Object creation
 let obj1 = {};                          // Literal — preferred
 let obj2 = new Object();               // Constructor — avoid
 let obj3 = Object.create(null);        // No prototype — pure data map
 let obj4 = Object.create({ greet() { return &quot;Hello&quot;; } }); // Custom prototype</code></pre></div></div>
 <h3 class="v2-h3">Object Static Methods</h3>
 <h4 class="v2-h4"><code>Object.keys()</code>, <code>Object.values()</code>, <code>Object.entries()</code> — Inspect properties</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let product = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let product = {
   name: &quot;Garri&quot;,
   price: 5000,
   stock: 150,
@@ -2219,7 +2069,7 @@ for (let [key, value] of Object.entries(product)) {
   console.log(`${key}: ${value}`);
 }</code></pre></div></div>
 <h4 class="v2-h4"><code>Object.assign()</code> — Merge/copy objects</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let defaults = { theme: &quot;light&quot;, language: &quot;en&quot;, notifications: true };
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let defaults = { theme: &quot;light&quot;, language: &quot;en&quot;, notifications: true };
 let userSettings = { theme: &quot;dark&quot;, fontSize: 16 };
 
 // Merge userSettings INTO defaults (mutates target!)
@@ -2241,7 +2091,7 @@ let target = { a: 1 };
 Object.assign(target, { b: 2 }, { c: 3 });
 console.log(target); // { a: 1, b: 2, c: 3 }</code></pre></div></div>
 <h4 class="v2-h4"><code>Object.freeze()</code> and <code>Object.isFrozen()</code> — Prevent modifications</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const CONFIG = Object.freeze({
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const CONFIG = Object.freeze({
   API_URL: &quot;https://api.myshop.com&quot;,
   VERSION: &quot;2.1.0&quot;,
   MAX_RETRIES: 3,
@@ -2276,7 +2126,7 @@ const frozenData = deepFreeze({ a: 1, b: { c: 2 } });
 frozenData.b.c = 99; // Silently ignored
 console.log(frozenData.b.c); // 2 — protected!</code></pre></div></div>
 <h4 class="v2-h4"><code>Object.seal()</code> and <code>Object.isSealed()</code> — Prevent add/delete but allow edit</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let user = { name: &quot;Tunde&quot;, age: 32 };
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let user = { name: &quot;Tunde&quot;, age: 32 };
 Object.seal(user);
 
 user.name = &quot;Amaka&quot;;  // ✅ Can MODIFY existing properties
@@ -2286,7 +2136,7 @@ delete user.age;      // ❌ Cannot DELETE properties (silently ignored)
 console.log(user); // { name: &quot;Amaka&quot;, age: 32 }
 console.log(Object.isSealed(user)); // true</code></pre></div></div>
 <h4 class="v2-h4"><code>Object.create()</code> — Create with specific prototype</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Create an object that inherits from a prototype object
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Create an object that inherits from a prototype object
 let animal = {
   breathe() { return `${this.name} breathes`; },
   eat(food) { return `${this.name} eats ${food}`; }
@@ -2306,7 +2156,7 @@ console.log(Object.getPrototypeOf(dog) === animal); // true
 let pureData = Object.create(null);
 pureData.key = &quot;value&quot;; // No inherited toString, hasOwnProperty, etc.</code></pre></div></div>
 <h4 class="v2-h4"><code>Object.fromEntries()</code> — Convert entries array to object (ES2019)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Inverse of Object.entries()
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Inverse of Object.entries()
 let entries = [[&quot;name&quot;,&quot;Tunde&quot;], [&quot;age&quot;,32], [&quot;city&quot;,&quot;Lagos&quot;]];
 let obj = Object.fromEntries(entries);
 console.log(obj); // { name:&quot;Tunde&quot;, age:32, city:&quot;Lagos&quot; }
@@ -2331,7 +2181,7 @@ let expensive = Object.fromEntries(
 );
 console.log(expensive); // { rice: 32000, beans: 18000 }</code></pre></div></div>
 <h4 class="v2-h4"><code>Object.defineProperty()</code> — Define property with descriptors</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let person = {};
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let person = {};
 
 // Define a property with full control
 Object.defineProperty(person, &quot;name&quot;, {
@@ -2366,7 +2216,7 @@ console.log(obj._version);          // 1 — accessible directly
 console.log(Object.keys(obj));     // [&quot;data&quot;] — _version hidden!
 console.log(JSON.stringify(obj));  // &#x27;{&quot;data&quot;:&quot;public&quot;}&#x27; — _version hidden!</code></pre></div></div>
 <h4 class="v2-h4"><code>Object.getOwnPropertyNames()</code> and <code>Object.getOwnPropertyDescriptor()</code></h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let product = { name: &quot;Rice&quot;, price: 32000 };
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let product = { name: &quot;Rice&quot;, price: 32000 };
 
 // All own property names (including non-enumerable)
 console.log(Object.getOwnPropertyNames(product)); // [&quot;name&quot;, &quot;price&quot;]
@@ -2381,7 +2231,7 @@ let allDesc = Object.getOwnPropertyDescriptors(product);
 console.log(allDesc);
 // { name: { value:&quot;Rice&quot;, ... }, price: { value:32000, ... } }</code></pre></div></div>
 <h4 class="v2-h4"><code>Object.hasOwn()</code> — Check own property (ES2022)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let user = { name: &quot;Tunde&quot;, city: &quot;Lagos&quot; };
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let user = { name: &quot;Tunde&quot;, city: &quot;Lagos&quot; };
 
 console.log(Object.hasOwn(user, &quot;name&quot;));     // true
 console.log(Object.hasOwn(user, &quot;toString&quot;)); // false — inherited, not own
@@ -2389,7 +2239,7 @@ console.log(Object.hasOwn(user, &quot;toString&quot;)); // false — inherited, 
 // Modern alternative to obj.hasOwnProperty(&quot;key&quot;)
 // Safer: hasOwnProperty can be overwritten, Object.hasOwn() cannot</code></pre></div></div>
 <h4 class="v2-h4"><code>Object.getPrototypeOf()</code> and <code>Object.setPrototypeOf()</code></h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>class Animal { breathe() { return &quot;breathing&quot;; } }
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Animal { breathe() { return &quot;breathing&quot;; } }
 class Dog extends Animal { bark() { return &quot;woof&quot;; } }
 
 let rex = new Dog();
@@ -2400,23 +2250,9 @@ console.log(Object.getPrototypeOf(Dog.prototype) === Animal.prototype); // true
 console.log(rex instanceof Dog);    // true
 console.log(rex instanceof Animal); // true
 console.log(rex instanceof Object); // true — everything is an Object!</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 7: THE OBJECT CLASS</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 15</div>
-    <div class="phase-title">SECTION 8: THE FUNCTION OBJECT</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Function Properties</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function calculateLoan(principal, rate, years) {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 7: THE OBJECT CLASS</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/15</div><div class="pt">SECTION 8: THE FUNCTION OBJECT</div><div class="pc" id="chk8"></div></div><div class="pb2"><h3 class="v2-h3">Function Properties</h3>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function calculateLoan(principal, rate, years) {
   return principal * (1 + rate * years);
 }
 
@@ -2438,7 +2274,7 @@ const Bar = () =&gt; {};
 console.log(Bar.prototype); // undefined — arrows have no prototype</code></pre></div></div>
 <h3 class="v2-h3">Function Methods</h3>
 <h4 class="v2-h4"><code>call()</code> — Call with explicit <code>this</code> and individual arguments</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function formatBalance(currency, label) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function formatBalance(currency, label) {
   return `${label}: ${currency}${this.balance.toLocaleString()}`;
 }
 
@@ -2467,7 +2303,7 @@ class Employee extends Person {
 let emp = new Employee(&quot;Tunde&quot;, &quot;Engineer&quot;);
 console.log(emp.describe()); // &quot;I am Tunde — Engineer&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>apply()</code> — Like call(), but arguments as array</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function sum(a, b, c) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function sum(a, b, c) {
   return a + b + c;
 }
 
@@ -2488,7 +2324,7 @@ let employee = { name: &quot;Amaka&quot;, salary: 320000 };
 console.log(logSalary.apply(employee, [50000, 24000]));
 // &quot;Amaka: Base=₦320000, Bonus=₦50000, Tax=₦24000&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>bind()</code> — Create a new function with fixed <code>this</code></h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let timer = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let timer = {
   seconds: 0,
   start() {
     // Without bind, this in the callback would be window
@@ -2527,31 +2363,17 @@ class Button {
   }
 }</code></pre></div></div>
 <h4 class="v2-h4"><code>toString()</code> — Get function source code</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>function greet(name) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>function greet(name) {
   return `Hello, ${name}!`;
 }
 
 console.log(greet.toString());
 // &quot;function greet(name) {\n  return `Hello, ${name}!`;\n}&quot;
 // Useful for debugging, or checking if a function was wrapped/proxied</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 8: THE FUNCTION OBJECT</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 15</div>
-    <div class="phase-title">SECTION 9: THE BOOLEAN OBJECT</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is Boolean?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 8: THE FUNCTION OBJECT</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/15</div><div class="pt">SECTION 9: THE BOOLEAN OBJECT</div><div class="pc" id="chk9"></div></div><div class="pb2"><h3 class="v2-h3">What is Boolean?</h3>
 <p class="v2-p"><code>Boolean</code> represents a logical value: <code>true</code> or <code>false</code>. It is the simplest data type in JavaScript.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Primitive booleans (always use these)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Primitive booleans (always use these)
 let isActive = true;
 let hasDiscount = false;
 
@@ -2592,24 +2414,10 @@ falsyValues.forEach(v =&gt; console.log(v, &quot;→&quot;, Boolean(v)));
 let truthyValues = [true, 1, &quot;0&quot;, &quot;false&quot;, [], {}, function(){}];
 truthyValues.forEach(v =&gt; console.log(v, &quot;→&quot;, Boolean(v)));
 // All → true</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 9: THE BOOLEAN OBJECT</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase10">
-  <div class="phase-header">
-    <div class="phase-num">Phase 10 of 15</div>
-    <div class="phase-title">SECTION 10: THE REGEXP OBJECT</div>
-    <div class="phase-check" id="chk10"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is RegExp?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 9: THE BOOLEAN OBJECT</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase10"><div class="ph"><div class="pn">Phase 10/15</div><div class="pt">SECTION 10: THE REGEXP OBJECT</div><div class="pc" id="chk10"></div></div><div class="pb2"><h3 class="v2-h3">What is RegExp?</h3>
 <p class="v2-p">A Regular Expression (RegExp) is a pattern used to match character combinations in strings. Think of it as an extremely powerful search tool — not just for exact matches, but for patterns (e.g., "any 11-digit number starting with 0").</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Creating RegExp — two ways
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Creating RegExp — two ways
 let pattern1 = /hello/;           // Literal (preferred)
 let pattern2 = new RegExp(&quot;hello&quot;); // Constructor (use when pattern is dynamic)
 let pattern3 = new RegExp(&quot;hello&quot;, &quot;i&quot;); // Constructor with flags
@@ -2619,12 +2427,12 @@ let searchTerm = &quot;Lagos&quot;;
 let dynamic = new RegExp(searchTerm, &quot;gi&quot;); // Can&#x27;t do /searchTerm/ — searches literally</code></pre></div></div>
 <h3 class="v2-h3">RegExp Flags</h3>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Flag</th><th>Meaning</th></tr></thead><tbody><tr><td><code>g</code></td><td>Global — find ALL matches (not just first)</td></tr><tr><td><code>i</code></td><td>Case-insensitive</td></tr><tr><td><code>m</code></td><td>Multiline — <code>^</code> and <code>$</code> match line start/end</td></tr><tr><td><code>s</code></td><td>Dotall — <code>.</code> matches newlines too</td></tr><tr><td><code>u</code></td><td>Unicode — enables full Unicode matching</td></tr><tr><td><code>y</code></td><td>Sticky — match from lastIndex position only</td></tr><tr><td><code>d</code></td><td>Indices — include start/end positions in match</td></tr></tbody></table></div>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let text = &quot;Hello hello HELLO&quot;;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let text = &quot;Hello hello HELLO&quot;;
 console.log(text.match(/hello/));   // [&quot;hello&quot;] — only one match
 console.log(text.match(/hello/g));  // [&quot;hello&quot;, &quot;HELLO&quot;] — wait, case sensitive!
 console.log(text.match(/hello/gi)); // [&quot;Hello&quot;,&quot;hello&quot;,&quot;HELLO&quot;] — all 3, case insensitive</code></pre></div></div>
 <h3 class="v2-h3">RegExp Properties</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let pattern = /\d{4}-\d{2}-\d{2}/gim;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let pattern = /\d{4}-\d{2}-\d{2}/gim;
 
 console.log(pattern.source);     // &quot;\d{4}-\d{2}-\d{2}&quot; — pattern text
 console.log(pattern.flags);      // &quot;gim&quot; — all active flags
@@ -2636,7 +2444,7 @@ console.log(pattern.unicode);    // false
 console.log(pattern.lastIndex);  // 0 — where next search begins (for global/sticky)</code></pre></div></div>
 <h3 class="v2-h3">RegExp Methods</h3>
 <h4 class="v2-h4"><code>test()</code> — Returns true/false if pattern matches</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Basic test
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Basic test
 console.log(/\d+/.test(&quot;abc123&quot;));    // true — contains digits
 console.log(/\d+/.test(&quot;abcdef&quot;));    // false — no digits
 console.log(/^\d+$/.test(&quot;12345&quot;));   // true — ONLY digits
@@ -2661,7 +2469,7 @@ console.log(validators.phone(&quot;1234567890&quot;));           // false
 console.log(validators.password(&quot;MyPass@123&quot;));        // true
 console.log(validators.password(&quot;weak&quot;));              // false</code></pre></div></div>
 <h4 class="v2-h4"><code>exec()</code> — Execute and return detailed match info</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let pattern = /(\d{4})-(\d{2})-(\d{2})/;
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let pattern = /(\d{4})-(\d{2})-(\d{2})/;
 let text = &quot;Invoice date: 2026-03-22, Due date: 2026-04-22&quot;;
 
 let match = pattern.exec(text);
@@ -2690,7 +2498,7 @@ console.log(result.groups.year);  // &quot;2026&quot;
 console.log(result.groups.month); // &quot;03&quot;
 console.log(result.groups.day);   // &quot;22&quot;</code></pre></div></div>
 <h3 class="v2-h3">Common RegExp Patterns Reference</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Character classes
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Character classes
 let examples = {
   digit:       /\d/,      // [0-9]
   nonDigit:    /\D/,      // [^0-9]
@@ -2786,25 +2594,11 @@ console.log(REGEX.ngPhone.test(&quot;+2348012345678&quot;)); // true
 console.log(REGEX.strongPwd.test(&quot;MyPass@123&quot;)); // true
 console.log(REGEX.isoDate.test(&quot;2026-03-22&quot;));   // true
 console.log(REGEX.hexColor.test(&quot;#1a7c4f&quot;));     // true</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 10: THE REGEXP OBJECT</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase11">
-  <div class="phase-header">
-    <div class="phase-num">Phase 11 of 15</div>
-    <div class="phase-title">SECTION 11: THE ERROR OBJECT</div>
-    <div class="phase-check" id="chk11"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What is Error?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 10: THE REGEXP OBJECT</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase11"><div class="ph"><div class="pn">Phase 11/15</div><div class="pt">SECTION 11: THE ERROR OBJECT</div><div class="pc" id="chk11"></div></div><div class="pb2"><h3 class="v2-h3">What is Error?</h3>
 <p class="v2-p">The <code>Error</code> object represents an error that occurred during execution. JavaScript has several built-in error types, and you can create custom ones.</p>
 <h3 class="v2-h3">Error Types</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ReferenceError — using undeclared variable
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ReferenceError — using undeclared variable
 try {
   console.log(undeclaredVariable);
 } catch (e) {
@@ -2853,7 +2647,7 @@ try {
   console.log(e.errors); // [&quot;Error 1&quot;, &quot;Error 2&quot;]
 }</code></pre></div></div>
 <h3 class="v2-h3">Error Properties</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>try {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>try {
   null.toString();
 } catch (e) {
   console.log(e.name);    // &quot;TypeError&quot;
@@ -2864,7 +2658,7 @@ try {
   //   at ...
 }</code></pre></div></div>
 <h3 class="v2-h3">Creating Custom Errors</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Basic custom error
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Basic custom error
 class ValidationError extends Error {
   constructor(message, field) {
     super(message);
@@ -2923,7 +2717,7 @@ try {
   }
 }</code></pre></div></div>
 <h3 class="v2-h3">Error Handling Best Practices</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// 1. Always use try-catch for async operations
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// 1. Always use try-catch for async operations
 async function fetchUserData(userId) {
   try {
     let response = await fetch(`/api/users/${userId}`);
@@ -2975,29 +2769,15 @@ async function readFileData(filepath) {
     if (fileHandle) await fileHandle.close(); // Always close the file!
   }
 }</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>SECTION 11: THE ERROR OBJECT</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase12">
-  <div class="phase-header">
-    <div class="phase-num">Phase 12 of 15</div>
-    <div class="phase-title">SECTION 12: GLOBAL FUNCTIONS AND PROPERTIES</div>
-    <div class="phase-check" id="chk12"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">What are Global Functions?</h3>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>SECTION 11: THE ERROR OBJECT</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase12"><div class="ph"><div class="pn">Phase 12/15</div><div class="pt">SECTION 12: GLOBAL FUNCTIONS AND PROPERTIES</div><div class="pc" id="chk12"></div></div><div class="pb2"><h3 class="v2-h3">What are Global Functions?</h3>
 <p class="v2-p">These are functions and properties available everywhere in JavaScript without any object prefix. They are part of the <strong>Global Object</strong> (which is <code>window</code> in browsers, <code>global</code> in Node.js, and <code>globalThis</code> in either).</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// globalThis — works in both browser and Node.js
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// globalThis — works in both browser and Node.js
 console.log(globalThis === window); // true in browser
 // console.log(globalThis === global); // true in Node.js</code></pre></div></div>
 <h3 class="v2-h3">Global Functions</h3>
 <h4 class="v2-h4"><code>eval()</code> — Execute JavaScript from a string</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// ⚠️ DANGEROUS AND DEPRECATED — only for context
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// ⚠️ DANGEROUS AND DEPRECATED — only for context
 // eval() executes arbitrary code — huge security risk!
 let code = &quot;2 + 2&quot;;
 console.log(eval(code)); // 4 — DO NOT use in production!
@@ -3008,7 +2788,7 @@ console.log(eval(code)); // 4 — DO NOT use in production!
 // 3. Debugging: errors are hard to trace
 // ✅ Always use safer alternatives (JSON.parse, Function, etc.)</code></pre></div></div>
 <h4 class="v2-h4"><code>isFinite()</code> and <code>isNaN()</code> — Global type checkers</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// isFinite() — checks if value is a finite number (with type coercion)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// isFinite() — checks if value is a finite number (with type coercion)
 console.log(isFinite(42));         // true
 console.log(isFinite(Infinity));   // false
 console.log(isFinite(&quot;42&quot;));       // true — coerces &quot;42&quot; to 42 first
@@ -3027,7 +2807,7 @@ console.log(isNaN(undefined)); // true — undefined coerces to NaN
 console.log(Number.isNaN(&quot;hello&quot;)); // false — it&#x27;s a string, not NaN
 console.log(Number.isNaN(NaN));     // true — only true NaN</code></pre></div></div>
 <h4 class="v2-h4"><code>parseInt()</code> — Parse string to integer</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// parseInt(string, radix)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// parseInt(string, radix)
 console.log(parseInt(&quot;42&quot;));      // 42
 console.log(parseInt(&quot;42.9&quot;));    // 42 — ignores decimal
 console.log(parseInt(&quot;42px&quot;));    // 42 — stops at non-numeric
@@ -3049,7 +2829,7 @@ let height = &quot;3.5rem&quot;;
 console.log(parseInt(width, 10));    // 250
 console.log(parseFloat(height));     // 3.5</code></pre></div></div>
 <h4 class="v2-h4"><code>parseFloat()</code> — Parse string to float</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>console.log(parseFloat(&quot;3.14&quot;));      // 3.14
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>console.log(parseFloat(&quot;3.14&quot;));      // 3.14
 console.log(parseFloat(&quot;3.14abc&quot;));   // 3.14 — stops at non-numeric
 console.log(parseFloat(&quot;.5&quot;));        // 0.5
 console.log(parseFloat(&quot;1.2e3&quot;));     // 1200 — scientific notation
@@ -3061,7 +2841,7 @@ let priceInput = &quot;32,000.50&quot;; // Naira formatted
 let cleanPrice = parseFloat(priceInput.replace(/,/g, &quot;&quot;));
 console.log(cleanPrice); // 32000.5</code></pre></div></div>
 <h4 class="v2-h4"><code>encodeURIComponent()</code> and <code>decodeURIComponent()</code> — URL encoding</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Encode for safe inclusion in a URL
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Encode for safe inclusion in a URL
 let query = &quot;Babatunde Adeyemi &amp; Associates&quot;;
 let encoded = encodeURIComponent(query);
 console.log(encoded);
@@ -3094,7 +2874,7 @@ let searchParams = { q: &quot;basmati rice&quot;, city: &quot;Lagos&quot;, maxPr
 console.log(buildQueryString(searchParams));
 // &quot;q=basmati%20rice&amp;city=Lagos&amp;maxPrice=35000&amp;inStock=true&quot;</code></pre></div></div>
 <h4 class="v2-h4"><code>setTimeout()</code> and <code>clearTimeout()</code></h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// setTimeout(callback, delayMs, ...args)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// setTimeout(callback, delayMs, ...args)
 let timer = setTimeout((name, amount) =&gt; {
   console.log(`${name}, your transfer of ₦${amount} is complete!`);
 }, 3000, &quot;Babatunde&quot;, 45000);
@@ -3119,7 +2899,7 @@ const search = debounce((query) =&gt; {
 
 // Only triggers 300ms after typing stops</code></pre></div></div>
 <h4 class="v2-h4"><code>setInterval()</code> and <code>clearInterval()</code></h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// setInterval(callback, intervalMs, ...args)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// setInterval(callback, intervalMs, ...args)
 let count = 0;
 let intervalId = setInterval(() =&gt; {
   count++;
@@ -3149,7 +2929,7 @@ function startClock(elementId) {
 // let clockTimer = startClock(&quot;clock-display&quot;);
 // clearInterval(clockTimer); // Stop the clock</code></pre></div></div>
 <h4 class="v2-h4"><code>queueMicrotask()</code> — Schedule a microtask</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// Runs before setTimeout but after the current synchronous task
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Runs before setTimeout but after the current synchronous task
 console.log(&quot;1. Start&quot;);
 
 queueMicrotask(() =&gt; {
@@ -3168,7 +2948,7 @@ console.log(&quot;2. End&quot;);
 // 3. Microtask
 // 4. setTimeout</code></pre></div></div>
 <h4 class="v2-h4"><code>structuredClone()</code> — Deep clone any value (ES2022)</h4>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// The proper way to deep clone objects (replaces JSON hack)
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// The proper way to deep clone objects (replaces JSON hack)
 let original = {
   name: &quot;Tunde&quot;,
   dob: new Date(&quot;1994-03-22&quot;),
@@ -3199,10 +2979,7 @@ console.log(original.dob.getFullYear()); // 1994 — unchanged!
 // ❌ DOM elements
 // ❌ class instances (loses prototype chain)</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p"># PHASE 2 — APPLIED EXERCISES: THE REFERENCE IN PRACTICE</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">`javascript
+<p class="v2-p"># PHASE 2 — APPLIED EXERCISES: THE REFERENCE IN PRACTICE</p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">`javascript
 // Runs before setTimeout but after the current synchronous task
 console.log("1. Start");
 
@@ -3221,21 +2998,9 @@ console.log("2. End");
 // 2. End
 // 3. Microtask
 // 4. setTimeout
-`</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase13">
-  <div class="phase-header">
-    <div class="phase-num">Phase 13 of 15</div>
-    <div class="phase-title">Exercise Set — Method Mastery Challenges</div>
-    <div class="phase-check" id="chk13"></div>
-  </div>
-  <div class="phase-body">
-    <h3 class="v2-h3">Exercise 1: Array Method Chaining Olympics</h3>
-<p class="v2-p"><strong>Objective:</strong> Combine multiple array methods to process employee data.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let employees = [
+`</div></div><button class="ub" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase13"><div class="ph"><div class="pn">Phase 13/15</div><div class="pt">Exercise Set — Method Mastery Challenges</div><div class="pc" id="chk13"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><h3 class="v2-h3">Exercise 1: Array Method Chaining Olympics</h3>
+<p class="v2-p"><strong>Objective:</strong> Combine multiple array methods to process employee data.</p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise Set — Method Mastery Challenges</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let employees = [
   { id: 1,  name: &quot;Babatunde Adeyemi&quot;, dept: &quot;Engineering&quot;,  salary: 450000, years: 5, active: true },
   { id: 2,  name: &quot;Amaka Okonkwo&quot;,     dept: &quot;Marketing&quot;,    salary: 320000, years: 3, active: true },
   { id: 3,  name: &quot;Chidi Nwosu&quot;,       dept: &quot;Engineering&quot;,  salary: 280000, years: 2, active: false },
@@ -3301,7 +3066,7 @@ withBonuses.forEach(e =&gt; {
 <hr class="v2-hr">
 <h3 class="v2-h3">Exercise 2: String Manipulation — Data Cleaner</h3>
 <p class="v2-p"><strong>Objective:</strong> Clean and standardise messy user input data.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>let rawData = [
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>let rawData = [
   &quot;  babatunde.adeyemi@GMAIL.COM  &quot;,
   &quot;AMAKA OKONKWO&quot;,
   &quot;  08012345678&quot;,
@@ -3361,7 +3126,7 @@ console.log(rawData[6].trim());            // &quot;ref: INV-2026-001&quot;</cod
 <hr class="v2-hr">
 <h3 class="v2-h3">Exercise 3: Date Utilities Library</h3>
 <p class="v2-p"><strong>Objective:</strong> Build a comprehensive date utility module.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>const DateUtils = {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const DateUtils = {
   // Format date to Nigerian format
   toNGFormat(date) {
     return new Date(date).toLocaleDateString(&quot;en-NG&quot;, {
@@ -3453,24 +3218,10 @@ console.log(DateUtils.isLeapYear(2024));            // true
 console.log(DateUtils.isLeapYear(2026));            // false
 console.log(DateUtils.timeAgo(&quot;2026-03-21&quot;));       // &quot;1 days ago&quot;</code></pre></div></div>
 <hr class="v2-hr">
-<p class="v2-p"># PHASE 3 — CREATION: THE COMPLETE REFERENCE PROJECT</p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise Set — Method Mastery Challenges</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase14">
-  <div class="phase-header">
-    <div class="phase-num">Phase 14 of 15</div>
-    <div class="phase-title">Capstone Project: JavaScript Methods Playground — Interactive Reference App</div>
-    <div class="phase-check" id="chk14"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Project description:</strong> Build an interactive browser application that demonstrates all JavaScript built-in methods. Users can select a method, see its signature, description, and run live examples with custom inputs.</p>
+<p class="v2-p"># PHASE 3 — CREATION: THE COMPLETE REFERENCE PROJECT</p></div><button class="ub" onclick="unlockNext(13)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase14"><div class="ph"><div class="pn">Phase 14/15</div><div class="pt">Capstone Project: JavaScript Methods Playground — Interactive Reference App</div><div class="pc" id="chk14"></div></div><div class="pb2"><p class="v2-p"><strong>Project description:</strong> Build an interactive browser application that demonstrates all JavaScript built-in methods. Users can select a method, see its signature, description, and run live examples with custom inputs.</p>
 <p class="v2-p"><strong>Stage 1: Core Data Structure and Lookup System</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span></div><div class="v2-code-body"><pre><code>// The method reference database
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">javascript</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// The method reference database
 const METHODS_DB = {
   Array: {
     push: {
@@ -3570,22 +3321,8 @@ let arrayReport = generateMethodReport(&quot;Array&quot;);
 console.log(&quot;Array methods in DB:&quot;, arrayReport.total);
 console.log(&quot;Mutating:&quot;, arrayReport.mutating);
 console.log(&quot;Non-mutating:&quot;, arrayReport.nonMutating);</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Capstone Project: JavaScript Methods Playground — Interactive Reference App</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase15">
-  <div class="phase-header">
-    <div class="phase-num">Phase 15 of 15</div>
-    <div class="phase-title">10-Question Self-Assessment Quiz — Reference Edition</div>
-    <div class="phase-check" id="chk15"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Q1:</strong> What does <code>Array.isArray("hello")</code> return?</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Capstone Project: JavaScript Methods Playground — Interactive Reference App</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase15"><div class="ph"><div class="pn">Phase 15/15</div><div class="pt">10-Question Self-Assessment Quiz — Reference Edition</div><div class="pc" id="chk15"></div></div><div class="pb2"><p class="v2-p"><strong>Q1:</strong> What does <code>Array.isArray("hello")</code> return?</p>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Answer: <code>false</code></strong> — <code>"hello"</code> is a string, not an array. <code>Array.isArray</code> specifically checks for arrays; <code>typeof</code> would return <code>"object"</code> for both arrays and plain objects, which is why <code>Array.isArray</code> was created.</p></blockquote>
 <p class="v2-p"><strong>Q2:</strong> What is the difference between <code>slice()</code> and <code>splice()</code> on arrays?</p>
 <blockquote class="v2-bq"><p class="v2-p"><strong>Answer:</strong> <code>slice(start, end)</code> extracts a portion of the array and returns it WITHOUT modifying the original. <code>splice(start, deleteCount, ...items)</code> modifies the original array by removing/inserting elements and returns the removed elements. <em>Memory trick: spl<strong>i</strong>ce mod<strong>i</strong>fies — both have an 'i' in the middle.</em></p></blockquote>
@@ -3607,7 +3344,7 @@ console.log(&quot;Non-mutating:&quot;, arrayReport.nonMutating);</code></pre></d
 <blockquote class="v2-bq"><p class="v2-p"><strong>Answer:</strong> <code>structuredClone()</code> is a native browser/Node.js function for deep cloning. It's better because it: (1) preserves <code>Date</code> objects as <code>Date</code> (not strings), (2) handles <code>Map</code>, <code>Set</code>, <code>ArrayBuffer</code>, <code>TypedArray</code>, (3) handles circular references without throwing, (4) is more performant. The JSON trick converts <code>Date</code> to strings, loses functions, converts <code>NaN</code> to <code>null</code>, and crashes on circular references.</p></blockquote>
 <hr class="v2-hr">
 <p class="v2-p"># COMPLETION CHECKLIST — JAVASCRIPT REFERENCE MASTERY</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>ARRAY OBJECT
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>ARRAY OBJECT
 [ ] I know the difference between mutating and non-mutating methods
 [ ] I can use push/pop/shift/unshift for stack and queue operations
 [ ] I can use splice() for inserting, removing, and replacing
@@ -3682,131 +3419,91 @@ GLOBAL FUNCTIONS
 <p class="v2-p"># ONE-SENTENCE SUMMARY</p>
 <p class="v2-p">The JavaScript built-in reference is your permanent toolkit: once you deeply understand how <code>Array</code>, <code>String</code>, <code>Number</code>, <code>Math</code>, <code>Date</code>, <code>JSON</code>, <code>Object</code>, <code>RegExp</code>, <code>Error</code>, and the global functions each work — including every property, every method, every gotcha — you stop writing repetitive code and start composing elegant, professional solutions from the same building blocks that power every JavaScript application in the world.</p>
 <hr class="v2-hr">
-<p class="v2-p"><em>End of JavaScript Complete Reference Manual</em> <em>Source: W3Schools JavaScript Reference (jsref/default.asp)</em> <em>Covers: Array · String · Number · Math · Date · JSON · Object · Function · Boolean · RegExp · Error · Global Functions</em></p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>10-Question Self-Assessment Quiz — Reference Edition</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Lesson 46 JS Project</div>
-  <div class="build-desc"></div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<p class="v2-p"><em>End of JavaScript Complete Reference Manual</em> <em>Source: W3Schools JavaScript Reference (jsref/default.asp)</em> <em>Covers: Array · String · Number · Math · Date · JSON · Object · Function · Boolean · RegExp · Error · Global Functions</em></p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>10-Question Self-Assessment Quiz — Reference Edition</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Lesson 46 Project</div><div class="build-req"><p class="v2-p">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;title&gt;My JS Project&lt;/title&gt;
+&lt;title&gt;Project&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;</p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Project&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;!-- Write your HTML here --&gt;
-  &lt;script&gt;
-    // Write your JavaScript here
-  &lt;/script&gt;
+&lt;!-- Your code here --&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`<!DOCTYPE html>
+&lt;/html&gt;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My JS Project</title>
+<title>Project</title>
 </head>
 <body>
-  <!-- Write your HTML here -->
-  <script>
-    // Write your JavaScript here
-  </script>
+<!-- Your code here -->
 </body>
-</html>`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+</html>`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-46-lesson-46-js-project</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 46 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-46-lesson-46-js-project/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 46 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ SECTION 1: THE ARRAY OBJECT</li><li>✅ SECTION 2: THE STRING OBJECT</li><li>✅ SECTION 3: THE NUMBER OBJECT</li><li>✅ SECTION 4: THE MATH OBJECT</li><li>✅ SECTION 5: THE DATE OBJECT</li><li>✅ SECTION 6: THE JSON OBJECT</li><li>✅ SECTION 7: THE OBJECT CLASS</li><li>✅ SECTION 8: THE FUNCTION OBJECT</li></ul>
-  <div class="lesson-nav"><a href="lesson_45.html" class="ln-btn">← Lesson 45</a><a href="../index.html" class="ln-btn primary">🎉 Course Complete!</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-46-lesson-46-project</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 46 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-46-lesson-46-project/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 46 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ SECTION 1: THE ARRAY OBJECT</li><li>✅ SECTION 2: THE STRING OBJECT</li><li>✅ SECTION 3: THE NUMBER OBJECT</li><li>✅ SECTION 4: THE MATH OBJECT</li><li>✅ SECTION 5: THE DATE OBJECT</li><li>✅ SECTION 6: THE JSON OBJECT</li><li>✅ SECTION 7: THE OBJECT CLASS</li><li>✅ SECTION 8: THE FUNCTION OBJECT</li></ul><div class="ln"><a href="lesson_45.html" class="ln-btn">← Lesson 45</a><a href="../index.html" class="ln-btn primary">🎉 Course Complete!</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 46 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 46 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=15,KEY='techbase_js_l46';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>

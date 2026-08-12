@@ -1,223 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Lesson 33: JavaScript Classes: Class Syntax · Inheritance · Static Methods &amp; Properties — Techbase JavaScript</title>
-<meta name="description" content="JavaScript Classes: Class Syntax · Inheritance · Static Methods &amp; Properties">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --acc:#d97706;--acc-d:#b45309;--acc-pale:#fffbeb;
-  --acc-b:rgba(217,119,6,.25);--acc-sh:rgba(217,119,6,.28);
-  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--border2:#cbd5e1;
-  --text:#0f172a;--t2:#334155;--muted:#64748b;
-  --D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{--acc:#d97706;--acd:#b45309;--acp:#fffbeb;--acb:rgba(217,119,6,.22);--acs:rgba(217,119,6,.28);--bg:#f8fafc;--sf:#fff;--br:#e2e8f0;--tx:#0f172a;--t2:#334155;--mu:#64748b;--D:'Space Grotesk',sans-serif;--B:'Plus Jakarta Sans',sans-serif;--M:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
-
-/* NAV */
-.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);
-  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:58px;
-  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;justify-content:space-between}
-.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--text);text-decoration:none}
-.l-nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:.3rem;transition:color .2s}
+body{background:var(--bg);color:var(--tx);font-family:var(--B);font-size:16px;line-height:1.75;overflow-x:hidden}
+.l-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);height:58px;display:flex;align-items:center;padding:0 1.5rem;justify-content:space-between}
+.l-nav-logo{font-family:var(--D);font-weight:700;font-size:.9rem;color:var(--tx);text-decoration:none}
+.l-nav-back{font-size:.8rem;color:var(--mu);text-decoration:none;font-weight:500;transition:color .2s}
 .l-nav-back:hover{color:var(--acc)}
-.l-nav-label{font-family:var(--M);font-size:.68rem;color:var(--muted)}
-
-/* PROGRESS */
-.progress-wrap{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--border)}
-.progress-bar{height:100%;background:var(--acc);transition:width .4s ease;width:0%}
-
-/* HERO */
-.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--border)}
-.l-hero-inner{max-width:860px;margin:0 auto}
-.l-badge{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.2rem .85rem;
-  font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
-  color:var(--acc);background:var(--acc-pale);border:1px solid var(--acc-b);margin-bottom:.8rem}
-.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);
-  letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
-.l-hero-sub{font-size:.95rem;color:var(--muted);margin-bottom:1rem}
-
-/* WELCOME BOX */
-.welcome-box{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.5rem 1.8rem;max-width:860px;margin:1.5rem auto 0}
-.welcome-box h2{font-family:var(--D);font-weight:700;font-size:1.05rem;margin-bottom:.6rem}
-.welcome-box p,.welcome-box li{font-size:.9rem;line-height:1.8;opacity:.93}
-.welcome-box ul{margin-left:1.2rem;margin-top:.5rem}
-.welcome-meta{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.welcome-meta span{background:rgba(255,255,255,.18);border-radius:6px;padding:.2rem .75rem;
-  font-family:var(--M);font-size:.68rem;font-weight:500}
-
-/* PHASE */
-.phase{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
-  margin-bottom:1.5rem;overflow:hidden;transition:opacity .3s,transform .3s,filter .3s}
-.phase.locked{opacity:.35;pointer-events:none;filter:blur(1.5px)}
-.phase-header{padding:1rem 1.4rem;background:#fef9ee;
-  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:default}
-.phase-num{font-family:var(--M);font-size:.7rem;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--acc)}
-.phase-title{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--text);
-  flex:1;margin:0 .8rem}
-.phase-check{width:26px;height:26px;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;
-  transition:background .3s,color .3s}
-.phase-check.done{background:#10b981;color:#fff}
-.phase-body{padding:1.6rem 1.8rem}
-
-/* RICH CONTENT STYLES */
+.l-nav-lbl{font-family:var(--M);font-size:.68rem;color:var(--mu)}
+.pw{position:fixed;top:58px;left:0;right:0;z-index:199;height:4px;background:var(--br)}
+.pb{height:100%;background:linear-gradient(90deg,var(--acc),var(--acd));transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;position:relative}
+.pb::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:inherit;filter:brightness(1.4);animation:pg 1.5s ease-in-out infinite}
+@keyframes pg{0%,100%{opacity:1}50%{opacity:.35}}
+.l-hero{padding:80px 1.5rem 2rem;background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);border-bottom:1px solid var(--br)}
+.l-hero-in{max-width:860px;margin:0 auto}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:.22rem .9rem;font-family:var(--M);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--acc);background:var(--acp);border:1.5px solid var(--acb);margin-bottom:.85rem}
+.l-hero h1{font-family:var(--D);font-weight:700;font-size:clamp(1.5rem,4vw,2.3rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.5rem}
+.l-hero-sub{font-size:.9rem;color:var(--mu)}
+.wb{background:#fff;border:1.5px solid var(--acb);border-left:5px solid var(--acc);border-radius:14px;padding:1.4rem 1.6rem;max-width:860px;margin:1.5rem auto 0;box-shadow:0 2px 12px var(--acs)}
+.wb h2{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--acd);margin-bottom:.6rem}
+.wb p,.wb li{font-size:.92rem;line-height:1.85;color:var(--t2)}
+.wb ul{margin-left:1.2rem;margin-top:.4rem}
+.wm{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+.wm span{background:var(--acp);color:var(--acd);border:1px solid var(--acb);border-radius:7px;padding:.22rem .7rem;font-family:var(--M);font-size:.68rem;font-weight:600}
+.phase{background:var(--sf);border:1.5px solid var(--br);border-radius:16px;margin-bottom:1.5rem;overflow:hidden;transition:opacity .35s,filter .35s,transform .35s}
+.phase.locked{opacity:.28;pointer-events:none;filter:blur(2px);transform:scale(.99)}
+.ph{padding:1rem 1.4rem;background:#fef9ee;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:.8rem}
+.pn{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.pt{font-family:var(--D);font-weight:700;font-size:.95rem;color:var(--tx);flex:1}
+.pc{width:26px;height:26px;border-radius:50%;background:var(--br);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:background .3s,transform .4s}
+.pc.done{background:#10b981;color:#fff;transform:scale(1.15) rotate(360deg)}
+.pb2{padding:1.6rem 1.8rem}
 .v2-p{margin-bottom:1rem;font-size:.95rem;color:var(--t2);line-height:1.85}
-.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--text);
-  margin:1.6rem 0 .5rem;padding-top:.2rem;border-top:2px solid var(--acc-pale)}
-.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1.1rem 0 .4rem}
-.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.9rem;color:var(--muted);margin:.8rem 0 .3rem}
+.v2-h3{font-family:var(--D);font-weight:700;font-size:1.05rem;color:var(--tx);margin:1.6rem 0 .5rem;border-top:2px solid var(--acp);padding-top:.4rem}
+.v2-h4{font-family:var(--D);font-weight:600;font-size:.95rem;color:var(--t2);margin:1rem 0 .35rem}
+.v2-h5,.v2-h6{font-family:var(--D);font-weight:600;font-size:.88rem;color:var(--mu);margin:.7rem 0 .3rem}
 .v2-ul,.v2-ol{margin:.6rem 0 1rem 1.4rem;font-size:.93rem;color:var(--t2);line-height:1.9}
 .v2-ul li,.v2-ol li{margin-bottom:.3rem}
-.v2-bq{border-left:4px solid var(--acc);background:var(--acc-pale);border-radius:0 10px 10px 0;
-  padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
+.v2-bq{border-left:4px solid var(--acc);background:var(--acp);border-radius:0 10px 10px 0;padding:.9rem 1.2rem;margin:1rem 0;font-size:.92rem;color:#78350f;font-style:italic}
 .v2-bq p{margin:0;color:inherit}
-.v2-bq strong{font-style:normal}
-.v2-hr{border:none;border-top:1px solid var(--border);margin:1.2rem 0}
-.v2-table-wrap{overflow-x:auto;margin:1rem 0}
+.v2-hr{border:none;border-top:1px solid var(--br);margin:1.2rem 0}
+.v2-table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--br)}
 .v2-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.v2-table th{background:var(--acc-pale);color:#78350f;font-family:var(--D);
-  font-weight:700;padding:9px 12px;text-align:left;border:1px solid var(--acc-b)}
-.v2-table td{padding:8px 12px;border:1px solid var(--border);color:var(--t2);vertical-align:top}
-.v2-table tr:nth-child(even) td{background:#f8fafc}
-.v2-table code{background:var(--acc-pale);color:var(--acc);border-radius:4px;
-  padding:1px 5px;font-family:var(--M);font-size:.8em}
-.phase-body code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-.phase-body a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
-.phase-body strong{color:var(--text)}
-
-/* CODE BLOCKS */
-.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.v2-table th{background:var(--acp);color:#78350f;font-family:var(--D);font-weight:700;padding:10px 12px;text-align:left;border-bottom:2px solid var(--acb)}
+.v2-table td{padding:8px 12px;border-bottom:1px solid var(--br);color:var(--t2);vertical-align:top}
+.v2-table tr:last-child td{border:none}
+.v2-table tr:hover td{background:var(--acp)}
+.pb2 code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.pb2 a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.pb2 strong{color:var(--tx)}
+.v2-code-wrap{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid #1e293b;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .v2-code-bar{background:#1e293b;padding:.55rem 1rem;display:flex;align-items:center;gap:.4rem}
 .v2-dot{width:10px;height:10px;border-radius:50%}
 .v2-dot.r{background:#ff5f57}.v2-dot.y{background:#febc2e}.v2-dot.g{background:#28c840}
-.v2-code-lang{margin-left:.6rem;font-family:var(--M);font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em}
+.v2-code-lang{margin-left:.5rem;font-family:var(--M);font-size:.62rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em;flex:1}
+.copy-btn{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:6px;padding:.25rem .65rem;font-family:var(--M);font-size:.65rem;cursor:pointer;transition:background .2s,color .2s}
+.copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.copy-btn.copied{background:#10b981;color:#fff}
 .v2-code-body{background:#0f172a;padding:1.3rem 1.5rem;overflow-x:auto}
 .v2-code-body pre{margin:0}
-.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.9;color:#e2e8f0;
-  white-space:pre;background:transparent;padding:0;border-radius:0}
-
-/* TASK BOX */
-.task-box{background:#fef9c3;border:2px dashed #d97706;
-  border-radius:12px;padding:1rem 1.3rem;margin:1.4rem 0}
-.task-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
-.task-box p,.task-body{font-size:.92rem;color:#78350f;line-height:1.8}
-.task-box code{background:rgba(0,0,0,.08);border-radius:4px;padding:1px 6px;
-  font-family:var(--M);font-size:.82em}
-
-/* UNLOCK BUTTON */
-.unlock-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);
-  color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;
-  padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acc-sh);margin-top:1.2rem}
-.unlock-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acc-sh)}
-
-/* BUILD IT */
+.v2-code-body code{font-family:var(--M);font-size:.8rem;line-height:1.95;color:#e2e8f0;white-space:pre;background:transparent;padding:0;border-radius:0}
+.task-box{background:#fef9c3;border:2px dashed #d97706;border-radius:12px;padding:1.1rem 1.3rem;margin:1.4rem 0}
+.task-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#78350f;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.task-body{font-size:.93rem;color:#78350f;line-height:1.85}
+.task-body code{background:rgba(0,0,0,.1);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.chal-box{background:linear-gradient(135deg,#fffbeb 0%,#fff 100%);border:2px solid var(--acc);border-radius:14px;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.chal-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acd);margin-bottom:.6rem}
+.chal-body{font-size:.95rem;color:var(--tx);line-height:1.85}
+.chal-body code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 5px;font-family:var(--M);font-size:.82em}
+.reveal-btn{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--acd);font-family:var(--D);font-weight:700;font-size:.85rem;padding:.6rem 1.2rem;border-radius:8px;border:2px solid var(--acc);cursor:pointer;transition:background .2s,color .2s;margin:.6rem 0}
+.reveal-btn:hover{background:var(--acc);color:#fff}
+.reveal-content{display:none;margin-top:.6rem;animation:fi .3s ease}
+.reveal-content.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .build-box{background:#f0fdf4;border:2px solid #16a34a;border-radius:16px;padding:1.6rem;margin:2rem 0;display:none}
-.build-label{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
-.build-name{font-family:var(--D);font-weight:700;font-size:1.1rem;color:#14532d;margin-bottom:.5rem}
-.build-desc{font-size:.9rem;color:#166534;margin-bottom:1.2rem;line-height:1.75}
-.build-desc code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
-.build-desc strong{color:#14532d}
-
-/* GITHUB ACCORDION */
-.gh-acc{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin:1.5rem 0}
-.gh-acc-head{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none}
-.gh-acc-body{display:none;padding:1.2rem;border-top:1px solid var(--border)}
-.gh-acc-body.open{display:block}
-.gh-step{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
-.gh-step-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;
-  font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.gh-step p{font-size:.88rem;color:var(--t2);line-height:1.7}
-.gh-step code{background:var(--acc-pale);color:var(--acc-d);border-radius:4px;
-  padding:1px 6px;font-family:var(--M);font-size:.82em}
-
-/* SESSION END */
-.session-end{background:linear-gradient(135deg,var(--acc),var(--acc-d));color:#fff;
-  border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
-.session-end.visible{display:block}
-.session-end h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
-.session-end ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.session-end li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
-.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface);
-  color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;
-  padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;
-  border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.build-box.visible{display:block;animation:fi .4s ease}
+.build-lbl{font-family:var(--M);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#15803d;margin-bottom:.4rem}
+.build-name{font-family:var(--D);font-weight:700;font-size:1.15rem;color:#14532d;margin-bottom:.6rem}
+.build-req{font-size:.93rem;color:#166534;line-height:1.8;margin-bottom:.8rem}
+.build-req code{background:rgba(22,163,74,.12);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.build-req strong{color:#14532d}
+.gh-acc{border:1.5px solid var(--br);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.gh-hd{padding:1rem 1.2rem;background:#f8fafc;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--D);font-weight:600;font-size:.9rem;user-select:none;transition:background .2s}
+.gh-hd:hover{background:#f1f5f9}
+.gh-bd{display:none;padding:1.2rem;border-top:1px solid var(--br)}
+.gh-bd.open{display:block;animation:fi .25s ease}
+.gh-st{display:flex;gap:.8rem;margin-bottom:1rem;align-items:flex-start}
+.gh-n{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.gh-st p{font-size:.88rem;color:var(--t2);line-height:1.7}
+.gh-st code{background:var(--acp);color:var(--acd);border-radius:4px;padding:1px 6px;font-family:var(--M);font-size:.82em}
+.gh-nop{background:#fef3c7;border:1.5px solid #fde68a;border-radius:10px;padding:1rem 1.2rem;font-size:.9rem;color:#78350f;line-height:1.75;margin-bottom:1rem}
+.se{background:linear-gradient(135deg,var(--acc),var(--acd));color:#fff;border-radius:16px;padding:1.6rem 1.8rem;margin:2rem 0;display:none}
+.se.visible{display:block;animation:fi .4s ease}
+.se h2{font-family:var(--D);font-weight:700;font-size:1.1rem;margin-bottom:.8rem}
+.se ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.se li{font-size:.9rem;opacity:.93;display:flex;align-items:center;gap:.5rem}
+.ln-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf);color:var(--t2);font-family:var(--D);font-weight:600;font-size:.82rem;padding:.65rem 1.2rem;border-radius:8px;text-decoration:none;border:1.5px solid var(--br);transition:border-color .2s,color .2s}
 .ln-btn:hover{border-color:var(--acc);color:var(--acc)}
 .ln-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 .ln-btn.primary:hover{opacity:.9}
-.lesson-nav{display:flex;align-items:center;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
-.lesson-footer{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;
-  color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+.ln{display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.25);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.ub{display:inline-flex;align-items:center;gap:.5rem;background:var(--acc);color:#fff;font-family:var(--D);font-weight:700;font-size:.88rem;padding:.75rem 1.6rem;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px var(--acs);margin-top:1.2rem}
+.ub:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--acs)}
+.ub:active{transform:scale(.97)}
+#toast{position:fixed;bottom:90px;right:1.5rem;z-index:999;background:#1e293b;color:#fff;border-radius:10px;padding:.75rem 1.2rem;font-family:var(--D);font-size:.85rem;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
+#go-top{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;width:44px;height:44px;border-radius:50%;background:var(--acc);color:#fff;border:none;cursor:pointer;font-size:1.15rem;box-shadow:0 4px 16px var(--acs);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,box-shadow .2s;pointer-events:none}
+#go-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#go-top:hover{box-shadow:0 8px 24px var(--acs);transform:translateY(-2px)}
+#cc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;display:none}
+.lf{text-align:center;padding:1.5rem;font-family:var(--M);font-size:.72rem;color:var(--mu);border-top:1px solid var(--br);background:var(--sf)}
 </style>
 </head>
 <body>
 <nav class="l-nav">
   <a href="../index.html" class="l-nav-logo">⚡ Techbase JavaScript</a>
-  <span class="l-nav-label">Lesson 33 of 46</span>
+  <span class="l-nav-lbl">Lesson 33 of 46</span>
   <a href="../index.html" class="l-nav-back">← All Lessons</a>
 </nav>
-<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
-
-<div class="l-hero">
-  <div class="l-hero-inner">
-    <div class="l-badge">JavaScript · Lesson 33</div>
-    <h1>JavaScript Classes: Class Syntax · Inheritance · Static Methods &amp; Properties</h1>
-    <div class="l-hero-sub">36 phases · Build: Lesson 33 JS Project</div>
-  </div>
-</div>
-
-<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
-  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="welcome-box">
-  <h2>👋 Welcome to Lesson 33</h2>
-  <p>Work through each phase in order. Complete the task in each phase before unlocking the next. When all phases are done, your Build It project will unlock.</p>
-  <div class="welcome-meta">
-    <span>📚 36 phases</span>
-    <span>🏗️ Lesson 33 JS Project</span>
-  </div>
+<div class="pw"><div class="pb" id="pbar"></div></div>
+<div class="l-hero"><div class="l-hero-in">
+  <div class="badge">JavaScript · Lesson 33</div>
+  <h1>JavaScript Classes: Class Syntax · Inheritance · Static Methods &amp; Properties</h1>
+  <div class="l-hero-sub">36 phases &nbsp;·&nbsp; Build: Lesson 33 Project</div>
 </div></div>
+<section style="background:linear-gradient(160deg,#fffbeb 0%,#f8fafc 55%,#fef3c7 100%);padding-bottom:1.5rem;border-bottom:1px solid var(--br)">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem"><div class="wb"><h2>👋 Welcome to Lesson 33</h2><p>Work through each phase in order. Complete the task before unlocking the next. Build It unlocks when all phases are done.</p><div class="wm"><span>📚 36 phases</span><span>🏗️ Lesson 33 Project</span><span>🌐 GitHub Pages</span></div></div></div>
 </section>
-
 <main style="max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem">
-<div class="phase" id="phase1">
-  <div class="phase-header">
-    <div class="phase-num">Phase 1 of 36</div>
-    <div class="phase-title">What Is a Class?</div>
-    <div class="phase-check" id="chk1"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">A <strong>class</strong> is a <strong>blueprint</strong> for creating objects. Just as an architect's floor plan describes how every house in a development should be built — same layout, same rooms, same structure — a class describes how every object of a particular type should be built.</p>
+<div class="phase" id="phase1"><div class="ph"><div class="pn">Phase 1/36</div><div class="pt">What Is a Class?</div><div class="pc" id="chk1"></div></div><div class="pb2"><p class="v2-p">A <strong>class</strong> is a <strong>blueprint</strong> for creating objects. Just as an architect's floor plan describes how every house in a development should be built — same layout, same rooms, same structure — a class describes how every object of a particular type should be built.</p>
 <p class="v2-p">Before classes arrived in ES6 (2015), JavaScript developers used constructor functions and prototype chains to achieve the same result. Classes are not a new mechanism — they are a cleaner, more readable syntax layered on top of the same prototype system. The JavaScript community calls this <strong>syntactic sugar</strong>.</p>
 <p class="v2-p"><strong>Real-world analogy — a cookie cutter:</strong> The class is the cookie cutter. Each object you create from it is a cookie. Every cookie has the same shape (structure), but each one can have different decorations (property values). The cutter itself is not a cookie — it just defines what cookies look like.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>What Is a Class?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(1)">Start Lesson ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase2">
-  <div class="phase-header">
-    <div class="phase-num">Phase 2 of 36</div>
-    <div class="phase-title">1.1 — Defining a Class</div>
-    <div class="phase-check" id="chk2"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Car {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>What Is a Class?</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(1)">Start Lesson ✓</button></div></div>
+<div class="phase locked" id="phase2"><div class="ph"><div class="pn">Phase 2/36</div><div class="pt">1.1 — Defining a Class</div><div class="pc" id="chk2"></div></div><div class="pb2"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Car {
   constructor(brand, model, year) {
     this.brand = brand;
     this.model = model;
@@ -226,7 +146,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--B);font-size:16px;
   }
 }</code></pre></div></div>
 <p class="v2-p"><strong>Anatomy — every part explained:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>class   Car   {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class   Car   {
   │      │
 keyword  name (UpperCamelCase by convention)
 
@@ -244,53 +164,25 @@ keyword  name (UpperCamelCase by convention)
 }</code></pre></div></div>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Part</th><th>What It Is</th><th>What It Does</th></tr></thead><tbody><tr><td><code>class</code></td><td>Keyword</td><td>Declares that a class is being defined</td></tr><tr><td><code>Car</code></td><td>Class name</td><td>UpperCamelCase by convention; used when calling <code>new Car()</code></td></tr><tr><td><code>constructor()</code></td><td>Special method</td><td>Runs automatically once when <code>new Car()</code> is called</td></tr><tr><td><code>this</code></td><td>Keyword</td><td>Refers to the specific object being created right now</td></tr><tr><td><code>this.brand = brand</code></td><td>Property assignment</td><td>Attaches the argument value to the new object permanently</td></tr></tbody></table></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>A class without a constructor is valid.</strong> If you don't write one, JavaScript provides an empty constructor automatically: <code>constructor() {}</code>. This is fine for classes that don't need to set up initial data.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.1 — Defining a Class</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase3">
-  <div class="phase-header">
-    <div class="phase-num">Phase 3 of 36</div>
-    <div class="phase-title">1.2 — Creating Instances with `new`</div>
-    <div class="phase-check" id="chk3"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const myCar    = new Car(&quot;Toyota&quot;, &quot;Corolla&quot;, 2022);
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.1 — Defining a Class</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(2)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase3"><div class="ph"><div class="pn">Phase 3/36</div><div class="pt">1.2 — Creating Instances with `new`</div><div class="pc" id="chk3"></div></div><div class="pb2"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const myCar    = new Car(&quot;Toyota&quot;, &quot;Corolla&quot;, 2022);
 const theirCar = new Car(&quot;BMW&quot;,    &quot;M3&quot;,      2023);
 
 console.log(myCar.brand);      // Output: Toyota
 console.log(theirCar.model);   // Output: M3
 console.log(myCar.speed);      // Output: 0</code></pre></div></div>
 <p class="v2-p"><strong>What <code>new</code> does — step by step:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>1. Creates a fresh, empty object {}
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>1. Creates a fresh, empty object {}
 2. Sets &#x27;this&#x27; inside the constructor to point to that new object
 3. Runs the constructor body, attaching properties to &#x27;this&#x27;
 4. Returns the finished object automatically</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>Always use <code>new</code> with a class.</strong> Calling a class without <code>new</code> throws a <code>TypeError</code> immediately — unlike old constructor functions, which would silently attach properties to the global object.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const bad = Car(&quot;Toyota&quot;, &quot;Corolla&quot;, 2022);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const bad = Car(&quot;Toyota&quot;, &quot;Corolla&quot;, 2022);
 // ❌ TypeError: Class constructor Car cannot be invoked without &#x27;new&#x27;</code></pre></div></div>
 <p class="v2-p">This is one of the improvements classes make over constructor functions.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.2 — Creating Instances with <code>new</code></strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase4">
-  <div class="phase-header">
-    <div class="phase-num">Phase 4 of 36</div>
-    <div class="phase-title">1.3 — Adding Methods to a Class</div>
-    <div class="phase-check" id="chk4"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Methods defined inside a class body (outside the constructor) are automatically placed on the <strong>prototype</strong> — shared by all instances, not copied per object.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Car {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.2 — Creating Instances with <code>new</code></strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(3)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase4"><div class="ph"><div class="pn">Phase 4/36</div><div class="pt">1.3 — Adding Methods to a Class</div><div class="pc" id="chk4"></div></div><div class="pb2"><p class="v2-p">Methods defined inside a class body (outside the constructor) are automatically placed on the <strong>prototype</strong> — shared by all instances, not copied per object.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Car {
   constructor(brand, model, year) {
     this.brand = brand;
     this.model = model;
@@ -318,7 +210,7 @@ console.log(car.describe());   // Output: 2022 Toyota Corolla
 car.accelerate(60);            // Output: Toyota accelerates to 60 km/h
 car.brake(20);                 // Output: Toyota slows to 40 km/h</code></pre></div></div>
 <p class="v2-p"><strong>Why methods go on the prototype — memory explained:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const car1 = new Car(&quot;Toyota&quot;, &quot;Corolla&quot;, 2022);
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const car1 = new Car(&quot;Toyota&quot;, &quot;Corolla&quot;, 2022);
 const car2 = new Car(&quot;Honda&quot;,  &quot;Civic&quot;,   2021);
 
 // Both cars share ONE copy of &#x27;describe&#x27; — not two separate copies:
@@ -327,23 +219,9 @@ console.log(car1.describe === car2.describe);   // Output: true ✅
 // But their data is separate:
 console.log(car1.brand === car2.brand);   // Output: false ✅</code></pre></div></div>
 <p class="v2-p">If you had 10,000 <code>Car</code> objects, there would still be only one <code>accelerate</code> function in memory — not 10,000 copies. This is the primary reason to use classes (or prototype methods).</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.3 — Adding Methods to a Class</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase5">
-  <div class="phase-header">
-    <div class="phase-num">Phase 5 of 36</div>
-    <div class="phase-title">1.4 — Getters and Setters in Classes</div>
-    <div class="phase-check" id="chk5"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Getters and setters let you control property access with logic. They look like properties from the outside — no parentheses — but run code internally.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Temperature {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.3 — Adding Methods to a Class</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(4)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase5"><div class="ph"><div class="pn">Phase 5/36</div><div class="pt">1.4 — Getters and Setters in Classes</div><div class="pc" id="chk5"></div></div><div class="pb2"><p class="v2-p">Getters and setters let you control property access with logic. They look like properties from the outside — no parentheses — but run code internally.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Temperature {
   constructor(celsius) {
     this._celsius = celsius;   // Underscore signals internal storage
   }
@@ -386,23 +264,9 @@ temp.celsius = -300;
 // ❌ RangeError: Temperature cannot be below absolute zero.</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">⚠️ <strong>The infinite recursion trap.</strong> Inside a setter for <code>celsius</code>, never write <code>this.celsius = value</code>. That calls the setter again, which calls it again — forever — causing a stack overflow crash. Always use a different internal name: <code>this._celsius = value</code>.</p></blockquote>
 <blockquote class="v2-bq"><p class="v2-p">🤔 <strong>Thinking question:</strong> <code>fahrenheit</code> has a getter but no setter. What happens if you try to assign <code>temp.fahrenheit = 212</code>? Try it and observe the behaviour.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.4 — Getters and Setters in Classes</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase6">
-  <div class="phase-header">
-    <div class="phase-num">Phase 6 of 36</div>
-    <div class="phase-title">1.5 — Private Class Fields (`#`)</div>
-    <div class="phase-check" id="chk6"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Private fields (ES2022) are properties that are <strong>completely inaccessible</strong> from outside the class. Not just conventionally private (like <code>_underscore</code>) — genuinely enforced by the language.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class BankAccount {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.4 — Getters and Setters in Classes</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(5)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase6"><div class="ph"><div class="pn">Phase 6/36</div><div class="pt">1.5 — Private Class Fields (`#`)</div><div class="pc" id="chk6"></div></div><div class="pb2"><p class="v2-p">Private fields (ES2022) are properties that are <strong>completely inaccessible</strong> from outside the class. Not just conventionally private (like <code>_underscore</code>) — genuinely enforced by the language.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class BankAccount {
   #balance;      // Must be declared at the top of the class body
   #owner;
 
@@ -437,23 +301,9 @@ console.log(acc.#balance);
 // ❌ SyntaxError: Private field &#x27;#balance&#x27; must be declared in an enclosing class</code></pre></div></div>
 <p class="v2-p"><strong><code>#private</code> vs <code>_convention</code> — key differences:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Feature</th><th><code>_underscore</code> convention</th><th><code>#privateField</code></th></tr></thead><tbody><tr><td>Enforced by language?</td><td>❌ No — just a naming hint</td><td>✅ Yes — syntax error if accessed outside</td></tr><tr><td>Accessible by subclasses?</td><td>✅ Yes (just a name)</td><td>❌ No — even subclasses cannot access</td></tr><tr><td>Accessible by external code?</td><td>✅ Yes (nothing stops it)</td><td>❌ No</td></tr><tr><td>Requires declaration?</td><td>❌ No</td><td>✅ Yes — declare at class top</td></tr><tr><td>ES version</td><td>Always available</td><td>ES2022+</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.5 — Private Class Fields (<code>#</code>)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase7">
-  <div class="phase-header">
-    <div class="phase-num">Phase 7 of 36</div>
-    <div class="phase-title">1.6 — Class Expressions</div>
-    <div class="phase-check" id="chk7"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Just like functions, classes can be defined as expressions and assigned to variables. The class name (if given) is only visible inside the class itself.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Anonymous class expression:
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.5 — Private Class Fields (<code>#</code>)</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(6)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase7"><div class="ph"><div class="pn">Phase 7/36</div><div class="pt">1.6 — Class Expressions</div><div class="pc" id="chk7"></div></div><div class="pb2"><p class="v2-p">Just like functions, classes can be defined as expressions and assigned to variables. The class name (if given) is only visible inside the class itself.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Anonymous class expression:
 const Rectangle = class {
   constructor(width, height) {
     this.width  = width;
@@ -473,44 +323,16 @@ const Shape = class ShapeInternal {
 const s = new Shape();
 console.log(s.getType());    // Output: ShapeInternal
 console.log(typeof ShapeInternal);   // Output: undefined  ← not visible outside</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.6 — Class Expressions</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase8">
-  <div class="phase-header">
-    <div class="phase-num">Phase 8 of 36</div>
-    <div class="phase-title">1.7 — Class Declarations Are NOT Hoisted Like Functions</div>
-    <div class="phase-check" id="chk8"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Unlike function declarations, class declarations are <strong>not hoisted</strong> in a usable way. Accessing a class before its declaration throws a <code>ReferenceError</code>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>const p = new Person(&quot;Alice&quot;);   // ❌ ReferenceError: Cannot access &#x27;Person&#x27; before initialization
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.6 — Class Expressions</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(7)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase8"><div class="ph"><div class="pn">Phase 8/36</div><div class="pt">1.7 — Class Declarations Are NOT Hoisted Like Functions</div><div class="pc" id="chk8"></div></div><div class="pb2"><p class="v2-p">Unlike function declarations, class declarations are <strong>not hoisted</strong> in a usable way. Accessing a class before its declaration throws a <code>ReferenceError</code>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>const p = new Person(&quot;Alice&quot;);   // ❌ ReferenceError: Cannot access &#x27;Person&#x27; before initialization
 
 class Person {
   constructor(name) { this.name = name; }
 }</code></pre></div></div>
 <p class="v2-p">Always define your class before using it.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.7 — Class Declarations Are NOT Hoisted Like Functions</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase9">
-  <div class="phase-header">
-    <div class="phase-num">Phase 9 of 36</div>
-    <div class="phase-title">1.8 — Classes Are Functions Under the Hood</div>
-    <div class="phase-check" id="chk9"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Dog {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.7 — Class Declarations Are NOT Hoisted Like Functions</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(8)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase9"><div class="ph"><div class="pn">Phase 9/36</div><div class="pt">1.8 — Classes Are Functions Under the Hood</div><div class="pc" id="chk9"></div></div><div class="pb2"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Dog {
   constructor(name) { this.name = name; }
   bark() { return this.name + &quot; says: Woof!&quot;; }
 }
@@ -519,23 +341,9 @@ console.log(typeof Dog);           // Output: function  ← classes ARE function
 console.log(typeof Dog.prototype); // Output: object
 console.log(Dog.prototype.bark);   // Output: [Function: bark]  ← on the prototype</code></pre></div></div>
 <p class="v2-p">This confirms that classes don't introduce a new object system — they use the same prototype machinery in a cleaner way.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.8 — Classes Are Functions Under the Hood</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase10">
-  <div class="phase-header">
-    <div class="phase-num">Phase 10 of 36</div>
-    <div class="phase-title">1.9 — `instanceof` — Checking Object Type</div>
-    <div class="phase-check" id="chk10"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><code>instanceof</code> tests whether an object was created from a particular class (or constructor):</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Animal { }
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.8 — Classes Are Functions Under the Hood</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(9)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase10"><div class="ph"><div class="pn">Phase 10/36</div><div class="pt">1.9 — `instanceof` — Checking Object Type</div><div class="pc" id="chk10"></div></div><div class="pb2"><p class="v2-p"><code>instanceof</code> tests whether an object was created from a particular class (or constructor):</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Animal { }
 class Dog extends Animal { }
 
 const rex = new Dog();
@@ -547,39 +355,11 @@ console.log(rex instanceof Array);   // Output: false</code></pre></div></div>
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># CHAPTER 2 — CLASS INHERITANCE</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>1.9 — <code>instanceof</code> — Checking Object Type</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase11">
-  <div class="phase-header">
-    <div class="phase-num">Phase 11 of 36</div>
-    <div class="phase-title">What Is Inheritance?</div>
-    <div class="phase-check" id="chk11"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Inheritance</strong> means one class (the <strong>child</strong> or <strong>subclass</strong>) is built on top of another class (the <strong>parent</strong> or <strong>superclass</strong>). The child automatically gets all the parent's properties and methods, and can add its own or modify (override) ones it needs to change.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>1.9 — <code>instanceof</code> — Checking Object Type</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(10)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase11"><div class="ph"><div class="pn">Phase 11/36</div><div class="pt">What Is Inheritance?</div><div class="pc" id="chk11"></div></div><div class="pb2"><p class="v2-p"><strong>Inheritance</strong> means one class (the <strong>child</strong> or <strong>subclass</strong>) is built on top of another class (the <strong>parent</strong> or <strong>superclass</strong>). The child automatically gets all the parent's properties and methods, and can add its own or modify (override) ones it needs to change.</p>
 <p class="v2-p"><strong>Real-world analogy — job roles:</strong> A <code>Manager</code> is a type of <code>Employee</code>. Every employee has a name, salary, and a <code>clockIn()</code> action. A manager also has a team and a <code>conductReview()</code> action that regular employees don't have. The manager inherits everything an employee has, then adds more on top.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>What Is Inheritance?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase12">
-  <div class="phase-header">
-    <div class="phase-num">Phase 12 of 36</div>
-    <div class="phase-title">2.1 — `extends` — Creating a Subclass</div>
-    <div class="phase-check" id="chk12"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Animal {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>What Is Inheritance?</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(11)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase12"><div class="ph"><div class="pn">Phase 12/36</div><div class="pt">2.1 — `extends` — Creating a Subclass</div><div class="pc" id="chk12"></div></div><div class="pb2"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Animal {
   constructor(name) {
     this.name = name;
   }
@@ -616,23 +396,9 @@ console.log(rex.speak());         // Output: Rex barks: Woof!  (overridden)
 console.log(rex.describe());      // Output: I am Rex  (inherited from Animal)
 console.log(rex.fetch(&quot;ball&quot;));   // Output: Rex fetches the ball! (Dog-only)</code></pre></div></div>
 <p class="v2-p"><strong>What <code>extends</code> does:</strong> <code>class Dog extends Animal</code> sets up the prototype chain so that <code>Dog.prototype</code>'s prototype is <code>Animal.prototype</code>. This means Dog instances can access Animal's methods through the chain.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2.1 — <code>extends</code> — Creating a Subclass</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase13">
-  <div class="phase-header">
-    <div class="phase-num">Phase 13 of 36</div>
-    <div class="phase-title">2.2 — `super()` — Calling the Parent Constructor</div>
-    <div class="phase-check" id="chk13"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><code>super()</code> inside a subclass constructor calls the <strong>parent class's constructor</strong>. This is how the parent's <code>this.name = name</code> line (and any other parent setup) runs for the child instance.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Vehicle {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2.1 — <code>extends</code> — Creating a Subclass</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(12)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase13"><div class="ph"><div class="pn">Phase 13/36</div><div class="pt">2.2 — `super()` — Calling the Parent Constructor</div><div class="pc" id="chk13"></div></div><div class="pb2"><p class="v2-p"><code>super()</code> inside a subclass constructor calls the <strong>parent class's constructor</strong>. This is how the parent's <code>this.name = name</code> line (and any other parent setup) runs for the child instance.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Vehicle {
   constructor(make, speed) {
     this.make  = make;
     this.speed = speed;
@@ -672,7 +438,7 @@ console.log(tesla.charge(0));     // Output: Battery at 100%  (own method)</code
 <p class="v2-p"><strong>The <code>super()</code> rules — critical:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Rule</th><th>Explanation</th></tr></thead><tbody><tr><td><code>super()</code> must be called before <code>this</code></td><td>If you try to use <code>this</code> before <code>super()</code>, you get a <code>ReferenceError</code></td></tr><tr><td>Only required if subclass has a constructor</td><td>If no constructor is written, the parent's constructor runs automatically</td></tr><tr><td>Must be called in the constructor, not elsewhere</td><td><code>super()</code> is only valid inside a subclass constructor</td></tr></tbody></table></div>
 <p class="v2-p"><strong>What happens without a constructor in the child:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Cat extends Animal {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Cat extends Animal {
   // No constructor defined — JavaScript inserts this automatically:
   // constructor(...args) { super(...args); }
 }
@@ -680,23 +446,9 @@ console.log(tesla.charge(0));     // Output: Battery at 100%  (own method)</code
 const kitty = new Cat(&quot;Whiskers&quot;);
 console.log(kitty.speak());   // Output: Whiskers makes a sound.
 // Works perfectly — parent constructor ran via the auto-inserted one</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2.2 — <code>super()</code> — Calling the Parent Constructor</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase14">
-  <div class="phase-header">
-    <div class="phase-num">Phase 14 of 36</div>
-    <div class="phase-title">2.3 — Method Overriding</div>
-    <div class="phase-check" id="chk14"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">When a subclass defines a method with the <strong>same name</strong> as a parent method, the subclass version takes over. This is called <strong>overriding</strong>.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Shape {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2.2 — <code>super()</code> — Calling the Parent Constructor</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(13)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase14"><div class="ph"><div class="pn">Phase 14/36</div><div class="pt">2.3 — Method Overriding</div><div class="pc" id="chk14"></div></div><div class="pb2"><p class="v2-p">When a subclass defines a method with the <strong>same name</strong> as a parent method, the subclass version takes over. This is called <strong>overriding</strong>.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Shape {
   constructor(colour) {
     this.colour = colour;
   }
@@ -739,23 +491,9 @@ const r = new Rectangle(&quot;blue&quot;, 4, 6);
 console.log(c.describe());   // Output: A red shape with area 78.54
 console.log(r.describe());   // Output: A blue shape with area 24.00</code></pre></div></div>
 <p class="v2-p">Notice that <code>describe()</code> is defined only once in <code>Shape</code>. It calls <code>this.area()</code> — and because <code>this</code> refers to the actual object (a <code>Circle</code> or <code>Rectangle</code>), the overridden version of <code>area()</code> runs. This powerful behaviour is called <strong>polymorphism</strong>: the same method call produces different results depending on the actual type of the object.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2.3 — Method Overriding</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase15">
-  <div class="phase-header">
-    <div class="phase-num">Phase 15 of 36</div>
-    <div class="phase-title">2.4 — `super` for Calling Parent Methods</div>
-    <div class="phase-check" id="chk15"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><code>super.methodName()</code> calls the <strong>parent class's version</strong> of an overridden method. This lets you extend, not just replace, the parent's behaviour.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Animal {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2.3 — Method Overriding</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(14)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase15"><div class="ph"><div class="pn">Phase 15/36</div><div class="pt">2.4 — `super` for Calling Parent Methods</div><div class="pc" id="chk15"></div></div><div class="pb2"><p class="v2-p"><code>super.methodName()</code> calls the <strong>parent class's version</strong> of an overridden method. This lets you extend, not just replace, the parent's behaviour.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Animal {
   constructor(name, sound) {
     this.name  = name;
     this.sound = sound;
@@ -795,23 +533,9 @@ console.log(buddy.toString());
 // Output: Buddy (Woof) — owned by Sara | Tricks: sit, stay, roll over</code></pre></div></div>
 <p class="v2-p"><strong><code>super.method()</code> vs <code>super()</code> — the distinction:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Syntax</th><th>Where used</th><th>What it does</th></tr></thead><tbody><tr><td><code>super(args)</code></td><td>Inside constructor only</td><td>Calls the parent's constructor</td></tr><tr><td><code>super.method(args)</code></td><td>Inside any method</td><td>Calls the parent's version of that method</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2.4 — <code>super</code> for Calling Parent Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase16">
-  <div class="phase-header">
-    <div class="phase-num">Phase 16 of 36</div>
-    <div class="phase-title">2.5 — Multi-Level Inheritance</div>
-    <div class="phase-check" id="chk16"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">You can chain multiple levels of inheritance. Each level inherits from the one above it.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Person {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2.4 — <code>super</code> for Calling Parent Methods</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(15)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase16"><div class="ph"><div class="pn">Phase 16/36</div><div class="pt">2.5 — Multi-Level Inheritance</div><div class="pc" id="chk16"></div></div><div class="pb2"><p class="v2-p">You can chain multiple levels of inheritance. Each level inherits from the one above it.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Person {
   constructor(name, age) {
     this.name = name;
     this.age  = age;
@@ -849,30 +573,16 @@ console.log(mgr instanceof Manager);   // Output: true
 console.log(mgr instanceof Employee);  // Output: true
 console.log(mgr instanceof Person);    // Output: true</code></pre></div></div>
 <p class="v2-p"><strong>Visualising the prototype chain:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>mgr  →  Manager.prototype  →  Employee.prototype  →  Person.prototype  →  Object.prototype  →  null
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>mgr  →  Manager.prototype  →  Employee.prototype  →  Person.prototype  →  Object.prototype  →  null
 
 Property lookup for mgr.greet():
   mgr itself?           → no
   Manager.prototype?    → no
   Employee.prototype?   → no
   Person.prototype?     → YES — found greet()</code></pre></div></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2.5 — Multi-Level Inheritance</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(16)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase17">
-  <div class="phase-header">
-    <div class="phase-num">Phase 17 of 36</div>
-    <div class="phase-title">2.6 — Mixins — Multiple Behaviour Sources</div>
-    <div class="phase-check" id="chk17"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">JavaScript only supports <strong>single inheritance</strong> (a class can only <code>extend</code> one other class). When you need to compose behaviour from multiple sources, use <strong>mixins</strong> — plain objects or functions that add methods to a class.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Mixin 1: Adds serialisation behaviour
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2.5 — Multi-Level Inheritance</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(16)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase17"><div class="ph"><div class="pn">Phase 17/36</div><div class="pt">2.6 — Mixins — Multiple Behaviour Sources</div><div class="pc" id="chk17"></div></div><div class="pb2"><p class="v2-p">JavaScript only supports <strong>single inheritance</strong> (a class can only <code>extend</code> one other class). When you need to compose behaviour from multiple sources, use <strong>mixins</strong> — plain objects or functions that add methods to a class.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Mixin 1: Adds serialisation behaviour
 const Serialisable = (Base) =&gt; class extends Base {
   toJSON() {
     return JSON.stringify(this);
@@ -913,26 +623,12 @@ console.log(u.toJSON());    // Output: JSON string of all properties
 u.touch();
 console.log(u.updatedAt);   // Output: updated timestamp</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Mixins in the real world:</strong> Libraries like React used mixins heavily before class syntax. Vue.js still uses a mixin pattern for shared component logic. Understanding mixins is essential for reading professional JavaScript codebases.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2.6 — Mixins — Multiple Behaviour Sources</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(17)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase18">
-  <div class="phase-header">
-    <div class="phase-num">Phase 18 of 36</div>
-    <div class="phase-title">2.7 — Inheritance vs Composition — When to Use Each</div>
-    <div class="phase-check" id="chk18"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Inheritance</strong> (<code>extends</code>) models an "is-a" relationship:</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2.6 — Mixins — Multiple Behaviour Sources</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(17)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase18"><div class="ph"><div class="pn">Phase 18/36</div><div class="pt">2.7 — Inheritance vs Composition — When to Use Each</div><div class="pc" id="chk18"></div></div><div class="pb2"><p class="v2-p"><strong>Inheritance</strong> (<code>extends</code>) models an "is-a" relationship:</p>
 <ul class="v2-ul"><li>A <code>Dog</code> <em>is a</em> <code>Animal</code> ✅</li><li>An <code>ElectricCar</code> <em>is a</em> <code>Vehicle</code> ✅</li><li>A <code>Manager</code> <em>is an</em> <code>Employee</code> ✅</li></ul>
 <p class="v2-p"><strong>Composition</strong> (passing objects as properties) models a "has-a" relationship:</p>
 <ul class="v2-ul"><li>A <code>Car</code> <em>has an</em> <code>Engine</code> ✅</li><li>A <code>User</code> <em>has an</em> <code>Address</code> ✅</li><li>A <code>Team</code> <em>has</em> <code>Member</code>s ✅</li></ul>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// Inheritance — correct: Dog IS-A Animal
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// Inheritance — correct: Dog IS-A Animal
 class Dog extends Animal { }
 
 // Composition — correct: Car HAS-AN Engine (not: Car extends Engine)
@@ -955,41 +651,13 @@ console.log(car.start());   // Output: Toyota: Engine running at 150hp</code></p
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># CHAPTER 3 — STATIC METHODS AND PROPERTIES</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>2.7 — Inheritance vs Composition — When to Use Each</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(18)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase19">
-  <div class="phase-header">
-    <div class="phase-num">Phase 19 of 36</div>
-    <div class="phase-title">What Is &quot;Static&quot;?</div>
-    <div class="phase-check" id="chk19"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Everything you've learned so far — constructor properties, methods, getters — belongs to <strong>instances</strong>: individual objects created with <code>new</code>. You must have an object to use them.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>2.7 — Inheritance vs Composition — When to Use Each</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(18)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase19"><div class="ph"><div class="pn">Phase 19/36</div><div class="pt">What Is &quot;Static&quot;?</div><div class="pc" id="chk19"></div></div><div class="pb2"><p class="v2-p">Everything you've learned so far — constructor properties, methods, getters — belongs to <strong>instances</strong>: individual objects created with <code>new</code>. You must have an object to use them.</p>
 <p class="v2-p"><strong>Static</strong> members are the opposite: they belong to the <strong>class itself</strong>, not to any instance. You call them directly on the class name.</p>
 <p class="v2-p"><strong>Real-world analogy:</strong> A hospital has many patients (instances). Each patient has their own blood type, name, and treatment plan (instance properties). But the hospital also has a central statistic: "Total patients seen this year." That number belongs to the hospital as a whole — not to any individual patient. That is a static property.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>What Is "Static"?</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(19)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase20">
-  <div class="phase-header">
-    <div class="phase-num">Phase 20 of 36</div>
-    <div class="phase-title">3.1 — Static Methods</div>
-    <div class="phase-check" id="chk20"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">A <code>static</code> method is defined on the class and called on the class — never on an instance.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class MathUtils {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>What Is "Static"?</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(19)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase20"><div class="ph"><div class="pn">Phase 20/36</div><div class="pt">3.1 — Static Methods</div><div class="pc" id="chk20"></div></div><div class="pb2"><p class="v2-p">A <code>static</code> method is defined on the class and called on the class — never on an instance.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class MathUtils {
   static add(a, b)      { return a + b; }
   static subtract(a, b) { return a - b; }
   static multiply(a, b) { return a * b; }
@@ -1012,23 +680,9 @@ console.log(MathUtils.clamp(150, 0, 100)); // Output: 100
 const utils = new MathUtils();
 utils.add(1, 2);   // TypeError: utils.add is not a function</code></pre></div></div>
 <p class="v2-p"><strong>Why use static methods?</strong> <code>MathUtils</code> has no state — no properties that differ between "instances." Creating an instance (<code>new MathUtils()</code>) would be pointless. Static methods group related utility functions under a class name without requiring instantiation.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3.1 — Static Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(20)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase21">
-  <div class="phase-header">
-    <div class="phase-num">Phase 21 of 36</div>
-    <div class="phase-title">3.2 — Static Properties</div>
-    <div class="phase-check" id="chk21"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Static properties store data that belongs to the class — shared across all instances, or not needing an instance at all.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Counter {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3.1 — Static Methods</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(20)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase21"><div class="ph"><div class="pn">Phase 21/36</div><div class="pt">3.2 — Static Properties</div><div class="pc" id="chk21"></div></div><div class="pb2"><p class="v2-p">Static properties store data that belongs to the class — shared across all instances, or not needing an instance at all.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Counter {
   static count = 0;   // Shared across all instances
 
   constructor(name) {
@@ -1059,22 +713,8 @@ console.log(c.id);                 // Output: 3
 Counter.reset();
 console.log(Counter.count);        // Output: 0</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong><code>Counter.count</code> vs <code>this.count</code> inside the constructor</strong> Inside the constructor, <code>this</code> is the new instance. Writing <code>this.count++</code> would create a separate <code>count</code> property on each instance — completely independent. Writing <code>Counter.count++</code> updates the single class-level property shared by all instances. Never confuse the two.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3.2 — Static Properties</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(21)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase22">
-  <div class="phase-header">
-    <div class="phase-num">Phase 22 of 36</div>
-    <div class="phase-title">3.3 — Static vs Instance — Side-by-Side Comparison</div>
-    <div class="phase-check" id="chk22"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Product {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3.2 — Static Properties</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(21)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase22"><div class="ph"><div class="pn">Phase 22/36</div><div class="pt">3.3 — Static vs Instance — Side-by-Side Comparison</div><div class="pc" id="chk22"></div></div><div class="pb2"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Product {
   static taxRate    = 0.2;   // Same for all products — belongs to the class
   static catalogue  = [];    // Shared list — belongs to the class
 
@@ -1120,23 +760,9 @@ console.log(Product.taxRate);         // Output: 0.2
 console.log(Product.catalogue.length); // Output: 3</code></pre></div></div>
 <p class="v2-p"><strong>Full comparison table:</strong></p>
 <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Feature</th><th>Instance Member</th><th>Static Member</th></tr></thead><tbody><tr><td>Belongs to</td><td>Each individual object</td><td>The class itself</td></tr><tr><td>Accessed via</td><td><code>instance.property</code></td><td><code>ClassName.property</code></td></tr><tr><td>Available via <code>this</code> inside?</td><td>Instance methods: ✅</td><td>Static methods: ❌ (no <code>this.name</code> etc.)</td></tr><tr><td>Created when?</td><td>Each time <code>new</code> is called</td><td>When the class is defined</td></tr><tr><td>Shared between instances?</td><td>❌ Each instance has its own</td><td>✅ One copy for all</td></tr><tr><td>Can access other static members?</td><td>❌ Not directly</td><td>✅ Via <code>ClassName.member</code> or <code>this</code> (in a static context)</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3.3 — Static vs Instance — Side-by-Side Comparison</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(22)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase23">
-  <div class="phase-header">
-    <div class="phase-num">Phase 23 of 36</div>
-    <div class="phase-title">3.4 — `this` Inside Static Methods</div>
-    <div class="phase-check" id="chk23"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Inside a static method, <code>this</code> refers to the <strong>class itself</strong> — not an instance.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Config {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3.3 — Static vs Instance — Side-by-Side Comparison</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(22)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase23"><div class="ph"><div class="pn">Phase 23/36</div><div class="pt">3.4 — `this` Inside Static Methods</div><div class="pc" id="chk23"></div></div><div class="pb2"><p class="v2-p">Inside a static method, <code>this</code> refers to the <strong>class itself</strong> — not an instance.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Config {
   static defaultTheme = &quot;light&quot;;
   static defaultLang  = &quot;en&quot;;
 
@@ -1151,22 +777,8 @@ console.log(Product.catalogue.length); // Output: 3</code></pre></div></div>
 
 console.log(Config.getDefaults());   // Output: { theme: &#x27;light&#x27;, lang: &#x27;en&#x27; }</code></pre></div></div>
 <p class="v2-p">This is especially useful when subclasses inherit static members (see Section 3.6).</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3.4 — <code>this</code> Inside Static Methods</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(23)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase24">
-  <div class="phase-header">
-    <div class="phase-num">Phase 24 of 36</div>
-    <div class="phase-title">3.5 — Static Methods Are Not Inherited by Instances</div>
-    <div class="phase-check" id="chk24"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class StringUtils {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3.4 — <code>this</code> Inside Static Methods</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(23)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase24"><div class="ph"><div class="pn">Phase 24/36</div><div class="pt">3.5 — Static Methods Are Not Inherited by Instances</div><div class="pc" id="chk24"></div></div><div class="pb2"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class StringUtils {
   static capitalise(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
@@ -1179,23 +791,9 @@ console.log(StringUtils.capitalise(&quot;hello&quot;));   // Output: Hello
 const utils = new StringUtils();
 console.log(utils.capitalise);   // Output: undefined</code></pre></div></div>
 <p class="v2-p">If you find yourself wanting to call a static method on an instance, it's usually a sign the method should be an instance method instead.</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3.5 — Static Methods Are Not Inherited by Instances</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(24)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase25">
-  <div class="phase-header">
-    <div class="phase-num">Phase 25 of 36</div>
-    <div class="phase-title">3.6 — Inherited Static Members</div>
-    <div class="phase-check" id="chk25"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">Static members <strong>are</strong> inherited by subclasses. The subclass can call the parent's static methods and override them.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Animal {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3.5 — Static Methods Are Not Inherited by Instances</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(24)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase25"><div class="ph"><div class="pn">Phase 25/36</div><div class="pt">3.6 — Inherited Static Members</div><div class="pc" id="chk25"></div></div><div class="pb2"><p class="v2-p">Static members <strong>are</strong> inherited by subclasses. The subclass can call the parent's static methods and override them.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Animal {
   static kingdom = &quot;Animalia&quot;;
 
   static classify() {
@@ -1221,23 +819,9 @@ console.log(Animal.classify()); // Output: Kingdom: Animalia
 console.log(Dog.kingdom);       // Output: Animalia  ← inherited static property
 console.log(Cat.classify());    // Output: Kingdom: Animalia | Species: Felis catus</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong><code>super</code> in static methods</strong> works the same as in instance methods — it calls the parent class's version. Inside a static method, <code>super.method()</code> calls the parent's static method.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3.6 — Inherited Static Members</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(25)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase26">
-  <div class="phase-header">
-    <div class="phase-num">Phase 26 of 36</div>
-    <div class="phase-title">3.7 — Static Factories — Creating Instances from Different Input Formats</div>
-    <div class="phase-check" id="chk26"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">One of the most powerful uses of static methods is creating <strong>factory methods</strong> — alternative constructors that handle different input formats.</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Colour {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3.6 — Inherited Static Members</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(25)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase26"><div class="ph"><div class="pn">Phase 26/36</div><div class="pt">3.7 — Static Factories — Creating Instances from Different Input Formats</div><div class="pc" id="chk26"></div></div><div class="pb2"><p class="v2-p">One of the most powerful uses of static methods is creating <strong>factory methods</strong> — alternative constructors that handle different input formats.</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Colour {
   constructor(r, g, b) {
     this.r = r;
     this.g = g;
@@ -1283,23 +867,9 @@ console.log(c2.toString());   // Output: rgb(255, 128, 0)
 console.log(c3.toHex());      // Output: #ff8000
 console.log(c4.toString());   // Output: rgb(255, 0, 0)</code></pre></div></div>
 <blockquote class="v2-bq"><p class="v2-p">💡 <strong>Factory methods in the real world:</strong> JavaScript's built-in <code>Date</code> class uses this pattern: <code>Date.now()</code>, <code>Date.parse()</code>, and <code>Date.UTC()</code> are all static factory/utility methods. You'll also see this in testing libraries, ORMs (database tools), and configuration builders.</p></blockquote>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3.7 — Static Factories — Creating Instances from Different Input Formats</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(26)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase27">
-  <div class="phase-header">
-    <div class="phase-num">Phase 27 of 36</div>
-    <div class="phase-title">3.8 — Static Initialisation Blocks (ES2022)</div>
-    <div class="phase-check" id="chk27"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p">For complex static setup that requires more than a single expression, ES2022 introduces static initialisation blocks:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class AppConfig {
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3.7 — Static Factories — Creating Instances from Different Input Formats</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(26)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase27"><div class="ph"><div class="pn">Phase 27/36</div><div class="pt">3.8 — Static Initialisation Blocks (ES2022)</div><div class="pc" id="chk27"></div></div><div class="pb2"><p class="v2-p">For complex static setup that requires more than a single expression, ES2022 introduces static initialisation blocks:</p>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class AppConfig {
   static apiUrl;
   static debug;
   static version;
@@ -1327,25 +897,10 @@ console.log(AppConfig.debug);    // Output: false</code></pre></div></div>
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 2 — APPLIED EXERCISES</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>3.8 — Static Initialisation Blocks (ES2022)</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(27)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase28">
-  <div class="phase-header">
-    <div class="phase-num">Phase 28 of 36</div>
-    <div class="phase-title">Exercise 1 — Class Basics: Library Book System</div>
-    <div class="phase-check" id="chk28"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Build a <code>Book</code> class with proper properties, methods, getters, and setters.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>3.8 — Static Initialisation Blocks (ES2022)</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(27)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase28"><div class="ph"><div class="pn">Phase 28/36</div><div class="pt">Exercise 1 — Class Basics: Library Book System</div><div class="pc" id="chk28"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Build a <code>Book</code> class with proper properties, methods, getters, and setters.</p>
 <p class="v2-p"><strong>Scenario:</strong> A library management system needs to track books.</p>
-<p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Item {
+<p class="v2-p"><strong>Warm-up mini-example:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 1 — Class Basics: Library Book System</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Item {
   constructor(name, quantity) {
     this.name     = name;
     this._quantity = quantity;
@@ -1366,30 +921,15 @@ console.log(item.quantity);   // Output: 3  ← rejected</code></pre></div></div
 <ol class="v2-ol"><li>Add a <code>toString()</code> method returning <code>"[title] by [author] (ISBN: [isbn]) — [status]"</code>.</li><li>Test the full flow: create a book, borrow it, try to borrow it again, return it, borrow it again.</li></ol>
 <p class="v2-p"><strong>Self-check questions:</strong></p>
 <ol class="v2-ol"><li>Why use private fields (<code>#isbn</code>) instead of regular properties for <code>isbn</code>?</li><li>What would happen if <code>borrow()</code> didn't throw an error and just silently failed when the book was already borrowed? What problems could this cause for users of the library?</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 1 — Class Basics: Library Book System</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(28)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase29">
-  <div class="phase-header">
-    <div class="phase-num">Phase 29 of 36</div>
-    <div class="phase-title">Exercise 2 — Inheritance: Shapes Hierarchy</div>
-    <div class="phase-check" id="chk29"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Build a three-level shape hierarchy demonstrating override, <code>super</code>, and polymorphism.</p>
-<p class="v2-p"><strong>Hierarchy:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Shape (colour, area(), perimeter(), describe())
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(28)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase29"><div class="ph"><div class="pn">Phase 29/36</div><div class="pt">Exercise 2 — Inheritance: Shapes Hierarchy</div><div class="pc" id="chk29"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Build a three-level shape hierarchy demonstrating override, <code>super</code>, and polymorphism.</p>
+<p class="v2-p"><strong>Hierarchy:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 2 — Inheritance: Shapes Hierarchy</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Shape (colour, area(), perimeter(), describe())
   ├── Circle (radius)
   ├── Rectangle (width, height)
   │     └── Square (side)       ← Square IS-A Rectangle
   └── Triangle (a, b, c)        ← three sides</code></pre></div></div>
 <p class="v2-p"><strong>Warm-up mini-example:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Shape {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Shape {
   constructor(colour) { this.colour = colour; }
   area() { return 0; }
 }
@@ -1402,54 +942,25 @@ console.log(c.area().toFixed(2));   // Output: 78.54</code></pre></div></div>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>Build all five classes above.</li><li><code>describe()</code> should be defined once in <code>Shape</code> and call <code>this.area()</code> and <code>this.perimeter()</code> — using polymorphism to work correctly for all shapes.</li><li><code>Square</code> should call <code>super(colour, side, side)</code> — reusing <code>Rectangle</code>'s constructor. Its <code>describe()</code> should prepend "Square: " before <code>super.describe()</code>.</li><li>For <code>Triangle</code>, area = Heron's formula: <code>s = (a+b+c)/2; area = √(s(s-a)(s-b)(s-c))</code>.</li><li>Create one instance of each shape and call <code>describe()</code> on all of them.</li></ol>
 <p class="v2-p"><strong>Expected output example (Circle, radius 5):</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>A red circle — Area: 78.54 | Perimeter: 31.42</code></pre></div></div>
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>A red circle — Area: 78.54 | Perimeter: 31.42</code></pre></div></div>
 <p class="v2-p"><strong>Self-check questions:</strong></p>
 <ol class="v2-ol"><li>How many copies of <code>describe()</code> exist in memory if you create 100 circles? Why?</li><li>Why is <code>Square extends Rectangle</code> correct? What would be wrong with <code>Rectangle extends Square</code>?</li><li>Try calling <code>area()</code> directly on <code>new Shape("grey")</code>. What do you get and why?</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 2 — Inheritance: Shapes Hierarchy</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(29)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase30">
-  <div class="phase-header">
-    <div class="phase-num">Phase 30 of 36</div>
-    <div class="phase-title">Exercise 3 — Static Factory and Registry</div>
-    <div class="phase-check" id="chk30"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Use static methods and properties to build a self-tracking object registry.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(29)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase30"><div class="ph"><div class="pn">Phase 30/36</div><div class="pt">Exercise 3 — Static Factory and Registry</div><div class="pc" id="chk30"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Use static methods and properties to build a self-tracking object registry.</p>
 <p class="v2-p"><strong>Scenario:</strong> A fleet management system for delivery vehicles.</p>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>Create a <code>Vehicle</code> class with:</li></ol>
 <p class="v2-p">- Static property <code>fleet = []</code> (all registered vehicles)    - Static property <code>nextId = 1</code> (auto-incrementing ID)    - Static method <code>register(type, plate, capacity)</code> — factory that creates and registers a vehicle    - Static method <code>findByPlate(plate)</code> — searches <code>fleet</code> by plate number    - Static method <code>getFleetSummary()</code> — returns total count, total capacity, and a list of plates    - Instance properties: <code>id</code>, <code>type</code>, <code>plate</code>, <code>capacity</code>, <code>status</code> (starts <code>"idle"</code>)    - Instance methods: <code>dispatch(destination)</code>, <code>complete()</code>, <code>toString()</code></p>
 <ol class="v2-ol"><li><code>dispatch()</code> changes status to <code>"en route to [destination]"</code>. Throws if already dispatched.</li><li><code>complete()</code> resets status to <code>"idle"</code>.</li><li>Register 5 vehicles using the static factory. Dispatch 3 of them. Print the fleet summary.</li></ol>
-<p class="v2-p"><strong>Expected fleet summary output:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span></div><div class="v2-code-body"><pre><code>Fleet Summary:
+<p class="v2-p"><strong>Expected fleet summary output:</strong></p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 3 — Static Factory and Registry</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">code</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>Fleet Summary:
   Total Vehicles: 5
   Total Capacity: [sum]
   Plates: [list]
   En Route: 3 | Idle: 2</code></pre></div></div>
 <p class="v2-p"><strong>Self-check questions:</strong></p>
 <ol class="v2-ol"><li>Why is <code>fleet</code> a static property rather than a parameter passed to the constructor?</li><li>What would happen to the fleet registry if you created a new vehicle using <code>new Vehicle(...)</code> directly instead of <code>Vehicle.register(...)</code>?</li></ol>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 3 — Static Factory and Registry</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(30)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase31">
-  <div class="phase-header">
-    <div class="phase-num">Phase 31 of 36</div>
-    <div class="phase-title">Exercise 4 — Combining Inheritance and Static</div>
-    <div class="phase-check" id="chk31"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Objective:</strong> Build a notification system where each notification type tracks its own count separately.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(30)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase31"><div class="ph"><div class="pn">Phase 31/36</div><div class="pt">Exercise 4 — Combining Inheritance and Static</div><div class="pc" id="chk31"></div></div><div class="pb2"><div class="chal-box"><div class="chal-lbl">🎯 Your Challenge</div><div class="chal-body"><p class="v2-p"><strong>Objective:</strong> Build a notification system where each notification type tracks its own count separately.</p>
 <p class="v2-p"><strong>Scenario:</strong> An app logging system with different notification types.</p>
 <p class="v2-p"><strong>Step-by-step instructions:</strong></p>
 <ol class="v2-ol"><li>Create a base <code>Notification</code> class:</li></ol>
@@ -1457,35 +968,20 @@ console.log(c.area().toFixed(2));   // Output: 78.54</code></pre></div></div>
 <ol class="v2-ol"><li>Create three subclasses: <code>InfoNotification</code>, <code>WarningNotification</code>, <code>ErrorNotification</code></li></ol>
 <p class="v2-p">- Each has its own static <code>typeCount = 0</code> tracking notifications of that type only    - Each overrides <code>display()</code> to prepend the appropriate prefix: <code>[INFO]</code>, <code>[WARNING]</code>, <code>[ERROR]</code>    - Each constructor increments both <code>Notification.allNotifications</code> (push to array) and its own <code>typeCount</code></p>
 <ol class="v2-ol"><li>Create 2 info, 3 warning, and 1 error notification. Print all, then print counts by type.</li></ol>
-<p class="v2-p"><strong>Hint:</strong> Each subclass needs its own static property or the subclasses will share the same counter:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class WarningNotification extends Notification {
+<p class="v2-p"><strong>Hint:</strong> Each subclass needs its own static property or the subclasses will share the same counter:</p></div></div><div class="task-box"><div class="task-lbl">✏️ Task</div><div class="task-body">Practise what you just learned about <strong>Exercise 4 — Combining Inheritance and Static</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="reveal-btn" onclick="toggleReveal(this)">👁️ Reveal Answer</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class WarningNotification extends Notification {
   static typeCount = 0;   // ← Own counter, separate from Info and Error
   ...
 }</code></pre></div></div>
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># PHASE 3 — PROJECT SIMULATION</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Exercise 4 — Combining Inheritance and Static</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(31)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase32">
-  <div class="phase-header">
-    <div class="phase-num">Phase 32 of 36</div>
-    <div class="phase-title">Project: Online Learning Platform — Course &amp; Student Management</div>
-    <div class="phase-check" id="chk32"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Scenario:</strong> You are building the core data layer for an online learning platform. The system tracks courses, students, and enrolments. It uses class inheritance to model different course types (video, live, self-paced), static methods for platform-level operations, private fields for data integrity, and getters/setters for validated access.</p>
+<hr class="v2-hr"></div><button class="ub" onclick="unlockNext(31)">Mark Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase32"><div class="ph"><div class="pn">Phase 32/36</div><div class="pt">Project: Online Learning Platform — Course &amp; Student Management</div><div class="pc" id="chk32"></div></div><div class="pb2"><p class="v2-p"><strong>Scenario:</strong> You are building the core data layer for an online learning platform. The system tracks courses, students, and enrolments. It uses class inheritance to model different course types (video, live, self-paced), static methods for platform-level operations, private fields for data integrity, and getters/setters for validated access.</p>
 <p class="v2-p">This project combines all three chapters:</p>
 <ul class="v2-ul"><li>Chapter 1: Class syntax, private fields, getters/setters, method chaining</li><li>Chapter 2: Inheritance, <code>super</code>, method overriding, polymorphism</li><li>Chapter 3: Static properties (registries), static factories, static analytics</li></ul>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 1 — Base <code>User</code> Class and <code>Student</code> Subclass</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class User {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class User {
   static #nextId   = 1;
   static #registry = new Map();   // id → User
 
@@ -1584,7 +1080,7 @@ class Student extends User {
 }</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 2 — Base <code>Course</code> Class and Specialised Subclasses</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Course {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Course {
   static #nextId   = 100;
   static #catalogue = new Map();   // id → Course
 
@@ -1717,7 +1213,7 @@ class SelfPacedCourse extends Course {
 }</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 3 — Platform Analytics (Static Class)</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class PlatformAnalytics {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class PlatformAnalytics {
   // This class is never instantiated — all methods are static.
   // It acts as a namespace for reporting functions.
   constructor() {
@@ -1758,7 +1254,7 @@ class SelfPacedCourse extends Course {
 }</code></pre></div></div>
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 4 — Running the Full Platform</h3>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>// --- Create Courses ---
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>// --- Create Courses ---
 const jsCourse = new VideoCourse(
   &quot;JavaScript Fundamentals&quot;, &quot;Dr. Obi&quot;, 24, 360, 100
 );
@@ -1829,7 +1325,7 @@ PlatformAnalytics.printReport();
 <hr class="v2-hr">
 <h3 class="v2-h3">Stage 5 — Advanced Challenge: Course Recommendation Engine</h3>
 <p class="v2-p">Add a static method <code>recommend(student, limit)</code> to <code>PlatformAnalytics</code> that suggests courses the student hasn't taken yet, prioritised by enrolment count:</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>static recommend(student, limit = 3) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>static recommend(student, limit = 3) {
   const enrolled = new Set(
     // You&#x27;ll need to access the student&#x27;s enrolments here.
     // Hint: add a getter to Student that exposes enrolled course IDs
@@ -1847,29 +1343,15 @@ PlatformAnalytics.printReport();
 <hr class="v2-hr">
 <hr class="v2-hr">
 <p class="v2-p"># QUIZ &amp; COMPLETION CHECKLIST</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Project: Online Learning Platform — Course &amp; Student Management</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(32)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase33">
-  <div class="phase-header">
-    <div class="phase-num">Phase 33 of 36</div>
-    <div class="phase-title">Self-Assessment Quiz</div>
-    <div class="phase-check" id="chk33"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>Q1:</strong> What is the difference between a class and an instance?</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Project: Online Learning Platform — Course &amp; Student Management</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(32)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase33"><div class="ph"><div class="pn">Phase 33/36</div><div class="pt">Self-Assessment Quiz</div><div class="pc" id="chk33"></div></div><div class="pb2"><p class="v2-p"><strong>Q1:</strong> What is the difference between a class and an instance?</p>
 <p class="v2-p"><strong>Q2:</strong> A class has a property that should be validated before being set. Write a setter for an <code>age</code> property that rejects values below 0 or above 120.</p>
 <p class="v2-p"><strong>Q3:</strong> Write a subclass <code>ElectricVehicle</code> that extends <code>Vehicle(make, range)</code> and adds a <code>batteryLevel</code> property (starts at 100). Add a <code>drive(km)</code> method that reduces battery by 1% per 5km (and throws an error if battery is too low).</p>
 <p class="v2-p"><strong>Q4:</strong> What does <code>super()</code> do, and where must it appear in a subclass constructor?</p>
 <p class="v2-p"><strong>Q5:</strong> What is method overriding? How do you call the parent's version of an overridden method?</p>
 <p class="v2-p"><strong>Q6:</strong> What is the difference between an instance method and a static method?</p>
 <p class="v2-p"><strong>Q7:</strong> Given this code, what is logged and why?</p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class Counter {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class Counter {
   static count = 0;
   constructor() { Counter.count++; }
 }
@@ -1880,31 +1362,17 @@ console.log(Counter.count); // ?</code></pre></div></div>
 <p class="v2-p"><strong>Q8:</strong> What is a static factory method? Give a real-world example of when you'd use one.</p>
 <p class="v2-p"><strong>Q9:</strong> What does <code>this</code> refer to inside a static method?</p>
 <p class="v2-p"><strong>Q10:</strong> What is the difference between <code>const obj = new MyClass()</code> where the class has <code>Object.freeze</code> called on it, vs using private fields (<code>#</code>) to protect data?</p>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Self-Assessment Quiz</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(33)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase34">
-  <div class="phase-header">
-    <div class="phase-num">Phase 34 of 36</div>
-    <div class="phase-title">Answer Key</div>
-    <div class="phase-check" id="chk34"></div>
-  </div>
-  <div class="phase-body">
-    <p class="v2-p"><strong>A1:</strong> A <strong>class</strong> is the blueprint — it defines what properties and methods objects of that type will have. An <strong>instance</strong> is a specific object created from that blueprint using <code>new</code>. You can have many instances from one class, each with their own property values.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Self-Assessment Quiz</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(33)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase34"><div class="ph"><div class="pn">Phase 34/36</div><div class="pt">Answer Key</div><div class="pc" id="chk34"></div></div><div class="pb2"><p class="v2-p"><strong>A1:</strong> A <strong>class</strong> is the blueprint — it defines what properties and methods objects of that type will have. An <strong>instance</strong> is a specific object created from that blueprint using <code>new</code>. You can have many instances from one class, each with their own property values.</p>
 <p class="v2-p"><strong>A2:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>set age(value) {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>set age(value) {
   if (typeof value !== &quot;number&quot; || value &lt; 0 || value &gt; 120) {
     throw new RangeError(&quot;Age must be between 0 and 120.&quot;);
   }
   this._age = value;
 }</code></pre></div></div>
 <p class="v2-p"><strong>A3:</strong></p>
-<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span></div><div class="v2-code-body"><pre><code>class ElectricVehicle extends Vehicle {
+<div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">js</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>class ElectricVehicle extends Vehicle {
   constructor(make, range) {
     super(make, range);
     this.batteryLevel = 100;
@@ -1924,164 +1392,96 @@ console.log(Counter.count); // ?</code></pre></div></div>
 <p class="v2-p"><strong>A8:</strong> A static factory method is an alternative constructor that creates and returns an instance. Used when you want to create objects from different input formats (e.g., <code>Colour.fromHex("#ff8000")</code> vs <code>new Colour(255, 128, 0)</code>), or when the creation might fail and you want to return <code>null</code> instead of throwing.</p>
 <p class="v2-p"><strong>A9:</strong> Inside a static method, <code>this</code> refers to the <strong>class itself</strong> — so <code>this.staticProperty</code> works, but <code>this.instanceProperty</code> does not.</p>
 <p class="v2-p"><strong>A10:</strong> <code>Object.freeze()</code> makes an existing object's properties unmodifiable after the fact. Private fields (<code>#</code>) are enforced at the language level during class definition — they are structurally inaccessible from outside the class, regardless of any runtime freeze. Private fields also offer validation via setters. <code>Object.freeze</code> is shallow; private fields are genuinely encapsulated.</p>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Answer Key</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(34)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase35"><div class="ph"><div class="pn">Phase 35/36</div><div class="pt">Key Gotchas Summary</div><div class="pc" id="chk35"></div></div><div class="pb2"><div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr></thead><tbody><tr><td>Calling a class without <code>new</code></td><td>Forgetting <code>new</code> — looks like a function call</td><td>Always use <code>new ClassName()</code></td></tr><tr><td><code>this</code> before <code>super()</code></td><td><code>this</code> doesn't exist until parent sets it up</td><td>Always call <code>super()</code> first</td></tr><tr><td>Not calling <code>super()</code> at all</td><td>Subclass constructor exists but forgot <code>super</code></td><td>Every subclass constructor must call <code>super()</code></td></tr><tr><td><code>this.prop</code> inside a setter for <code>prop</code></td><td>Calls the setter again → infinite recursion → crash</td><td>Use <code>this._prop</code> or <code>this.#prop</code> as internal storage</td></tr><tr><td>Accessing <code>ClassName.count</code> as <code>instance.count</code></td><td>Static properties don't exist on instances</td><td>Access static members via <code>ClassName.member</code></td></tr><tr><td>Deep inheritance chains (5+ levels)</td><td>Each level adds complexity and coupling</td><td>Prefer composition; keep inheritance shallow</td></tr><tr><td>Forgetting <code>static</code> count is shared</td><td>Assuming each instance has its own count</td><td>Static = one copy for all; instance = one per object</td></tr><tr><td>Using <code>#</code> without declaring at class top</td><td>Private fields must be declared before use</td><td>Add <code>#fieldName;</code> declaration at the class body start</td></tr><tr><td><code>instanceof</code> check after <code>Object.create</code></td><td><code>instanceof</code> checks the prototype chain</td><td>Always use <code>extends</code> for proper instanceof support</td></tr><tr><td>Classes are not hoisted</td><td>Accessing a class before its definition</td><td>Always define classes before using them</td></tr></tbody></table></div>
+<hr class="v2-hr"><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>Key Gotchas Summary</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(35)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="phase locked" id="phase36"><div class="ph"><div class="pn">Phase 36/36</div><div class="pt">One-Sentence Summary</div><div class="pc" id="chk36"></div></div><div class="pb2"><blockquote class="v2-bq"><p class="v2-p">JavaScript classes provide a clean, readable blueprint syntax for creating objects — supporting private fields, getters/setters, and method definitions on the prototype — which can be extended through inheritance using <code>extends</code> and <code>super</code>, and enriched with static members that belong to the class itself rather than to any individual instance.</p></blockquote>
 <hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Answer Key</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(34)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase35">
-  <div class="phase-header">
-    <div class="phase-num">Phase 35 of 36</div>
-    <div class="phase-title">Key Gotchas Summary</div>
-    <div class="phase-check" id="chk35"></div>
-  </div>
-  <div class="phase-body">
-    <div class="v2-table-wrap"><table class="v2-table"><thead><tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr></thead><tbody><tr><td>Calling a class without <code>new</code></td><td>Forgetting <code>new</code> — looks like a function call</td><td>Always use <code>new ClassName()</code></td></tr><tr><td><code>this</code> before <code>super()</code></td><td><code>this</code> doesn't exist until parent sets it up</td><td>Always call <code>super()</code> first</td></tr><tr><td>Not calling <code>super()</code> at all</td><td>Subclass constructor exists but forgot <code>super</code></td><td>Every subclass constructor must call <code>super()</code></td></tr><tr><td><code>this.prop</code> inside a setter for <code>prop</code></td><td>Calls the setter again → infinite recursion → crash</td><td>Use <code>this._prop</code> or <code>this.#prop</code> as internal storage</td></tr><tr><td>Accessing <code>ClassName.count</code> as <code>instance.count</code></td><td>Static properties don't exist on instances</td><td>Access static members via <code>ClassName.member</code></td></tr><tr><td>Deep inheritance chains (5+ levels)</td><td>Each level adds complexity and coupling</td><td>Prefer composition; keep inheritance shallow</td></tr><tr><td>Forgetting <code>static</code> count is shared</td><td>Assuming each instance has its own count</td><td>Static = one copy for all; instance = one per object</td></tr><tr><td>Using <code>#</code> without declaring at class top</td><td>Private fields must be declared before use</td><td>Add <code>#fieldName;</code> declaration at the class body start</td></tr><tr><td><code>instanceof</code> check after <code>Object.create</code></td><td><code>instanceof</code> checks the prototype chain</td><td>Always use <code>extends</code> for proper instanceof support</td></tr><tr><td>Classes are not hoisted</td><td>Accessing a class before its definition</td><td>Always define classes before using them</td></tr></tbody></table></div>
-<hr class="v2-hr">
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>Key Gotchas Summary</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(35)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="phase locked" id="phase36">
-  <div class="phase-header">
-    <div class="phase-num">Phase 36 of 36</div>
-    <div class="phase-title">One-Sentence Summary</div>
-    <div class="phase-check" id="chk36"></div>
-  </div>
-  <div class="phase-body">
-    <blockquote class="v2-bq"><p class="v2-p">JavaScript classes provide a clean, readable blueprint syntax for creating objects — supporting private fields, getters/setters, and method definitions on the prototype — which can be extended through inheritance using <code>extends</code> and <code>super</code>, and enriched with static members that belong to the class itself rather than to any individual instance.</p></blockquote>
-<hr class="v2-hr">
-<p class="v2-p"><em>Tutorial generated by AI_TUTORIAL_GENERATOR · Source curriculum: W3Schools JavaScript Classes (3 pages)</em></p>
-    <div class="task-box">
-      <div class="task-label">✏️ Your Task</div>
-      <div class="task-body">Now practise what you just learned about <strong>One-Sentence Summary</strong>. Open your editor, type the examples above by hand, then modify them — change values, rename variables, and observe what happens. Active experimentation is how code sticks.</div>
-    </div>
-    <button class="unlock-btn" onclick="unlockNext(36)">Phase Complete — Unlock Next ✓</button>
-  </div>
-</div>
-<div class="build-box" id="build-it">
-  <div class="build-label">🏗️ Build It</div>
-  <div class="build-name">Lesson 33 JS Project</div>
-  <div class="build-desc"></div>
-  <div class="v2-code-wrap">
-    <div class="v2-code-bar">
-      <span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span>
-      <span class="v2-code-lang">starter.html</span>
-    </div>
-    <div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+<p class="v2-p"><em>Tutorial generated by AI_TUTORIAL_GENERATOR · Source curriculum: W3Schools JavaScript Classes (3 pages)</em></p><div class="task-box"><div class="task-lbl">✏️ Your Task</div><div class="task-body">Practise what you just learned about <strong>One-Sentence Summary</strong>. Open your editor, type the examples above by hand, modify them, and observe what changes.</div></div><button class="ub" onclick="unlockNext(36)">Phase Complete — Unlock Next ✓</button></div></div>
+<div class="build-box" id="build-it"><div class="build-lbl">🏗️ Build It — Mini Project</div><div class="build-name">Lesson 33 Project</div><div class="build-req"><p class="v2-p">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;title&gt;My JS Project&lt;/title&gt;
+&lt;title&gt;Project&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;</p></div><button class="reveal-btn" onclick="toggleCode(this)">💻 Reveal Starter Code</button><div class="reveal-content"><div class="v2-code-wrap"><div class="v2-code-bar"><span class="v2-dot r"></span><span class="v2-dot y"></span><span class="v2-dot g"></span><span class="v2-code-lang">starter.html</span><button class="copy-btn" onclick="copyCode(this)">⎘ Copy</button></div><div class="v2-code-body"><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Project&lt;/title&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;!-- Write your HTML here --&gt;
-  &lt;script&gt;
-    // Write your JavaScript here
-  &lt;/script&gt;
+&lt;!-- Your code here --&gt;
 &lt;/body&gt;
-&lt;/html&gt;</code></pre></div>
-  </div>
-  <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem">
-    <button class="unlock-btn" onclick="downloadStarter(`<!DOCTYPE html>
+&lt;/html&gt;</code></pre></div></div><div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem"><button class="ub" onclick="downloadStarter(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My JS Project</title>
+<title>Project</title>
 </head>
 <body>
-  <!-- Write your HTML here -->
-  <script>
-    // Write your JavaScript here
-  </script>
+<!-- Your code here -->
 </body>
-</html>`)"
-      style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">
-      ⬇ Download starter.html
-    </button>
-    <button class="unlock-btn" onclick="showGithub()"
-      style="background:#0f172a;box-shadow:none">
-      🐙 Push to GitHub →
-    </button>
-  </div>
-</div>
+</html>`)" style="background:#10b981;box-shadow:0 4px 14px rgba(16,185,129,.3)">⬇ Download starter.html</button><button class="ub" onclick="showGithub()" style="background:#0f172a;box-shadow:none">🐙 Push to GitHub Pages →</button></div></div></div>
 <div class="gh-acc" id="gh-steps" style="display:none">
-  <div class="gh-acc-head" onclick="toggleGh(this)">
-    🐙 Push Your Project to GitHub Pages &nbsp;<span>▼</span>
-  </div>
-  <div class="gh-acc-body">
-    <div class="gh-step"><div class="gh-step-n">1</div>
-    <p>Go to <strong>github.com</strong> → click <strong>New repository</strong> → name it <code>js-lesson-33-lesson-33-js-project</code>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">2</div>
-    <p>Set it to <strong>Public</strong>, tick <strong>Add a README</strong>, then click <strong>Create repository</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">3</div>
-    <p>Click <strong>Add file → Upload files</strong>. Upload your <code>starter.html</code> — rename it to <code>index.html</code> before uploading.</p></div>
-    <div class="gh-step"><div class="gh-step-n">4</div>
-    <p>Commit message: <em>"Add JavaScript lesson 33 project"</em> → click <strong>Commit changes</strong>.</p></div>
-    <div class="gh-step"><div class="gh-step-n">5</div>
-    <p>Go to <strong>Settings → Pages</strong> → branch <strong>main</strong> → <strong>Save</strong>. Your project goes live at <code>https://YOUR-NAME.github.io/js-lesson-33-lesson-33-js-project/</code> in about 1 minute! 🎉</p></div>
-    <button class="unlock-btn" onclick="showEnd()" style="margin-top:.5rem">I've pushed to GitHub — Finish Session ✅</button>
-  </div>
-</div>
-<div class="session-end" id="session-end">
-  <h2>🎉 Lesson 33 complete!</h2>
-  <p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p>
-  <ul><li>✅ What Is a Class?</li><li>✅ 1.1 — Defining a Class</li><li>✅ 1.2 — Creating Instances with `new`</li><li>✅ 1.3 — Adding Methods to a Class</li><li>✅ 1.4 — Getters and Setters in Classes</li><li>✅ 1.5 — Private Class Fields (`#`)</li><li>✅ 1.6 — Class Expressions</li><li>✅ 1.7 — Class Declarations Are NOT Hoisted Like Functions</li></ul>
-  <div class="lesson-nav"><a href="lesson_32.html" class="ln-btn">← Lesson 32</a><a href="lesson_34.html" class="ln-btn primary">Lesson 34 →</a></div>
-</div>
+<div class="gh-hd" onclick="toggleGh(this)">🐙 Push to GitHub Pages &nbsp;<span>▼</span></div>
+<div class="gh-bd">
+<div class="gh-st"><div class="gh-n">1</div><p>Go to <strong>github.com → New repository</strong> → name it <code>js-lesson-33-lesson-33-project</code>. Set <strong>Public</strong>, tick <strong>Add README</strong>, click <strong>Create</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">2</div><p>Click <strong>Add file → Upload files</strong>. Rename your file to <code>index.html</code> then upload it.</p></div>
+<div class="gh-st"><div class="gh-n">3</div><p>Commit message: <em>"Add JavaScript lesson 33 project"</em> → <strong>Commit changes</strong>.</p></div>
+<div class="gh-st"><div class="gh-n">4</div><p>Go to <strong>Settings → Pages</strong> → Source: <strong>main</strong> → <strong>Save</strong>. Live in ~1 min at <code>https://YOUR-NAME.github.io/js-lesson-33-lesson-33-project/</code> 🎉</p></div>
+<button class="ub" onclick="showEnd()" style="margin-top:.5rem">Done — Finish Session ✅</button>
+</div></div>
+<div class="se" id="session-end"><h2>🎉 Lesson 33 complete!</h2><p style="margin-bottom:.8rem;font-size:.9rem;opacity:.9">You covered:</p><ul><li>✅ What Is a Class?</li><li>✅ 1.1 — Defining a Class</li><li>✅ 1.2 — Creating Instances with `new`</li><li>✅ 1.3 — Adding Methods to a Class</li><li>✅ 1.4 — Getters and Setters in Classes</li><li>✅ 1.5 — Private Class Fields (`#`)</li><li>✅ 1.6 — Class Expressions</li><li>✅ 1.7 — Class Declarations Are NOT Hoisted Like Functions</li></ul><div class="ln"><a href="lesson_32.html" class="ln-btn">← Lesson 32</a><a href="lesson_34.html" class="ln-btn primary">Lesson 34 →</a></div></div>
 </main>
-
-<footer class="lesson-footer">
-  Techbase Code Coach · JavaScript Course · Lesson 33 · © 2025 Techbase Consultant Services, Ibadan
-</footer>
+<footer class="lf">Techbase Code Coach &nbsp;·&nbsp; JavaScript Course &nbsp;·&nbsp; Lesson 33 &nbsp;·&nbsp; © 2025 Techbase Consultant Services, Ibadan</footer>
+<div id="toast"></div>
+<button id="go-top" title="Back to top">↑</button>
+<canvas id="cc"></canvas>
 <script>
 const TOTAL=36,KEY='techbase_js_l33';
-let current=parseInt(localStorage.getItem(KEY)||'1');
-function init(){
-  for(let i=2;i<=current;i++) unlockPhase(i,false);
-  updateBar();
-}
+let cur=parseInt(localStorage.getItem(KEY)||'1');
+function init(){for(let i=2;i<=cur;i++)unlock(i,false);bar();}
 function unlockNext(n){
-  const chk=document.getElementById('chk'+n);
-  if(chk){chk.classList.add('done');chk.textContent='✓';}
-  localStorage.setItem(KEY,n+1); current=n+1;
+  const c=document.getElementById('chk'+n);
+  if(c){c.classList.add('done');c.textContent='✓';}
+  localStorage.setItem(KEY,n+1);cur=n+1;
   if(n===TOTAL){
-    document.getElementById('build-it').style.display='block';
-    updateBar(100);
+    document.getElementById('build-it').classList.add('visible');
+    bar(100);toast('🏗️ Build It unlocked!');
     setTimeout(()=>document.getElementById('build-it').scrollIntoView({behavior:'smooth'}),200);
-  }else{
-    unlockPhase(n+1,true); updateBar();
-  }
+    setTimeout(confetti,600);
+  }else{unlock(n+1,true);bar();toast(['✅ Phase complete!','🎯 Keep going!','💡 Nice work!','🚀 Nailed it!'][n%4]);}
 }
-function unlockPhase(n,scroll){
-  const el=document.getElementById('phase'+n);
-  if(el){el.classList.remove('locked');if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
+function unlock(n,scroll){
+  const el=document.getElementById('phase'+n);if(!el)return;
+  el.classList.remove('locked');
+  if(scroll)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),180);
 }
-function updateBar(pct){
-  const p=pct!==undefined?pct:Math.round((current-1)/TOTAL*95);
-  document.getElementById('pbar').style.width=p+'%';
+function bar(p){document.getElementById('pbar').style.width=(p!==undefined?p:Math.round((cur-1)/TOTAL*95))+'%';}
+function toggleReveal(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Answer':'👁️ Reveal Answer';}
+function toggleCode(btn){const w=btn.nextElementSibling;const o=w.classList.toggle('open');btn.textContent=o?'🙈 Hide Starter Code':'💻 Reveal Starter Code';}
+function copyCode(btn){
+  const code=btn.closest('.v2-code-wrap').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('copied');},1800);}).catch(()=>{});
 }
-function showGithub(){
-  const g=document.getElementById('gh-steps');
-  if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}
-}
-function showEnd(){
-  const e=document.getElementById('session-end');
-  if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}
-}
+const tEl=document.getElementById('toast');let tT;
+function toast(msg){tEl.innerHTML=msg;tEl.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>tEl.classList.remove('show'),2400);}
+const gEl=document.getElementById('go-top');
+window.addEventListener('scroll',()=>gEl.classList.toggle('visible',scrollY>320),{passive:true});
+gEl.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function toggleGh(el){el.nextElementSibling.classList.toggle('open');}
-function downloadStarter(code){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(code);
-  a.download='starter.html';a.click();
+function showGithub(){const g=document.getElementById('gh-steps');if(g){g.style.display='block';setTimeout(()=>g.scrollIntoView({behavior:'smooth'}),150);}}
+function showEnd(){const e=document.getElementById('session-end');if(e){e.classList.add('visible');setTimeout(()=>e.scrollIntoView({behavior:'smooth'}),150);}}
+function downloadStarter(code){const ext='js'==='python'?'py':'html';const a=document.createElement('a');a.href='data:text/'+(ext==='py'?'x-python':'html')+';charset=utf-8,'+encodeURIComponent(code);a.download='starter.'+ext;a.click();}
+function confetti(){
+  const cv=document.getElementById('cc');cv.style.display='block';const ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ps=Array.from({length:130},()=>{return{x:Math.random()*cv.width,y:-10-Math.random()*120,r:4+Math.random()*6,d:2+Math.random()*3,c:['#e34c26','#0284c7','#d97706','#059669','#7c3aed','#ec4899'][Math.floor(Math.random()*6)],ta:0};}); 
+  let f=0;
+  function draw(){ctx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.ta+=.1;p.y+=p.d;p.x+=Math.sin(f/20);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();});f++;if(f<200)requestAnimationFrame(draw);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}}
+  draw();toast('🎉 All phases done! Build It awaits!');
 }
 init();
 </script>
-</body>
-</html>
+</body></html>
